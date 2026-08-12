@@ -1,0 +1,81 @@
+// Wilaya data — 58 Algerian provinces (W01–W58)
+export const WILAYAS: { code: string; name: string }[] = [
+  { code: "W01", name: "أدرار" },
+  { code: "W02", name: "الشلف" },
+  { code: "W03", name: "الأغواط" },
+  { code: "W04", name: "أم البواقي" },
+  { code: "W05", name: "باتنة" },
+  { code: "W06", name: "بجاية" },
+  { code: "W07", name: "بسكرة" },
+  { code: "W08", name: "بشار" },
+  { code: "W09", name: "البليدة" },
+  { code: "W10", name: "البويرة" },
+  { code: "W11", name: "تمنراست" },
+  { code: "W12", name: "تبسة" },
+  { code: "W13", name: "تلمسان" },
+  { code: "W14", name: "تيارت" },
+  { code: "W15", name: "تيزي وزو" },
+  { code: "W16", name: "الجزائر" },
+  { code: "W17", name: "الجلفة" },
+  { code: "W18", name: "جيجل" },
+  { code: "W19", name: "سطيف" },
+  { code: "W20", name: "سعيدة" },
+  { code: "W21", name: "سكيكدة" },
+  { code: "W22", name: "سيدي بلعباس" },
+  { code: "W23", name: "عنابة" },
+  { code: "W24", name: "قالمة" },
+  { code: "W25", name: "قسنطينة" },
+  { code: "W26", name: "المدية" },
+  { code: "W27", name: "مستغانم" },
+  { code: "W28", name: "المسيلة" },
+  { code: "W29", name: "معسكر" },
+  { code: "W30", name: "ورقلة" },
+  { code: "W31", name: "وهران" },
+  { code: "W32", name: "البيض" },
+  { code: "W33", name: "إليزي" },
+  { code: "W34", name: "برج بوعريريج" },
+  { code: "W35", name: "بومرداس" },
+  { code: "W36", name: "الطارف" },
+  { code: "W37", name: "تندوف" },
+  { code: "W38", name: "تيسمسيلت" },
+  { code: "W39", name: "الوادي" },
+  { code: "W40", name: "خنشلة" },
+  { code: "W41", name: "سوق أهراس" },
+  { code: "W42", name: "تيبازة" },
+  { code: "W43", name: "ميلة" },
+  { code: "W44", name: "عين الدفلى" },
+  { code: "W45", name: "النعامة" },
+  { code: "W46", name: "عين تموشنت" },
+  { code: "W47", name: "غرداية" },
+  { code: "W48", name: "غليزان" },
+  { code: "W49", name: "تيميمون" },
+  { code: "W50", name: "برج باجي مختار" },
+  { code: "W51", name: "أولاد جلال" },
+  { code: "W52", name: "بني عباس" },
+  { code: "W53", name: "عين صالح" },
+  { code: "W54", name: "عين قزام" },
+  { code: "W55", name: "تقرت" },
+  { code: "W56", name: "جانت" },
+  { code: "W57", name: "المغير" },
+  { code: "W58", name: "المنيعة" },
+];
+
+export const getWilayaName = (code?: string | null) => {
+  if (!code) return "";
+  const wilaya = WILAYAS.find(w => w.code === code);
+  return wilaya ? wilaya.name : code;
+};
+
+export const LEVELS = [
+  { value: "AS2", label: "السنة الثانية ثانوي" },
+  { value: "AS3", label: "السنة الثالثة ثانوي (شهادة الباكالوريا)" },
+];
+
+export const STREAMS = [
+  { value: "SCIENCES",    label: "شعبة علوم تجريبية" },
+  { value: "MATH",        label: "شعبة رياضيات" },
+  { value: "TECH_MATH",   label: "شعبة تقني رياضي" },
+  { value: "GESTION",     label: "شعبة تسيير واقتصاد" },
+  { value: "LETTRES",     label: "شعبة آداب وفلسفة" },
+  { value: "LANGUAGES",   label: "شعبة لغات أجنبية" },
+];

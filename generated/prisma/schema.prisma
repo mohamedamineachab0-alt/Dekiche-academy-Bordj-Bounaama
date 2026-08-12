@@ -1,0 +1,445 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  PARENT
+  TEACHER
+  ADMIN
+}
+
+enum Wilaya {
+  W01
+  W02
+  W03
+  W04
+  W05
+  W06
+  W07
+  W08
+  W09
+  W10
+  W11
+  W12
+  W13
+  W14
+  W15
+  W16
+  W17
+  W18
+  W19
+  W20
+  W21
+  W22
+  W23
+  W24
+  W25
+  W26
+  W27
+  W28
+  W29
+  W30
+  W31
+  W32
+  W33
+  W34
+  W35
+  W36
+  W37
+  W38
+  W39
+  W40
+  W41
+  W42
+  W43
+  W44
+  W45
+  W46
+  W47
+  W48
+  W49
+  W50
+  W51
+  W52
+  W53
+  W54
+  W55
+  W56
+  W57
+  W58
+}
+
+enum Stage {
+  PRIMARY
+  MIDDLE
+  SECONDARY
+}
+
+enum Level {
+  PRIMARY_1
+  PRIMARY_2
+  PRIMARY_3
+  PRIMARY_4
+  PRIMARY_5
+  MIDDLE_1
+  MIDDLE_2
+  MIDDLE_3
+  MIDDLE_4
+  SECONDARY_1
+  SECONDARY_2
+  SECONDARY_3
+}
+
+enum Stream {
+  NONE
+  COMMON_SCIENCE
+  COMMON_LETTERS
+  EXPERIMENTAL_SCIENCES
+  MATHEMATICS
+  TECHNICAL_MATH
+  MANAGEMENT_ECONOMY
+  LITERATURE_PHILOSOPHY
+  FOREIGN_LANGUAGES
+}
+
+model User {
+  id                 String              @id @default(cuid())
+  fullName           String
+  phoneNumber        String              @unique
+  passwordHash       String              @default("")
+  avatarUrl          String?
+  role               Role
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  studentProfile     StudentProfile?
+  parentProfile      ParentProfile?
+  teacherProfile     Teacher?
+  parentLinks        ParentStudentLink[] @relation("ParentLink")
+  studentLinks       ParentStudentLink[] @relation("StudentLink")
+  lastLoginAt        DateTime            @default(now())
+  deviceFingerprints String[]            @default([])
+  accessCodes        AccessCode[]
+  mistakes           StudentMistake[]
+  submissions        StudentSubmission[] @relation("StudentSubmissions")
+  enrollments        Enrollment[]        @relation("StudentEnrollments")
+  chatSessions       ChatSession[]
+  notifications      Notification[]      @relation("UserNotifications")
+  parentTickets      ParentTicket[]
+  forumMessages      ForumMessage[]
+  friendLinksSource  StudentFriendLink[] @relation("StudentLinkSource")
+  friendLinksTarget  StudentFriendLink[] @relation("StudentLinkTarget")
+}
+
+model StudentProfile {
+  id          String  @id @default(cuid())
+  userId      String  @unique
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parentName  String
+  parentPhone String
+  level       Level
+  stream      Stream
+  wilaya      Wilaya
+  totalPoints Int     @default(0)
+  parentCode  String? @unique @default(cuid())
+  friendCode  String? @unique @default(cuid())
+}
+
+model ParentProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Teacher {
+  id        String    @id @default(cuid())
+  userId    String?   @unique
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  phone     String    @unique
+  levels    Level[]
+  streams   Stream[]
+  subjects  Subject[]
+  createdAt DateTime  @default(now())
+}
+
+model Subject {
+  id                      String          @id @default(uuid())
+  title                   String
+  description             String
+  teacherName             String
+  teacherId               String?
+  teacher                 Teacher?        @relation(fields: [teacherId], references: [id])
+  level                   Level
+  stream                  Stream
+  image                   String // Square image URL from Supabase Storage
+  price                   Float
+  accessType              String // 'MONTHLY' or 'YEARLY'
+  isPublished             Boolean         @default(false)
+  lessons                 Lesson[] // One-to-many relation
+  liveClasses             LiveClass[] // One-to-many relation
+  notifications           Notification[]
+  codes                   AccessCode[] // One-to-many relation
+  enrollments             Enrollment[]
+  dailyExercises          DailyExercise[] @relation("PrimarySubject")
+  secondaryDailyExercises DailyExercise[] @relation("SecondarySubject")
+  exams                   Exam[]          @relation("ExamSubject")
+  secondaryExams          Exam[]          @relation("ExamSecondarySubject")
+  reviewCards             ReviewCard[]
+  classForums             ClassForum[]
+  createdAt               DateTime        @default(now())
+}
+
+model Lesson {
+  id           String           @id @default(uuid())
+  title        String
+  month        Int // e.g., 1, 2, 3
+  vimeoVideoId String // Vimeo video ID
+  image        String? // Square image URL for the lesson from Supabase Storage
+  subjectId    String
+  subject      Subject          @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  quiz         Quiz? // One-to-one relation with AI Quiz
+  mistakes     StudentMistake[]
+  materials    LessonMaterial[]
+  createdAt    DateTime         @default(now())
+}
+
+model LessonMaterial {
+  id        String   @id @default(uuid())
+  title     String
+  fileUrl   String
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Quiz {
+  id              String           @id @default(uuid())
+  lessonId        String?          @unique
+  lesson          Lesson?          @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  dailyExerciseId String?          @unique
+  dailyExercise   DailyExercise?   @relation(fields: [dailyExerciseId], references: [id], onDelete: Cascade)
+  examId          String?          @unique
+  exam            Exam?            @relation(fields: [examId], references: [id], onDelete: Cascade)
+  maxScore        Int              @default(20) // Graded out of 20
+  aiGenerated     Boolean          @default(true)
+  questions       Json             @default("[]")
+  mistakes        StudentMistake[]
+  createdAt       DateTime         @default(now())
+}
+
+model AccessCode {
+  id          String   @id @default(uuid())
+  code        String   @unique
+  accessType  String // 'MONTHLY' or 'YEARLY'
+  validMonths Int[]    @default([]) // Exact months this code unlocks (e.g. [9, 10] for Sept/Oct)
+  isUsed      Boolean  @default(false)
+  studentId   String? // Relation to the User/Student model
+  user        User?    @relation(fields: [studentId], references: [id])
+  subjectId   String
+  subject     Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model ParentStudentLink {
+  id        String   @id @default(cuid())
+  parentId  String
+  studentId String
+  parent    User     @relation("ParentLink", fields: [parentId], references: [id], onDelete: Cascade)
+  student   User     @relation("StudentLink", fields: [studentId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([parentId, studentId])
+}
+
+model StudentFriendLink {
+  id        String   @id @default(cuid())
+  studentId String
+  friendId  String
+  student   User     @relation("StudentLinkSource", fields: [studentId], references: [id], onDelete: Cascade)
+  friend    User     @relation("StudentLinkTarget", fields: [friendId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([studentId, friendId])
+}
+
+model Banner {
+  id        String   @id @default(cuid())
+  title     String
+  imageUrl  String
+  targetUrl String?
+  month     Int
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StudentMistake {
+  id              String   @id @default(uuid())
+  studentId       String // References the student's ID
+  user            User     @relation(fields: [studentId], references: [id])
+  mistakeContent  String // The wrong answer or mistake description (الخطأ)
+  correctSolution String // The correct answer or explanation (الحل)
+  lessonId        String
+  lesson          Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  quizId          String
+  quiz            Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  createdAt       DateTime @default(now())
+}
+
+model Enrollment {
+  id             String   @id @default(uuid())
+  studentId      String
+  student        User     @relation("StudentEnrollments", fields: [studentId], references: [id], onDelete: Cascade)
+  subjectId      String
+  subject        Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  enrolledMonths Int[]    @default([]) // Exact months unlocked
+  createdAt      DateTime @default(now())
+
+  @@unique([studentId, subjectId])
+}
+
+model LiveClass {
+  id        String   @id @default(uuid())
+  title     String
+  zoomLink  String
+  month     Int
+  date      DateTime
+  subjectId String
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model ChatSession {
+  id        String        @id @default(uuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  ChatMessage[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model ChatMessage {
+  id            String      @id @default(uuid())
+  chatSessionId String
+  chatSession   ChatSession @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
+  role          String // 'user' or 'assistant'
+  content       String
+  createdAt     DateTime    @default(now())
+}
+
+model DailyExercise {
+  id                 String   @id @default(uuid())
+  title              String
+  a4ImageUrl         String
+  maxScore           Int      @default(20)
+  level              Level
+  stream             Stream
+  subjectId          String
+  subject            Subject  @relation("PrimarySubject", fields: [subjectId], references: [id], onDelete: Cascade)
+  secondarySubjectId String?
+  secondarySubject   Subject? @relation("SecondarySubject", fields: [secondarySubjectId], references: [id], onDelete: SetNull)
+  month              Int
+  quiz               Quiz?
+  createdAt          DateTime @default(now())
+}
+
+model Exam {
+  id                 String              @id @default(uuid())
+  title              String
+  subjectId          String
+  subject            Subject             @relation("ExamSubject", fields: [subjectId], references: [id], onDelete: Cascade)
+  secondarySubjectId String?
+  secondarySubject   Subject?            @relation("ExamSecondarySubject", fields: [secondarySubjectId], references: [id])
+  level              Level
+  stream             Stream
+  month              Int
+  a4ImageUrl         String
+  maxScore           Int                 @default(20)
+  quiz               Quiz?
+  submissions        StudentSubmission[]
+  createdAt          DateTime            @default(now())
+}
+
+model StudentSubmission {
+  id        String   @id @default(uuid())
+  examId    String
+  exam      Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  studentId String
+  student   User     @relation("StudentSubmissions", fields: [studentId], references: [id], onDelete: Cascade)
+  imageUrl  String
+  score     Int?
+  feedback  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([examId, studentId])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  level     Level?
+  stream    Stream?
+  month     Int
+  subjectId String?
+  subject   Subject? @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  userId    String?
+  user      User?    @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model ReviewCard {
+  id          String   @id @default(cuid())
+  title       String
+  question    String
+  answer      String
+  subjectId   String
+  subject     Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  level       Level
+  stream      Stream
+  month       Int
+  exerciseRef String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ClassForum {
+  id        String         @id @default(cuid())
+  title     String
+  subjectId String
+  subject   Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  level     Level
+  stream    Stream
+  month     Int
+  isOpen    Boolean        @default(true)
+  messages  ForumMessage[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model ForumMessage {
+  id        String     @id @default(cuid())
+  forumId   String
+  forum     ClassForum @relation(fields: [forumId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   String
+  createdAt DateTime   @default(now())
+}
+
+model ParentTicket {
+  id        String   @id @default(cuid())
+  parentId  String
+  parent    User     @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  subject   String
+  message   String
+  status    String   @default("OPEN")
+  createdAt DateTime @default(now())
+}

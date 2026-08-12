@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-tshirt: #4c1d95; /* purple-900 */
+  --color-primary: var(--primary-color, #7e22ce); /* Royal Purple */
+  --color-secondary: var(--secondary-color, #a855f7); /* purple-500 */
+  --font-sans: 'IBM Plex Sans Arabic', sans-serif;
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff; /* Override dark mode to keep white background */
+    --foreground: #171717;
+  }
+}
+
+body {
+  background-color: #ffffff;
+  color: var(--foreground);
+}
+
+/* Global Mobile Touch Fixes */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a, input, select, [role="button"] {
+  touch-action: manipulation;
+  cursor: pointer;
+  position: relative;
+  z-index: 50;
+}
+
+@layer utilities {
+  .bg-notebook-grid {
+    background-image: 
+      linear-gradient(to right, rgba(14, 165, 233, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(14, 165, 233, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-color: #f8fafc;
+  }
+
+  .bg-card-notebook {
+    background-image: 
+      linear-gradient(to right, rgba(2, 6, 23, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(2, 6, 23, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-color: #a855f7; /* purple-500 */
+  }
+
+  /* 3D Flip Utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}

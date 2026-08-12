@@ -13,6 +13,7 @@ export function HeroBanner({
   action?: React.ReactNode;
   icon?: React.ElementType;
   bgClass?: string;
+  gradientClass?: string; // Kept for backwards compatibility, but ignored
   showGridPattern?: boolean;
 }) {
   return (

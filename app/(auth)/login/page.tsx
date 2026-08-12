@@ -3,7 +3,7 @@
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { universalLoginAction, LoginState } from "@/actions/auth-login";
-import { User, LogIn, Loader2, AlertCircle } from "lucide-react";
+import { User, LogIn, Loader2, AlertCircle, Lock, Mail } from "lucide-react";
 import Link from "next/link";
 
 const initialState: LoginState = {};
@@ -15,16 +15,16 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-black py-3.5 rounded-xl transition-all shadow-md shadow-purple-600/20 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
+      className="w-full flex items-center justify-center gap-2 bg-[#7E22CE] hover:bg-[#6B21A8] text-white font-black py-4 rounded-xl shadow-3d-soft shadow-3d-hover mt-6 disabled:opacity-70 disabled:cursor-not-allowed border-[3px] border-[#000000]"
     >
       {pending ? (
         <>
-          <Loader2 className="w-5 h-5 animate-spin text-white" />
+          <Loader2 className="w-6 h-6 animate-spin text-white" />
           جاري التحقق...
         </>
       ) : (
         <>
-          <LogIn className="w-5 h-5 text-white" />
+          <LogIn className="w-6 h-6 text-white" />
           تسجيل الدخول
         </>
       )}
@@ -35,8 +35,8 @@ function SubmitButton() {
 function ErrorBanner({ message }: { message?: string }) {
   if (!message) return null;
   return (
-    <div className="flex items-start gap-2 bg-purple-50 border border-purple-200 text-purple-800 rounded-xl px-4 py-3 text-sm font-medium mb-5 animate-in fade-in zoom-in duration-300">
-      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+    <div className="flex items-start gap-2 bg-red-50 border-[3px] border-red-200 text-red-800 rounded-xl px-4 py-3 text-sm font-bold mb-5 shadow-3d-soft animate-in fade-in zoom-in duration-300">
+      <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
       <span>{message}</span>
     </div>
   );
@@ -46,78 +46,83 @@ export default function LoginPage() {
   const [state, formAction] = useActionState(universalLoginAction, initialState);
 
   return (
-    <div className="relative min-h-screen bg-[#F8F9FA] dark:bg-white font-arabic flex items-center justify-center p-4 py-12 overflow-hidden selection:bg-purple-200 dark:selection:bg-white/50" dir="rtl">
+    <div className="relative min-h-screen font-sans flex items-center justify-center p-4 py-12" dir="rtl">
       
-      <div className="fixed inset-0 z-0 opacity-[0.03] dark:opacity-10 pointer-events-none" 
-           style={{ backgroundImage: "linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)", backgroundSize: "20px 20px" }}>
-      </div>
-
       <div className="relative z-10 w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-black text-purple-950 dark:text-purple-950 leading-tight">منصة أكاديمية دقيش التعليمية برج بونعامة</h1>
-          <p className="text-slate-500 dark:text-slate-400 font-medium text-sm mt-2">
-            اصنع مستقبلك بثبات نحو القمة
-          </p>
-        </div>
+        
+        {/* Decorative Background Card */}
+        <div className="absolute inset-0 bg-[#4C1D95] rounded-3xl transform rotate-3 border-[3px] border-[#000000] shadow-3d-deep"></div>
 
-        <div className="bg-white dark:bg-white rounded-3xl shadow-xl shadow-slate-200/60 dark:shadow-none border border-slate-100 dark:border-purple-200 overflow-hidden p-6 md:p-8">
-          <div className="mb-8">
-            <h2 className="text-xl font-black text-purple-950 dark:text-purple-950">تسجيل الدخول</h2>
-            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mt-1">أدخل بياناتك للوصول إلى حسابك</p>
+        <div className="relative bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] overflow-hidden p-8 shadow-3d-deep paper-cut">
+          
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-[#7E22CE] rounded-2xl border-[3px] border-[#000000] shadow-3d-soft mb-6 transform -rotate-3">
+              <LogIn className="w-8 h-8 text-white" />
+            </div>
+            <h1 className="text-3xl font-black text-[#000000] leading-tight mb-2">أكاديمية دقيش</h1>
+            <h2 className="text-xl font-bold text-[#4C1D95]">تسجيل الدخول</h2>
           </div>
 
-          <form action={formAction} className="space-y-5">
+          <form action={formAction} className="space-y-6">
             <ErrorBanner message={state.error} />
 
-            <div className="space-y-4">
-              <div className="space-y-1.5">
-                <label htmlFor="login-name" className="block text-sm font-bold text-purple-800 dark:text-purple-800">
-                  الاسم الكامل <span className="text-purple-700">*</span>
+            <div className="space-y-5">
+              <div className="space-y-2">
+                <label htmlFor="login-phone" className="block text-sm font-bold text-[#000000]">
+                  البريد الإلكتروني أو رقم الهاتف <span className="text-[#7E22CE]">*</span>
                 </label>
                 <div className="relative">
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
-                    <User className="w-4 h-4" />
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#000000]">
+                    <Mail className="w-5 h-5" />
                   </span>
                   <input
-                    id="login-name"
-                    name="fullName"
+                    id="login-phone"
+                    name="phoneNumber" // Keeping for backend compatibility
                     type="text"
-                    placeholder="أدخل الاسم الكامل"
+                    dir="rtl"
+                    placeholder="أدخل بريدك أو رقم هاتفك"
                     required
-                    className="w-full pr-10 pl-4 py-3 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-purple-900 dark:text-purple-950 font-medium text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
+                    className="w-full pr-12 pl-4 py-3.5 rounded-xl border-[3px] border-[#000000] bg-white text-[#000000] font-bold text-base placeholder:text-gray-400 focus:outline-none focus:ring-4 focus:ring-[#7E22CE]/20 transition-all shadow-sm"
                   />
                 </div>
               </div>
 
-              <div className="space-y-1.5">
-                <label htmlFor="login-phone" className="block text-sm font-bold text-purple-800 dark:text-purple-800">
-                  رقم الهاتف <span className="text-purple-700">*</span>
+              <div className="space-y-2">
+                <label htmlFor="login-fullname" className="block text-sm font-bold text-[#000000]">
+                  الاسم الكامل <span className="text-[#7E22CE]">*</span>
                 </label>
                 <div className="relative">
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
-                    <User className="w-4 h-4" />
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#000000]">
+                    <User className="w-5 h-5" />
                   </span>
                   <input
-                    id="login-phone"
-                    name="phoneNumber"
-                    type="tel"
-                    dir="ltr"
-                    placeholder="05XXXXXXXX"
+                    id="login-fullname"
+                    name="fullName"
+                    type="text"
+                    dir="rtl"
+                    placeholder="أدخل اسمك الكامل"
                     required
-                    className="w-full pr-10 pl-4 py-3 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-purple-900 dark:text-purple-950 font-medium text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
+                    className="w-full pr-12 pl-4 py-3.5 rounded-xl border-[3px] border-[#000000] bg-white text-[#000000] font-bold text-base placeholder:text-gray-400 focus:outline-none focus:ring-4 focus:ring-[#7E22CE]/20 transition-all shadow-sm"
                   />
                 </div>
               </div>
             </div>
 
+            <div className="flex items-center justify-between mt-2">
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <input type="checkbox" className="w-5 h-5 rounded-md border-[2px] border-[#000000] text-[#7E22CE] focus:ring-[#7E22CE] cursor-pointer" />
+                <span className="text-sm font-bold text-[#000000] group-hover:text-[#7E22CE] transition-colors">تذكرني</span>
+              </label>
+            </div>
+
             <SubmitButton />
           </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">
+          <div className="mt-8 text-center pt-6 border-t-[3px] border-[#000000]/10">
+            <p className="text-[#000000] text-sm font-bold">
               ليس لديك حساب؟{" "}
-              <Link href="/register" className="text-purple-700 hover:text-purple-700 font-bold underline underline-offset-4">
-                أنشئ حساباً جديداً
+              <Link href="/register" className="text-[#7E22CE] hover:text-[#4C1D95] font-black underline underline-offset-4 transition-colors">
+                إنشاء حساب جديد
               </Link>
             </p>
           </div>

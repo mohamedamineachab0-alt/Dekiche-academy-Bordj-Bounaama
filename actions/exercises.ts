@@ -7,6 +7,7 @@ export async function createDailyExercise(formData: FormData): Promise<void> {
   const title = formData.get("title") as string;
   const a4ImageUrl = formData.get("a4ImageUrl") as string;
   const maxScore = parseInt(formData.get("maxScore") as string) || 20;
+  const phase = formData.get("phase") as any;
   const level = formData.get("level") as any;
   const stream = formData.get("stream") as any;
   const month = parseInt(formData.get("month") as string);
@@ -31,7 +32,7 @@ export async function createDailyExercise(formData: FormData): Promise<void> {
     }
   }
 
-  if (!title || !a4ImageUrl || !subjectId || !level || !stream) {
+  if (!title || !a4ImageUrl || !subjectId || !phase || !level || !stream) {
     throw new Error("Missing required fields");
   }
 
@@ -41,6 +42,7 @@ export async function createDailyExercise(formData: FormData): Promise<void> {
         title,
         a4ImageUrl,
         maxScore,
+        phase,
         level,
         stream,
         month,

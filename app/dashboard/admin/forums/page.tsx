@@ -4,6 +4,7 @@ import { MessageSquare, Plus, Lock, Unlock } from "lucide-react";
 import { createForum, toggleForumStatus } from "@/actions/forums";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { MonthSelect } from "@/components/shared/MonthSelect";
+import { ForumCreationClient } from "@/components/admin/ForumCreationClient";
 
 export default async function AdminForumsPage() {
   const forums = await prisma.classForum.findMany({
@@ -17,7 +18,7 @@ export default async function AdminForumsPage() {
   });
 
   const subjects = await prisma.subject.findMany({
-    select: { id: true, title: true, level: true, stream: true }
+    select: { id: true, title: true, phase: true, level: true, stream: true }
   });
 
   return (
@@ -33,68 +34,19 @@ export default async function AdminForumsPage() {
         
         {/* Creation Form */}
         <div className="xl:col-span-1">
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 sticky top-6">
-            <h2 className="text-lg font-black text-purple-950 mb-4 flex items-center gap-2">
-              <Plus className="w-5 h-5 text-purple-700" />
-              إنشاء منتدى جديد
-            </h2>
-            
-            <form action={async (formData) => { "use server"; await createForum(formData); }} className="space-y-4">
-              <div className="space-y-1">
-                <label className="text-sm font-bold text-purple-800">إسم المنتدى</label>
-                <input type="text" name="title" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="مثال: نقاشات الوحدة الأولى" />
-              </div>
-
-              <div className="space-y-3 pt-2 border-t border-slate-100">
-                <div className="space-y-1">
-                  <label className="text-sm font-bold text-purple-800">المادة الدراسية</label>
-                  <select name="subjectId" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-purple-600">
-                    <option value="">اختر المادة</option>
-                    {subjects.map(s => {
-                      const levelStr = LEVELS.find(l => l.value === s.level)?.label || s.level;
-                      const streamStr = STREAMS.find(st => st.value === s.stream)?.label || s.stream;
-                      return (
-                        <option key={s.id} value={s.id}>
-                          {s.title} ({levelStr} - {streamStr})
-                        </option>
-                      )
-                    })}
-                  </select>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-1">
-                    <label className="text-sm font-bold text-purple-800">المستوى</label>
-                    <select name="level" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-purple-600">
-                      <option value="">اختر المستوى</option>
-                      {LEVELS.map(l => (
-                        <option key={l.value} value={l.value}>{l.label}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-sm font-bold text-purple-800">الشعبة</label>
-                    <select name="stream" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-purple-600">
-                      <option value="">اختر الشعبة</option>
-                      {STREAMS.map(s => (
-                        <option key={s.value} value={s.value}>{s.label}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-sm font-bold text-purple-800">الشهر</label>
-                  <MonthSelect name="month" required className="!p-2.5 !text-sm" />
-                </div>
-              </div>
-
-              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-slate-950 font-black font-bold py-3 rounded-xl transition-colors mt-2">
-                <Plus className="w-4 h-4" />
-                إنشاء المنتدى
-              </button>
-            </form>
-          </div>
+          <ForumCreationClient 
+            subjects={subjects.map(s => ({
+              id: s.id,
+              title: s.title,
+              phase: s.phase,
+              level: s.level,
+              stream: s.stream
+            }))}
+            action={async (formData: FormData) => { 
+              "use server"; 
+              await createForum(formData); 
+            }} 
+          />
         </div>
 
         {/* List */}

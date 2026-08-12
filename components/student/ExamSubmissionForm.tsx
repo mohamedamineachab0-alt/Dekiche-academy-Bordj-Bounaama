@@ -43,21 +43,23 @@ export function ExamSubmissionForm({ examId, studentId, hasSubmitted, previousSc
 
   if (success) {
     return (
-      <div className="p-6 bg-purple-50 border border-purple-100 rounded-2xl space-y-4">
-        <div className="flex items-center gap-3 text-purple-800 font-black">
-          <CheckCircle className="w-6 h-6" />
-          <h3>تم استلام حلك وتصحيحه بنجاح!</h3>
+      <div className="p-6 bg-[#F8F9FA] border-[3px] border-[#000000] rounded-2xl space-y-6 shadow-sm paper-cut relative">
+        <div className="flex items-center gap-4 text-[#000000] font-black relative z-10">
+          <div className="w-12 h-12 bg-[#22C55E] border-[3px] border-[#000000] rounded-xl flex items-center justify-center shrink-0 transform -rotate-3 shadow-sm">
+            <CheckCircle className="w-7 h-7 text-[#000000]" strokeWidth={2.5} />
+          </div>
+          <h3 className="text-xl">تم استلام حلك وتصحيحه بنجاح!</h3>
         </div>
         
         {score !== undefined && score !== null && (
-          <div className="mt-4 flex items-center justify-between bg-white p-4 rounded-xl border border-purple-100">
-            <span className="font-bold text-purple-800">العلامة الممنوحة من الذكاء الاصطناعي:</span>
-            <span className="text-2xl font-black text-purple-700">{score}/20</span>
+          <div className="mt-4 flex items-center justify-between bg-[#FFFFFF] p-5 rounded-xl border-[3px] border-[#000000] shadow-sm relative z-10">
+            <span className="font-black text-[#000000]">العلامة الممنوحة من الذكاء الاصطناعي:</span>
+            <span className="text-3xl font-mono font-black text-[#7E22CE] bg-[#FACC15] px-3 py-1 rounded-lg border-[3px] border-[#000000] transform rotate-2">{score}/20</span>
           </div>
         )}
 
         {feedback && (
-          <div className="bg-white p-4 rounded-xl border border-purple-100 text-sm font-medium text-purple-800 leading-relaxed">
+          <div className="bg-[#FFFFFF] p-5 rounded-xl border-[3px] border-[#000000] text-sm font-bold text-[#000000] leading-relaxed shadow-sm relative z-10 whitespace-pre-wrap">
             {feedback}
           </div>
         )}
@@ -66,31 +68,36 @@ export function ExamSubmissionForm({ examId, studentId, hasSubmitted, previousSc
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
       {error && (
-        <div className="p-4 bg-purple-50 text-purple-800 rounded-xl border border-purple-100 font-bold text-sm">
+        <div className="p-4 bg-[#FEE2E2] text-[#EF4444] rounded-xl border-[3px] border-[#000000] font-black text-sm shadow-sm">
           {error}
         </div>
       )}
 
-      <div className="p-6 bg-white border border-slate-200 rounded-2xl space-y-4 text-center">
-        <Upload className="w-10 h-10 text-slate-400 mx-auto" />
-        <h4 className="font-bold text-purple-900">ارفع صورة حلك بخط اليد</h4>
-        <p className="text-sm text-slate-500 font-medium">سيقوم المساعد الذكي بقراءة خطك وتصحيح الإجابة آلياً بناءً على الأسئلة</p>
+      <div className="p-8 bg-[#FFFFFF] border-[3px] border-[#000000] rounded-2xl space-y-6 text-center shadow-sm relative group">
+        <div className="absolute inset-0 bg-notebook-grid opacity-20 pointer-events-none rounded-2xl" />
+        <div className="w-16 h-16 bg-[#EAE4D9] border-[3px] border-[#000000] rounded-2xl flex items-center justify-center mx-auto transform group-hover:rotate-6 transition-transform shadow-sm relative z-10">
+          <Upload className="w-8 h-8 text-[#000000]" strokeWidth={2.5} />
+        </div>
+        <div className="relative z-10">
+          <h4 className="font-black text-xl text-[#000000] mb-2">ارفع صورة حلك بخط اليد</h4>
+          <p className="text-sm text-gray-600 font-bold">سيقوم المساعد الذكي بقراءة خطك وتصحيح الإجابة آلياً بناءً على الأسئلة</p>
+        </div>
         
         <input
           type="file"
           name="file"
           accept="image/*"
           required
-          className="w-full text-base text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-base file:font-bold file:bg-purple-100 file:text-purple-800 hover:file:bg-purple-200 cursor-pointer"
+          className="w-full text-base text-gray-500 font-bold file:mr-4 file:py-3 file:px-5 file:rounded-xl file:border-[3px] file:border-[#000000] file:text-sm file:font-black file:bg-[#FACC15] file:text-[#000000] hover:file:bg-[#FDE047] cursor-pointer shadow-sm relative z-10 file:shadow-sm file:transition-all hover:file:-translate-y-0.5"
         />
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-4 bg-purple-800 hover:bg-purple-800 text-white rounded-xl font-bold text-lg shadow-md transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+        className="w-full py-4 bg-[#7E22CE] hover:bg-[#6B21A8] text-white border-[3px] border-[#000000] rounded-xl font-black text-lg shadow-sm transition-all flex items-center justify-center gap-3 disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-sm hover:-translate-y-1 hover:shadow-3d-hover"
       >
         {isSubmitting ? (
           <>

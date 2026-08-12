@@ -12,6 +12,13 @@
   --color-tshirt: #4c1d95; /* purple-900 */
   --color-primary: var(--primary-color, #7e22ce); /* Royal Purple */
   --color-secondary: var(--secondary-color, #a855f7); /* purple-500 */
+  
+  /* Brutalist Theme Colors */
+  --color-brutal-bg: #FFFFFF;
+  --color-brutal-olive: #4C1D95;
+  --color-brutal-charcoal: #000000;
+  --color-brutal-accent: #7E22CE;
+
   --font-sans: 'IBM Plex Sans Arabic', sans-serif;
   --font-mono: var(--font-geist-mono);
 }
@@ -41,12 +48,53 @@ button, a, input, select, [role="button"] {
 }
 
 @layer utilities {
+  .bg-grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    opacity: 0.2;
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  /* 3D Realistic Shadows & Layering */
+  .shadow-3d-soft {
+    box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.15), 
+                2px 3px 6px rgba(0, 0, 0, 0.10);
+  }
+  
+  .shadow-3d-deep {
+    box-shadow: 8px 12px 24px rgba(0, 0, 0, 0.2), 
+                4px 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .shadow-3d-hover {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  }
+  
+  .shadow-3d-hover:hover {
+    box-shadow: 12px 16px 32px rgba(0, 0, 0, 0.25), 
+                6px 8px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px) scale(1.02);
+  }
+
+  /* Paper Cutout Effect */
+  .paper-cut {
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1), 
+                inset -2px -2px 5px rgba(255, 255, 255, 0.5);
+  }
+
+  .flat-shadow {
+    box-shadow: 4px 4px 0px 0px #000000;
+  }
+
   .bg-notebook-grid {
     background-image: 
-      linear-gradient(to right, rgba(14, 165, 233, 0.1) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(14, 165, 233, 0.1) 1px, transparent 1px);
+      linear-gradient(to right, rgba(126, 34, 206, 0.15) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(126, 34, 206, 0.15) 1px, transparent 1px);
     background-size: 40px 40px;
-    background-color: #f8fafc;
+    background-color: #ffffff;
   }
 
   .bg-card-notebook {

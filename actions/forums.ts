@@ -2,17 +2,18 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { Level, Stream } from "@/generated/prisma";
+import { Level, Stream, Phase } from "@/generated/prisma";
 
 export async function createForum(formData: FormData) {
   try {
     const title = formData.get("title") as string;
     const subjectId = formData.get("subjectId") as string;
+    const phase = formData.get("phase") as Phase;
     const level = formData.get("level") as Level;
     const stream = formData.get("stream") as Stream;
     const monthStr = formData.get("month") as string;
 
-    if (!title || !subjectId || !level || !stream || !monthStr) {
+    if (!title || !subjectId || !phase || !level || !stream || !monthStr) {
       return { error: "يرجى ملء جميع الحقول الإلزامية" };
     }
 
@@ -23,6 +24,7 @@ export async function createForum(formData: FormData) {
       data: {
         title,
         subjectId,
+        phase,
         level,
         stream,
         month,
@@ -73,10 +75,11 @@ export async function getAdminForums() {
   }
 }
 
-export async function getStudentForums(level: Level, stream: Stream) {
+export async function getStudentForums(phase: Phase, level: Level, stream: Stream) {
   try {
     return await prisma.classForum.findMany({
       where: {
+        phase,
         level,
         stream
       },

@@ -45,7 +45,6 @@ export default async function FriendChallengePage() {
         title="منافسة صديق"
         description="شارك رمزك مع أصدقائك وتنافسوا على حل التمارين وجمع النقاط وتتبع من الأفضل"
         icon={Swords}
-        gradientClass="bg-gradient-to-r from-purple-700 to-orange-500"
       />
       
       <FriendChallengeClient 

@@ -20,22 +20,21 @@ export async function universalLoginAction(
     return { error: "يرجى إدخال الاسم الكامل ورقم الهاتف" };
   }
 
-  // 2. Exact match validation against the database
+  // 2. Lookup user by phone number
   const user = await prisma.user.findFirst({
     where: {
-      fullName: fullName,
       phoneNumber: phoneNumber,
     },
   });
 
-  // 3. Reject if the user does not exist
-  if (!user) {
+  // 3. Reject if the user does not exist or name mismatches (case-insensitive)
+  if (!user || user.fullName.toLowerCase().trim() !== fullName.toLowerCase().trim()) {
     return { error: "بيانات الدخول غير صحيحة، أو الحساب غير موجود" };
   }
 
   // 4. Set the HTTP-only session cookie
   const cookieStore = await cookies();
-  cookieStore.set("auth_session", user.id, {
+  cookieStore.set("session", user.id, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",

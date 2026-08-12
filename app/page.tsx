@@ -4,7 +4,7 @@ import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { TeamSection } from "@/components/landing/TeamSection";
 import { LeaderboardSection } from "@/components/landing/LeaderboardSection";
 import { prisma } from "@/lib/prisma";
-
+import { Book, PenTool, Notebook as NotebookIcon, Ruler, Calculator } from "lucide-react";
 
 
 export default async function Home() {
@@ -31,11 +31,7 @@ export default async function Home() {
   }));
 
   return (
-    <div dir="rtl" className="relative min-h-screen bg-[#F8F9FA] dark:bg-white font-sans selection:bg-purple-200 dark:selection:bg-white/50 overflow-hidden">
-      {/* Global Background Math Grid Pattern */}
-      <div className="fixed inset-0 z-0 opacity-[0.03] dark:opacity-10 pointer-events-none" 
-           style={{ backgroundImage: "linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)", backgroundSize: "20px 20px" }}>
-      </div>
+    <div dir="rtl" className="relative min-h-screen overflow-hidden bg-[#F8F9FA] bg-notebook-grid">
 
       <div className="relative z-10">
         <HeroSection isAuthenticated={isAuthenticated} />
@@ -43,10 +39,10 @@ export default async function Home() {
         <FeaturesSection />
         <TeamSection />
         
-        {/* Footer minimal */}
-        <footer className="relative py-12 bg-white/80 dark:bg-white/80 backdrop-blur-md border-t border-purple-100 dark:border-purple-200 text-center">
-          <p className="text-sm font-bold text-purple-700 dark:text-purple-600">
-            جميع الحقوق محفوظة لمنصة أكاديمية دقيش التعليمية برج بونعامة
+        {/* Footer brutalist */}
+        <footer className="relative py-12 bg-[#000000] text-[#FFFFFF] border-t-8 border-[#7E22CE] text-center">
+          <p className="text-lg font-bold tracking-wider">
+            جميع الحقوق محفوظة لمنصة أكاديمية دقيش التعليمية برج بونعامة © {new Date().getFullYear()}
           </p>
         </footer>
       </div>

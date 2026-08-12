@@ -4,8 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
-import { Level, Stream, Wilaya } from "@/generated/prisma";
-
+import { Level, Stream, Wilaya, Phase } from "@/generated/prisma";
+  
 // ─── REGISTER ──────────────────────────────────────────────────────────────
 
 export type RegisterState = {
@@ -60,15 +60,17 @@ export async function registerUser(
     }
   } else {
     // STUDENT ROLE
+    const phase       = formData.get("phase")       as string;
     const level       = formData.get("level")       as string;
-    const stream      = formData.get("stream")      as string;
+    const stream      = formData.get("stream")      as string || "NONE";
     const parentName  = "غير محدد";
     const parentPhone = "غير محدد";
 
-    if (!level || !stream) {
+    if (!phase || !level) {
       return { error: "جميع الحقول مطلوبة" };
     }
 
+    if (!Object.values(Phase).includes(phase as Phase))   return { error: "الطور غير صالح" };
     if (!Object.values(Level).includes(level as Level))   return { error: "المستوى غير صالح" };
     if (!Object.values(Stream).includes(stream as Stream)) return { error: "الشعبة غير صالحة" };
 
@@ -82,6 +84,7 @@ export async function registerUser(
           create: {
             parentName,
             parentPhone,
+            phase: phase as Phase,
             level: level as Level,
             stream: stream as Stream,
             wilaya: "W16",
@@ -133,29 +136,9 @@ export async function loginUser(
   const isSuperAdmin = phoneNumber === "0562388085";
 
   if (!user) {
-    // Smart Auto-Register
-    user = await prisma.user.create({
-      data: {
-        fullName,
-        phoneNumber,
-        passwordHash: "",
-        role: isSuperAdmin ? "ADMIN" : "STUDENT",
-        ...(isSuperAdmin ? {} : {
-          studentProfile: {
-            create: {
-              parentName: "غير محدد",
-              parentPhone: "غير محدد",
-              level: "SECONDARY_3",
-              stream: "EXPERIMENTAL_SCIENCES",
-              wilaya: "W16",
-            }
-          }
-        })
-      }
-    });
+    return { error: "بيانات الدخول غير صحيحة، أو الحساب غير موجود" };
   } else if (user.fullName !== fullName) {
-    // Optionally update the name if it differs, or just proceed
-    // We'll just proceed since they matched the phone number.
+    return { error: "بيانات الدخول غير صحيحة، أو الحساب غير موجود" };
   }
 
   const headersList = await headers();

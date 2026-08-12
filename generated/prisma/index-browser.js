@@ -138,12 +138,15 @@ exports.Prisma.StudentProfileScalarFieldEnum = {
   userId: 'userId',
   parentName: 'parentName',
   parentPhone: 'parentPhone',
+  phase: 'phase',
   level: 'level',
   stream: 'stream',
   wilaya: 'wilaya',
   totalPoints: 'totalPoints',
   parentCode: 'parentCode',
-  friendCode: 'friendCode'
+  friendCode: 'friendCode',
+  aiQuestionsCount: 'aiQuestionsCount',
+  aiQuestionsDate: 'aiQuestionsDate'
 };
 
 exports.Prisma.ParentProfileScalarFieldEnum = {
@@ -156,6 +159,7 @@ exports.Prisma.TeacherScalarFieldEnum = {
   userId: 'userId',
   name: 'name',
   phone: 'phone',
+  phases: 'phases',
   levels: 'levels',
   streams: 'streams',
   createdAt: 'createdAt'
@@ -167,6 +171,7 @@ exports.Prisma.SubjectScalarFieldEnum = {
   description: 'description',
   teacherName: 'teacherName',
   teacherId: 'teacherId',
+  phase: 'phase',
   level: 'level',
   stream: 'stream',
   image: 'image',
@@ -289,6 +294,7 @@ exports.Prisma.DailyExerciseScalarFieldEnum = {
   title: 'title',
   a4ImageUrl: 'a4ImageUrl',
   maxScore: 'maxScore',
+  phase: 'phase',
   level: 'level',
   stream: 'stream',
   subjectId: 'subjectId',
@@ -302,6 +308,7 @@ exports.Prisma.ExamScalarFieldEnum = {
   title: 'title',
   subjectId: 'subjectId',
   secondarySubjectId: 'secondarySubjectId',
+  phase: 'phase',
   level: 'level',
   stream: 'stream',
   month: 'month',
@@ -325,6 +332,7 @@ exports.Prisma.NotificationScalarFieldEnum = {
   id: 'id',
   title: 'title',
   content: 'content',
+  phase: 'phase',
   level: 'level',
   stream: 'stream',
   month: 'month',
@@ -339,6 +347,7 @@ exports.Prisma.ReviewCardScalarFieldEnum = {
   question: 'question',
   answer: 'answer',
   subjectId: 'subjectId',
+  phase: 'phase',
   level: 'level',
   stream: 'stream',
   month: 'month',
@@ -351,6 +360,7 @@ exports.Prisma.ClassForumScalarFieldEnum = {
   id: 'id',
   title: 'title',
   subjectId: 'subjectId',
+  phase: 'phase',
   level: 'level',
   stream: 'stream',
   month: 'month',
@@ -405,6 +415,12 @@ exports.Role = exports.$Enums.Role = {
   PARENT: 'PARENT',
   TEACHER: 'TEACHER',
   ADMIN: 'ADMIN'
+};
+
+exports.Phase = exports.$Enums.Phase = {
+  PRIMARY: 'PRIMARY',
+  MIDDLE: 'MIDDLE',
+  SECONDARY: 'SECONDARY'
 };
 
 exports.Level = exports.$Enums.Level = {

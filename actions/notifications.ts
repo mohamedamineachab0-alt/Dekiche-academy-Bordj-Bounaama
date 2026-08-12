@@ -2,12 +2,13 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { Level, Stream } from "@/generated/prisma";
+import { Level, Stream, Phase } from "@/generated/prisma";
 
 export async function createNotification(formData: FormData) {
   try {
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
+    const phaseStr = formData.get("phase") as string;
     const levelStr = formData.get("level") as string;
     const streamStr = formData.get("stream") as string;
     const subjectIdStr = formData.get("subjectId") as string;
@@ -17,6 +18,7 @@ export async function createNotification(formData: FormData) {
       return { error: "يرجى ملء العنوان ونص الإشعار" };
     }
 
+    const phase = phaseStr ? (phaseStr as Phase) : null;
     const level = levelStr ? (levelStr as Level) : null;
     const stream = streamStr ? (streamStr as Stream) : null;
     const subjectId = subjectIdStr || null;
@@ -26,6 +28,7 @@ export async function createNotification(formData: FormData) {
       data: {
         title,
         content,
+        phase,
         level,
         stream,
         subjectId,

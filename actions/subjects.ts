@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { supabase, ensureBucketExists } from "@/lib/supabase";
-import { Level, Stream } from "@/generated/prisma";
+import { Level, Stream, Phase } from "@/generated/prisma";
 
 export type SubjectActionState = {
   error?: string;
@@ -37,10 +37,11 @@ export async function createSubject(
     const priceStr = formData.get("price") as string;
     const price = priceStr ? parseFloat(priceStr) : 0;
     const accessType = formData.get("accessType") as string || "YEARLY";
+    const phase = formData.get("phase") as Phase;
     const level = formData.get("level") as Level;
     const stream = formData.get("stream") as Stream;
 
-    if (!title || !description || isNaN(price) || !level || !stream) {
+    if (!title || !description || isNaN(price) || !phase || !level || !stream) {
       return { error: "يرجى ملء جميع الحقول المطلوبة" };
     }
 
@@ -56,6 +57,7 @@ export async function createSubject(
         image: imageUrl,
         price,
         accessType, // MONTHLY or YEARLY
+        phase,
         level,
         stream,
         isPublished: true,

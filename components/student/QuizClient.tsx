@@ -69,13 +69,13 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
 
   if (questions.length === 0) {
     return (
-      <div className="text-center py-20 bg-white dark:bg-white rounded-3xl border border-slate-100 dark:border-purple-200">
-        <h2 className="text-2xl font-black text-purple-950 dark:text-purple-950 mb-2">لا توجد أسئلة</h2>
-        <p className="text-slate-500 mb-6">هذا الكويز لا يحتوي على أي أسئلة حاليا</p>
+      <div className="text-center p-8 md:p-12 bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] shadow-3d-soft paper-cut relative font-sans">
+        <h2 className="text-2xl font-black text-[#000000] mb-3 relative z-10">لا توجد أسئلة</h2>
+        <p className="text-gray-600 font-bold mb-8 relative z-10">هذا الكويز لا يحتوي على أي أسئلة حاليا</p>
         {contextType === "lesson" && lessonId ? (
-          <Link href={`/dashboard/student/lessons/${lessonId}`} className="bg-purple-800 text-white px-6 py-3 rounded-xl font-bold">العودة للدرس</Link>
+          <Link href={`/dashboard/student/lessons/${lessonId}`} className="bg-[#7E22CE] hover:bg-[#6B21A8] text-white px-8 py-4 rounded-xl font-black border-[3px] border-[#000000] shadow-sm transition-transform hover:-translate-y-1 hover:shadow-3d-hover relative z-10 inline-block">العودة للدرس</Link>
         ) : (
-          <Link href={`/dashboard/student/${contextType === "exam" ? "exams" : "exercises"}`} className="bg-purple-800 text-white px-6 py-3 rounded-xl font-bold">العودة</Link>
+          <Link href={`/dashboard/student/${contextType === "exam" ? "exams" : "exercises"}`} className="bg-[#7E22CE] hover:bg-[#6B21A8] text-white px-8 py-4 rounded-xl font-black border-[3px] border-[#000000] shadow-sm transition-transform hover:-translate-y-1 hover:shadow-3d-hover relative z-10 inline-block">العودة</Link>
         )}
       </div>
     );
@@ -113,49 +113,49 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
     // Map UI color to tailwind classes
     const colorClasses = {
       red: {
-        text: "text-purple-800",
-        bg: "bg-purple-100 dark:bg-purple-950/30",
-        gradient: "bg-gradient-to-br from-purple-600 to-purple-800 shadow-purple-600/30",
-        scoreText: "text-purple-800"
+        text: "text-[#000000]",
+        bg: "bg-[#FEE2E2]",
+        gradient: "bg-[#EF4444]",
+        scoreText: "text-[#EF4444]"
       },
       orange: {
-        text: "text-orange-600",
-        bg: "bg-orange-100 dark:bg-orange-900/30",
-        gradient: "bg-gradient-to-br from-orange-400 to-orange-500 shadow-orange-500/30",
-        scoreText: "text-orange-500"
+        text: "text-[#000000]",
+        bg: "bg-[#FFEDD5]",
+        gradient: "bg-[#F97316]",
+        scoreText: "text-[#F97316]"
       },
       emerald: {
-        text: "text-purple-800",
-        bg: "bg-purple-100 dark:bg-purple-950/30",
-        gradient: "bg-gradient-to-br from-purple-500 to-purple-700 shadow-purple-600/30",
-        scoreText: "text-purple-700"
+        text: "text-[#000000]",
+        bg: "bg-[#DCFCE7]",
+        gradient: "bg-[#22C55E]",
+        scoreText: "text-[#22C55E]"
       }
     };
 
     const currentColors = colorClasses[uiColor as keyof typeof colorClasses];
 
     return (
-      <div className="bg-white dark:bg-white rounded-3xl p-10 md:p-16 text-center border border-slate-100 dark:border-purple-200 shadow-sm max-w-2xl mx-auto">
-        <div className={`w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6 shadow-lg text-purple-950 ${currentColors.gradient}`}>
-          <IconComponent className="w-12 h-12" />
+      <div className="bg-[#FFFFFF] rounded-3xl p-10 md:p-16 text-center border-[3px] border-[#000000] shadow-3d-soft max-w-2xl mx-auto paper-cut relative font-sans">
+        <div className={`w-24 h-24 mx-auto rounded-2xl flex items-center justify-center mb-8 border-[3px] border-[#000000] shadow-sm text-[#000000] transform rotate-3 relative z-10 ${currentColors.gradient}`}>
+          <IconComponent className="w-12 h-12" strokeWidth={2.5} />
         </div>
         
-        <h2 className="text-3xl font-black text-purple-950 dark:text-purple-950 mb-2">النتيجة النهائية</h2>
-        <p className="text-slate-500 font-medium mb-8">لقد أكملت اختبار درس {lessonTitle}</p>
+        <h2 className="text-3xl font-black text-[#000000] mb-3 relative z-10">النتيجة النهائية</h2>
+        <p className="text-gray-600 font-bold mb-8 relative z-10">لقد أكملت اختبار درس {lessonTitle}</p>
         
-        <div className={`text-6xl font-black mb-6 flex justify-center items-baseline gap-2 ${currentColors.scoreText}`}>
-          <span>{finalScore}</span>
-          <span className="text-2xl text-slate-400">/ {maxScore}</span>
+        <div className={`text-6xl font-mono font-black mb-8 flex justify-center items-baseline gap-3 relative z-10 ${currentColors.scoreText}`}>
+          <span className="bg-[#EAE4D9] px-4 py-2 rounded-xl border-[3px] border-[#000000] shadow-sm transform -rotate-2">{finalScore}</span>
+          <span className="text-3xl text-gray-400">/ {maxScore}</span>
         </div>
 
-        <div className={`text-lg font-bold mb-8 px-6 py-4 rounded-xl inline-block ${currentColors.text} ${currentColors.bg}`}>
+        <div className={`text-lg font-black mb-10 px-6 py-4 rounded-xl inline-block border-[3px] border-[#000000] shadow-sm relative z-10 ${currentColors.text} ${currentColors.bg}`}>
           {feedbackMessage}
         </div>
 
-        <div>
+        <div className="relative z-10">
           <Link 
             href="/dashboard/student"
-            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-green-600 hover:bg-green-700 text-purple-950 px-8 py-4 rounded-xl font-bold text-lg transition-colors shadow-sm"
+            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-[#FACC15] hover:bg-[#FDE047] text-[#000000] border-[3px] border-[#000000] px-10 py-4 rounded-xl font-black text-lg transition-transform shadow-sm hover:-translate-y-1 hover:shadow-3d-hover"
           >
             العودة إلى الرئيسية
           </Link>
@@ -169,25 +169,25 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   return (
-    <div className="space-y-8 max-w-3xl mx-auto">
+    <div className="space-y-8 max-w-3xl mx-auto font-sans">
       {/* Header */}
       <div className="flex items-center justify-end">
-        <span className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-4 py-1.5 rounded-lg text-sm font-bold">
+        <span className="bg-[#22C55E] text-[#000000] border-[3px] border-[#000000] px-4 py-2 rounded-lg text-sm font-black shadow-sm transform rotate-1">
           السؤال {currentQuestionIndex + 1} من {questions.length}
         </span>
       </div>
 
       {/* Progress Bar */}
-      <div className="h-2 w-full bg-slate-100 dark:bg-white rounded-full overflow-hidden">
+      <div className="h-4 w-full bg-[#EAE4D9] border-[3px] border-[#000000] rounded-full overflow-hidden shadow-inner">
         <div 
-          className="h-full bg-green-500 transition-all duration-300" 
+          className="h-full bg-[#7E22CE] border-r-[3px] border-[#000000] transition-all duration-300" 
           style={{ width: `${progress}%` }}
         ></div>
       </div>
 
       {/* Question Card */}
-      <div className="bg-white dark:bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100 dark:border-purple-200">
-        <h2 className="text-2xl font-black text-purple-950 dark:text-purple-950 mb-8 leading-relaxed">
+      <div className="bg-[#FFFFFF] rounded-3xl p-8 md:p-12 shadow-3d-soft border-[3px] border-[#000000] paper-cut relative z-10">
+        <h2 className="text-2xl font-black text-[#000000] mb-8 leading-relaxed">
           {currentQuestion.question}
         </h2>
 
@@ -199,21 +199,21 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
               <button
                 key={idx}
                 onClick={() => handleSelectOption(idx)}
-                className={`w-full text-right p-5 rounded-2xl border-2 transition-all flex items-center justify-between group ${
+                className={`w-full text-right p-5 rounded-2xl border-[3px] transition-transform flex items-center justify-between group hover:-translate-y-1 hover:shadow-3d-hover ${
                   isSelected 
-                    ? 'border-green-600 bg-green-50 dark:bg-green-900/20' 
-                    : 'border-slate-100 dark:border-purple-200 hover:border-green-200 dark:hover:border-green-800 hover:bg-white dark:hover:bg-white/50'
+                    ? 'border-[#000000] bg-[#FACC15] shadow-3d-soft' 
+                    : 'border-[#000000] bg-[#F8F9FA] hover:bg-[#EAE4D9] shadow-sm'
                 }`}
               >
-                <span className={`font-bold text-lg ${isSelected ? 'text-green-700 dark:text-green-400' : 'text-purple-800 dark:text-purple-800'}`}>
+                <span className={`font-black text-lg text-[#000000]`}>
                   {opt}
                 </span>
-                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                <div className={`w-8 h-8 rounded-xl border-[3px] border-[#000000] flex items-center justify-center shrink-0 transition-colors shadow-sm transform ${
                   isSelected 
-                    ? 'border-green-600 bg-green-600 text-purple-950' 
-                    : 'border-slate-300 dark:border-slate-600 group-hover:border-green-300'
+                    ? 'bg-[#22C55E] text-[#000000] rotate-3' 
+                    : 'bg-white group-hover:bg-[#FFFFFF]'
                 }`}>
-                  {isSelected && <CheckCircle2 className="w-4 h-4" />}
+                  {isSelected && <CheckCircle2 className="w-5 h-5" strokeWidth={3} />}
                 </div>
               </button>
             );
@@ -226,7 +226,7 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
         <button
           onClick={handlePrevious}
           disabled={currentQuestionIndex === 0}
-          className="px-6 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-white disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+          className="px-8 py-4 rounded-xl font-black text-[#000000] border-[3px] border-[#000000] bg-[#EAE4D9] hover:bg-[#D6CEBC] disabled:opacity-50 disabled:hover:translate-y-0 disabled:shadow-none transition-all shadow-sm hover:-translate-y-1 hover:shadow-3d-hover"
         >
           السابق
         </button>
@@ -234,10 +234,10 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
         <button
           onClick={handleNext}
           disabled={!hasSelectedCurrent}
-          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:bg-slate-200 disabled:text-slate-400 dark:disabled:bg-white dark:disabled:text-slate-600 text-purple-950 px-8 py-3.5 rounded-xl font-bold transition-all shadow-sm"
+          className="flex items-center gap-2 bg-[#7E22CE] hover:bg-[#6B21A8] disabled:bg-gray-200 disabled:text-gray-400 disabled:border-gray-300 text-white border-[3px] border-[#000000] px-10 py-4 rounded-xl font-black transition-all shadow-sm hover:-translate-y-1 hover:shadow-3d-hover disabled:hover:translate-y-0 disabled:shadow-none"
         >
           {currentQuestionIndex === questions.length - 1 ? 'إنهاء الاختبار' : 'التالي'}
-          <ArrowLeft className="w-5 h-5" />
+          <ArrowLeft className="w-6 h-6" strokeWidth={3} />
         </button>
       </div>
 

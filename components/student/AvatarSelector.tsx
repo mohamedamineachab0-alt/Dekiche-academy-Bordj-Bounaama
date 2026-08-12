@@ -36,18 +36,18 @@ export function AvatarSelector({ currentAvatarUrl }: { currentAvatarUrl?: string
   };
 
   return (
-    <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between h-full">
-      <div>
-        <div className="w-12 h-12 bg-purple-50 text-purple-700 rounded-2xl flex items-center justify-center mb-4 border border-purple-100">
+    <div className="bg-[#FFFFFF] rounded-3xl p-6 md:p-8 border-[3px] border-[#000000] shadow-3d-soft paper-cut flex flex-col justify-between h-full relative overflow-hidden">
+      <div className="relative z-10">
+        <div className="w-14 h-14 bg-[#EC4899] text-white rounded-2xl flex items-center justify-center mb-6 border-[3px] border-[#000000] shadow-sm transform rotate-3">
           <ImageIcon className="w-6 h-6" />
         </div>
-        <h3 className="text-xl font-black text-purple-950 mb-2">الصورة الشخصية</h3>
-        <p className="text-slate-500 font-medium text-sm leading-relaxed mb-6">
+        <h3 className="text-2xl font-black text-[#000000] mb-3">الصورة الشخصية</h3>
+        <p className="text-gray-600 font-bold text-sm leading-relaxed mb-8">
           اختر صورة شخصية لملفك لتظهر في لوحة التحكم و دردشة القسم
         </p>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6 relative z-10">
         {/* Presets Grid */}
         <div className="flex flex-wrap gap-4 justify-center">
           {PRESET_AVATARS.map((url, idx) => (
@@ -56,28 +56,26 @@ export function AvatarSelector({ currentAvatarUrl }: { currentAvatarUrl?: string
               onClick={() => {
                 setSelectedAvatar(url);
               }}
-              className={`relative w-16 h-16 shrink-0 rounded-full border-2 overflow-hidden transition-all duration-200 group ${
-                selectedAvatar === url ? "border-purple-700 scale-110 shadow-md" : "border-slate-100 hover:border-purple-300"
+              className={`relative w-16 h-16 shrink-0 rounded-2xl border-[3px] overflow-hidden transition-all duration-200 group ${
+                selectedAvatar === url ? "border-[#000000] scale-110 shadow-3d-soft rotate-3 z-10" : "border-[#000000]/20 hover:border-[#000000] hover:-rotate-3 hover:shadow-3d-hover bg-white"
               }`}
             >
-              <img src={url} alt="صورة رمزية" className="w-full h-full rounded-full object-cover bg-white" />
+              <img src={url} alt="صورة رمزية" className="w-full h-full object-cover bg-[#F8F9FA]" />
               {selectedAvatar === url && (
-                <div className="absolute inset-0 bg-purple-800/20 flex items-center justify-center">
-                  <Check className="w-6 h-6 text-purple-800 font-bold bg-white/80 rounded-full p-1" />
+                <div className="absolute inset-0 bg-[#7E22CE]/20 flex items-center justify-center backdrop-blur-[1px]">
+                  <Check className="w-6 h-6 text-[#000000] font-black bg-[#FACC15] rounded-xl p-1 border-[2px] border-[#000000]" strokeWidth={3} />
                 </div>
               )}
             </button>
           ))}
         </div>
 
-
-
         <button
           onClick={handleSave}
           disabled={!selectedAvatar || isSaving || selectedAvatar === currentAvatarUrl}
-          className="w-full flex items-center justify-center gap-2 bg-purple-800 text-white py-3 rounded-xl font-bold hover:bg-purple-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm shadow-purple-200"
+          className="w-full flex items-center justify-center gap-2 bg-[#7E22CE] text-white py-4 rounded-xl font-black text-lg border-[3px] border-[#000000] hover:-translate-y-1 hover:shadow-3d-hover disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none transition-all"
         >
-          {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+          {isSaving ? <Loader2 className="w-6 h-6 animate-spin" /> : <Save className="w-6 h-6" />}
           حفظ الصورة
         </button>
       </div>

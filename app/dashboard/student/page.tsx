@@ -57,9 +57,11 @@ export default async function StudentDashboardPage() {
       title: "موادي",
       description: "تصفح الدروس والملحقات والفيديوهات الخاصة بالمواد التي تم تفعيلها وبدء الدراسة",
       icon: BookOpen,
-      iconColor: "text-purple-700",
-      iconBg: "bg-purple-100",
-      hoverBorder: "hover:border-purple-200",
+      cardBg: "bg-[#7E22CE]",
+      textClass: "text-white",
+      descClass: "text-purple-100",
+      iconBg: "bg-[#FACC15]",
+      iconColor: "text-[#000000]",
       badge: `${enrolledCount} مادة`,
       actionText: "تصفح المواد",
       route: "/dashboard/student/subjects"
@@ -69,9 +71,11 @@ export default async function StudentDashboardPage() {
       title: "خريطتي الذكية",
       description: "تتبع مسارك الدراسي ودروسك وإختباراتك ومستواك في كل مادة بخط زمني تفاعلي",
       icon: Map,
-      iconColor: "text-purple-600",
-      iconBg: "bg-purple-50",
-      hoverBorder: "hover:border-purple-200",
+      cardBg: "bg-[#FACC15]",
+      textClass: "text-[#000000]",
+      descClass: "text-[#000000]",
+      iconBg: "bg-[#EC4899]",
+      iconColor: "text-white",
       actionText: "عرض الخريطة",
       route: "/dashboard/student/roadmap"
     },
@@ -80,9 +84,11 @@ export default async function StudentDashboardPage() {
       title: "دردشة القسم",
       description: "شارك في نقاشات القسم واطرح أسئلتك وتفاعل مع زملائك في مساحة آمنة",
       icon: MessageSquare,
-      iconColor: "text-purple-700",
-      iconBg: "bg-purple-50",
-      hoverBorder: "hover:border-purple-200",
+      cardBg: "bg-[#EC4899]",
+      textClass: "text-white",
+      descClass: "text-pink-100",
+      iconBg: "bg-[#06B6D4]",
+      iconColor: "text-[#000000]",
       actionText: "دخول الدردشة",
       route: "/dashboard/student/forums"
     },
@@ -91,9 +97,11 @@ export default async function StudentDashboardPage() {
       title: "بطاقات المراجعة",
       description: "راجع دروسك بسرعة وفعالية باستخدام بطاقات الذاكرة التفاعلية المصممة لمستواك",
       icon: Library,
-      iconColor: "text-purple-700",
-      iconBg: "bg-purple-50",
-      hoverBorder: "hover:border-purple-200",
+      cardBg: "bg-[#4C1D95]",
+      textClass: "text-white",
+      descClass: "text-purple-200",
+      iconBg: "bg-[#22C55E]",
+      iconColor: "text-[#000000]",
       actionText: "بدء المراجعة",
       route: "/dashboard/student/review-cards"
     },
@@ -102,9 +110,11 @@ export default async function StudentDashboardPage() {
       title: "تماريني اليومية",
       description: "حل التمارين الجديدة يومياً لرفع رصيدك من النقاط والتصدر في الترتيب عبر منصتنا",
       icon: CheckCircle,
-      iconColor: "text-green-600",
-      iconBg: "bg-green-100",
-      hoverBorder: "hover:border-green-200",
+      cardBg: "bg-[#22C55E]",
+      textClass: "text-[#000000]",
+      descClass: "text-green-950",
+      iconBg: "bg-[#7E22CE]",
+      iconColor: "text-white",
       actionText: "بدء التمارين",
       route: "/dashboard/student/exercises"
     },
@@ -113,9 +123,11 @@ export default async function StudentDashboardPage() {
       title: "إختبارات وفروض",
       description: "اختبر مستواك من خلال اختبارات ذكية ومقيمة تلقائياً بدقة واحترافية",
       icon: FileText,
-      iconColor: "text-cyan-600",
-      iconBg: "bg-cyan-50",
-      hoverBorder: "hover:border-cyan-200",
+      cardBg: "bg-[#06B6D4]",
+      textClass: "text-[#000000]",
+      descClass: "text-cyan-950",
+      iconBg: "bg-[#EF4444]",
+      iconColor: "text-white",
       actionText: "عرض الإختبارات",
       route: "/dashboard/student/exams"
     },
@@ -124,9 +136,11 @@ export default async function StudentDashboardPage() {
       title: "مساعدي الذكي",
       description: "تحدث مع المساعد الذكي المدعوم بالذكاء الاصطناعي لفهم الدروس وتحليل مستواك",
       icon: Bot,
-      iconColor: "text-violet-500",
-      iconBg: "bg-violet-50",
-      hoverBorder: "hover:border-violet-200",
+      cardBg: "bg-[#F8F9FA]",
+      textClass: "text-[#000000]",
+      descClass: "text-gray-600",
+      iconBg: "bg-[#FACC15]",
+      iconColor: "text-[#000000]",
       actionText: "تحدث مع المساعد",
       route: "/dashboard/student/ai-assistant"
     },
@@ -135,9 +149,11 @@ export default async function StudentDashboardPage() {
       title: "الإشعارات",
       description: "تابع أحدث التنبيهات ومواعيد الامتحانات وإعلانات المنصة الهامة لحظة بلحظة",
       icon: Bell,
-      iconColor: "text-purple-700",
-      iconBg: "bg-purple-50",
-      hoverBorder: "hover:border-purple-200",
+      cardBg: "bg-[#EAE4D9]",
+      textClass: "text-[#000000]",
+      descClass: "text-gray-700",
+      iconBg: "bg-[#06B6D4]",
+      iconColor: "text-white",
       actionText: "عرض الإشعارات",
       route: "/dashboard/student/notifications"
     },
@@ -146,9 +162,11 @@ export default async function StudentDashboardPage() {
       title: "أخطائي",
       description: "بنك خاص بالأخطاء التي ارتكبتها في التمارين مع حلولها الصحيحة لتفاديها لاحقاً",
       icon: AlertTriangle,
-      iconColor: "text-orange-500",
-      iconBg: "bg-orange-100",
-      hoverBorder: "hover:border-orange-200",
+      cardBg: "bg-[#F97316]",
+      textClass: "text-white",
+      descClass: "text-orange-100",
+      iconBg: "bg-[#FFFFFF]",
+      iconColor: "text-[#F97316]",
       badge: `${mistakesCount} أخطاء`,
       actionText: "مراجعة الأخطاء",
       route: "/dashboard/student/mistakes"
@@ -158,9 +176,11 @@ export default async function StudentDashboardPage() {
       title: "حصص مباشرة",
       description: "تفاعل مع أساتذتك في حصص البث المباشر عبر تطبيق زووم ومراجعة الدروس التفاعلية",
       icon: Video,
-      iconColor: "text-pink-600",
-      iconBg: "bg-pink-100",
-      hoverBorder: "hover:border-pink-200",
+      cardBg: "bg-[#EF4444]",
+      textClass: "text-white",
+      descClass: "text-red-100",
+      iconBg: "bg-[#FACC15]",
+      iconColor: "text-[#000000]",
       badge: `${upcomingLiveClassesCount} حصص مجدولة`,
       actionText: "جدول الحصص",
       route: "/dashboard/student/live-classes"
@@ -170,9 +190,11 @@ export default async function StudentDashboardPage() {
       title: "الترتيب والنقاط",
       description: "شاهد ترتيبك بين زملائك واكتشف عدد النقاط التي جمعتها من حل التمارين",
       icon: Trophy,
-      iconColor: "text-purple-700",
-      iconBg: "bg-purple-100",
-      hoverBorder: "hover:border-purple-200",
+      cardBg: "bg-[#FACC15]",
+      textClass: "text-[#000000]",
+      descClass: "text-yellow-950",
+      iconBg: "bg-[#7E22CE]",
+      iconColor: "text-white",
       actionText: "عرض الترتيب",
       route: "/dashboard/student/leaderboard"
     },
@@ -181,55 +203,57 @@ export default async function StudentDashboardPage() {
       title: "منافسة صديق",
       description: "نافس أصدقاءك في حل التمارين والمراجعة وتتبع من الأفضل",
       icon: Swords,
-      iconColor: "text-purple-700",
-      iconBg: "bg-purple-50",
-      hoverBorder: "hover:border-purple-200",
+      cardBg: "bg-[#000000]",
+      textClass: "text-white",
+      descClass: "text-gray-300",
+      iconBg: "bg-[#22C55E]",
+      iconColor: "text-[#000000]",
       actionText: "دخول المنافسة",
       route: "/dashboard/student/friend-challenge"
     },
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 font-sans pb-12">
       <HeroBanner 
         title={`مرحباً بك مجدداً، ${user.fullName}!`}
         description="واصل مسيرتك التعليمية بكل شغف، أنت على بعد خطوات من تحقيق أهدافك"
         icon={GraduationCap}
-        gradientClass="bg-gradient-to-r from-purple-600 to-purple-700"
         showGridPattern={true}
       />
 
+      {/* Wrapping the DailyTip component in a wrapper if it doesn't match yet, but we'll assume it's standalone */}
       <DailyTip variant="card" />
 
       <div>
-        <h2 className="text-2xl font-black text-purple-950 mb-6">أقسام المنصة</h2>
+        <h2 className="text-2xl font-black text-[#000000] mb-6">أقسام المنصة</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {SECTIONS.map((section) => {
             const Icon = section.icon;
             return (
-              <Link href={section.route} key={section.id} className={`group block bg-white rounded-2xl p-6 border border-purple-200 shadow-sm hover:border-purple-300 hover:shadow-md hover:shadow-purple-600/10 transition-all duration-300 ${section.hoverBorder}`}>
-                <div className="flex items-start justify-between mb-5">
-                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 ${section.iconBg} ${section.iconColor}`}>
-                    <Icon className="w-7 h-7" />
+              <Link href={section.route} key={section.id} className={`group block ${section.cardBg} rounded-2xl p-6 lg:p-8 border-[3px] border-[#000000] transition-all duration-300 shadow-3d-soft shadow-3d-hover paper-cut relative overflow-hidden`}>
+                <div className="flex items-start justify-between mb-6 relative z-10">
+                  <div className={`w-14 h-14 rounded-2xl border-[3px] border-[#000000] flex items-center justify-center transition-transform duration-300 group-hover:-rotate-6 ${section.iconBg} ${section.iconColor} shadow-sm`}>
+                    <Icon className="w-7 h-7" strokeWidth={2.5} />
                   </div>
                   {section.badge && (
-                    <span className="bg-white text-slate-500 text-[11px] font-bold px-2.5 py-1 rounded-md border border-slate-100">
+                    <span className="bg-[#FFFFFF] text-[#000000] text-xs font-black px-3 py-1.5 rounded-lg border-[3px] border-[#000000] shadow-sm">
                       {section.badge}
                     </span>
                   )}
                 </div>
                 
-                <div className="mb-6">
-                  <h3 className="text-lg font-black text-purple-950 mb-2">{section.title}</h3>
-                  <p className="text-sm font-medium text-slate-500 line-clamp-2 leading-relaxed">
+                <div className="mb-6 relative z-10">
+                  <h3 className={`text-xl font-black ${section.textClass} mb-2`}>{section.title}</h3>
+                  <p className={`text-sm font-bold ${section.descClass} line-clamp-2 leading-relaxed`}>
                     {section.description}
                   </p>
                 </div>
 
-                <div className={`flex items-center gap-1.5 font-bold text-sm ${section.iconColor}`}>
+                <div className={`flex items-center gap-1.5 font-black text-sm ${section.textClass} transition-all group-hover:gap-3 relative z-10`}>
                   <span>{section.actionText}</span>
-                  <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                  <ChevronLeft className="w-4 h-4" />
                 </div>
               </Link>
             )

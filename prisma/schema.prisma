@@ -75,6 +75,12 @@ enum Wilaya {
   W58
 }
 
+enum Phase {
+  PRIMARY
+  MIDDLE
+  SECONDARY
+}
+
 enum Stage {
   PRIMARY
   MIDDLE
@@ -142,12 +148,15 @@ model StudentProfile {
   user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   parentName  String
   parentPhone String
+  phase       Phase   @default(SECONDARY)
   level       Level
   stream      Stream
   wilaya      Wilaya
   totalPoints Int     @default(0)
   parentCode  String? @unique @default(cuid())
   friendCode  String? @unique @default(cuid())
+  aiQuestionsCount Int      @default(0)
+  aiQuestionsDate  DateTime @default(now())
 }
 
 model ParentProfile {
@@ -162,6 +171,7 @@ model Teacher {
   user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   name      String
   phone     String    @unique
+  phases    Phase[]   @default([SECONDARY])
   levels    Level[]
   streams   Stream[]
   subjects  Subject[]
@@ -175,6 +185,7 @@ model Subject {
   teacherName String
   teacherId   String?
   teacher     Teacher?     @relation(fields: [teacherId], references: [id])
+  phase       Phase        @default(SECONDARY)
   level       Level
   stream      Stream
   image       String // Square image URL from Supabase Storage
@@ -338,6 +349,7 @@ model DailyExercise {
   title      String
   a4ImageUrl String
   maxScore   Int      @default(20)
+  phase      Phase    @default(SECONDARY)
   level      Level
   stream     Stream
   subjectId  String
@@ -356,6 +368,7 @@ model Exam {
   subject    Subject  @relation("ExamSubject", fields: [subjectId], references: [id], onDelete: Cascade)
   secondarySubjectId String?
   secondarySubject   Subject? @relation("ExamSecondarySubject", fields: [secondarySubjectId], references: [id])
+  phase      Phase    @default(SECONDARY)
   level      Level
   stream     Stream
   month      Int
@@ -385,6 +398,7 @@ model Notification {
   id        String   @id @default(uuid())
   title     String
   content   String
+  phase     Phase?
   level     Level?
   stream    Stream?
   month     Int
@@ -402,6 +416,7 @@ model ReviewCard {
   answer      String
   subjectId   String
   subject     Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  phase       Phase    @default(SECONDARY)
   level       Level
   stream      Stream
   month       Int
@@ -415,6 +430,7 @@ model ClassForum {
   title       String
   subjectId   String
   subject     Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  phase       Phase          @default(SECONDARY)
   level       Level
   stream      Stream
   month       Int

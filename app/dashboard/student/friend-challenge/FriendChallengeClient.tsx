@@ -58,67 +58,63 @@ export function FriendChallengeClient({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 pb-12 font-sans">
       
       {/* Code Share & Link Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         {/* Share My Code */}
-        <div className="bg-white dark:bg-white rounded-3xl p-6 border border-slate-100 dark:border-purple-200 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-white/30 text-purple-700 dark:text-purple-500 flex items-center justify-center">
-              <Swords className="w-5 h-5" />
+        <div className="bg-[#FFFFFF] rounded-3xl p-6 md:p-8 border-[3px] border-[#000000] shadow-3d-soft paper-cut relative overflow-hidden flex flex-col justify-between">
+          <div className="relative z-10 mb-8">
+            <div className="w-14 h-14 rounded-2xl bg-[#EC4899] text-white border-[3px] border-[#000000] flex items-center justify-center mb-6 shadow-sm transform -rotate-3">
+              <Swords className="w-6 h-6" />
             </div>
-            <div>
-              <h3 className="font-black text-purple-900 dark:text-purple-950">رمز المنافسة الخاص بي</h3>
-              <p className="text-xs font-bold text-purple-900 dark:text-purple-950">شارك هذا الرمز مع أصدقائك لربط حساباتكم</p>
-            </div>
+            <h3 className="text-2xl font-black text-[#000000] mb-3">رمز المنافسة الخاص بي</h3>
+            <p className="text-gray-600 font-bold text-sm leading-relaxed">شارك هذا الرمز مع أصدقائك لربط حساباتكم</p>
           </div>
           
           <button 
             onClick={handleCopy}
-            className="w-full flex items-center justify-between p-4 bg-white dark:bg-white rounded-xl border border-slate-200 dark:border-purple-200 hover:border-purple-300 dark:hover:border-purple-700 transition-colors group overflow-hidden max-w-full"
+            className="relative z-10 w-full flex items-center justify-between p-4 bg-[#7E22CE] rounded-xl border-[3px] border-[#000000] hover:-translate-y-1 hover:shadow-3d-hover transition-all duration-300 group overflow-hidden max-w-full"
           >
-            <span className="font-mono font-black text-purple-900 dark:text-purple-950 text-xl tracking-widest truncate min-w-0 flex-1 text-right ml-2">{myCode}</span>
-            <div className="w-8 h-8 shrink-0 rounded-lg bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm text-slate-400 group-hover:text-purple-700 dark:group-hover:text-purple-500 transition-colors">
-              {copied ? <Check className="w-4 h-4 text-purple-700" /> : <Copy className="w-4 h-4" />}
+            <span className="font-mono font-black text-[#FACC15] text-xl tracking-widest truncate min-w-0 flex-1 text-right ml-2 drop-shadow-md">{myCode}</span>
+            <div className={`w-12 h-12 shrink-0 rounded-xl border-[3px] border-[#000000] flex items-center justify-center shadow-sm transition-all duration-300 transform ${copied ? 'bg-[#22C55E] text-[#000000] rotate-3' : 'bg-[#000000] text-white group-hover:bg-[#FFFFFF] group-hover:text-[#000000] -rotate-3'}`}>
+              {copied ? <Check className="w-6 h-6" strokeWidth={3} /> : <Copy className="w-5 h-5" strokeWidth={2.5} />}
             </div>
           </button>
         </div>
 
         {/* Link Friend Code */}
-        <div className="bg-white dark:bg-white rounded-3xl p-6 border border-slate-100 dark:border-purple-200 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/30 text-purple-800 dark:text-purple-500 flex items-center justify-center">
-              <Plus className="w-5 h-5" />
+        <div className="bg-[#FFFFFF] rounded-3xl p-6 md:p-8 border-[3px] border-[#000000] shadow-3d-soft paper-cut relative overflow-hidden flex flex-col justify-between">
+          <div className="relative z-10 mb-8">
+            <div className="w-14 h-14 rounded-2xl bg-[#06B6D4] text-[#000000] border-[3px] border-[#000000] flex items-center justify-center mb-6 shadow-sm transform rotate-3">
+              <Plus className="w-6 h-6" strokeWidth={3} />
             </div>
-            <div>
-              <h3 className="font-black text-purple-900 dark:text-purple-950">إضافة صديق</h3>
-              <p className="text-xs font-bold text-purple-900 dark:text-purple-950">أدخل رمز صديقك لبدء المنافسة</p>
-            </div>
+            <h3 className="text-2xl font-black text-[#000000] mb-3">إضافة صديق</h3>
+            <p className="text-gray-600 font-bold text-sm leading-relaxed">أدخل رمز صديقك لبدء المنافسة معه</p>
           </div>
           
-          <form onSubmit={handleLink} className="space-y-3">
-            <div className="flex gap-2">
+          <form onSubmit={handleLink} className="space-y-4 relative z-10">
+            <div className="flex gap-3">
               <input
                 type="text"
                 value={friendCode}
                 onChange={(e) => setFriendCode(e.target.value)}
-                placeholder="أدخل رمز الصديق"
-                className="flex-1 bg-white dark:bg-white border border-slate-200 dark:border-purple-200 rounded-xl px-4 py-3 text-sm font-mono font-bold dark:text-purple-950 focus:outline-none focus:border-purple-700 transition-colors"
+                placeholder="أدخل رمز الصديق هنا..."
+                className="flex-1 bg-white border-[3px] border-[#000000] rounded-xl px-4 py-4 text-base font-mono font-black text-[#000000] focus:outline-none focus:ring-4 focus:ring-[#7E22CE]/20 transition-all shadow-inner"
                 dir="ltr"
               />
               <button 
                 type="submit"
                 disabled={!friendCode.trim() || isLinking}
-                className="px-6 bg-purple-800 hover:bg-purple-800 text-white rounded-xl font-bold transition-colors flex items-center justify-center disabled:opacity-50"
+                className="px-6 bg-[#FACC15] hover:bg-[#FACC15] text-[#000000] border-[3px] border-[#000000] rounded-xl font-black text-lg transition-all flex items-center justify-center disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none hover:-translate-y-1 hover:shadow-3d-hover shadow-sm shrink-0"
               >
-                {isLinking ? <Loader2 className="w-5 h-5 animate-spin" /> : "إضافة"}
+                {isLinking ? <Loader2 className="w-6 h-6 animate-spin" /> : "إضافة"}
               </button>
             </div>
             {error && (
-              <p className="text-xs font-bold text-purple-700 flex items-center gap-1">
-                <AlertCircle className="w-3 h-3" /> {error}
+              <p className="text-xs font-bold text-white bg-[#EF4444] inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border-[2px] border-[#000000]">
+                <AlertCircle className="w-4 h-4" /> {error}
               </p>
             )}
           </form>
@@ -127,59 +123,60 @@ export function FriendChallengeClient({
       </div>
 
       {/* Leaderboard & Metrics */}
-      <div className="bg-white dark:bg-white rounded-3xl border border-slate-100 dark:border-purple-200 shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-slate-100 dark:border-purple-200 bg-white dark:bg-white/50">
-          <h2 className="text-lg font-black text-purple-900 dark:text-purple-950">لوحة الشرف والمنافسة</h2>
-          <p className="text-sm font-bold text-purple-900 dark:text-purple-950">قارن أداءك مع أصدقائك في المنصة</p>
+      <div className="bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] shadow-3d-soft overflow-hidden paper-cut relative">
+        <div className="p-6 md:p-8 border-b-[3px] border-[#000000] bg-[#F8F9FA] relative z-10">
+          <h2 className="text-2xl font-black text-[#000000] mb-2">لوحة الشرف والمنافسة</h2>
+          <p className="text-gray-600 font-bold text-sm">قارن أداءك مع أصدقائك في المنصة وكن في الصدارة</p>
         </div>
         
-        <div className="divide-y divide-slate-100 dark:divide-slate-800">
+        <div className="divide-y-[3px] divide-[#000000] relative z-10">
           {metrics.length === 0 ? (
-            <div className="p-8 text-center text-purple-900 dark:text-purple-950 font-bold">
-              لا توجد بيانات متاحة
+            <div className="p-12 text-center text-gray-500 font-bold bg-white">
+              لا توجد بيانات متاحة حالياً، قم بإضافة أصدقاء لبدء التحدي!
             </div>
           ) : (
             metrics.map((m, idx) => (
-              <div key={m.id} className="p-4 md:p-6 flex flex-col md:flex-row items-center gap-4 hover:bg-white dark:hover:bg-white/50 transition-colors">
+              <div key={m.id} className="p-4 md:p-6 flex flex-col md:flex-row items-center gap-6 hover:bg-[#F8F9FA] transition-colors bg-white group">
                 
                 {/* Rank */}
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm shrink-0 ${
-                  idx === 0 ? "bg-purple-100 text-purple-800 dark:bg-purple-950/30 dark:text-purple-700" :
-                  idx === 1 ? "bg-slate-200 text-purple-800 dark:bg-white dark:text-slate-400" :
-                  idx === 2 ? "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-500" :
-                  "bg-slate-100 text-slate-500 dark:bg-white dark:text-slate-500"
+                <div className={`w-12 h-12 rounded-xl border-[3px] border-[#000000] flex items-center justify-center font-black text-xl shrink-0 shadow-sm transition-transform group-hover:scale-110 ${
+                  idx === 0 ? "bg-[#FACC15] text-[#000000] rotate-3" :
+                  idx === 1 ? "bg-[#EAE4D9] text-[#000000] -rotate-3" :
+                  idx === 2 ? "bg-[#F97316] text-white rotate-3" :
+                  "bg-white text-[#000000]"
                 }`}>
                   {idx + 1}
                 </div>
 
                 {/* User Info */}
-                <div className="flex items-center gap-3 flex-1 min-w-0 w-full">
+                <div className="flex items-center gap-4 flex-1 min-w-0 w-full">
                   {m.avatarUrl ? (
-                    <img src={m.avatarUrl} alt="" className="w-12 h-12 rounded-full object-cover border-2 border-slate-100 dark:border-purple-200" />
+                    <img src={m.avatarUrl} alt="" className="w-14 h-14 rounded-2xl object-cover border-[3px] border-[#000000] shadow-sm bg-[#F8F9FA]" />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-white/30 text-purple-700 dark:text-purple-500 flex items-center justify-center font-black border-2 border-purple-200 dark:border-purple-900">
+                    <div className="w-14 h-14 rounded-2xl bg-[#7E22CE] text-white flex items-center justify-center font-black text-xl border-[3px] border-[#000000] shadow-sm transform -rotate-3">
                       {m.fullName.charAt(0)}
                     </div>
                   )}
                   <div className="truncate">
-                    <p className="font-black text-purple-900 dark:text-purple-950 truncate">{m.fullName}</p>
-                    <p className="text-xs font-bold text-purple-900 dark:text-purple-950">منافس</p>
+                    <p className="font-black text-lg text-[#000000] truncate">{m.fullName}</p>
+                    <p className="text-xs font-bold text-gray-500 bg-[#000000]/5 inline-block px-2 py-1 rounded-md mt-1">منافس قوي</p>
                   </div>
                 </div>
 
                 {/* Metrics */}
-                <div className="grid grid-cols-3 gap-2 md:gap-6 w-full md:w-auto mt-4 md:mt-0">
-                  <div className="text-center p-2 rounded-xl bg-purple-50 dark:bg-purple-950/20">
-                    <p className="text-[10px] font-black text-purple-800 dark:text-purple-500 mb-1">عدد الأخطاء الأقل</p>
-                    <p className="font-mono font-bold text-purple-950 dark:text-purple-950">{m.mistakesCount}</p>
+                <div className="grid grid-cols-3 gap-3 md:gap-4 w-full md:w-auto mt-4 md:mt-0">
+                  <div className="text-center p-3 rounded-xl bg-white border-[3px] border-[#000000] shadow-sm transform group-hover:-translate-y-1 transition-transform duration-300 delay-75">
+                    <p className="text-[10px] font-black text-gray-500 mb-1">أقل أخطاء</p>
+                    <p className="font-mono font-black text-lg text-[#EC4899]">{m.mistakesCount}</p>
                   </div>
-                  <div className="text-center p-2 rounded-xl bg-purple-50 dark:bg-white/20">
-                    <p className="text-[10px] font-black text-purple-700 dark:text-purple-500 mb-1">الدروس والمواد الأكثر مشاهدة</p>
-                    <p className="font-mono font-bold text-purple-950 dark:text-purple-950">{m.enrollmentsCount}</p>
+                  <div className="text-center p-3 rounded-xl bg-white border-[3px] border-[#000000] shadow-sm transform group-hover:-translate-y-1 transition-transform duration-300 delay-100">
+                    <p className="text-[10px] font-black text-gray-500 mb-1">الدروس المنجزة</p>
+                    <p className="font-mono font-black text-lg text-[#06B6D4]">{m.enrollmentsCount}</p>
                   </div>
-                  <div className="text-center p-2 rounded-xl bg-purple-50 dark:bg-purple-950/20">
-                    <p className="text-[10px] font-black text-purple-700 dark:text-purple-500 mb-1">التمارين اليومية</p>
-                    <p className="font-mono font-bold text-purple-950 dark:text-purple-950">{m.totalPoints}</p>
+                  <div className="text-center p-3 rounded-xl bg-white border-[3px] border-[#000000] shadow-sm transform group-hover:-translate-y-1 transition-transform duration-300 delay-150 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-4 h-4 bg-[#FACC15] border-b-[2px] border-l-[2px] border-[#000000] -rotate-12 translate-x-1 -translate-y-1"></div>
+                    <p className="text-[10px] font-black text-gray-500 mb-1">نقاط التمارين</p>
+                    <p className="font-mono font-black text-lg text-[#22C55E]">{m.totalPoints}</p>
                   </div>
                 </div>
 

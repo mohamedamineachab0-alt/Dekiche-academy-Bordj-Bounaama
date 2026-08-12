@@ -31,52 +31,52 @@ export default async function AdminStudentMonitoringPage(props: {
         title="مراقبة نشاط التلاميذ"
         description="نظام المراقبة الشامل: تتبع الحضور و الأمن الأداء في المنصة و وحالة الربط مع الأولياء"
         icon={Activity}
-        gradientClass="bg-gradient-to-r from-purple-800 to-slate-950"
+        bgClass="bg-[#000000]"
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-purple-50 border border-purple-100 rounded-3xl p-6 flex items-center justify-between shadow-sm">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-[#EF4444] border-[3px] border-[#000000] rounded-3xl p-6 flex items-center justify-between shadow-3d-soft paper-cut transform rotate-1 hover:rotate-0 hover:-translate-y-1 transition-transform">
           <div>
-            <p className="text-sm font-bold text-purple-800 mb-1">تنبيهات أمنية (دخول من عدة أجهزة)</p>
-            <p className="text-3xl font-black text-purple-800">{studentsWithMultipleDevices}</p>
+            <p className="text-sm font-black text-[#FFFFFF] mb-1">تنبيهات أمنية (دخول من عدة أجهزة)</p>
+            <p className="text-4xl font-black text-[#FFFFFF]">{studentsWithMultipleDevices}</p>
           </div>
-          <ShieldAlert className="w-12 h-12 text-purple-300 opacity-50" />
+          <ShieldAlert className="w-14 h-14 text-[#000000] opacity-50 transform -rotate-12" />
         </div>
-        <div className="bg-purple-50 border border-purple-100 rounded-3xl p-6 flex items-center justify-between shadow-sm">
+        <div className="bg-[#F97316] border-[3px] border-[#000000] rounded-3xl p-6 flex items-center justify-between shadow-3d-soft paper-cut transform -rotate-1 hover:rotate-0 hover:-translate-y-1 transition-transform">
           <div>
-            <p className="text-sm font-bold text-purple-800 mb-1">الغياب (لم يسجل دخول منذ أسبوع)</p>
-            <p className="text-3xl font-black text-purple-800">{inactiveStudents}</p>
+            <p className="text-sm font-black text-[#000000] mb-1">الغياب (لم يسجل دخول منذ أسبوع)</p>
+            <p className="text-4xl font-black text-[#000000]">{inactiveStudents}</p>
           </div>
-          <AlertTriangle className="w-12 h-12 text-purple-300 opacity-50" />
+          <AlertTriangle className="w-14 h-14 text-[#000000] opacity-50 transform rotate-12" />
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="bg-[#FFFFFF] rounded-2xl shadow-3d-soft border-[4px] border-[#000000] overflow-hidden paper-cut">
         
         {/* Filter Bar */}
-        <div className="p-4 bg-white border-b border-slate-100 flex flex-wrap gap-4 items-center">
-          <span className="text-sm font-bold text-purple-800">تصفية النتائج:</span>
+        <div className="p-4 bg-[#F8F9FA] border-b-[4px] border-[#000000] flex flex-wrap gap-4 items-center">
+          <span className="text-sm font-black text-[#000000]">تصفية النتائج:</span>
           
           <form className="flex flex-wrap gap-3 flex-1" action="/dashboard/admin/students/monitoring">
-            <select name="level" defaultValue={level || ""} className="p-2 text-base rounded-lg border border-slate-200 bg-white font-bold text-purple-800">
+            <select name="level" defaultValue={level || ""} className="p-2.5 text-sm rounded-xl border-[3px] border-[#000000] bg-[#FFFFFF] font-black text-[#000000] shadow-sm focus:outline-none">
               <option value="">جميع المستويات</option>
               {LEVELS.map(l => <option key={l.value} value={l.value}>{l.label}</option>)}
             </select>
             
-            <select name="stream" defaultValue={stream || ""} className="p-2 text-base rounded-lg border border-slate-200 bg-white font-bold text-purple-800">
+            <select name="stream" defaultValue={stream || ""} className="p-2.5 text-sm rounded-xl border-[3px] border-[#000000] bg-[#FFFFFF] font-black text-[#000000] shadow-sm focus:outline-none">
               <option value="">جميع الشعب</option>
               {STREAMS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
             </select>
 
-            <select name="subjectId" defaultValue={subjectId || ""} className="p-2 text-base rounded-lg border border-slate-200 bg-white font-bold text-purple-800">
+            <select name="subjectId" defaultValue={subjectId || ""} className="p-2.5 text-sm rounded-xl border-[3px] border-[#000000] bg-[#FFFFFF] font-black text-[#000000] shadow-sm focus:outline-none">
               <option value="">جميع المواد</option>
               {subjects.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
             </select>
 
-            <button type="submit" className="px-4 py-2 bg-white text-purple-950 rounded-lg text-sm font-bold hover:bg-white transition-colors">
+            <button type="submit" className="px-5 py-2.5 bg-[#FACC15] text-[#000000] border-[3px] border-[#000000] rounded-xl text-sm font-black hover:bg-[#EAB308] transition-transform shadow-sm hover:-translate-y-1 hover:shadow-3d-hover">
               تطبيق
             </button>
-            <Link href="/dashboard/admin/students/monitoring" className="px-4 py-2 bg-slate-200 text-purple-800 rounded-lg text-sm font-bold hover:bg-slate-300 transition-colors">
+            <Link href="/dashboard/admin/students/monitoring" className="px-5 py-2.5 bg-[#FFFFFF] text-[#000000] border-[3px] border-[#000000] rounded-xl text-sm font-black hover:bg-[#F8F9FA] transition-transform shadow-sm hover:-translate-y-1">
               إلغاء التصفية
             </Link>
           </form>
@@ -85,20 +85,20 @@ export default async function AdminStudentMonitoringPage(props: {
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-right">
-            <thead className="bg-white border-b border-slate-100">
+            <thead className="bg-[#EAE4D9] border-b-[3px] border-[#000000]">
               <tr>
-                <th className="px-6 py-4 text-sm font-black text-purple-800">التلميذ</th>
-                <th className="px-6 py-4 text-sm font-black text-purple-800">حساب غياب</th>
-                <th className="px-6 py-4 text-sm font-black text-purple-800 text-center">الترتيب والنقاط</th>
-                <th className="px-6 py-4 text-sm font-black text-purple-800 text-center">الأخطاء</th>
-                <th className="px-6 py-4 text-sm font-black text-purple-800 text-center">الأجهزة</th>
-                <th className="px-6 py-4 text-sm font-black text-purple-800 text-center">متابعة الولي</th>
+                <th className="px-6 py-4 text-sm font-black text-[#000000]">التلميذ</th>
+                <th className="px-6 py-4 text-sm font-black text-[#000000]">حساب غياب</th>
+                <th className="px-6 py-4 text-sm font-black text-[#000000] text-center">الترتيب والنقاط</th>
+                <th className="px-6 py-4 text-sm font-black text-[#000000] text-center">الأخطاء</th>
+                <th className="px-6 py-4 text-sm font-black text-[#000000] text-center">الأجهزة</th>
+                <th className="px-6 py-4 text-sm font-black text-[#000000] text-center">متابعة الولي</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50">
+            <tbody className="divide-y-[3px] divide-[#000000]">
               {metrics.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500 font-bold">
+                  <td colSpan={6} className="px-6 py-16 text-center text-[#000000]/50 font-black text-lg border-b-[3px] border-[#000000] border-dashed">
                     لا توجد بيانات مطابقة
                   </td>
                 </tr>
@@ -120,27 +120,27 @@ export default async function AdminStudentMonitoringPage(props: {
                   }
 
                   return (
-                    <tr key={m.id} className="hover:bg-white transition-colors">
+                    <tr key={m.id} className="hover:bg-[#FACC15]/10 transition-colors">
                       {/* T1: Name */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-slate-600">
+                          <div className="w-10 h-10 rounded-xl bg-[#22C55E] border-[2px] border-[#000000] flex items-center justify-center font-black text-[#000000] transform -rotate-3 shadow-sm">
                             {index + 1}
                           </div>
                           <div>
-                            <p className="font-black text-purple-950">{m.fullName}</p>
-                            <p className="text-xs font-bold text-slate-500">{levelStr} • {streamStr}</p>
+                            <p className="font-black text-[#000000] text-lg">{m.fullName}</p>
+                            <p className="text-xs font-bold text-[#000000]/60">{levelStr} • {streamStr}</p>
                           </div>
                         </div>
                       </td>
 
                       {/* T2: Activity */}
                       <td className="px-6 py-4">
-                        <div className="space-y-1">
-                          <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-black ${isAbsent ? 'bg-purple-100 text-purple-900' : 'bg-purple-100 text-purple-900'}`}>
+                        <div className="space-y-1.5">
+                          <span className={`inline-flex items-center gap-1 px-3 py-1 border-[2px] border-[#000000] rounded-lg text-xs font-black shadow-sm ${isAbsent ? 'bg-[#EF4444] text-[#FFFFFF]' : 'bg-[#22C55E] text-[#000000]'}`}>
                             {isAbsent ? 'غائب / غير نشط' : 'نشط مؤخراً'} ({lastLoginStr})
                           </span>
-                          <p className="text-xs font-bold text-slate-400">
+                          <p className="text-xs font-black text-[#000000]/50">
                             {m.enrolledSubjects.length} مواد مشتركة
                           </p>
                         </div>
@@ -148,8 +148,8 @@ export default async function AdminStudentMonitoringPage(props: {
 
                       {/* T3: Points */}
                       <td className="px-6 py-4 text-center">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-50 border border-purple-100 rounded-lg text-purple-800 font-black text-sm">
-                          <Trophy className="w-4 h-4 text-purple-700" />
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FACC15] border-[2px] border-[#000000] rounded-xl text-[#000000] font-black text-sm shadow-sm transform rotate-2">
+                          <Trophy className="w-4 h-4 text-[#000000]" />
                           {m.totalPoints}
                         </div>
                       </td>
@@ -157,12 +157,12 @@ export default async function AdminStudentMonitoringPage(props: {
                       {/* T4: Mistakes */}
                       <td className="px-6 py-4 text-center">
                         <div className="flex flex-col items-center gap-1.5">
-                          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 rounded-lg text-purple-800 font-black text-sm">
-                            <AlertTriangle className="w-4 h-4 text-slate-400" />
+                          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FFFFFF] border-[2px] border-[#000000] rounded-xl text-[#000000] font-black text-sm shadow-sm">
+                            <AlertTriangle className={`w-4 h-4 ${m.mistakesCount >= 3 ? 'text-[#EF4444]' : 'text-[#000000]'}`} />
                             {m.mistakesCount}
                           </div>
                           {m.mistakesCount >= 3 && (
-                            <span className="text-[10px] font-black text-purple-800 bg-purple-50 px-2 py-0.5 rounded-md border border-purple-100">
+                            <span className="text-[10px] font-black text-[#FFFFFF] bg-[#EF4444] px-2 py-0.5 rounded border-[2px] border-[#000000]">
                               يحتاج معالجة
                             </span>
                           )}
@@ -171,8 +171,8 @@ export default async function AdminStudentMonitoringPage(props: {
 
                       {/* T5: Devices */}
                       <td className="px-6 py-4 text-center">
-                        <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg font-black text-sm ${hasManyDevices ? 'bg-purple-100 text-purple-800 border border-purple-200' : 'bg-slate-100 text-purple-800'}`}>
-                          <Smartphone className={`w-4 h-4 ${hasManyDevices ? 'text-purple-700' : 'text-slate-400'}`} />
+                        <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-xl font-black text-sm border-[2px] border-[#000000] shadow-sm ${hasManyDevices ? 'bg-[#EF4444] text-[#FFFFFF]' : 'bg-[#FFFFFF] text-[#000000]'}`}>
+                          <Smartphone className="w-4 h-4" />
                           {m.deviceFingerprints.length}
                         </div>
                       </td>
@@ -180,12 +180,12 @@ export default async function AdminStudentMonitoringPage(props: {
                       {/* T6: Parent */}
                       <td className="px-6 py-4 text-center">
                         {m.isParentLinked ? (
-                          <span className="inline-flex items-center gap-1 text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full text-xs font-bold border border-purple-100">
-                            <UserCheck className="w-3.5 h-3.5" />
+                          <span className="inline-flex items-center gap-1 text-[#FFFFFF] bg-[#8B5CF6] border-[2px] border-[#000000] px-3 py-1 rounded-xl text-xs font-black shadow-sm">
+                            <UserCheck className="w-4 h-4" />
                             مربوط بالولي
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-slate-400 bg-white px-2.5 py-1 rounded-full text-xs font-bold border border-slate-200">
+                          <span className="inline-flex items-center gap-1 text-[#000000]/60 bg-[#EAE4D9] border-[2px] border-[#000000] px-3 py-1 rounded-xl text-xs font-black shadow-sm">
                             غير مربوط
                           </span>
                         )}

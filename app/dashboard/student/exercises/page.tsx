@@ -37,47 +37,50 @@ export default async function StudentExercisesPage() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 font-sans pb-12">
       <HeroBanner 
         title="تماريني اليومية"
         description="تدرب يومياً من خلال حل التمارين المتجددة المخصصة لموادك و وارفع إجاباتك ليتم تقييمها"
         icon={CheckCircle}
-        gradientClass="bg-gradient-to-r from-purple-700 to-cyan-700"
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {exercises.length === 0 ? (
-          <div className="col-span-full text-center py-16 bg-white rounded-3xl border border-slate-100 shadow-sm">
-            <CheckCircle className="w-12 h-12 text-purple-800 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-purple-950 mb-1">لا توجد تمارين حالياً</h3>
-            <p className="text-slate-500 font-medium">سيتم إضافة التمارين اليومية قريباً من قبل أساتذتك</p>
+          <div className="col-span-full p-8 md:p-12 text-center bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] shadow-3d-soft paper-cut relative overflow-hidden">
+            <div className="w-20 h-20 bg-[#FACC15] border-[3px] border-[#000000] rounded-2xl flex items-center justify-center mx-auto mb-6 transform -rotate-3 shadow-sm relative z-10">
+              <CheckCircle className="w-10 h-10 text-[#000000]" />
+            </div>
+            <h3 className="font-black text-2xl text-[#000000] mb-3 relative z-10">لا توجد تمارين حالياً</h3>
+            <p className="text-gray-600 font-bold mt-2 relative z-10">سيتم إضافة التمارين اليومية قريباً من قبل أساتذتك</p>
           </div>
         ) : (
-          exercises.map(ex => (
-            <div key={ex.id} className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col hover:shadow-md transition-shadow">
-              <div className="h-48 w-full relative bg-slate-100 border-b border-slate-100">
-                <img src={ex.a4ImageUrl} alt={ex.title} className="w-full h-full object-cover object-top opacity-90" />
-                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-xl text-xs font-black text-purple-800 shadow-sm">
+          exercises.map((ex, idx) => (
+            <div key={ex.id} className="bg-[#FFFFFF] rounded-3xl shadow-3d-soft border-[3px] border-[#000000] overflow-hidden flex flex-col paper-cut group transition-transform hover:-translate-y-1 hover:shadow-3d-hover relative">
+              <div className="h-48 w-full relative bg-[#F8F9FA] border-b-[3px] border-[#000000] z-10">
+                <img src={ex.a4ImageUrl} alt={ex.title} className="w-full h-full object-cover object-top opacity-90 group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute top-3 right-3 bg-[#FACC15] px-3 py-1.5 rounded-lg text-sm font-black text-[#000000] border-[2px] border-[#000000] shadow-sm transform rotate-2">
                   {ex.maxScore} نقطة
                 </div>
               </div>
               
-              <div className="p-5 flex-1 flex flex-col">
-                <h3 className="text-lg font-black text-purple-950 line-clamp-2">{ex.title}</h3>
-                <p className="text-sm font-bold text-slate-500 mt-2">المادة: {ex.subject.title}</p>
+              <div className="p-6 flex-1 flex flex-col relative z-10 bg-white">
+                <h3 className="text-xl font-black text-[#000000] line-clamp-2 leading-tight">{ex.title}</h3>
+                <span className="inline-block mt-3 bg-[#EAE4D9] text-[#000000] border-[2px] border-[#000000] text-xs font-black px-3 py-1.5 rounded-lg shadow-sm w-fit transform -rotate-1">
+                  المادة: {ex.subject.title}
+                </span>
                 
                 <div className="mt-auto pt-6 grid grid-cols-2 gap-3">
-                  <a href={ex.a4ImageUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-white hover:bg-slate-100 text-purple-800 font-bold py-2.5 rounded-xl transition-colors border border-slate-200">
-                    <Eye className="w-4 h-4" />
+                  <a href={ex.a4ImageUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-[#FFFFFF] hover:bg-[#FACC15] text-[#000000] font-black py-3 rounded-xl transition-all border-[3px] border-[#000000] shadow-sm hover:-translate-y-1 hover:shadow-3d-hover">
+                    <Eye className="w-5 h-5" strokeWidth={2.5} />
                     عرض
                   </a>
                   {ex.quiz ? (
-                    <Link href={`/dashboard/student/exercises/${ex.id}/quiz`} className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-slate-950 font-black font-bold py-2.5 rounded-xl transition-colors shadow-md hover:shadow-lg shadow-purple-600/20">
-                      بدأ التمرين اليومي
+                    <Link href={`/dashboard/student/exercises/${ex.id}/quiz`} className="flex items-center justify-center gap-2 bg-[#22C55E] hover:bg-[#16A34A] text-[#000000] font-black py-3 rounded-xl transition-all border-[3px] border-[#000000] shadow-sm hover:-translate-y-1 hover:shadow-3d-hover text-center">
+                      بدأ التمرين
                     </Link>
                   ) : (
-                    <button className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-slate-950 font-black font-bold py-2.5 rounded-xl transition-colors shadow-md hover:shadow-lg shadow-purple-600/20">
-                      <UploadCloud className="w-4 h-4" />
+                    <button className="flex items-center justify-center gap-2 bg-[#7E22CE] hover:bg-[#6B21A8] text-white border-[3px] border-[#000000] font-black py-3 rounded-xl transition-all shadow-sm hover:-translate-y-1 hover:shadow-3d-hover">
+                      <UploadCloud className="w-5 h-5" strokeWidth={2.5} />
                       إرسال الحل
                     </button>
                   )}

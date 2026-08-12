@@ -31,7 +31,7 @@ export default async function AdminParentsPage() {
         title="مراسلة الأولياء"
         description="استعرض قائمة التلاميذ المسجلين وتواصل مباشرة مع أوليائهم عبر إرسال إشعارات وتنبيهات بخصوص الغيابات أو التقدم"
         icon={Users}
-        gradientClass="bg-gradient-to-r from-purple-600 to-purple-700"
+        bgClass="bg-[#7E22CE]"
       />
 
       <ParentsTableClient students={students} />

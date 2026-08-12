@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { registerUser } from "@/actions/auth";
 import { EDUCATION_STAGES, EDUCATION_LEVELS, getStreamsForLevel } from "@/lib/constants/education";
 import {
   User, Phone, Lock, GraduationCap, BookOpen,
-  Users, Eye, EyeOff, UserPlus, ChevronDown, Loader2, AlertCircle,
-  Layers
+  Users, UserPlus, ChevronDown, Loader2, AlertCircle,
+  Layers, Mail
 } from "lucide-react";
 import Link from "next/link";
 
@@ -19,42 +19,31 @@ function InputField({
   required?: boolean; autoComplete?: string;
   value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
-  const [show, setShow] = useState(false);
-  const isPassword = type === "password";
+  const isLtr = dir === "ltr";
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <label htmlFor={id} className="block text-sm font-bold text-purple-900 dark:text-purple-300">
-        {label} {required && <span className="text-purple-600">*</span>}
+      <label htmlFor={id} className="block text-sm font-bold text-[#000000]">
+        {label} {required && <span className="text-[#7E22CE]">*</span>}
       </label>
       
       <div className="relative flex items-center w-full" dir={dir || "rtl"}>
-        <div className="absolute start-4 flex items-center justify-center text-slate-400 pointer-events-none">
+        <div className={`absolute ${isLtr ? 'left-4' : 'right-4'} flex items-center justify-center text-[#000000] pointer-events-none`}>
           <Icon className="w-5 h-5" />
         </div>
         
         <input
           id={id}
           name={name}
-          type={isPassword ? (show ? "text" : "password") : type}
+          type={type}
           placeholder={placeholder}
           required={required}
           autoComplete={autoComplete}
           dir={dir}
           value={value}
           onChange={onChange}
-          className="h-14 w-full bg-gray-50 border border-gray-200 rounded-xl ps-12 pe-4 text-purple-950 font-bold placeholder:text-gray-400 focus:bg-white focus:ring-2 focus:ring-purple-600 focus:border-transparent focus:outline-none transition-all duration-300"
+          className={`w-full ${isLtr ? 'pl-12 pr-4 text-left' : 'pr-12 pl-4 text-right'} py-3.5 rounded-xl border-[3px] border-[#000000] bg-white text-[#000000] font-bold text-base placeholder:text-gray-400 focus:outline-none focus:ring-4 focus:ring-[#7E22CE]/20 transition-all shadow-sm`}
         />
-
-        {isPassword && (
-          <button
-            type="button"
-            onClick={() => setShow(s => !s)}
-            className="absolute end-4 flex items-center justify-center text-slate-400 hover:text-purple-600 transition-colors"
-          >
-            {show ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-          </button>
-        )}
       </div>
     </div>
   );
@@ -70,12 +59,12 @@ function SelectField({
 }) {
   return (
     <div className="flex flex-col gap-2 w-full">
-      <label htmlFor={id} className="block text-sm font-bold text-purple-900 dark:text-purple-300">
-        {label} <span className="text-purple-600">*</span>
+      <label htmlFor={id} className="block text-sm font-bold text-[#000000]">
+        {label} <span className="text-[#7E22CE]">*</span>
       </label>
 
       <div className="relative flex items-center w-full" dir="rtl">
-        <div className="absolute start-4 flex items-center justify-center text-slate-400 pointer-events-none">
+        <div className="absolute right-4 flex items-center justify-center text-[#000000] pointer-events-none">
           <Icon className="w-5 h-5" />
         </div>
 
@@ -85,7 +74,7 @@ function SelectField({
           required
           value={value}
           onChange={onChange}
-          className="h-14 w-full bg-gray-50 border border-gray-200 rounded-xl ps-12 pe-10 text-purple-950 font-bold appearance-none cursor-pointer focus:bg-white focus:ring-2 focus:ring-purple-600 focus:border-transparent focus:outline-none transition-all duration-300"
+          className="w-full pr-12 pl-10 py-3.5 rounded-xl border-[3px] border-[#000000] bg-white text-[#000000] font-bold text-base appearance-none cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#7E22CE]/20 transition-all shadow-sm"
         >
           <option value="" disabled>{placeholder}</option>
           {options.map(o => (
@@ -93,7 +82,7 @@ function SelectField({
           ))}
         </select>
         
-        <ChevronDown className="absolute end-4 w-5 h-5 text-slate-400 pointer-events-none" />
+        <ChevronDown className="absolute left-4 w-5 h-5 text-[#000000] pointer-events-none" />
       </div>
     </div>
   );
@@ -102,7 +91,7 @@ function SelectField({
 function ErrorBanner({ message }: { message?: string }) {
   if (!message) return null;
   return (
-    <div className="flex items-start gap-2 bg-purple-50 border border-purple-200 text-purple-800 rounded-xl px-4 py-3 text-sm font-medium mb-6">
+    <div className="flex items-start gap-2 bg-red-50 border-[3px] border-red-200 text-red-800 rounded-xl px-4 py-3 text-sm font-bold mb-6 shadow-3d-soft animate-in fade-in zoom-in duration-300">
       <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
       <span>{message}</span>
     </div>
@@ -117,7 +106,7 @@ export default function RegisterPage() {
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
-    stage: "",
+    phase: "",
     level: "",
     stream: ""
   });
@@ -129,8 +118,7 @@ export default function RegisterPage() {
     setFormData(prev => {
       const next = { ...prev, [name]: value };
       
-      // Reset dependencies
-      if (name === "stage") {
+      if (name === "phase") {
         next.level = "";
         next.stream = "";
       }
@@ -144,6 +132,7 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     setIsPending(true);
     setError(undefined);
     
@@ -157,8 +146,6 @@ export default function RegisterPage() {
           setError("هذا الحساب موجود بالفعل الرجاء تسجيل الدخول");
         } else if (errorMsg.includes("phone") || errorMsg.includes("format")) {
           setError("صيغة رقم الهاتف غير صحيحة");
-        } else if (errorMsg.includes("password")) {
-          setError("كلمة المرور ضعيفة جدا");
         } else {
           setError(res.error);
         }
@@ -173,46 +160,41 @@ export default function RegisterPage() {
     }
   };
 
-  const currentLevels = formData.stage ? EDUCATION_LEVELS[formData.stage as keyof typeof EDUCATION_LEVELS] : [];
-  const currentStreams = getStreamsForLevel(formData.stage, formData.level);
-  const shouldShowStreams = formData.stage === "SECONDARY" && currentStreams.length > 1;
+  const currentLevels = formData.phase ? EDUCATION_LEVELS[formData.phase as keyof typeof EDUCATION_LEVELS] : [];
+  const currentStreams = getStreamsForLevel(formData.phase, formData.level);
+  const shouldShowStreams = formData.phase === "SECONDARY" && currentStreams.length > 1;
 
   return (
-    <div className="relative min-h-screen bg-[#F8F9FA] font-arabic flex items-center justify-center p-4 py-12 overflow-hidden selection:bg-purple-200" dir="rtl">
-      {/* Global Background Math Grid Pattern */}
-      <div className="fixed inset-0 z-0 opacity-[0.03] pointer-events-none" 
-           style={{ backgroundImage: "linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)", backgroundSize: "20px 20px" }}>
-      </div>
-
+    <div className="relative min-h-screen font-sans flex items-center justify-center p-4 py-12" dir="rtl">
+      
       <div className="relative z-10 w-full max-w-2xl">
+        
+        {/* Decorative Background Card */}
+        <div className="absolute inset-0 bg-[#4C1D95] rounded-3xl transform -rotate-1 border-[3px] border-[#000000] shadow-3d-deep"></div>
 
-        {/* Branding */}
-        <div className="text-center mb-8 md:mb-10">
-          <h1 className="text-3xl md:text-4xl font-black text-purple-950 leading-tight">منصة أكاديمية دقيش التعليمية</h1>
-          <p className="text-purple-700 font-medium text-base mt-2">
-            اصنع مستقبلك بثبات نحو القمة
-          </p>
-        </div>
-
-        {/* Card */}
-        <div className="bg-white rounded-3xl shadow-xl shadow-purple-900/10 border border-purple-100 overflow-hidden p-8 md:p-10">
-          <div className="mb-8">
-            <h2 className="text-2xl font-black text-purple-950">إنشاء حساب جديد</h2>
-            <p className="text-purple-600 text-sm font-medium mt-1.5">أكمل البيانات التالية لتسجيل حسابك</p>
+        <div className="relative bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] overflow-hidden p-8 md:p-10 shadow-3d-deep paper-cut">
+          
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-[#000000] rounded-2xl border-[3px] border-[#000000] shadow-3d-soft mb-6 transform rotate-3">
+              <UserPlus className="w-8 h-8 text-white" />
+            </div>
+            <h1 className="text-3xl font-black text-[#000000] leading-tight mb-2">إنشاء حساب جديد</h1>
+            <h2 className="text-xl font-bold text-[#7E22CE]">أكاديمية دقيش</h2>
           </div>
 
-          <div className="flex bg-gray-50 p-1.5 rounded-2xl mb-8 border border-gray-100">
+          {/* Role Toggle */}
+          <div className="flex bg-[#EAE4D9] p-1.5 rounded-2xl mb-8 border-[3px] border-[#000000]">
             <button
               type="button"
               onClick={() => { setRole("STUDENT"); setError(undefined); }}
-              className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all duration-300 ${role === "STUDENT" ? "bg-white text-purple-800 shadow-sm border border-gray-200/50" : "text-gray-500 hover:text-purple-700"}`}
+              className={`flex-1 py-3 text-sm font-black rounded-xl transition-all duration-300 ${role === "STUDENT" ? "bg-[#FFFFFF] text-[#000000] border-[3px] border-[#000000] shadow-3d-soft" : "text-gray-500 hover:text-[#7E22CE]"}`}
             >
               حساب تلميذ
             </button>
             <button
               type="button"
               onClick={() => { setRole("PARENT"); setError(undefined); }}
-              className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all duration-300 ${role === "PARENT" ? "bg-white text-purple-800 shadow-sm border border-gray-200/50" : "text-gray-500 hover:text-purple-700"}`}
+              className={`flex-1 py-3 text-sm font-black rounded-xl transition-all duration-300 ${role === "PARENT" ? "bg-[#FFFFFF] text-[#000000] border-[3px] border-[#000000] shadow-3d-soft" : "text-gray-500 hover:text-[#7E22CE]"}`}
             >
               حساب ولي
             </button>
@@ -224,23 +206,23 @@ export default function RegisterPage() {
             
             <ErrorBanner message={error} />
 
-            <div className="space-y-6">
+            <div className="space-y-5">
               <InputField id="reg-name" label="الاسم الكامل" name="fullName"
                 placeholder="أدخل الاسم الكامل" icon={User} autoComplete="name" 
                 value={formData.fullName} onChange={handleInputChange} />
                 
-              <InputField id="reg-phone" label="رقم الهاتف" name="phoneNumber" type="tel"
-                placeholder="05XXXXXXXX" icon={Phone} dir="ltr" autoComplete="tel" 
+              <InputField id="reg-phone" label="البريد الإلكتروني أو رقم الهاتف" name="phoneNumber" type="text"
+                placeholder="أدخل بريدك أو رقم هاتفك" icon={Mail} dir="rtl" autoComplete="email" 
                 value={formData.phoneNumber} onChange={handleInputChange} />
             </div>
 
             {role === "STUDENT" && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4 border-t-[3px] border-[#000000]/10 border-dashed">
                 <SelectField
-                  id="reg-stage" label="الطور التعليمي" name="stage" icon={Layers}
+                  id="reg-phase" label="الطور التعليمي" name="phase" icon={Layers}
                   placeholder="اختر الطور"
                   options={EDUCATION_STAGES as any}
-                  value={formData.stage} onChange={handleInputChange}
+                  value={formData.phase} onChange={handleInputChange}
                 />
                 
                 <div className="animate-fade-in-up">
@@ -268,24 +250,23 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={isPending}
-              className="h-14 w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-black rounded-xl transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 mt-8 disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 bg-[#7E22CE] hover:bg-[#6B21A8] text-white font-black py-4 rounded-xl shadow-3d-soft shadow-3d-hover mt-6 disabled:opacity-70 disabled:cursor-not-allowed border-[3px] border-[#000000]"
             >
               {isPending ? <Loader2 className="w-6 h-6 animate-spin" /> : <UserPlus className="w-6 h-6" />}
-              {isPending ? "جاري إنشاء الحساب..." : "إنشاء الحساب"}
+              {isPending ? "جاري إنشاء الحساب..." : "إنشاء حساب"}
             </button>
           </form>
 
-          <div className="mt-8 text-center text-sm font-medium text-slate-500">
-            لديك حساب بالفعل{" "}
-            <Link href="/login" className="text-purple-700 hover:text-purple-800 font-bold underline underline-offset-4 transition-colors">
-              تسجيل الدخول
-            </Link>
+          <div className="mt-8 text-center pt-6 border-t-[3px] border-[#000000]/10">
+            <p className="text-[#000000] text-sm font-bold">
+              لديك حساب بالفعل؟{" "}
+              <Link href="/login" className="text-[#7E22CE] hover:text-[#4C1D95] font-black underline underline-offset-4 transition-colors">
+                تسجيل الدخول
+              </Link>
+            </p>
           </div>
         </div>
 
-        <p className="text-center text-xs text-slate-400 font-medium mt-8">
-          منصة أكاديمية دقيش التعليمية جميع الحقوق محفوظة
-        </p>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { BookOpen, Plus, Trash2, Loader2, Image as ImageIcon } from "lucide-react";
-import { STREAMS, LEVELS } from "@/lib/constants";
+import { EDUCATION_STAGES, EDUCATION_LEVELS, getStreamsForLevel } from "@/lib/constants/education";
 
 export function SubjectCreationClient({ 
   teachers,
@@ -16,8 +16,9 @@ export function SubjectCreationClient({
   const [teacherId, setTeacherId] = useState("");
   const [manualTeacherName, setManualTeacherName] = useState("");
   const [teacherInputMethod, setTeacherInputMethod] = useState<"LIST" | "MANUAL">("LIST");
-  const [level, setLevel] = useState("FIRST_YEAR");
-  const [stream, setStream] = useState("SCIENCE");
+  const [phase, setPhase] = useState("");
+  const [level, setLevel] = useState("");
+  const [stream, setStream] = useState("");
   const [isFree, setIsFree] = useState(false);
   const [price, setPrice] = useState("2500");
   const [accessType, setAccessType] = useState("MONTHLY");
@@ -28,6 +29,10 @@ export function SubjectCreationClient({
   const selectedTeacherName = teacherInputMethod === "LIST" 
     ? (teachers.find(t => t.id === teacherId)?.name || "بدون أستاذ") 
     : (manualTeacherName || "بدون أستاذ");
+
+  const currentLevels = phase ? EDUCATION_LEVELS[phase as keyof typeof EDUCATION_LEVELS] : [];
+  const currentStreams = getStreamsForLevel(phase, level);
+  const shouldShowStreams = phase === "SECONDARY" && currentStreams.length > 1;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -156,18 +161,36 @@ export function SubjectCreationClient({
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-1">
+              <label className="text-sm font-bold text-purple-800 dark:text-purple-800">الطور</label>
+              <select name="phase" required value={phase} onChange={e => { setPhase(e.target.value); setLevel(""); setStream(""); }} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-purple-950 dark:text-purple-950 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600">
+                <option value="">اختر الطور</option>
+                {EDUCATION_STAGES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+              </select>
+            </div>
             <div className="space-y-1">
               <label className="text-sm font-bold text-purple-800 dark:text-purple-800">المستوى</label>
-              <select name="level" required value={level} onChange={e => setLevel(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-purple-950 dark:text-purple-950 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600">
-                {LEVELS.map(l => <option key={l.value} value={l.value}>{l.label.replace(/\./g, '')}</option>)}
+              <select name="level" required value={level} onChange={e => { setLevel(e.target.value); setStream(""); }} disabled={!phase} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-purple-950 dark:text-purple-950 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 disabled:opacity-50">
+                <option value="">اختر المستوى</option>
+                {currentLevels.map((l: any) => <option key={l.value} value={l.value}>{l.label}</option>)}
               </select>
             </div>
             <div className="space-y-1">
               <label className="text-sm font-bold text-purple-800 dark:text-purple-800">الشعبة</label>
-              <select name="stream" required value={stream} onChange={e => setStream(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-purple-950 dark:text-purple-950 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600">
-                {STREAMS.map(s => <option key={s.value} value={s.value}>{s.label.replace(/\./g, '')}</option>)}
-              </select>
+              {shouldShowStreams ? (
+                <select name="stream" required value={stream} onChange={e => setStream(e.target.value)} disabled={!level} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-purple-950 dark:text-purple-950 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 disabled:opacity-50">
+                  <option value="">اختر الشعبة</option>
+                  {currentStreams.map((s: any) => <option key={s.value} value={s.value}>{s.label}</option>)}
+                </select>
+              ) : (
+                <input type="hidden" name="stream" value="NONE" />
+              )}
+              {!shouldShowStreams && (
+                <div className="w-full p-2.5 rounded-xl border border-slate-200 bg-gray-50 text-slate-400 text-sm text-center">
+                  غير مطبق
+                </div>
+              )}
             </div>
           </div>
 

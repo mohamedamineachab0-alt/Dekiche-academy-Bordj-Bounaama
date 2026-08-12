@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { Level, Stream } from "@/generated/prisma";
+import { Level, Stream, Phase } from "@/generated/prisma";
 
 export async function createReviewCard(formData: FormData) {
   try {
@@ -10,13 +10,14 @@ export async function createReviewCard(formData: FormData) {
     const question = formData.get("question") as string;
     const answer = formData.get("answer") as string;
     const subjectId = formData.get("subjectId") as string;
+    const phase = formData.get("phase") as Phase;
     const level = formData.get("level") as Level;
     const stream = formData.get("stream") as Stream;
     const monthStr = formData.get("month") as string;
     const month = monthStr ? parseInt(monthStr) : 1;
     const exerciseRef = formData.get("exerciseRef") as string | null;
 
-    if (!title || !question || !answer || !subjectId || !level || !stream || !month) {
+    if (!title || !question || !answer || !subjectId || !phase || !level || !stream || !month) {
       throw new Error("يرجى ملء جميع الحقول الإلزامية");
     }
 
@@ -26,6 +27,7 @@ export async function createReviewCard(formData: FormData) {
         question,
         answer,
         subjectId,
+        phase,
         level,
         stream,
         month,
@@ -43,9 +45,10 @@ export async function createReviewCard(formData: FormData) {
   }
 }
 
-export async function getStudentCards(level: Level, stream: Stream, subjectId?: string) {
+export async function getStudentCards(phase: Phase, level: Level, stream: Stream, subjectId?: string) {
   try {
     const whereClause: any = {
+      phase,
       level,
       stream
     };
@@ -93,6 +96,7 @@ export async function fetchMyReviewCards() {
 
   const cards = await prisma.reviewCard.findMany({
     where: {
+      phase: studentProfile.phase,
       level: studentProfile.level,
       stream: studentProfile.stream,
       subjectId: { in: enrolledSubjectIds },

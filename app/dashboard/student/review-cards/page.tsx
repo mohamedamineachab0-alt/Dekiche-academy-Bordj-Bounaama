@@ -33,17 +33,16 @@ export default function StudentReviewCardsPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-8 pb-12">
+      <div className="space-y-8 font-sans pb-12">
         <HeroBanner 
           title="بطاقات المراجعة (Flashcards)"
           description="راجع دروسك بسرعة وفعالية باستخدام بطاقات الذاكرة التفاعلية المصممة لمستواك وشعبتك"
           icon={Library}
-          gradientClass="bg-gradient-to-r from-purple-600 to-purple-700"
         />
         <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-purple-700 flex flex-col items-center gap-3">
-            <div className="w-10 h-10 border-4 border-purple-200 border-t-purple-700 rounded-full animate-spin"></div>
-            <p className="font-bold text-slate-600">جاري تحميل البطاقات...</p>
+          <div className="text-[#000000] flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-[4px] border-[#000000] border-t-[#FACC15] rounded-full animate-spin"></div>
+            <p className="font-black text-lg bg-[#FACC15] px-4 py-2 rounded-xl border-[3px] border-[#000000] shadow-3d-soft transform -rotate-2">جاري تحميل البطاقات...</p>
           </div>
         </div>
       </div>
@@ -52,34 +51,34 @@ export default function StudentReviewCardsPage() {
 
   if (error) {
     return (
-      <div className="space-y-8 pb-12">
+      <div className="space-y-8 font-sans pb-12">
         <HeroBanner 
           title="بطاقات المراجعة (Flashcards)"
           description="راجع دروسك بسرعة وفعالية باستخدام بطاقات الذاكرة التفاعلية المصممة لمستواك وشعبتك"
           icon={Library}
-          gradientClass="bg-gradient-to-r from-purple-600 to-purple-700"
         />
-        <div className="p-8 text-center bg-purple-50 rounded-2xl border border-purple-100 max-w-2xl mx-auto mt-8 font-arabic" dir="rtl">
-          <h3 className="font-bold text-purple-800 text-lg">{error}</h3>
+        <div className="p-8 text-center bg-[#EF4444] rounded-3xl border-[3px] border-[#000000] max-w-2xl mx-auto mt-8 shadow-3d-soft paper-cut transform rotate-1" dir="rtl">
+          <h3 className="font-black text-white text-xl">{error}</h3>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-8 font-sans pb-12">
       <HeroBanner 
         title="بطاقات المراجعة (Flashcards)"
         description="راجع دروسك بسرعة وفعالية باستخدام بطاقات الذاكرة التفاعلية المصممة لمستواك وشعبتك"
         icon={Library}
-        gradientClass="bg-gradient-to-r from-purple-600 to-purple-700"
       />
 
       {cards.length === 0 ? (
-        <div className="p-6 md:p-12 text-center bg-white rounded-3xl border border-slate-100 shadow-sm font-arabic" dir="rtl">
-          <Library className="w-16 h-16 text-purple-800 mx-auto mb-4" />
-          <h3 className="font-black text-xl text-purple-900">لا توجد بطاقات متاحة حالياً</h3>
-          <p className="text-slate-500 font-medium mt-2">ستظهر بطاقات المراجعة الخاصة بمستواك وشعبتك هنا قريباً</p>
+        <div className="p-8 md:p-12 text-center bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] shadow-3d-soft paper-cut relative overflow-hidden" dir="rtl">
+          <div className="w-20 h-20 bg-[#FACC15] border-[3px] border-[#000000] rounded-2xl flex items-center justify-center transform -rotate-3 mx-auto mb-6 shadow-sm">
+            <Library className="w-10 h-10 text-[#000000]" />
+          </div>
+          <h3 className="font-black text-2xl text-[#000000] mb-3">لا توجد بطاقات متاحة حالياً</h3>
+          <p className="text-gray-600 font-bold max-w-sm mx-auto leading-relaxed">ستظهر بطاقات المراجعة الخاصة بمستواك وشعبتك هنا قريباً</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

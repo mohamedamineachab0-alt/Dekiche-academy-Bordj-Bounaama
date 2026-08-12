@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { supabase, ensureBucketExists } from "@/lib/supabase";
-import { Level, Stream } from "@/generated/prisma";
+import { Level, Stream, Phase } from "@/generated/prisma";
 import Groq from "groq-sdk";
 import { revalidatePath } from "next/cache";
 
@@ -37,6 +37,7 @@ export async function createExamAndExtractQuiz(formData: FormData) {
   try {
     const title = formData.get("title") as string;
     const subjectId = formData.get("subjectId") as string;
+    const phase = formData.get("phase") as Phase;
     const level = formData.get("level") as Level;
     const stream = formData.get("stream") as Stream;
     const month = parseInt(formData.get("month") as string);
@@ -63,7 +64,7 @@ export async function createExamAndExtractQuiz(formData: FormData) {
       }
     }
 
-    if (!title || !subjectId || !file) {
+    if (!title || !subjectId || !phase || !level || !stream || !file) {
       return { error: "يرجى تعبئة جميع الحقول وإرفاق صورة الاختبار" };
     }
 
@@ -76,6 +77,7 @@ export async function createExamAndExtractQuiz(formData: FormData) {
         title,
         subjectId,
         secondarySubjectId,
+        phase,
         level,
         stream,
         month,

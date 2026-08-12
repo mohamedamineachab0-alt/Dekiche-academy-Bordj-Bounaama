@@ -217,6 +217,15 @@ export const Wilaya: {
 export type Wilaya = (typeof Wilaya)[keyof typeof Wilaya]
 
 
+export const Phase: {
+  PRIMARY: 'PRIMARY',
+  MIDDLE: 'MIDDLE',
+  SECONDARY: 'SECONDARY'
+};
+
+export type Phase = (typeof Phase)[keyof typeof Phase]
+
+
 export const Stage: {
   PRIMARY: 'PRIMARY',
   MIDDLE: 'MIDDLE',
@@ -267,6 +276,10 @@ export const Role: typeof $Enums.Role
 export type Wilaya = $Enums.Wilaya
 
 export const Wilaya: typeof $Enums.Wilaya
+
+export type Phase = $Enums.Phase
+
+export const Phase: typeof $Enums.Phase
 
 export type Stage = $Enums.Stage
 
@@ -5191,10 +5204,12 @@ export namespace Prisma {
 
   export type StudentProfileAvgAggregateOutputType = {
     totalPoints: number | null
+    aiQuestionsCount: number | null
   }
 
   export type StudentProfileSumAggregateOutputType = {
     totalPoints: number | null
+    aiQuestionsCount: number | null
   }
 
   export type StudentProfileMinAggregateOutputType = {
@@ -5202,12 +5217,15 @@ export namespace Prisma {
     userId: string | null
     parentName: string | null
     parentPhone: string | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     wilaya: $Enums.Wilaya | null
     totalPoints: number | null
     parentCode: string | null
     friendCode: string | null
+    aiQuestionsCount: number | null
+    aiQuestionsDate: Date | null
   }
 
   export type StudentProfileMaxAggregateOutputType = {
@@ -5215,12 +5233,15 @@ export namespace Prisma {
     userId: string | null
     parentName: string | null
     parentPhone: string | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     wilaya: $Enums.Wilaya | null
     totalPoints: number | null
     parentCode: string | null
     friendCode: string | null
+    aiQuestionsCount: number | null
+    aiQuestionsDate: Date | null
   }
 
   export type StudentProfileCountAggregateOutputType = {
@@ -5228,22 +5249,27 @@ export namespace Prisma {
     userId: number
     parentName: number
     parentPhone: number
+    phase: number
     level: number
     stream: number
     wilaya: number
     totalPoints: number
     parentCode: number
     friendCode: number
+    aiQuestionsCount: number
+    aiQuestionsDate: number
     _all: number
   }
 
 
   export type StudentProfileAvgAggregateInputType = {
     totalPoints?: true
+    aiQuestionsCount?: true
   }
 
   export type StudentProfileSumAggregateInputType = {
     totalPoints?: true
+    aiQuestionsCount?: true
   }
 
   export type StudentProfileMinAggregateInputType = {
@@ -5251,12 +5277,15 @@ export namespace Prisma {
     userId?: true
     parentName?: true
     parentPhone?: true
+    phase?: true
     level?: true
     stream?: true
     wilaya?: true
     totalPoints?: true
     parentCode?: true
     friendCode?: true
+    aiQuestionsCount?: true
+    aiQuestionsDate?: true
   }
 
   export type StudentProfileMaxAggregateInputType = {
@@ -5264,12 +5293,15 @@ export namespace Prisma {
     userId?: true
     parentName?: true
     parentPhone?: true
+    phase?: true
     level?: true
     stream?: true
     wilaya?: true
     totalPoints?: true
     parentCode?: true
     friendCode?: true
+    aiQuestionsCount?: true
+    aiQuestionsDate?: true
   }
 
   export type StudentProfileCountAggregateInputType = {
@@ -5277,12 +5309,15 @@ export namespace Prisma {
     userId?: true
     parentName?: true
     parentPhone?: true
+    phase?: true
     level?: true
     stream?: true
     wilaya?: true
     totalPoints?: true
     parentCode?: true
     friendCode?: true
+    aiQuestionsCount?: true
+    aiQuestionsDate?: true
     _all?: true
   }
 
@@ -5377,12 +5412,15 @@ export namespace Prisma {
     userId: string
     parentName: string
     parentPhone: string
+    phase: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     wilaya: $Enums.Wilaya
     totalPoints: number
     parentCode: string | null
     friendCode: string | null
+    aiQuestionsCount: number
+    aiQuestionsDate: Date
     _count: StudentProfileCountAggregateOutputType | null
     _avg: StudentProfileAvgAggregateOutputType | null
     _sum: StudentProfileSumAggregateOutputType | null
@@ -5409,12 +5447,15 @@ export namespace Prisma {
     userId?: boolean
     parentName?: boolean
     parentPhone?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     wilaya?: boolean
     totalPoints?: boolean
     parentCode?: boolean
     friendCode?: boolean
+    aiQuestionsCount?: boolean
+    aiQuestionsDate?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["studentProfile"]>
 
@@ -5423,12 +5464,15 @@ export namespace Prisma {
     userId?: boolean
     parentName?: boolean
     parentPhone?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     wilaya?: boolean
     totalPoints?: boolean
     parentCode?: boolean
     friendCode?: boolean
+    aiQuestionsCount?: boolean
+    aiQuestionsDate?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["studentProfile"]>
 
@@ -5437,12 +5481,15 @@ export namespace Prisma {
     userId?: boolean
     parentName?: boolean
     parentPhone?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     wilaya?: boolean
     totalPoints?: boolean
     parentCode?: boolean
     friendCode?: boolean
+    aiQuestionsCount?: boolean
+    aiQuestionsDate?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["studentProfile"]>
 
@@ -5451,15 +5498,18 @@ export namespace Prisma {
     userId?: boolean
     parentName?: boolean
     parentPhone?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     wilaya?: boolean
     totalPoints?: boolean
     parentCode?: boolean
     friendCode?: boolean
+    aiQuestionsCount?: boolean
+    aiQuestionsDate?: boolean
   }
 
-  export type StudentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "parentName" | "parentPhone" | "level" | "stream" | "wilaya" | "totalPoints" | "parentCode" | "friendCode", ExtArgs["result"]["studentProfile"]>
+  export type StudentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "parentName" | "parentPhone" | "phase" | "level" | "stream" | "wilaya" | "totalPoints" | "parentCode" | "friendCode" | "aiQuestionsCount" | "aiQuestionsDate", ExtArgs["result"]["studentProfile"]>
   export type StudentProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -5480,12 +5530,15 @@ export namespace Prisma {
       userId: string
       parentName: string
       parentPhone: string
+      phase: $Enums.Phase
       level: $Enums.Level
       stream: $Enums.Stream
       wilaya: $Enums.Wilaya
       totalPoints: number
       parentCode: string | null
       friendCode: string | null
+      aiQuestionsCount: number
+      aiQuestionsDate: Date
     }, ExtArgs["result"]["studentProfile"]>
     composites: {}
   }
@@ -5914,12 +5967,15 @@ export namespace Prisma {
     readonly userId: FieldRef<"StudentProfile", 'String'>
     readonly parentName: FieldRef<"StudentProfile", 'String'>
     readonly parentPhone: FieldRef<"StudentProfile", 'String'>
+    readonly phase: FieldRef<"StudentProfile", 'Phase'>
     readonly level: FieldRef<"StudentProfile", 'Level'>
     readonly stream: FieldRef<"StudentProfile", 'Stream'>
     readonly wilaya: FieldRef<"StudentProfile", 'Wilaya'>
     readonly totalPoints: FieldRef<"StudentProfile", 'Int'>
     readonly parentCode: FieldRef<"StudentProfile", 'String'>
     readonly friendCode: FieldRef<"StudentProfile", 'String'>
+    readonly aiQuestionsCount: FieldRef<"StudentProfile", 'Int'>
+    readonly aiQuestionsDate: FieldRef<"StudentProfile", 'DateTime'>
   }
     
 
@@ -7394,6 +7450,7 @@ export namespace Prisma {
     userId: number
     name: number
     phone: number
+    phases: number
     levels: number
     streams: number
     createdAt: number
@@ -7422,6 +7479,7 @@ export namespace Prisma {
     userId?: true
     name?: true
     phone?: true
+    phases?: true
     levels?: true
     streams?: true
     createdAt?: true
@@ -7505,6 +7563,7 @@ export namespace Prisma {
     userId: string | null
     name: string
     phone: string
+    phases: $Enums.Phase[]
     levels: $Enums.Level[]
     streams: $Enums.Stream[]
     createdAt: Date
@@ -7532,6 +7591,7 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     phone?: boolean
+    phases?: boolean
     levels?: boolean
     streams?: boolean
     createdAt?: boolean
@@ -7545,6 +7605,7 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     phone?: boolean
+    phases?: boolean
     levels?: boolean
     streams?: boolean
     createdAt?: boolean
@@ -7556,6 +7617,7 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     phone?: boolean
+    phases?: boolean
     levels?: boolean
     streams?: boolean
     createdAt?: boolean
@@ -7567,12 +7629,13 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     phone?: boolean
+    phases?: boolean
     levels?: boolean
     streams?: boolean
     createdAt?: boolean
   }
 
-  export type TeacherOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "phone" | "levels" | "streams" | "createdAt", ExtArgs["result"]["teacher"]>
+  export type TeacherOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "phone" | "phases" | "levels" | "streams" | "createdAt", ExtArgs["result"]["teacher"]>
   export type TeacherInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Teacher$userArgs<ExtArgs>
     subjects?: boolean | Teacher$subjectsArgs<ExtArgs>
@@ -7596,6 +7659,7 @@ export namespace Prisma {
       userId: string | null
       name: string
       phone: string
+      phases: $Enums.Phase[]
       levels: $Enums.Level[]
       streams: $Enums.Stream[]
       createdAt: Date
@@ -8028,6 +8092,7 @@ export namespace Prisma {
     readonly userId: FieldRef<"Teacher", 'String'>
     readonly name: FieldRef<"Teacher", 'String'>
     readonly phone: FieldRef<"Teacher", 'String'>
+    readonly phases: FieldRef<"Teacher", 'Phase[]'>
     readonly levels: FieldRef<"Teacher", 'Level[]'>
     readonly streams: FieldRef<"Teacher", 'Stream[]'>
     readonly createdAt: FieldRef<"Teacher", 'DateTime'>
@@ -8519,6 +8584,7 @@ export namespace Prisma {
     description: string | null
     teacherName: string | null
     teacherId: string | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     image: string | null
@@ -8534,6 +8600,7 @@ export namespace Prisma {
     description: string | null
     teacherName: string | null
     teacherId: string | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     image: string | null
@@ -8549,6 +8616,7 @@ export namespace Prisma {
     description: number
     teacherName: number
     teacherId: number
+    phase: number
     level: number
     stream: number
     image: number
@@ -8574,6 +8642,7 @@ export namespace Prisma {
     description?: true
     teacherName?: true
     teacherId?: true
+    phase?: true
     level?: true
     stream?: true
     image?: true
@@ -8589,6 +8658,7 @@ export namespace Prisma {
     description?: true
     teacherName?: true
     teacherId?: true
+    phase?: true
     level?: true
     stream?: true
     image?: true
@@ -8604,6 +8674,7 @@ export namespace Prisma {
     description?: true
     teacherName?: true
     teacherId?: true
+    phase?: true
     level?: true
     stream?: true
     image?: true
@@ -8706,6 +8777,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId: string | null
+    phase: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -8740,6 +8812,7 @@ export namespace Prisma {
     description?: boolean
     teacherName?: boolean
     teacherId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     image?: boolean
@@ -8768,6 +8841,7 @@ export namespace Prisma {
     description?: boolean
     teacherName?: boolean
     teacherId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     image?: boolean
@@ -8784,6 +8858,7 @@ export namespace Prisma {
     description?: boolean
     teacherName?: boolean
     teacherId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     image?: boolean
@@ -8800,6 +8875,7 @@ export namespace Prisma {
     description?: boolean
     teacherName?: boolean
     teacherId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     image?: boolean
@@ -8809,7 +8885,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type SubjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "teacherName" | "teacherId" | "level" | "stream" | "image" | "price" | "accessType" | "isPublished" | "createdAt", ExtArgs["result"]["subject"]>
+  export type SubjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "teacherName" | "teacherId" | "phase" | "level" | "stream" | "image" | "price" | "accessType" | "isPublished" | "createdAt", ExtArgs["result"]["subject"]>
   export type SubjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teacher?: boolean | Subject$teacherArgs<ExtArgs>
     lessons?: boolean | Subject$lessonsArgs<ExtArgs>
@@ -8854,6 +8930,7 @@ export namespace Prisma {
       description: string
       teacherName: string
       teacherId: string | null
+      phase: $Enums.Phase
       level: $Enums.Level
       stream: $Enums.Stream
       image: string
@@ -9301,6 +9378,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Subject", 'String'>
     readonly teacherName: FieldRef<"Subject", 'String'>
     readonly teacherId: FieldRef<"Subject", 'String'>
+    readonly phase: FieldRef<"Subject", 'Phase'>
     readonly level: FieldRef<"Subject", 'Level'>
     readonly stream: FieldRef<"Subject", 'Stream'>
     readonly image: FieldRef<"Subject", 'String'>
@@ -23359,6 +23437,7 @@ export namespace Prisma {
     title: string | null
     a4ImageUrl: string | null
     maxScore: number | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     subjectId: string | null
@@ -23372,6 +23451,7 @@ export namespace Prisma {
     title: string | null
     a4ImageUrl: string | null
     maxScore: number | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     subjectId: string | null
@@ -23385,6 +23465,7 @@ export namespace Prisma {
     title: number
     a4ImageUrl: number
     maxScore: number
+    phase: number
     level: number
     stream: number
     subjectId: number
@@ -23410,6 +23491,7 @@ export namespace Prisma {
     title?: true
     a4ImageUrl?: true
     maxScore?: true
+    phase?: true
     level?: true
     stream?: true
     subjectId?: true
@@ -23423,6 +23505,7 @@ export namespace Prisma {
     title?: true
     a4ImageUrl?: true
     maxScore?: true
+    phase?: true
     level?: true
     stream?: true
     subjectId?: true
@@ -23436,6 +23519,7 @@ export namespace Prisma {
     title?: true
     a4ImageUrl?: true
     maxScore?: true
+    phase?: true
     level?: true
     stream?: true
     subjectId?: true
@@ -23536,6 +23620,7 @@ export namespace Prisma {
     title: string
     a4ImageUrl: string
     maxScore: number
+    phase: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     subjectId: string
@@ -23568,6 +23653,7 @@ export namespace Prisma {
     title?: boolean
     a4ImageUrl?: boolean
     maxScore?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     subjectId?: boolean
@@ -23584,6 +23670,7 @@ export namespace Prisma {
     title?: boolean
     a4ImageUrl?: boolean
     maxScore?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     subjectId?: boolean
@@ -23599,6 +23686,7 @@ export namespace Prisma {
     title?: boolean
     a4ImageUrl?: boolean
     maxScore?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     subjectId?: boolean
@@ -23614,6 +23702,7 @@ export namespace Prisma {
     title?: boolean
     a4ImageUrl?: boolean
     maxScore?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     subjectId?: boolean
@@ -23622,7 +23711,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type DailyExerciseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "a4ImageUrl" | "maxScore" | "level" | "stream" | "subjectId" | "secondarySubjectId" | "month" | "createdAt", ExtArgs["result"]["dailyExercise"]>
+  export type DailyExerciseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "a4ImageUrl" | "maxScore" | "phase" | "level" | "stream" | "subjectId" | "secondarySubjectId" | "month" | "createdAt", ExtArgs["result"]["dailyExercise"]>
   export type DailyExerciseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
     secondarySubject?: boolean | DailyExercise$secondarySubjectArgs<ExtArgs>
@@ -23649,6 +23738,7 @@ export namespace Prisma {
       title: string
       a4ImageUrl: string
       maxScore: number
+      phase: $Enums.Phase
       level: $Enums.Level
       stream: $Enums.Stream
       subjectId: string
@@ -24085,6 +24175,7 @@ export namespace Prisma {
     readonly title: FieldRef<"DailyExercise", 'String'>
     readonly a4ImageUrl: FieldRef<"DailyExercise", 'String'>
     readonly maxScore: FieldRef<"DailyExercise", 'Int'>
+    readonly phase: FieldRef<"DailyExercise", 'Phase'>
     readonly level: FieldRef<"DailyExercise", 'Level'>
     readonly stream: FieldRef<"DailyExercise", 'Stream'>
     readonly subjectId: FieldRef<"DailyExercise", 'String'>
@@ -24575,6 +24666,7 @@ export namespace Prisma {
     title: string | null
     subjectId: string | null
     secondarySubjectId: string | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     month: number | null
@@ -24588,6 +24680,7 @@ export namespace Prisma {
     title: string | null
     subjectId: string | null
     secondarySubjectId: string | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     month: number | null
@@ -24601,6 +24694,7 @@ export namespace Prisma {
     title: number
     subjectId: number
     secondarySubjectId: number
+    phase: number
     level: number
     stream: number
     month: number
@@ -24626,6 +24720,7 @@ export namespace Prisma {
     title?: true
     subjectId?: true
     secondarySubjectId?: true
+    phase?: true
     level?: true
     stream?: true
     month?: true
@@ -24639,6 +24734,7 @@ export namespace Prisma {
     title?: true
     subjectId?: true
     secondarySubjectId?: true
+    phase?: true
     level?: true
     stream?: true
     month?: true
@@ -24652,6 +24748,7 @@ export namespace Prisma {
     title?: true
     subjectId?: true
     secondarySubjectId?: true
+    phase?: true
     level?: true
     stream?: true
     month?: true
@@ -24752,6 +24849,7 @@ export namespace Prisma {
     title: string
     subjectId: string
     secondarySubjectId: string | null
+    phase: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -24784,6 +24882,7 @@ export namespace Prisma {
     title?: boolean
     subjectId?: boolean
     secondarySubjectId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -24802,6 +24901,7 @@ export namespace Prisma {
     title?: boolean
     subjectId?: boolean
     secondarySubjectId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -24817,6 +24917,7 @@ export namespace Prisma {
     title?: boolean
     subjectId?: boolean
     secondarySubjectId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -24832,6 +24933,7 @@ export namespace Prisma {
     title?: boolean
     subjectId?: boolean
     secondarySubjectId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -24840,7 +24942,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type ExamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subjectId" | "secondarySubjectId" | "level" | "stream" | "month" | "a4ImageUrl" | "maxScore" | "createdAt", ExtArgs["result"]["exam"]>
+  export type ExamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subjectId" | "secondarySubjectId" | "phase" | "level" | "stream" | "month" | "a4ImageUrl" | "maxScore" | "createdAt", ExtArgs["result"]["exam"]>
   export type ExamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
     secondarySubject?: boolean | Exam$secondarySubjectArgs<ExtArgs>
@@ -24870,6 +24972,7 @@ export namespace Prisma {
       title: string
       subjectId: string
       secondarySubjectId: string | null
+      phase: $Enums.Phase
       level: $Enums.Level
       stream: $Enums.Stream
       month: number
@@ -25307,6 +25410,7 @@ export namespace Prisma {
     readonly title: FieldRef<"Exam", 'String'>
     readonly subjectId: FieldRef<"Exam", 'String'>
     readonly secondarySubjectId: FieldRef<"Exam", 'String'>
+    readonly phase: FieldRef<"Exam", 'Phase'>
     readonly level: FieldRef<"Exam", 'Level'>
     readonly stream: FieldRef<"Exam", 'Stream'>
     readonly month: FieldRef<"Exam", 'Int'>
@@ -26962,6 +27066,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     content: string | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     month: number | null
@@ -26974,6 +27079,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     content: string | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     month: number | null
@@ -26986,6 +27092,7 @@ export namespace Prisma {
     id: number
     title: number
     content: number
+    phase: number
     level: number
     stream: number
     month: number
@@ -27008,6 +27115,7 @@ export namespace Prisma {
     id?: true
     title?: true
     content?: true
+    phase?: true
     level?: true
     stream?: true
     month?: true
@@ -27020,6 +27128,7 @@ export namespace Prisma {
     id?: true
     title?: true
     content?: true
+    phase?: true
     level?: true
     stream?: true
     month?: true
@@ -27032,6 +27141,7 @@ export namespace Prisma {
     id?: true
     title?: true
     content?: true
+    phase?: true
     level?: true
     stream?: true
     month?: true
@@ -27131,6 +27241,7 @@ export namespace Prisma {
     id: string
     title: string
     content: string
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     month: number
@@ -27162,6 +27273,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     content?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -27176,6 +27288,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     content?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -27190,6 +27303,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     content?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -27204,6 +27318,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     content?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -27212,7 +27327,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "level" | "stream" | "month" | "subjectId" | "userId" | "createdAt", ExtArgs["result"]["notification"]>
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "phase" | "level" | "stream" | "month" | "subjectId" | "userId" | "createdAt", ExtArgs["result"]["notification"]>
   export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subject?: boolean | Notification$subjectArgs<ExtArgs>
     user?: boolean | Notification$userArgs<ExtArgs>
@@ -27236,6 +27351,7 @@ export namespace Prisma {
       id: string
       title: string
       content: string
+      phase: $Enums.Phase | null
       level: $Enums.Level | null
       stream: $Enums.Stream | null
       month: number
@@ -27670,6 +27786,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Notification", 'String'>
     readonly title: FieldRef<"Notification", 'String'>
     readonly content: FieldRef<"Notification", 'String'>
+    readonly phase: FieldRef<"Notification", 'Phase'>
     readonly level: FieldRef<"Notification", 'Level'>
     readonly stream: FieldRef<"Notification", 'Stream'>
     readonly month: FieldRef<"Notification", 'Int'>
@@ -28159,6 +28276,7 @@ export namespace Prisma {
     question: string | null
     answer: string | null
     subjectId: string | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     month: number | null
@@ -28173,6 +28291,7 @@ export namespace Prisma {
     question: string | null
     answer: string | null
     subjectId: string | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     month: number | null
@@ -28187,6 +28306,7 @@ export namespace Prisma {
     question: number
     answer: number
     subjectId: number
+    phase: number
     level: number
     stream: number
     month: number
@@ -28211,6 +28331,7 @@ export namespace Prisma {
     question?: true
     answer?: true
     subjectId?: true
+    phase?: true
     level?: true
     stream?: true
     month?: true
@@ -28225,6 +28346,7 @@ export namespace Prisma {
     question?: true
     answer?: true
     subjectId?: true
+    phase?: true
     level?: true
     stream?: true
     month?: true
@@ -28239,6 +28361,7 @@ export namespace Prisma {
     question?: true
     answer?: true
     subjectId?: true
+    phase?: true
     level?: true
     stream?: true
     month?: true
@@ -28340,6 +28463,7 @@ export namespace Prisma {
     question: string
     answer: string
     subjectId: string
+    phase: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -28373,6 +28497,7 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     subjectId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -28388,6 +28513,7 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     subjectId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -28403,6 +28529,7 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     subjectId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -28418,6 +28545,7 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     subjectId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -28426,7 +28554,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ReviewCardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "question" | "answer" | "subjectId" | "level" | "stream" | "month" | "exerciseRef" | "createdAt" | "updatedAt", ExtArgs["result"]["reviewCard"]>
+  export type ReviewCardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "question" | "answer" | "subjectId" | "phase" | "level" | "stream" | "month" | "exerciseRef" | "createdAt" | "updatedAt", ExtArgs["result"]["reviewCard"]>
   export type ReviewCardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
   }
@@ -28448,6 +28576,7 @@ export namespace Prisma {
       question: string
       answer: string
       subjectId: string
+      phase: $Enums.Phase
       level: $Enums.Level
       stream: $Enums.Stream
       month: number
@@ -28883,6 +29012,7 @@ export namespace Prisma {
     readonly question: FieldRef<"ReviewCard", 'String'>
     readonly answer: FieldRef<"ReviewCard", 'String'>
     readonly subjectId: FieldRef<"ReviewCard", 'String'>
+    readonly phase: FieldRef<"ReviewCard", 'Phase'>
     readonly level: FieldRef<"ReviewCard", 'Level'>
     readonly stream: FieldRef<"ReviewCard", 'Stream'>
     readonly month: FieldRef<"ReviewCard", 'Int'>
@@ -29332,6 +29462,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     subjectId: string | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     month: number | null
@@ -29344,6 +29475,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     subjectId: string | null
+    phase: $Enums.Phase | null
     level: $Enums.Level | null
     stream: $Enums.Stream | null
     month: number | null
@@ -29356,6 +29488,7 @@ export namespace Prisma {
     id: number
     title: number
     subjectId: number
+    phase: number
     level: number
     stream: number
     month: number
@@ -29378,6 +29511,7 @@ export namespace Prisma {
     id?: true
     title?: true
     subjectId?: true
+    phase?: true
     level?: true
     stream?: true
     month?: true
@@ -29390,6 +29524,7 @@ export namespace Prisma {
     id?: true
     title?: true
     subjectId?: true
+    phase?: true
     level?: true
     stream?: true
     month?: true
@@ -29402,6 +29537,7 @@ export namespace Prisma {
     id?: true
     title?: true
     subjectId?: true
+    phase?: true
     level?: true
     stream?: true
     month?: true
@@ -29501,6 +29637,7 @@ export namespace Prisma {
     id: string
     title: string
     subjectId: string
+    phase: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -29532,6 +29669,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     subjectId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -29547,6 +29685,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     subjectId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -29560,6 +29699,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     subjectId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -29573,6 +29713,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     subjectId?: boolean
+    phase?: boolean
     level?: boolean
     stream?: boolean
     month?: boolean
@@ -29581,7 +29722,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ClassForumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subjectId" | "level" | "stream" | "month" | "isOpen" | "createdAt" | "updatedAt", ExtArgs["result"]["classForum"]>
+  export type ClassForumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subjectId" | "phase" | "level" | "stream" | "month" | "isOpen" | "createdAt" | "updatedAt", ExtArgs["result"]["classForum"]>
   export type ClassForumInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
     messages?: boolean | ClassForum$messagesArgs<ExtArgs>
@@ -29604,6 +29745,7 @@ export namespace Prisma {
       id: string
       title: string
       subjectId: string
+      phase: $Enums.Phase
       level: $Enums.Level
       stream: $Enums.Stream
       month: number
@@ -30038,6 +30180,7 @@ export namespace Prisma {
     readonly id: FieldRef<"ClassForum", 'String'>
     readonly title: FieldRef<"ClassForum", 'String'>
     readonly subjectId: FieldRef<"ClassForum", 'String'>
+    readonly phase: FieldRef<"ClassForum", 'Phase'>
     readonly level: FieldRef<"ClassForum", 'Level'>
     readonly stream: FieldRef<"ClassForum", 'Stream'>
     readonly month: FieldRef<"ClassForum", 'Int'>
@@ -32669,12 +32812,15 @@ export namespace Prisma {
     userId: 'userId',
     parentName: 'parentName',
     parentPhone: 'parentPhone',
+    phase: 'phase',
     level: 'level',
     stream: 'stream',
     wilaya: 'wilaya',
     totalPoints: 'totalPoints',
     parentCode: 'parentCode',
-    friendCode: 'friendCode'
+    friendCode: 'friendCode',
+    aiQuestionsCount: 'aiQuestionsCount',
+    aiQuestionsDate: 'aiQuestionsDate'
   };
 
   export type StudentProfileScalarFieldEnum = (typeof StudentProfileScalarFieldEnum)[keyof typeof StudentProfileScalarFieldEnum]
@@ -32693,6 +32839,7 @@ export namespace Prisma {
     userId: 'userId',
     name: 'name',
     phone: 'phone',
+    phases: 'phases',
     levels: 'levels',
     streams: 'streams',
     createdAt: 'createdAt'
@@ -32707,6 +32854,7 @@ export namespace Prisma {
     description: 'description',
     teacherName: 'teacherName',
     teacherId: 'teacherId',
+    phase: 'phase',
     level: 'level',
     stream: 'stream',
     image: 'image',
@@ -32868,6 +33016,7 @@ export namespace Prisma {
     title: 'title',
     a4ImageUrl: 'a4ImageUrl',
     maxScore: 'maxScore',
+    phase: 'phase',
     level: 'level',
     stream: 'stream',
     subjectId: 'subjectId',
@@ -32884,6 +33033,7 @@ export namespace Prisma {
     title: 'title',
     subjectId: 'subjectId',
     secondarySubjectId: 'secondarySubjectId',
+    phase: 'phase',
     level: 'level',
     stream: 'stream',
     month: 'month',
@@ -32913,6 +33063,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     content: 'content',
+    phase: 'phase',
     level: 'level',
     stream: 'stream',
     month: 'month',
@@ -32930,6 +33081,7 @@ export namespace Prisma {
     question: 'question',
     answer: 'answer',
     subjectId: 'subjectId',
+    phase: 'phase',
     level: 'level',
     stream: 'stream',
     month: 'month',
@@ -32945,6 +33097,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     subjectId: 'subjectId',
+    phase: 'phase',
     level: 'level',
     stream: 'stream',
     month: 'month',
@@ -33063,6 +33216,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Phase'
+   */
+  export type EnumPhaseFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Phase'>
+    
+
+
+  /**
+   * Reference to a field of type 'Phase[]'
+   */
+  export type ListEnumPhaseFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Phase[]'>
     
 
 
@@ -33290,12 +33457,15 @@ export namespace Prisma {
     userId?: StringFilter<"StudentProfile"> | string
     parentName?: StringFilter<"StudentProfile"> | string
     parentPhone?: StringFilter<"StudentProfile"> | string
+    phase?: EnumPhaseFilter<"StudentProfile"> | $Enums.Phase
     level?: EnumLevelFilter<"StudentProfile"> | $Enums.Level
     stream?: EnumStreamFilter<"StudentProfile"> | $Enums.Stream
     wilaya?: EnumWilayaFilter<"StudentProfile"> | $Enums.Wilaya
     totalPoints?: IntFilter<"StudentProfile"> | number
     parentCode?: StringNullableFilter<"StudentProfile"> | string | null
     friendCode?: StringNullableFilter<"StudentProfile"> | string | null
+    aiQuestionsCount?: IntFilter<"StudentProfile"> | number
+    aiQuestionsDate?: DateTimeFilter<"StudentProfile"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -33304,12 +33474,15 @@ export namespace Prisma {
     userId?: SortOrder
     parentName?: SortOrder
     parentPhone?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     wilaya?: SortOrder
     totalPoints?: SortOrder
     parentCode?: SortOrderInput | SortOrder
     friendCode?: SortOrderInput | SortOrder
+    aiQuestionsCount?: SortOrder
+    aiQuestionsDate?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -33323,10 +33496,13 @@ export namespace Prisma {
     NOT?: StudentProfileWhereInput | StudentProfileWhereInput[]
     parentName?: StringFilter<"StudentProfile"> | string
     parentPhone?: StringFilter<"StudentProfile"> | string
+    phase?: EnumPhaseFilter<"StudentProfile"> | $Enums.Phase
     level?: EnumLevelFilter<"StudentProfile"> | $Enums.Level
     stream?: EnumStreamFilter<"StudentProfile"> | $Enums.Stream
     wilaya?: EnumWilayaFilter<"StudentProfile"> | $Enums.Wilaya
     totalPoints?: IntFilter<"StudentProfile"> | number
+    aiQuestionsCount?: IntFilter<"StudentProfile"> | number
+    aiQuestionsDate?: DateTimeFilter<"StudentProfile"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId" | "parentCode" | "friendCode">
 
@@ -33335,12 +33511,15 @@ export namespace Prisma {
     userId?: SortOrder
     parentName?: SortOrder
     parentPhone?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     wilaya?: SortOrder
     totalPoints?: SortOrder
     parentCode?: SortOrderInput | SortOrder
     friendCode?: SortOrderInput | SortOrder
+    aiQuestionsCount?: SortOrder
+    aiQuestionsDate?: SortOrder
     _count?: StudentProfileCountOrderByAggregateInput
     _avg?: StudentProfileAvgOrderByAggregateInput
     _max?: StudentProfileMaxOrderByAggregateInput
@@ -33356,12 +33535,15 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"StudentProfile"> | string
     parentName?: StringWithAggregatesFilter<"StudentProfile"> | string
     parentPhone?: StringWithAggregatesFilter<"StudentProfile"> | string
+    phase?: EnumPhaseWithAggregatesFilter<"StudentProfile"> | $Enums.Phase
     level?: EnumLevelWithAggregatesFilter<"StudentProfile"> | $Enums.Level
     stream?: EnumStreamWithAggregatesFilter<"StudentProfile"> | $Enums.Stream
     wilaya?: EnumWilayaWithAggregatesFilter<"StudentProfile"> | $Enums.Wilaya
     totalPoints?: IntWithAggregatesFilter<"StudentProfile"> | number
     parentCode?: StringNullableWithAggregatesFilter<"StudentProfile"> | string | null
     friendCode?: StringNullableWithAggregatesFilter<"StudentProfile"> | string | null
+    aiQuestionsCount?: IntWithAggregatesFilter<"StudentProfile"> | number
+    aiQuestionsDate?: DateTimeWithAggregatesFilter<"StudentProfile"> | Date | string
   }
 
   export type ParentProfileWhereInput = {
@@ -33412,6 +33594,7 @@ export namespace Prisma {
     userId?: StringNullableFilter<"Teacher"> | string | null
     name?: StringFilter<"Teacher"> | string
     phone?: StringFilter<"Teacher"> | string
+    phases?: EnumPhaseNullableListFilter<"Teacher">
     levels?: EnumLevelNullableListFilter<"Teacher">
     streams?: EnumStreamNullableListFilter<"Teacher">
     createdAt?: DateTimeFilter<"Teacher"> | Date | string
@@ -33424,6 +33607,7 @@ export namespace Prisma {
     userId?: SortOrderInput | SortOrder
     name?: SortOrder
     phone?: SortOrder
+    phases?: SortOrder
     levels?: SortOrder
     streams?: SortOrder
     createdAt?: SortOrder
@@ -33439,6 +33623,7 @@ export namespace Prisma {
     OR?: TeacherWhereInput[]
     NOT?: TeacherWhereInput | TeacherWhereInput[]
     name?: StringFilter<"Teacher"> | string
+    phases?: EnumPhaseNullableListFilter<"Teacher">
     levels?: EnumLevelNullableListFilter<"Teacher">
     streams?: EnumStreamNullableListFilter<"Teacher">
     createdAt?: DateTimeFilter<"Teacher"> | Date | string
@@ -33451,6 +33636,7 @@ export namespace Prisma {
     userId?: SortOrderInput | SortOrder
     name?: SortOrder
     phone?: SortOrder
+    phases?: SortOrder
     levels?: SortOrder
     streams?: SortOrder
     createdAt?: SortOrder
@@ -33467,6 +33653,7 @@ export namespace Prisma {
     userId?: StringNullableWithAggregatesFilter<"Teacher"> | string | null
     name?: StringWithAggregatesFilter<"Teacher"> | string
     phone?: StringWithAggregatesFilter<"Teacher"> | string
+    phases?: EnumPhaseNullableListFilter<"Teacher">
     levels?: EnumLevelNullableListFilter<"Teacher">
     streams?: EnumStreamNullableListFilter<"Teacher">
     createdAt?: DateTimeWithAggregatesFilter<"Teacher"> | Date | string
@@ -33481,6 +33668,7 @@ export namespace Prisma {
     description?: StringFilter<"Subject"> | string
     teacherName?: StringFilter<"Subject"> | string
     teacherId?: StringNullableFilter<"Subject"> | string | null
+    phase?: EnumPhaseFilter<"Subject"> | $Enums.Phase
     level?: EnumLevelFilter<"Subject"> | $Enums.Level
     stream?: EnumStreamFilter<"Subject"> | $Enums.Stream
     image?: StringFilter<"Subject"> | string
@@ -33508,6 +33696,7 @@ export namespace Prisma {
     description?: SortOrder
     teacherName?: SortOrder
     teacherId?: SortOrderInput | SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     image?: SortOrder
@@ -33538,6 +33727,7 @@ export namespace Prisma {
     description?: StringFilter<"Subject"> | string
     teacherName?: StringFilter<"Subject"> | string
     teacherId?: StringNullableFilter<"Subject"> | string | null
+    phase?: EnumPhaseFilter<"Subject"> | $Enums.Phase
     level?: EnumLevelFilter<"Subject"> | $Enums.Level
     stream?: EnumStreamFilter<"Subject"> | $Enums.Stream
     image?: StringFilter<"Subject"> | string
@@ -33565,6 +33755,7 @@ export namespace Prisma {
     description?: SortOrder
     teacherName?: SortOrder
     teacherId?: SortOrderInput | SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     image?: SortOrder
@@ -33588,6 +33779,7 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"Subject"> | string
     teacherName?: StringWithAggregatesFilter<"Subject"> | string
     teacherId?: StringNullableWithAggregatesFilter<"Subject"> | string | null
+    phase?: EnumPhaseWithAggregatesFilter<"Subject"> | $Enums.Phase
     level?: EnumLevelWithAggregatesFilter<"Subject"> | $Enums.Level
     stream?: EnumStreamWithAggregatesFilter<"Subject"> | $Enums.Stream
     image?: StringWithAggregatesFilter<"Subject"> | string
@@ -34376,6 +34568,7 @@ export namespace Prisma {
     title?: StringFilter<"DailyExercise"> | string
     a4ImageUrl?: StringFilter<"DailyExercise"> | string
     maxScore?: IntFilter<"DailyExercise"> | number
+    phase?: EnumPhaseFilter<"DailyExercise"> | $Enums.Phase
     level?: EnumLevelFilter<"DailyExercise"> | $Enums.Level
     stream?: EnumStreamFilter<"DailyExercise"> | $Enums.Stream
     subjectId?: StringFilter<"DailyExercise"> | string
@@ -34392,6 +34585,7 @@ export namespace Prisma {
     title?: SortOrder
     a4ImageUrl?: SortOrder
     maxScore?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     subjectId?: SortOrder
@@ -34411,6 +34605,7 @@ export namespace Prisma {
     title?: StringFilter<"DailyExercise"> | string
     a4ImageUrl?: StringFilter<"DailyExercise"> | string
     maxScore?: IntFilter<"DailyExercise"> | number
+    phase?: EnumPhaseFilter<"DailyExercise"> | $Enums.Phase
     level?: EnumLevelFilter<"DailyExercise"> | $Enums.Level
     stream?: EnumStreamFilter<"DailyExercise"> | $Enums.Stream
     subjectId?: StringFilter<"DailyExercise"> | string
@@ -34427,6 +34622,7 @@ export namespace Prisma {
     title?: SortOrder
     a4ImageUrl?: SortOrder
     maxScore?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     subjectId?: SortOrder
@@ -34448,6 +34644,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"DailyExercise"> | string
     a4ImageUrl?: StringWithAggregatesFilter<"DailyExercise"> | string
     maxScore?: IntWithAggregatesFilter<"DailyExercise"> | number
+    phase?: EnumPhaseWithAggregatesFilter<"DailyExercise"> | $Enums.Phase
     level?: EnumLevelWithAggregatesFilter<"DailyExercise"> | $Enums.Level
     stream?: EnumStreamWithAggregatesFilter<"DailyExercise"> | $Enums.Stream
     subjectId?: StringWithAggregatesFilter<"DailyExercise"> | string
@@ -34464,6 +34661,7 @@ export namespace Prisma {
     title?: StringFilter<"Exam"> | string
     subjectId?: StringFilter<"Exam"> | string
     secondarySubjectId?: StringNullableFilter<"Exam"> | string | null
+    phase?: EnumPhaseFilter<"Exam"> | $Enums.Phase
     level?: EnumLevelFilter<"Exam"> | $Enums.Level
     stream?: EnumStreamFilter<"Exam"> | $Enums.Stream
     month?: IntFilter<"Exam"> | number
@@ -34481,6 +34679,7 @@ export namespace Prisma {
     title?: SortOrder
     subjectId?: SortOrder
     secondarySubjectId?: SortOrderInput | SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -34501,6 +34700,7 @@ export namespace Prisma {
     title?: StringFilter<"Exam"> | string
     subjectId?: StringFilter<"Exam"> | string
     secondarySubjectId?: StringNullableFilter<"Exam"> | string | null
+    phase?: EnumPhaseFilter<"Exam"> | $Enums.Phase
     level?: EnumLevelFilter<"Exam"> | $Enums.Level
     stream?: EnumStreamFilter<"Exam"> | $Enums.Stream
     month?: IntFilter<"Exam"> | number
@@ -34518,6 +34718,7 @@ export namespace Prisma {
     title?: SortOrder
     subjectId?: SortOrder
     secondarySubjectId?: SortOrderInput | SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -34539,6 +34740,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Exam"> | string
     subjectId?: StringWithAggregatesFilter<"Exam"> | string
     secondarySubjectId?: StringNullableWithAggregatesFilter<"Exam"> | string | null
+    phase?: EnumPhaseWithAggregatesFilter<"Exam"> | $Enums.Phase
     level?: EnumLevelWithAggregatesFilter<"Exam"> | $Enums.Level
     stream?: EnumStreamWithAggregatesFilter<"Exam"> | $Enums.Stream
     month?: IntWithAggregatesFilter<"Exam"> | number
@@ -34630,6 +34832,7 @@ export namespace Prisma {
     id?: StringFilter<"Notification"> | string
     title?: StringFilter<"Notification"> | string
     content?: StringFilter<"Notification"> | string
+    phase?: EnumPhaseNullableFilter<"Notification"> | $Enums.Phase | null
     level?: EnumLevelNullableFilter<"Notification"> | $Enums.Level | null
     stream?: EnumStreamNullableFilter<"Notification"> | $Enums.Stream | null
     month?: IntFilter<"Notification"> | number
@@ -34644,6 +34847,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     content?: SortOrder
+    phase?: SortOrderInput | SortOrder
     level?: SortOrderInput | SortOrder
     stream?: SortOrderInput | SortOrder
     month?: SortOrder
@@ -34661,6 +34865,7 @@ export namespace Prisma {
     NOT?: NotificationWhereInput | NotificationWhereInput[]
     title?: StringFilter<"Notification"> | string
     content?: StringFilter<"Notification"> | string
+    phase?: EnumPhaseNullableFilter<"Notification"> | $Enums.Phase | null
     level?: EnumLevelNullableFilter<"Notification"> | $Enums.Level | null
     stream?: EnumStreamNullableFilter<"Notification"> | $Enums.Stream | null
     month?: IntFilter<"Notification"> | number
@@ -34675,6 +34880,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     content?: SortOrder
+    phase?: SortOrderInput | SortOrder
     level?: SortOrderInput | SortOrder
     stream?: SortOrderInput | SortOrder
     month?: SortOrder
@@ -34695,6 +34901,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Notification"> | string
     title?: StringWithAggregatesFilter<"Notification"> | string
     content?: StringWithAggregatesFilter<"Notification"> | string
+    phase?: EnumPhaseNullableWithAggregatesFilter<"Notification"> | $Enums.Phase | null
     level?: EnumLevelNullableWithAggregatesFilter<"Notification"> | $Enums.Level | null
     stream?: EnumStreamNullableWithAggregatesFilter<"Notification"> | $Enums.Stream | null
     month?: IntWithAggregatesFilter<"Notification"> | number
@@ -34712,6 +34919,7 @@ export namespace Prisma {
     question?: StringFilter<"ReviewCard"> | string
     answer?: StringFilter<"ReviewCard"> | string
     subjectId?: StringFilter<"ReviewCard"> | string
+    phase?: EnumPhaseFilter<"ReviewCard"> | $Enums.Phase
     level?: EnumLevelFilter<"ReviewCard"> | $Enums.Level
     stream?: EnumStreamFilter<"ReviewCard"> | $Enums.Stream
     month?: IntFilter<"ReviewCard"> | number
@@ -34727,6 +34935,7 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     subjectId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -34745,6 +34954,7 @@ export namespace Prisma {
     question?: StringFilter<"ReviewCard"> | string
     answer?: StringFilter<"ReviewCard"> | string
     subjectId?: StringFilter<"ReviewCard"> | string
+    phase?: EnumPhaseFilter<"ReviewCard"> | $Enums.Phase
     level?: EnumLevelFilter<"ReviewCard"> | $Enums.Level
     stream?: EnumStreamFilter<"ReviewCard"> | $Enums.Stream
     month?: IntFilter<"ReviewCard"> | number
@@ -34760,6 +34970,7 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     subjectId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -34782,6 +34993,7 @@ export namespace Prisma {
     question?: StringWithAggregatesFilter<"ReviewCard"> | string
     answer?: StringWithAggregatesFilter<"ReviewCard"> | string
     subjectId?: StringWithAggregatesFilter<"ReviewCard"> | string
+    phase?: EnumPhaseWithAggregatesFilter<"ReviewCard"> | $Enums.Phase
     level?: EnumLevelWithAggregatesFilter<"ReviewCard"> | $Enums.Level
     stream?: EnumStreamWithAggregatesFilter<"ReviewCard"> | $Enums.Stream
     month?: IntWithAggregatesFilter<"ReviewCard"> | number
@@ -34797,6 +35009,7 @@ export namespace Prisma {
     id?: StringFilter<"ClassForum"> | string
     title?: StringFilter<"ClassForum"> | string
     subjectId?: StringFilter<"ClassForum"> | string
+    phase?: EnumPhaseFilter<"ClassForum"> | $Enums.Phase
     level?: EnumLevelFilter<"ClassForum"> | $Enums.Level
     stream?: EnumStreamFilter<"ClassForum"> | $Enums.Stream
     month?: IntFilter<"ClassForum"> | number
@@ -34811,6 +35024,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     subjectId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -34828,6 +35042,7 @@ export namespace Prisma {
     NOT?: ClassForumWhereInput | ClassForumWhereInput[]
     title?: StringFilter<"ClassForum"> | string
     subjectId?: StringFilter<"ClassForum"> | string
+    phase?: EnumPhaseFilter<"ClassForum"> | $Enums.Phase
     level?: EnumLevelFilter<"ClassForum"> | $Enums.Level
     stream?: EnumStreamFilter<"ClassForum"> | $Enums.Stream
     month?: IntFilter<"ClassForum"> | number
@@ -34842,6 +35057,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     subjectId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -34862,6 +35078,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"ClassForum"> | string
     title?: StringWithAggregatesFilter<"ClassForum"> | string
     subjectId?: StringWithAggregatesFilter<"ClassForum"> | string
+    phase?: EnumPhaseWithAggregatesFilter<"ClassForum"> | $Enums.Phase
     level?: EnumLevelWithAggregatesFilter<"ClassForum"> | $Enums.Level
     stream?: EnumStreamWithAggregatesFilter<"ClassForum"> | $Enums.Stream
     month?: IntWithAggregatesFilter<"ClassForum"> | number
@@ -35143,12 +35360,15 @@ export namespace Prisma {
     id?: string
     parentName: string
     parentPhone: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     wilaya: $Enums.Wilaya
     totalPoints?: number
     parentCode?: string | null
     friendCode?: string | null
+    aiQuestionsCount?: number
+    aiQuestionsDate?: Date | string
     user: UserCreateNestedOneWithoutStudentProfileInput
   }
 
@@ -35157,24 +35377,30 @@ export namespace Prisma {
     userId: string
     parentName: string
     parentPhone: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     wilaya: $Enums.Wilaya
     totalPoints?: number
     parentCode?: string | null
     friendCode?: string | null
+    aiQuestionsCount?: number
+    aiQuestionsDate?: Date | string
   }
 
   export type StudentProfileUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     parentName?: StringFieldUpdateOperationsInput | string
     parentPhone?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     wilaya?: EnumWilayaFieldUpdateOperationsInput | $Enums.Wilaya
     totalPoints?: IntFieldUpdateOperationsInput | number
     parentCode?: NullableStringFieldUpdateOperationsInput | string | null
     friendCode?: NullableStringFieldUpdateOperationsInput | string | null
+    aiQuestionsCount?: IntFieldUpdateOperationsInput | number
+    aiQuestionsDate?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutStudentProfileNestedInput
   }
 
@@ -35183,12 +35409,15 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     parentName?: StringFieldUpdateOperationsInput | string
     parentPhone?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     wilaya?: EnumWilayaFieldUpdateOperationsInput | $Enums.Wilaya
     totalPoints?: IntFieldUpdateOperationsInput | number
     parentCode?: NullableStringFieldUpdateOperationsInput | string | null
     friendCode?: NullableStringFieldUpdateOperationsInput | string | null
+    aiQuestionsCount?: IntFieldUpdateOperationsInput | number
+    aiQuestionsDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StudentProfileCreateManyInput = {
@@ -35196,24 +35425,30 @@ export namespace Prisma {
     userId: string
     parentName: string
     parentPhone: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     wilaya: $Enums.Wilaya
     totalPoints?: number
     parentCode?: string | null
     friendCode?: string | null
+    aiQuestionsCount?: number
+    aiQuestionsDate?: Date | string
   }
 
   export type StudentProfileUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     parentName?: StringFieldUpdateOperationsInput | string
     parentPhone?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     wilaya?: EnumWilayaFieldUpdateOperationsInput | $Enums.Wilaya
     totalPoints?: IntFieldUpdateOperationsInput | number
     parentCode?: NullableStringFieldUpdateOperationsInput | string | null
     friendCode?: NullableStringFieldUpdateOperationsInput | string | null
+    aiQuestionsCount?: IntFieldUpdateOperationsInput | number
+    aiQuestionsDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StudentProfileUncheckedUpdateManyInput = {
@@ -35221,12 +35456,15 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     parentName?: StringFieldUpdateOperationsInput | string
     parentPhone?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     wilaya?: EnumWilayaFieldUpdateOperationsInput | $Enums.Wilaya
     totalPoints?: IntFieldUpdateOperationsInput | number
     parentCode?: NullableStringFieldUpdateOperationsInput | string | null
     friendCode?: NullableStringFieldUpdateOperationsInput | string | null
+    aiQuestionsCount?: IntFieldUpdateOperationsInput | number
+    aiQuestionsDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ParentProfileCreateInput = {
@@ -35267,6 +35505,7 @@ export namespace Prisma {
     id?: string
     name: string
     phone: string
+    phases?: TeacherCreatephasesInput | $Enums.Phase[]
     levels?: TeacherCreatelevelsInput | $Enums.Level[]
     streams?: TeacherCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -35279,6 +35518,7 @@ export namespace Prisma {
     userId?: string | null
     name: string
     phone: string
+    phases?: TeacherCreatephasesInput | $Enums.Phase[]
     levels?: TeacherCreatelevelsInput | $Enums.Level[]
     streams?: TeacherCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -35289,6 +35529,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phases?: TeacherUpdatephasesInput | $Enums.Phase[]
     levels?: TeacherUpdatelevelsInput | $Enums.Level[]
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35301,6 +35542,7 @@ export namespace Prisma {
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phases?: TeacherUpdatephasesInput | $Enums.Phase[]
     levels?: TeacherUpdatelevelsInput | $Enums.Level[]
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35312,6 +35554,7 @@ export namespace Prisma {
     userId?: string | null
     name: string
     phone: string
+    phases?: TeacherCreatephasesInput | $Enums.Phase[]
     levels?: TeacherCreatelevelsInput | $Enums.Level[]
     streams?: TeacherCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -35321,6 +35564,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phases?: TeacherUpdatephasesInput | $Enums.Phase[]
     levels?: TeacherUpdatelevelsInput | $Enums.Level[]
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35331,6 +35575,7 @@ export namespace Prisma {
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phases?: TeacherUpdatephasesInput | $Enums.Phase[]
     levels?: TeacherUpdatelevelsInput | $Enums.Level[]
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35341,6 +35586,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -35368,6 +35614,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -35393,6 +35640,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -35420,6 +35668,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -35446,6 +35695,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -35460,6 +35710,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -35475,6 +35726,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -36246,6 +36498,7 @@ export namespace Prisma {
     title: string
     a4ImageUrl: string
     maxScore?: number
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -36260,6 +36513,7 @@ export namespace Prisma {
     title: string
     a4ImageUrl: string
     maxScore?: number
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     subjectId: string
@@ -36274,6 +36528,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     a4ImageUrl?: StringFieldUpdateOperationsInput | string
     maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -36288,6 +36543,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     a4ImageUrl?: StringFieldUpdateOperationsInput | string
     maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     subjectId?: StringFieldUpdateOperationsInput | string
@@ -36302,6 +36558,7 @@ export namespace Prisma {
     title: string
     a4ImageUrl: string
     maxScore?: number
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     subjectId: string
@@ -36315,6 +36572,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     a4ImageUrl?: StringFieldUpdateOperationsInput | string
     maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -36326,6 +36584,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     a4ImageUrl?: StringFieldUpdateOperationsInput | string
     maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     subjectId?: StringFieldUpdateOperationsInput | string
@@ -36337,6 +36596,7 @@ export namespace Prisma {
   export type ExamCreateInput = {
     id?: string
     title: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -36354,6 +36614,7 @@ export namespace Prisma {
     title: string
     subjectId: string
     secondarySubjectId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -36367,6 +36628,7 @@ export namespace Prisma {
   export type ExamUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -36384,6 +36646,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     secondarySubjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -36399,6 +36662,7 @@ export namespace Prisma {
     title: string
     subjectId: string
     secondarySubjectId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -36410,6 +36674,7 @@ export namespace Prisma {
   export type ExamUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -36423,6 +36688,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     secondarySubjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -36510,6 +36776,7 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    phase?: $Enums.Phase | null
     level?: $Enums.Level | null
     stream?: $Enums.Stream | null
     month: number
@@ -36522,6 +36789,7 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    phase?: $Enums.Phase | null
     level?: $Enums.Level | null
     stream?: $Enums.Stream | null
     month: number
@@ -36534,6 +36802,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    phase?: NullableEnumPhaseFieldUpdateOperationsInput | $Enums.Phase | null
     level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
     stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
     month?: IntFieldUpdateOperationsInput | number
@@ -36546,6 +36815,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    phase?: NullableEnumPhaseFieldUpdateOperationsInput | $Enums.Phase | null
     level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
     stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
     month?: IntFieldUpdateOperationsInput | number
@@ -36558,6 +36828,7 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    phase?: $Enums.Phase | null
     level?: $Enums.Level | null
     stream?: $Enums.Stream | null
     month: number
@@ -36570,6 +36841,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    phase?: NullableEnumPhaseFieldUpdateOperationsInput | $Enums.Phase | null
     level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
     stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
     month?: IntFieldUpdateOperationsInput | number
@@ -36580,6 +36852,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    phase?: NullableEnumPhaseFieldUpdateOperationsInput | $Enums.Phase | null
     level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
     stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
     month?: IntFieldUpdateOperationsInput | number
@@ -36593,6 +36866,7 @@ export namespace Prisma {
     title: string
     question: string
     answer: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -36608,6 +36882,7 @@ export namespace Prisma {
     question: string
     answer: string
     subjectId: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -36621,6 +36896,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -36636,6 +36912,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -36650,6 +36927,7 @@ export namespace Prisma {
     question: string
     answer: string
     subjectId: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -36663,6 +36941,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -36677,6 +36956,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -36688,6 +36968,7 @@ export namespace Prisma {
   export type ClassForumCreateInput = {
     id?: string
     title: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -36702,6 +36983,7 @@ export namespace Prisma {
     id?: string
     title: string
     subjectId: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -36714,6 +36996,7 @@ export namespace Prisma {
   export type ClassForumUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -36728,6 +37011,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -36741,6 +37025,7 @@ export namespace Prisma {
     id?: string
     title: string
     subjectId: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -36752,6 +37037,7 @@ export namespace Prisma {
   export type ClassForumUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -36764,6 +37050,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -37161,6 +37448,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type EnumPhaseFilter<$PrismaModel = never> = {
+    equals?: $Enums.Phase | EnumPhaseFieldRefInput<$PrismaModel>
+    in?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel>
+    not?: NestedEnumPhaseFilter<$PrismaModel> | $Enums.Phase
+  }
+
   export type EnumLevelFilter<$PrismaModel = never> = {
     equals?: $Enums.Level | EnumLevelFieldRefInput<$PrismaModel>
     in?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel>
@@ -37203,16 +37497,20 @@ export namespace Prisma {
     userId?: SortOrder
     parentName?: SortOrder
     parentPhone?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     wilaya?: SortOrder
     totalPoints?: SortOrder
     parentCode?: SortOrder
     friendCode?: SortOrder
+    aiQuestionsCount?: SortOrder
+    aiQuestionsDate?: SortOrder
   }
 
   export type StudentProfileAvgOrderByAggregateInput = {
     totalPoints?: SortOrder
+    aiQuestionsCount?: SortOrder
   }
 
   export type StudentProfileMaxOrderByAggregateInput = {
@@ -37220,12 +37518,15 @@ export namespace Prisma {
     userId?: SortOrder
     parentName?: SortOrder
     parentPhone?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     wilaya?: SortOrder
     totalPoints?: SortOrder
     parentCode?: SortOrder
     friendCode?: SortOrder
+    aiQuestionsCount?: SortOrder
+    aiQuestionsDate?: SortOrder
   }
 
   export type StudentProfileMinOrderByAggregateInput = {
@@ -37233,16 +37534,30 @@ export namespace Prisma {
     userId?: SortOrder
     parentName?: SortOrder
     parentPhone?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     wilaya?: SortOrder
     totalPoints?: SortOrder
     parentCode?: SortOrder
     friendCode?: SortOrder
+    aiQuestionsCount?: SortOrder
+    aiQuestionsDate?: SortOrder
   }
 
   export type StudentProfileSumOrderByAggregateInput = {
     totalPoints?: SortOrder
+    aiQuestionsCount?: SortOrder
+  }
+
+  export type EnumPhaseWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Phase | EnumPhaseFieldRefInput<$PrismaModel>
+    in?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel>
+    not?: NestedEnumPhaseWithAggregatesFilter<$PrismaModel> | $Enums.Phase
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPhaseFilter<$PrismaModel>
+    _max?: NestedEnumPhaseFilter<$PrismaModel>
   }
 
   export type EnumLevelWithAggregatesFilter<$PrismaModel = never> = {
@@ -37306,6 +37621,14 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
+  export type EnumPhaseNullableListFilter<$PrismaModel = never> = {
+    equals?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel> | null
+    has?: $Enums.Phase | EnumPhaseFieldRefInput<$PrismaModel> | null
+    hasEvery?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel>
+    hasSome?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type EnumLevelNullableListFilter<$PrismaModel = never> = {
     equals?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel> | null
     has?: $Enums.Level | EnumLevelFieldRefInput<$PrismaModel> | null
@@ -37342,6 +37665,7 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
+    phases?: SortOrder
     levels?: SortOrder
     streams?: SortOrder
     createdAt?: SortOrder
@@ -37445,6 +37769,7 @@ export namespace Prisma {
     description?: SortOrder
     teacherName?: SortOrder
     teacherId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     image?: SortOrder
@@ -37464,6 +37789,7 @@ export namespace Prisma {
     description?: SortOrder
     teacherName?: SortOrder
     teacherId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     image?: SortOrder
@@ -37479,6 +37805,7 @@ export namespace Prisma {
     description?: SortOrder
     teacherName?: SortOrder
     teacherId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     image?: SortOrder
@@ -38024,6 +38351,7 @@ export namespace Prisma {
     title?: SortOrder
     a4ImageUrl?: SortOrder
     maxScore?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     subjectId?: SortOrder
@@ -38042,6 +38370,7 @@ export namespace Prisma {
     title?: SortOrder
     a4ImageUrl?: SortOrder
     maxScore?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     subjectId?: SortOrder
@@ -38055,6 +38384,7 @@ export namespace Prisma {
     title?: SortOrder
     a4ImageUrl?: SortOrder
     maxScore?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     subjectId?: SortOrder
@@ -38073,6 +38403,7 @@ export namespace Prisma {
     title?: SortOrder
     subjectId?: SortOrder
     secondarySubjectId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -38091,6 +38422,7 @@ export namespace Prisma {
     title?: SortOrder
     subjectId?: SortOrder
     secondarySubjectId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -38104,6 +38436,7 @@ export namespace Prisma {
     title?: SortOrder
     subjectId?: SortOrder
     secondarySubjectId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -38195,6 +38528,13 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type EnumPhaseNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Phase | EnumPhaseFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPhaseNullableFilter<$PrismaModel> | $Enums.Phase | null
+  }
+
   export type EnumLevelNullableFilter<$PrismaModel = never> = {
     equals?: $Enums.Level | EnumLevelFieldRefInput<$PrismaModel> | null
     in?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel> | null
@@ -38213,6 +38553,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     content?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -38229,6 +38570,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     content?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -38241,6 +38583,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     content?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -38251,6 +38594,16 @@ export namespace Prisma {
 
   export type NotificationSumOrderByAggregateInput = {
     month?: SortOrder
+  }
+
+  export type EnumPhaseNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Phase | EnumPhaseFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPhaseNullableWithAggregatesFilter<$PrismaModel> | $Enums.Phase | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumPhaseNullableFilter<$PrismaModel>
+    _max?: NestedEnumPhaseNullableFilter<$PrismaModel>
   }
 
   export type EnumLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -38279,6 +38632,7 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     subjectId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -38297,6 +38651,7 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     subjectId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -38311,6 +38666,7 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     subjectId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -38327,6 +38683,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     subjectId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -38343,6 +38700,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     subjectId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -38355,6 +38713,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     subjectId?: SortOrder
+    phase?: SortOrder
     level?: SortOrder
     stream?: SortOrder
     month?: SortOrder
@@ -39054,6 +39413,10 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type EnumPhaseFieldUpdateOperationsInput = {
+    set?: $Enums.Phase
+  }
+
   export type EnumLevelFieldUpdateOperationsInput = {
     set?: $Enums.Level
   }
@@ -39096,6 +39459,10 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutParentProfileInput, UserUpdateWithoutParentProfileInput>, UserUncheckedUpdateWithoutParentProfileInput>
   }
 
+  export type TeacherCreatephasesInput = {
+    set: $Enums.Phase[]
+  }
+
   export type TeacherCreatelevelsInput = {
     set: $Enums.Level[]
   }
@@ -39122,6 +39489,11 @@ export namespace Prisma {
     connectOrCreate?: SubjectCreateOrConnectWithoutTeacherInput | SubjectCreateOrConnectWithoutTeacherInput[]
     createMany?: SubjectCreateManyTeacherInputEnvelope
     connect?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
+  }
+
+  export type TeacherUpdatephasesInput = {
+    set?: $Enums.Phase[]
+    push?: $Enums.Phase | $Enums.Phase[]
   }
 
   export type TeacherUpdatelevelsInput = {
@@ -40368,6 +40740,10 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type NullableEnumPhaseFieldUpdateOperationsInput = {
+    set?: $Enums.Phase | null
+  }
+
   export type NullableEnumLevelFieldUpdateOperationsInput = {
     set?: $Enums.Level | null
   }
@@ -40634,6 +41010,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumPhaseFilter<$PrismaModel = never> = {
+    equals?: $Enums.Phase | EnumPhaseFieldRefInput<$PrismaModel>
+    in?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel>
+    not?: NestedEnumPhaseFilter<$PrismaModel> | $Enums.Phase
+  }
+
   export type NestedEnumLevelFilter<$PrismaModel = never> = {
     equals?: $Enums.Level | EnumLevelFieldRefInput<$PrismaModel>
     in?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel>
@@ -40653,6 +41036,16 @@ export namespace Prisma {
     in?: $Enums.Wilaya[] | ListEnumWilayaFieldRefInput<$PrismaModel>
     notIn?: $Enums.Wilaya[] | ListEnumWilayaFieldRefInput<$PrismaModel>
     not?: NestedEnumWilayaFilter<$PrismaModel> | $Enums.Wilaya
+  }
+
+  export type NestedEnumPhaseWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Phase | EnumPhaseFieldRefInput<$PrismaModel>
+    in?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel>
+    not?: NestedEnumPhaseWithAggregatesFilter<$PrismaModel> | $Enums.Phase
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPhaseFilter<$PrismaModel>
+    _max?: NestedEnumPhaseFilter<$PrismaModel>
   }
 
   export type NestedEnumLevelWithAggregatesFilter<$PrismaModel = never> = {
@@ -40791,6 +41184,13 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedEnumPhaseNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Phase | EnumPhaseFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPhaseNullableFilter<$PrismaModel> | $Enums.Phase | null
+  }
+
   export type NestedEnumLevelNullableFilter<$PrismaModel = never> = {
     equals?: $Enums.Level | EnumLevelFieldRefInput<$PrismaModel> | null
     in?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel> | null
@@ -40803,6 +41203,16 @@ export namespace Prisma {
     in?: $Enums.Stream[] | ListEnumStreamFieldRefInput<$PrismaModel> | null
     notIn?: $Enums.Stream[] | ListEnumStreamFieldRefInput<$PrismaModel> | null
     not?: NestedEnumStreamNullableFilter<$PrismaModel> | $Enums.Stream | null
+  }
+
+  export type NestedEnumPhaseNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Phase | EnumPhaseFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Phase[] | ListEnumPhaseFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPhaseNullableWithAggregatesFilter<$PrismaModel> | $Enums.Phase | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumPhaseNullableFilter<$PrismaModel>
+    _max?: NestedEnumPhaseNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -40829,24 +41239,30 @@ export namespace Prisma {
     id?: string
     parentName: string
     parentPhone: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     wilaya: $Enums.Wilaya
     totalPoints?: number
     parentCode?: string | null
     friendCode?: string | null
+    aiQuestionsCount?: number
+    aiQuestionsDate?: Date | string
   }
 
   export type StudentProfileUncheckedCreateWithoutUserInput = {
     id?: string
     parentName: string
     parentPhone: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     wilaya: $Enums.Wilaya
     totalPoints?: number
     parentCode?: string | null
     friendCode?: string | null
+    aiQuestionsCount?: number
+    aiQuestionsDate?: Date | string
   }
 
   export type StudentProfileCreateOrConnectWithoutUserInput = {
@@ -40871,6 +41287,7 @@ export namespace Prisma {
     id?: string
     name: string
     phone: string
+    phases?: TeacherCreatephasesInput | $Enums.Phase[]
     levels?: TeacherCreatelevelsInput | $Enums.Level[]
     streams?: TeacherCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -40881,6 +41298,7 @@ export namespace Prisma {
     id?: string
     name: string
     phone: string
+    phases?: TeacherCreatephasesInput | $Enums.Phase[]
     levels?: TeacherCreatelevelsInput | $Enums.Level[]
     streams?: TeacherCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -41076,6 +41494,7 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    phase?: $Enums.Phase | null
     level?: $Enums.Level | null
     stream?: $Enums.Stream | null
     month: number
@@ -41087,6 +41506,7 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    phase?: $Enums.Phase | null
     level?: $Enums.Level | null
     stream?: $Enums.Stream | null
     month: number
@@ -41213,24 +41633,30 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     parentName?: StringFieldUpdateOperationsInput | string
     parentPhone?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     wilaya?: EnumWilayaFieldUpdateOperationsInput | $Enums.Wilaya
     totalPoints?: IntFieldUpdateOperationsInput | number
     parentCode?: NullableStringFieldUpdateOperationsInput | string | null
     friendCode?: NullableStringFieldUpdateOperationsInput | string | null
+    aiQuestionsCount?: IntFieldUpdateOperationsInput | number
+    aiQuestionsDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StudentProfileUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     parentName?: StringFieldUpdateOperationsInput | string
     parentPhone?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     wilaya?: EnumWilayaFieldUpdateOperationsInput | $Enums.Wilaya
     totalPoints?: IntFieldUpdateOperationsInput | number
     parentCode?: NullableStringFieldUpdateOperationsInput | string | null
     friendCode?: NullableStringFieldUpdateOperationsInput | string | null
+    aiQuestionsCount?: IntFieldUpdateOperationsInput | number
+    aiQuestionsDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ParentProfileUpsertWithoutUserInput = {
@@ -41267,6 +41693,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phases?: TeacherUpdatephasesInput | $Enums.Phase[]
     levels?: TeacherUpdatelevelsInput | $Enums.Level[]
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41277,6 +41704,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phases?: TeacherUpdatephasesInput | $Enums.Phase[]
     levels?: TeacherUpdatelevelsInput | $Enums.Level[]
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41490,6 +41918,7 @@ export namespace Prisma {
     id?: StringFilter<"Notification"> | string
     title?: StringFilter<"Notification"> | string
     content?: StringFilter<"Notification"> | string
+    phase?: EnumPhaseNullableFilter<"Notification"> | $Enums.Phase | null
     level?: EnumLevelNullableFilter<"Notification"> | $Enums.Level | null
     stream?: EnumStreamNullableFilter<"Notification"> | $Enums.Stream | null
     month?: IntFilter<"Notification"> | number
@@ -41907,6 +42336,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -41932,6 +42362,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -42052,6 +42483,7 @@ export namespace Prisma {
     description?: StringFilter<"Subject"> | string
     teacherName?: StringFilter<"Subject"> | string
     teacherId?: StringNullableFilter<"Subject"> | string | null
+    phase?: EnumPhaseFilter<"Subject"> | $Enums.Phase
     level?: EnumLevelFilter<"Subject"> | $Enums.Level
     stream?: EnumStreamFilter<"Subject"> | $Enums.Stream
     image?: StringFilter<"Subject"> | string
@@ -42065,6 +42497,7 @@ export namespace Prisma {
     id?: string
     name: string
     phone: string
+    phases?: TeacherCreatephasesInput | $Enums.Phase[]
     levels?: TeacherCreatelevelsInput | $Enums.Level[]
     streams?: TeacherCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -42076,6 +42509,7 @@ export namespace Prisma {
     userId?: string | null
     name: string
     phone: string
+    phases?: TeacherCreatephasesInput | $Enums.Phase[]
     levels?: TeacherCreatelevelsInput | $Enums.Level[]
     streams?: TeacherCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -42152,6 +42586,7 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    phase?: $Enums.Phase | null
     level?: $Enums.Level | null
     stream?: $Enums.Stream | null
     month: number
@@ -42163,6 +42598,7 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    phase?: $Enums.Phase | null
     level?: $Enums.Level | null
     stream?: $Enums.Stream | null
     month: number
@@ -42239,6 +42675,7 @@ export namespace Prisma {
     title: string
     a4ImageUrl: string
     maxScore?: number
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -42252,6 +42689,7 @@ export namespace Prisma {
     title: string
     a4ImageUrl: string
     maxScore?: number
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     secondarySubjectId?: string | null
@@ -42275,6 +42713,7 @@ export namespace Prisma {
     title: string
     a4ImageUrl: string
     maxScore?: number
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -42288,6 +42727,7 @@ export namespace Prisma {
     title: string
     a4ImageUrl: string
     maxScore?: number
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     subjectId: string
@@ -42309,6 +42749,7 @@ export namespace Prisma {
   export type ExamCreateWithoutSubjectInput = {
     id?: string
     title: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -42324,6 +42765,7 @@ export namespace Prisma {
     id?: string
     title: string
     secondarySubjectId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -42347,6 +42789,7 @@ export namespace Prisma {
   export type ExamCreateWithoutSecondarySubjectInput = {
     id?: string
     title: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -42362,6 +42805,7 @@ export namespace Prisma {
     id?: string
     title: string
     subjectId: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -42387,6 +42831,7 @@ export namespace Prisma {
     title: string
     question: string
     answer: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -42400,6 +42845,7 @@ export namespace Prisma {
     title: string
     question: string
     answer: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -42421,6 +42867,7 @@ export namespace Prisma {
   export type ClassForumCreateWithoutSubjectInput = {
     id?: string
     title: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -42433,6 +42880,7 @@ export namespace Prisma {
   export type ClassForumUncheckedCreateWithoutSubjectInput = {
     id?: string
     title: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -42467,6 +42915,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phases?: TeacherUpdatephasesInput | $Enums.Phase[]
     levels?: TeacherUpdatelevelsInput | $Enums.Level[]
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42478,6 +42927,7 @@ export namespace Prisma {
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phases?: TeacherUpdatephasesInput | $Enums.Phase[]
     levels?: TeacherUpdatelevelsInput | $Enums.Level[]
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42613,6 +43063,7 @@ export namespace Prisma {
     title?: StringFilter<"DailyExercise"> | string
     a4ImageUrl?: StringFilter<"DailyExercise"> | string
     maxScore?: IntFilter<"DailyExercise"> | number
+    phase?: EnumPhaseFilter<"DailyExercise"> | $Enums.Phase
     level?: EnumLevelFilter<"DailyExercise"> | $Enums.Level
     stream?: EnumStreamFilter<"DailyExercise"> | $Enums.Stream
     subjectId?: StringFilter<"DailyExercise"> | string
@@ -42661,6 +43112,7 @@ export namespace Prisma {
     title?: StringFilter<"Exam"> | string
     subjectId?: StringFilter<"Exam"> | string
     secondarySubjectId?: StringNullableFilter<"Exam"> | string | null
+    phase?: EnumPhaseFilter<"Exam"> | $Enums.Phase
     level?: EnumLevelFilter<"Exam"> | $Enums.Level
     stream?: EnumStreamFilter<"Exam"> | $Enums.Stream
     month?: IntFilter<"Exam"> | number
@@ -42710,6 +43162,7 @@ export namespace Prisma {
     question?: StringFilter<"ReviewCard"> | string
     answer?: StringFilter<"ReviewCard"> | string
     subjectId?: StringFilter<"ReviewCard"> | string
+    phase?: EnumPhaseFilter<"ReviewCard"> | $Enums.Phase
     level?: EnumLevelFilter<"ReviewCard"> | $Enums.Level
     stream?: EnumStreamFilter<"ReviewCard"> | $Enums.Stream
     month?: IntFilter<"ReviewCard"> | number
@@ -42741,6 +43194,7 @@ export namespace Prisma {
     id?: StringFilter<"ClassForum"> | string
     title?: StringFilter<"ClassForum"> | string
     subjectId?: StringFilter<"ClassForum"> | string
+    phase?: EnumPhaseFilter<"ClassForum"> | $Enums.Phase
     level?: EnumLevelFilter<"ClassForum"> | $Enums.Level
     stream?: EnumStreamFilter<"ClassForum"> | $Enums.Stream
     month?: IntFilter<"ClassForum"> | number
@@ -42754,6 +43208,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -42780,6 +43235,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -42899,6 +43355,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -42925,6 +43382,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -43118,6 +43576,7 @@ export namespace Prisma {
     title: string
     a4ImageUrl: string
     maxScore?: number
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -43131,6 +43590,7 @@ export namespace Prisma {
     title: string
     a4ImageUrl: string
     maxScore?: number
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     subjectId: string
@@ -43147,6 +43607,7 @@ export namespace Prisma {
   export type ExamCreateWithoutQuizInput = {
     id?: string
     title: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -43163,6 +43624,7 @@ export namespace Prisma {
     title: string
     subjectId: string
     secondarySubjectId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -43256,6 +43718,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     a4ImageUrl?: StringFieldUpdateOperationsInput | string
     maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -43269,6 +43732,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     a4ImageUrl?: StringFieldUpdateOperationsInput | string
     maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     subjectId?: StringFieldUpdateOperationsInput | string
@@ -43291,6 +43755,7 @@ export namespace Prisma {
   export type ExamUpdateWithoutQuizInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -43307,6 +43772,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     secondarySubjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -43396,6 +43862,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -43422,6 +43889,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -43527,6 +43995,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -43553,6 +44022,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -44380,6 +44850,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -44406,6 +44877,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -44511,6 +44983,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -44537,6 +45010,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -44561,6 +45035,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -44587,6 +45062,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -44627,6 +45103,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -44653,6 +45130,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -44896,6 +45374,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -44922,6 +45401,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -44951,6 +45431,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -44977,6 +45458,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -45044,6 +45526,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -45070,6 +45553,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -45105,6 +45589,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -45131,6 +45616,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -45188,6 +45674,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -45214,6 +45701,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -45243,6 +45731,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -45269,6 +45758,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -45366,6 +45856,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -45392,6 +45883,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -45427,6 +45919,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -45453,6 +45946,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -45524,6 +46018,7 @@ export namespace Prisma {
   export type ExamCreateWithoutSubmissionsInput = {
     id?: string
     title: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -45540,6 +46035,7 @@ export namespace Prisma {
     title: string
     subjectId: string
     secondarySubjectId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -45627,6 +46123,7 @@ export namespace Prisma {
   export type ExamUpdateWithoutSubmissionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -45643,6 +46140,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     secondarySubjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -45722,6 +46220,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -45748,6 +46247,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -45847,6 +46347,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -45873,6 +46374,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -45962,6 +46464,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -45988,6 +46491,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -46028,6 +46532,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -46054,6 +46559,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -46078,6 +46584,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -46104,6 +46611,7 @@ export namespace Prisma {
     description: string
     teacherName: string
     teacherId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -46168,6 +46676,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -46194,6 +46703,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -46232,6 +46742,7 @@ export namespace Prisma {
   export type ClassForumCreateWithoutMessagesInput = {
     id?: string
     title: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -46245,6 +46756,7 @@ export namespace Prisma {
     id?: string
     title: string
     subjectId: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -46331,6 +46843,7 @@ export namespace Prisma {
   export type ClassForumUpdateWithoutMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -46344,6 +46857,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -46599,6 +47113,7 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    phase?: $Enums.Phase | null
     level?: $Enums.Level | null
     stream?: $Enums.Stream | null
     month: number
@@ -46801,6 +47316,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    phase?: NullableEnumPhaseFieldUpdateOperationsInput | $Enums.Phase | null
     level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
     stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
     month?: IntFieldUpdateOperationsInput | number
@@ -46812,6 +47328,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    phase?: NullableEnumPhaseFieldUpdateOperationsInput | $Enums.Phase | null
     level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
     stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
     month?: IntFieldUpdateOperationsInput | number
@@ -46823,6 +47340,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    phase?: NullableEnumPhaseFieldUpdateOperationsInput | $Enums.Phase | null
     level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
     stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
     month?: IntFieldUpdateOperationsInput | number
@@ -46916,6 +47434,7 @@ export namespace Prisma {
     title: string
     description: string
     teacherName: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     image: string
@@ -46930,6 +47449,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -46955,6 +47475,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -46980,6 +47501,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     image?: StringFieldUpdateOperationsInput | string
@@ -47011,6 +47533,7 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
+    phase?: $Enums.Phase | null
     level?: $Enums.Level | null
     stream?: $Enums.Stream | null
     month: number
@@ -47040,6 +47563,7 @@ export namespace Prisma {
     title: string
     a4ImageUrl: string
     maxScore?: number
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     secondarySubjectId?: string | null
@@ -47052,6 +47576,7 @@ export namespace Prisma {
     title: string
     a4ImageUrl: string
     maxScore?: number
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     subjectId: string
@@ -47063,6 +47588,7 @@ export namespace Prisma {
     id?: string
     title: string
     secondarySubjectId?: string | null
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -47075,6 +47601,7 @@ export namespace Prisma {
     id?: string
     title: string
     subjectId: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -47088,6 +47615,7 @@ export namespace Prisma {
     title: string
     question: string
     answer: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -47099,6 +47627,7 @@ export namespace Prisma {
   export type ClassForumCreateManySubjectInput = {
     id?: string
     title: string
+    phase?: $Enums.Phase
     level: $Enums.Level
     stream: $Enums.Stream
     month: number
@@ -47171,6 +47700,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    phase?: NullableEnumPhaseFieldUpdateOperationsInput | $Enums.Phase | null
     level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
     stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
     month?: IntFieldUpdateOperationsInput | number
@@ -47182,6 +47712,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    phase?: NullableEnumPhaseFieldUpdateOperationsInput | $Enums.Phase | null
     level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
     stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
     month?: IntFieldUpdateOperationsInput | number
@@ -47193,6 +47724,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    phase?: NullableEnumPhaseFieldUpdateOperationsInput | $Enums.Phase | null
     level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
     stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
     month?: IntFieldUpdateOperationsInput | number
@@ -47256,6 +47788,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     a4ImageUrl?: StringFieldUpdateOperationsInput | string
     maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -47269,6 +47802,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     a4ImageUrl?: StringFieldUpdateOperationsInput | string
     maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     secondarySubjectId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47282,6 +47816,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     a4ImageUrl?: StringFieldUpdateOperationsInput | string
     maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     secondarySubjectId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47294,6 +47829,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     a4ImageUrl?: StringFieldUpdateOperationsInput | string
     maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -47307,6 +47843,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     a4ImageUrl?: StringFieldUpdateOperationsInput | string
     maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     subjectId?: StringFieldUpdateOperationsInput | string
@@ -47320,6 +47857,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     a4ImageUrl?: StringFieldUpdateOperationsInput | string
     maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     subjectId?: StringFieldUpdateOperationsInput | string
@@ -47330,6 +47868,7 @@ export namespace Prisma {
   export type ExamUpdateWithoutSubjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -47345,6 +47884,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     secondarySubjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -47359,6 +47899,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     secondarySubjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -47370,6 +47911,7 @@ export namespace Prisma {
   export type ExamUpdateWithoutSecondarySubjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -47385,6 +47927,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -47399,6 +47942,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -47412,6 +47956,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -47425,6 +47970,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -47438,6 +47984,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -47449,6 +47996,7 @@ export namespace Prisma {
   export type ClassForumUpdateWithoutSubjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -47461,6 +48009,7 @@ export namespace Prisma {
   export type ClassForumUncheckedUpdateWithoutSubjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number
@@ -47473,6 +48022,7 @@ export namespace Prisma {
   export type ClassForumUncheckedUpdateManyWithoutSubjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
     month?: IntFieldUpdateOperationsInput | number

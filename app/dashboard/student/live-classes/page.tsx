@@ -35,19 +35,20 @@ export default async function StudentLiveClassesPage() {
   });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 font-sans pb-12">
       <HeroBanner 
         title="حصصي المباشرة"
         description="تابع حصص البث المباشر مع أساتذتك و المراجعات والتطبيقات التفاعلية لجميع المواد المسجل بها"
         icon={Video}
-        gradientClass="bg-gradient-to-r from-purple-600 to-pink-600"
       />
 
       {liveClasses.length === 0 ? (
-        <div className="p-6 md:p-12 text-center bg-white rounded-3xl border border-slate-100 shadow-sm">
-          <Video className="w-16 h-16 text-purple-800 mx-auto mb-4" />
-          <h3 className="font-black text-xl text-purple-900">لا توجد حصص مبرمجة حالياً</h3>
-          <p className="text-slate-500 font-medium mt-2">ستظهر هنا الحصص الخاصة بالمواد التي سجلت فيها فور برمجتها من طرف أساتذتك</p>
+        <div className="p-8 md:p-12 text-center bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] shadow-3d-soft paper-cut relative overflow-hidden">
+          <div className="w-20 h-20 bg-[#FACC15] border-[3px] border-[#000000] rounded-2xl flex items-center justify-center mx-auto mb-6 transform -rotate-3 shadow-sm relative z-10">
+            <Video className="w-10 h-10 text-[#000000]" />
+          </div>
+          <h3 className="font-black text-2xl text-[#000000] mb-3 relative z-10">لا توجد حصص مبرمجة حالياً</h3>
+          <p className="text-gray-600 font-bold mt-2 relative z-10">ستظهر هنا الحصص الخاصة بالمواد التي سجلت فيها فور برمجتها من طرف أساتذتك</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -72,40 +73,44 @@ export default async function StudentLiveClassesPage() {
             }
 
             return (
-              <div key={liveClass.id} className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 flex flex-col relative overflow-hidden group">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-purple-950 shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-inner">
-                    <Video className="w-6 h-6" />
+              <div key={liveClass.id} className="bg-[#FFFFFF] rounded-3xl shadow-3d-soft border-[3px] border-[#000000] p-6 flex flex-col relative overflow-hidden paper-cut group transition-transform hover:-translate-y-1 hover:shadow-3d-hover">
+                <div className="flex items-start justify-between mb-6 relative z-10">
+                  <div className="w-14 h-14 rounded-xl bg-[#EC4899] border-[3px] border-[#000000] flex items-center justify-center text-white shrink-0 group-hover:-rotate-6 transition-transform duration-300 shadow-sm transform rotate-3">
+                    <Video className="w-6 h-6" strokeWidth={2.5} />
                   </div>
                   {status === 'upcoming' && (
-                    <span className="bg-purple-50 text-purple-700 text-[10px] font-black px-2 py-1 rounded-full border border-purple-100">
+                    <span className="bg-[#06B6D4] text-[#000000] text-xs font-black px-3 py-1.5 rounded-lg border-[3px] border-[#000000] shadow-sm transform -rotate-3">
                       قادمة
                     </span>
                   )}
                   {status === 'live' && (
-                    <span className="bg-purple-50 text-purple-800 text-[10px] font-black px-2 py-1 rounded-full border border-purple-100 animate-pulse">
+                    <span className="bg-[#22C55E] text-[#000000] text-xs font-black px-3 py-1.5 rounded-lg border-[3px] border-[#000000] animate-pulse shadow-sm transform rotate-3">
                       جارية الآن
                     </span>
                   )}
                   {status === 'ended' && (
-                    <span className="bg-white text-slate-500 text-[10px] font-black px-2 py-1 rounded-full border border-slate-200">
+                    <span className="bg-gray-200 text-gray-500 text-xs font-black px-3 py-1.5 rounded-lg border-[3px] border-gray-300 shadow-sm">
                       منتهية
                     </span>
                   )}
                 </div>
 
-                <h3 className="font-black text-purple-950 text-lg mb-2">{liveClass.title}</h3>
-                <div className="bg-white text-purple-800 text-xs font-bold px-3 py-1.5 rounded-lg inline-block mb-4 border border-slate-200 w-fit">
+                <h3 className="font-black text-[#000000] text-xl mb-3 relative z-10">{liveClass.title}</h3>
+                <div className="bg-[#FACC15] text-[#000000] text-xs font-black px-3 py-1.5 rounded-lg inline-block mb-6 border-[2px] border-[#000000] w-fit shadow-sm relative z-10 transform -rotate-1">
                   {liveClass.subject.title}
                 </div>
 
-                <div className="space-y-3 flex-1 bg-white p-4 rounded-xl border border-slate-100">
-                  <div className="flex items-center gap-2 text-sm font-bold text-purple-800">
-                    <Calendar className="w-4 h-4 text-purple-700" />
+                <div className="space-y-4 flex-1 bg-white p-5 rounded-2xl border-[3px] border-[#000000] shadow-sm relative z-10 mb-2">
+                  <div className="flex items-center gap-3 text-sm font-bold text-[#000000]">
+                    <div className="w-8 h-8 rounded-lg bg-[#EAE4D9] border-[2px] border-[#000000] flex items-center justify-center shrink-0">
+                      <Calendar className="w-4 h-4 text-[#000000]" />
+                    </div>
                     {formattedDate}
                   </div>
-                  <div className="flex items-center gap-2 text-sm font-bold text-purple-800">
-                    <Clock className="w-4 h-4 text-purple-700" />
+                  <div className="flex items-center gap-3 text-sm font-bold text-[#000000]">
+                    <div className="w-8 h-8 rounded-lg bg-[#EAE4D9] border-[2px] border-[#000000] flex items-center justify-center shrink-0">
+                      <Clock className="w-4 h-4 text-[#000000]" />
+                    </div>
                     الساعة {formattedTime}
                   </div>
                 </div>
@@ -115,13 +120,13 @@ export default async function StudentLiveClassesPage() {
                     href={liveClass.zoomLink} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="mt-6 flex items-center justify-center gap-2 w-full py-3 bg-white text-purple-950 hover:bg-black shadow-lg hover:shadow-xl font-bold rounded-xl transition-all hover:-translate-y-0.5"
+                    className="mt-6 relative z-10 flex items-center justify-center gap-2 w-full py-4 bg-[#7E22CE] text-white hover:bg-[#FACC15] hover:text-[#000000] shadow-sm border-[3px] border-[#000000] font-black rounded-xl transition-all hover:-translate-y-1 hover:shadow-3d-hover group-hover:rotate-1"
                   >
-                    <LinkIcon className="w-4 h-4" />
+                    <LinkIcon className="w-5 h-5" strokeWidth={3} />
                     دخول الحصة
                   </a>
                 ) : (
-                  <div className="mt-6 flex items-center justify-center gap-2 w-full py-3 bg-slate-100 text-slate-400 font-bold rounded-xl border border-slate-200">
+                  <div className="mt-6 relative z-10 flex items-center justify-center gap-2 w-full py-4 bg-gray-100 text-gray-400 font-black rounded-xl border-[3px] border-gray-300">
                     الحصة منتهية
                   </div>
                 )}

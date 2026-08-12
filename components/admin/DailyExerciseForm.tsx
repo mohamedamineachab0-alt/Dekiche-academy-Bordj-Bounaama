@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Upload, Plus, BrainCircuit, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { createDailyExercise } from "@/actions/exercises";
-import { LEVELS, STREAMS } from "@/lib/constants";
+import { EDUCATION_STAGES, EDUCATION_LEVELS, getStreamsForLevel } from "@/lib/constants/education";
 import { MonthSelect } from "@/components/shared/MonthSelect";
 import { compressImageForAi } from "@/lib/utils/image-compression";
 import { MathPreview } from "@/components/shared/MathPreview";
@@ -12,6 +12,7 @@ import { MathPreview } from "@/components/shared/MathPreview";
 type Subject = {
   id: string;
   title: string;
+  phase: string;
   level: string;
   stream: string;
 };
@@ -23,6 +24,7 @@ type QuizQuestion = {
 };
 
 export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
+  const [phase, setPhase] = useState("");
   const [level, setLevel] = useState("");
   const [stream, setStream] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -107,10 +109,15 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
   };
 
   const filteredSubjects = subjects.filter(s => {
+    if (phase && s.phase !== phase) return false;
     if (level && s.level !== level) return false;
-    if (stream && s.stream !== stream) return false;
+    if (stream && s.stream !== stream && stream !== "NONE") return false;
     return true;
   });
+
+  const currentLevels = phase ? EDUCATION_LEVELS[phase as keyof typeof EDUCATION_LEVELS] : [];
+  const currentStreams = getStreamsForLevel(phase, level);
+  const shouldShowStreams = phase === "SECONDARY" && currentStreams.length > 1;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -252,18 +259,33 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="space-y-2">
+            <label className="text-sm font-bold text-purple-800">الطور</label>
+            <select
+              name="phase"
+              value={phase}
+              onChange={e => { setPhase(e.target.value); setLevel(""); setStream(""); }}
+              required
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+            >
+              <option value="">اختر الطور..</option>
+              {EDUCATION_STAGES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+            </select>
+          </div>
+
           <div className="space-y-2">
             <label className="text-sm font-bold text-purple-800">المستوى</label>
             <select
               name="level"
               value={level}
-              onChange={e => setLevel(e.target.value)}
+              onChange={e => { setLevel(e.target.value); setStream(""); }}
               required
-              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              disabled={!phase}
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none disabled:opacity-50"
             >
               <option value="">اختر المستوى..</option>
-              {LEVELS.map(lvl => (
+              {currentLevels.map((lvl: any) => (
                 <option key={lvl.value} value={lvl.value}>{lvl.label}</option>
               ))}
             </select>
@@ -271,18 +293,26 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
 
           <div className="space-y-2">
             <label className="text-sm font-bold text-purple-800">الشعبة</label>
-            <select
-              name="stream"
-              value={stream}
-              onChange={e => setStream(e.target.value)}
-              required
-              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
-            >
-              <option value="">اختر الشعبة..</option>
-              {STREAMS.map(str => (
-                <option key={str.value} value={str.value}>{str.label}</option>
-              ))}
-            </select>
+            {shouldShowStreams ? (
+              <select
+                name="stream"
+                value={stream}
+                onChange={e => setStream(e.target.value)}
+                required
+                disabled={!level}
+                className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none disabled:opacity-50"
+              >
+                <option value="">اختر الشعبة..</option>
+                {currentStreams.map((str: any) => (
+                  <option key={str.value} value={str.value}>{str.label}</option>
+                ))}
+              </select>
+            ) : (
+              <div className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-400 font-medium text-center">
+                غير مطبق
+                <input type="hidden" name="stream" value="NONE" />
+              </div>
+            )}
           </div>
         </div>
 

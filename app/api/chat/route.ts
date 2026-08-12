@@ -1,71 +1,112 @@
-import { NextResponse } from 'next/server';
-import Groq from 'groq-sdk';
+import OpenAI from 'openai';
+import { prisma } from '@/lib/prisma';
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function POST(req: Request) {
   try {
-    const { messages, prompt, studentName, studentLevel, studentStream, studentPoints, studentMistakes } = await req.json();
+    const { messages, studentLevel, studentStream, studentId } = await req.json();
 
-    if (!messages || !prompt) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    if (!studentId) {
+      return new Response(
+        JSON.stringify({ error: "معرف الطالب مفقود." }), 
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
     }
 
-    const chatHistory = messages.map((msg: any) => ({
-      role: msg.role,
-      content: msg.content,
-    }));
-
-    chatHistory.push({ role: 'user', content: prompt });
-
-    const systemPrompt = {
-      role: 'system',
-      content: `أنت المساعد الذكي التعليمي الرسمي لمنصة 'Number One Academy' (المنصة الوطنية للتعليم الجزائري).
-مهمتك الأساسية هي مساعدة الطلاب في دراستهم، توجيههم، وشرح الدروس بطريقة بيداغوجية فعالة دون إعطاء حلول جاهزة.
-
-### 1. السياق الحالي للطالب:
-- الاسم الكامل: ${studentName || 'طالب'}
-- المستوى الدراسي: ${studentLevel || 'غير متوفر'}
-- الشعبة: ${studentStream || 'غير متوفر'}
-- رصيد النقاط الحالي: ${studentPoints || 0} نقطة.
-- أخطاء الطالب السابقة في التمارين: ${studentMistakes || 'لا توجد أخطاء مسجلة'}
-
-### 2. قواعد اللغة والتواصل:
-- تواصل دائماً بلغة عربية فصحى سليمة 100%، خالية تماماً من الأخطاء النحوية والإملائية.
-- اجعل أسلوبك مشجعاً، ودوداً، ومحفزاً (نادِ الطالب باسمه الأول).
-- اشرح المفاهيم بأسلوب يناسب طالب في مستوى ${studentLevel || 'غير متوفر'} وشعبة ${studentStream || 'غير متوفر'}.
-- حفز الطالب باستخدام رصيد نقاطه (${studentPoints || 0})، وأخبره أنه بصدد كسب المزيد إذا واصل المحاولة.
-
-### 3. القيود الصارمة لمنع الهلوسة:
-- أجب حصرياً بناءً على المنهج الدراسي الجزائري الرسمي المخصص لشعبة ${studentStream || 'غير متوفر'}.
-- إذا سألك الطالب عن معلومة لا تعرفها أو ليست ضمن منهجه، قل بصراحة: "عذراً، هذه المعلومة غير متوفرة في المنهج الحالي، أو لا أملك معلومات دقيقة حولها". إياك أن تخترع إجابات أو قوانين أو تواريخ.
-- لا تقدم أي روابط خارجية وهمية أو مراجع غير مؤكدة.
-
-### 4. القواعد البيداغوجية والتشخيص:
-- إياك أن تعطي الحل النهائي والمباشر لتمارين المنصة. بدلاً من ذلك، قدم تلميحات وساعد الطالب ليصل إلى الحل بنفسه.
-- بناءً على أخطاء الطالب السابقة، إذا سأل سؤالاً مشابهاً، ذكّره بلطف بخطئه السابق ووجهه لتجنبه هذه المرة باستخدام الحل الصحيح المخزن.
-- اربط شروحاتك بأمثلة من الواقع لتسهيل الفهم، خاصة في المواد الأساسية لشعبته.
-
-### 5. تنسيق الإخراج:
-- استخدم القوائم النقطية (Bullet points) والفقرات القصيرة لتسهيل القراءة على شاشة الهاتف.
-- استخدم الخط العريض (Bold) للكلمات المفتاحية والقوانين المهمة.
-لا تستخدم أي علامات ترقيم غير مدعومة واحرص على تنسيق النص بشكل احترافي.`,
-    };
-
-    const completion = await groq.chat.completions.create({
-      messages: [systemPrompt, ...chatHistory],
-      model: 'llama-3.1-8b-instant',
-      temperature: 0.7,
-      max_tokens: 1024,
+    const studentProfile = await prisma.studentProfile.findUnique({
+      where: { userId: studentId }
     });
 
-    const reply = completion.choices[0]?.message?.content || 'حدث خطا اثناء المعالجة';
+    if (!studentProfile) {
+      return new Response(
+        JSON.stringify({ error: "لم يتم العثور على ملف الطالب." }), 
+        { status: 404, headers: { "Content-Type": "application/json" } }
+      );
+    }
 
-    return NextResponse.json({ reply });
+    // Check daily limit
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const lastDate = new Date(studentProfile.aiQuestionsDate);
+    lastDate.setHours(0, 0, 0, 0);
+
+    let newCount = studentProfile.aiQuestionsCount || 0;
+
+    if (lastDate.getTime() < today.getTime()) {
+      newCount = 0;
+    }
+
+    if (newCount >= 5) {
+      return new Response(
+        JSON.stringify({ error: "لقد وصلت إلى الحد الأقصى (5 أسئلة) المسموح بها لهذا اليوم. عد غداً لمواصلة التعلم!" }), 
+        { status: 403, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Update count in database
+    await prisma.studentProfile.update({
+      where: { userId: studentId },
+      data: {
+        aiQuestionsCount: newCount + 1,
+        aiQuestionsDate: new Date()
+      }
+    });
+
+    const systemPrompt = `
+أنت "مساعدي الذكي"، المساعد التعليمي الافتراضي والودود الخاص بـ "أكاديمية دقيش".
+مهمتك الأساسية هي مساعدة الطلاب الجزائريين على التفوق الدراسي، تبسيط المفاهيم المعقدة، ومرافقتهم في رحلتهم التعليمية.
+
+المعلومات الحالية للطالب الذي تتحدث معه:
+- المستوى الدراسي: ${studentLevel || "غير محدد"}
+- الشعبة/التخصص: ${studentStream || "غير محدد"}
+
+تعليماتك الأساسية والملزمة (System Guidelines):
+1. النبرة والأسلوب: كن ودوداً، إيجابياً، ومشجعاً. استخدم لغة عربية فصحى مبسطة وقريبة للقلب.
+2. المنهجية التعليمية: ممنوع إعطاء الإجابة النهائية مباشرة. العب دور الموجه واطرح أسئلة استدراجية ليجد الطالب الحل بنفسه.
+3. التخصيص والملاءمة: اربط الأمثلة دائماً بالمستوى والشعبة المذكورة.
+4. حدود المعرفة: التزم تماماً بالمواضيع الأكاديمية والتربوية.
+    `;
+
+    const finalMessages = [
+      { role: "system", content: systemPrompt },
+      ...messages
+    ];
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: finalMessages,
+      stream: true, 
+      temperature: 0.7,
+    });
+
+    const stream = new ReadableStream({
+      async start(controller) {
+        for await (const chunk of response) {
+          const text = chunk.choices[0]?.delta?.content || "";
+          if (text) {
+            controller.enqueue(new TextEncoder().encode(text));
+          }
+        }
+        controller.close();
+      },
+    });
+
+    return new Response(stream, {
+      headers: { 
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive"
+      },
+    });
+
   } catch (error) {
-    console.error('Groq API Error:', error);
-    return NextResponse.json({ error: 'حدث خطا اثناء الاتصال بالمساعد الذكي' }, { status: 500 });
+    console.error("OpenAI API Error:", error);
+    return new Response(
+      JSON.stringify({ error: "حدث خطأ في الاتصال بالمساعد الذكي." }), 
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
   }
 }

@@ -1,0 +1,65 @@
+--- app/dashboard/parent/page.tsx
++++ app/dashboard/parent/page.tsx
+@@ -87,7 +87,46 @@
+             </div>
+           ) : (
+-            <ParentDashboardClient students={links.map(l => l.student as any)} parentId={sessionId} />
++            <ParentDashboardClient 
++              students={await Promise.all(links.map(async (link) => {
++                const student = link.student;
++                const profile = student.studentProfile;
++                
++                let wilayaRanking = 1;
++                let exercisesSolved = 0;
++                let generalAverage = 0;
++                let lessonCompletionRate = 0;
++
++                if (profile) {
++                  const betterStudentsCount = await prisma.studentProfile.count({
++                    where: {
++                      wilaya: profile.wilaya,
++                      level: profile.level,
++                      stream: profile.stream,
++                      totalPoints: { gt: profile.totalPoints }
++                    }
++                  });
++                  wilayaRanking = betterStudentsCount + 1;
++                }
++
++                const submissionStats = await prisma.studentSubmission.aggregate({
++                  where: { studentId: student.id },
++                  _count: { id: true },
++                  _avg: { score: true }
++                });
++                
++                exercisesSolved = submissionStats._count.id;
++                generalAverage = submissionStats._avg.score ? Math.round(submissionStats._avg.score * 100) / 100 : 0;
++
++                const subjectIds = student.enrollments.map((e: any) => e.subjectId);
++                if (subjectIds.length > 0 && profile) {
++                  const totalExams = await prisma.exam.count({
++                    where: {
++                      subjectId: { in: subjectIds },
++                      level: profile.level,
++                      stream: profile.stream
++                    }
++                  });
++                  if (totalExams > 0) {
++                    lessonCompletionRate = Math.min(100, Math.round((exercisesSolved / totalExams) * 100));
++                  }
++                }
++
++                return {
++                  ...student,
++                  stats: {
++                    wilayaRanking,
++                    exercisesSolved,
++                    generalAverage,
++                    lessonCompletionRate,
++                  }
++                };
++              })) as any} 
++              parentId={sessionId} 
++            />
+           )}
+         </div>

@@ -2,50 +2,60 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { Phase, Level, Stream } from "@prisma/client";
 
-export async function createTeacher(formData: FormData) {
+export type AddTeacherData = {
+  fullName: string;
+  phoneNumber: string;
+  phases: Phase[];
+  levels: Level[];
+  streams: Stream[];
+};
+
+export async function addTeacherAction(data: AddTeacherData) {
   try {
-    const name = formData.get("name") as string;
-    const phone = formData.get("phone") as string;
-    
-    // subjectIds comes from multiple checkboxes or multi-select
-    const subjectIds = formData.getAll("subjectIds") as string[];
-
-    if (!name || !phone) {
+    if (!data.fullName || !data.phoneNumber) {
       return { error: "يرجى إدخال اسم الأستاذ ورقم الهاتف" };
     }
 
-    // Check if phone already exists
-    const existingUser = await prisma.user.findUnique({ where: { phoneNumber: phone } });
+    // Check if phone already exists to avoid unique constraint violation
+    const existingUser = await prisma.user.findUnique({ 
+      where: { phoneNumber: data.phoneNumber } 
+    });
+    
     if (existingUser) {
       return { error: "رقم الهاتف مسجل مسبقاً في النظام" };
     }
 
-    // 1. Create User
-    const user = await prisma.user.create({
-      data: {
-        fullName: name,
-        phoneNumber: phone,
-        role: "TEACHER",
-      }
-    });
-
-    // 2. Create Teacher Profile linked to User and Subjects
-    await prisma.teacher.create({
-      data: {
-        userId: user.id,
-        name: name,
-        phone: phone,
-        subjects: {
-          connect: subjectIds.map(id => ({ id }))
+    // Use Prisma $transaction to ensure both operations succeed or fail together
+    await prisma.$transaction(async (tx) => {
+      // 1. Create User (This ensures login compatibility directly via Phone + Name)
+      const user = await tx.user.create({
+        data: {
+          fullName: data.fullName,
+          phoneNumber: data.phoneNumber,
+          role: "TEACHER",
+          passwordHash: "", // Defaults to empty string, compatible with basic name/phone login
         }
-      }
+      });
+
+      // 2. Create Teacher Profile linked to the User
+      await tx.teacher.create({
+        data: {
+          userId: user.id,
+          name: data.fullName,
+          phone: data.phoneNumber,
+          phases: data.phases,
+          levels: data.levels,
+          streams: data.streams,
+        }
+      });
     });
 
     revalidatePath("/dashboard/admin/teachers");
     return { success: true };
   } catch (error: any) {
-    console.error("createTeacher error:", error);
+    console.error("addTeacherAction error:", error);
     return { error: "حدث خطأ غير متوقع أثناء إضافة الأستاذ" };
   }
 }

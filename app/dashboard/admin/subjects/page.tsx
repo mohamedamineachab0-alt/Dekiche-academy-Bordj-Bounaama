@@ -40,7 +40,7 @@ export default async function AdminSubjectsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {subjects.map(subject => (
               <div key={subject.id} className="bg-white dark:bg-white rounded-3xl shadow-sm border border-slate-100 dark:border-purple-200 overflow-hidden flex flex-col">
-                <div className="h-32 w-full relative bg-slate-100 dark:bg-white flex items-center justify-center overflow-hidden">
+                <div className="aspect-video w-full relative bg-slate-100 dark:bg-white flex items-center justify-center overflow-hidden">
                   {subject.image ? (
                     <img src={subject.image} alt={subject.title} className="w-full h-full object-cover" />
                   ) : (

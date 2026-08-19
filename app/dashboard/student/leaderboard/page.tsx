@@ -25,7 +25,7 @@ export default async function StudentLeaderboardPage() {
     where: { role: "STUDENT" },
     include: { studentProfile: true },
     orderBy: { studentProfile: { totalPoints: "desc" } },
-    take: 3,
+    take: 5,
   });
 
   // Calculate Rank
@@ -83,10 +83,10 @@ export default async function StudentLeaderboardPage() {
                   const rank = index + 1;
                   
                   // Arabic rank name
-                  const rankLabel = rank === 1 ? "الأول" : rank === 2 ? "الثاني" : "الثالث";
+                  const rankLabel = rank === 1 ? "الأول" : rank === 2 ? "الثاني" : rank === 3 ? "الثالث" : `${rank}`;
                   // Medal colors
-                  const iconColor = rank === 1 ? "text-[#000000]" : rank === 2 ? "text-[#000000]" : "text-white";
-                  const bgColor = rank === 1 ? "bg-[#FACC15]" : rank === 2 ? "bg-[#EAE4D9]" : "bg-[#F97316]";
+                  const iconColor = rank === 1 ? "text-[#000000]" : rank === 2 ? "text-[#000000]" : rank === 3 ? "text-white" : "text-gray-600";
+                  const bgColor = rank === 1 ? "bg-[#FACC15]" : rank === 2 ? "bg-[#EAE4D9]" : rank === 3 ? "bg-[#F97316]" : "bg-gray-100";
                   const rowBg = isCurrentUser ? "bg-[#7E22CE] text-white" : "bg-white text-[#000000]";
                   const rankTextColor = isCurrentUser ? "text-[#FACC15]" : "text-[#7E22CE]";
                   const subtitleColor = isCurrentUser ? "text-purple-200" : "text-gray-500";
@@ -99,8 +99,8 @@ export default async function StudentLeaderboardPage() {
                       key={student.id} 
                       className={`flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-5 sm:p-6 rounded-2xl border-[3px] border-[#000000] ${rowBg} shadow-sm transition-transform hover:-translate-y-1 hover:shadow-3d-hover group`}
                     >
-                      <div className={`w-14 h-14 ${bgColor} rounded-xl border-[3px] border-[#000000] flex items-center justify-center shrink-0 shadow-sm transform transition-transform group-hover:scale-110 ${rank === 1 ? '-rotate-6' : rank === 2 ? 'rotate-3' : '-rotate-3'}`}>
-                        <Medal className={`w-7 h-7 ${iconColor}`} />
+                      <div className={`w-14 h-14 ${bgColor} rounded-xl border-[3px] border-[#000000] flex items-center justify-center shrink-0 shadow-sm transform transition-transform group-hover:scale-110 ${rank === 1 ? '-rotate-6' : rank === 2 ? 'rotate-3' : rank === 3 ? '-rotate-3' : 'rotate-0'}`}>
+                        {rank <= 3 ? <Medal className={`w-7 h-7 ${iconColor}`} /> : <span className="font-black text-2xl text-gray-500">{rank}</span>}
                       </div>
                       
                       <div className="flex-1 text-center sm:text-right">

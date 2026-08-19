@@ -4,6 +4,7 @@ import { redeemAccessCode } from "@/actions/subjects";
 import { Key, Unlock, Lock, PlayCircle, BookOpen } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import Link from "next/link";
+import { SubjectActivationForm } from "@/components/student/SubjectActivationForm";
 
 export default async function StudentSubjectsPage() {
   const cookieStore = await cookies();
@@ -55,11 +56,11 @@ export default async function StudentSubjectsPage() {
 
             return (
               <div key={subject.id} className="bg-[#FFFFFF] rounded-2xl border-[3px] border-[#000000] overflow-hidden flex flex-col group max-w-sm mx-auto w-full transition-all duration-300 shadow-3d-soft shadow-3d-hover paper-cut relative">
-                <div className="h-40 w-full relative bg-[#F8F9FA] overflow-hidden border-b-[3px] border-[#000000]">
+                <div className="aspect-video w-full relative bg-[#F8F9FA] overflow-hidden border-b-[3px] border-[#000000]">
                   <img src={subject.image} alt={subject.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   
                   {/* Status Badge */}
-                  <div className="absolute top-3 right-3">
+                  <div className="absolute top-3 left-3">
                     {isEnrolled ? (
                       <div className="bg-[#22C55E] text-[#000000] px-3 py-1.5 rounded-xl border-[2px] border-[#000000] text-xs font-black flex items-center gap-1.5 shadow-sm transform -rotate-2">
                         <Unlock className="w-4 h-4" /> تم الفتح
@@ -77,7 +78,7 @@ export default async function StudentSubjectsPage() {
                   <p className="text-sm font-bold text-gray-600 line-clamp-2 leading-relaxed">{subject.description}</p>
                   
                   <div className="mt-4 mb-6">
-                    <span className="text-xs font-black text-[#000000] bg-[#FACC15] px-3 py-1.5 rounded-lg border-[2px] border-[#000000] shadow-sm">
+                    <span className="text-xs font-black text-white bg-purple-900 px-3 py-1.5 rounded-lg border-[2px] border-black shadow-sm">
                       الأستاذ {subject.teacherName}
                     </span>
                   </div>
@@ -92,25 +93,7 @@ export default async function StudentSubjectsPage() {
                         الدخول للمادة
                       </Link>
                     ) : (
-                      <form action={redeemAccessCode} className="space-y-3">
-                        <input type="hidden" name="subjectId" value={subject.id} />
-                        <div className="relative">
-                          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#000000]">
-                            <Key className="w-5 h-5" />
-                          </span>
-                          <input 
-                            type="text" 
-                            name="code" 
-                            placeholder="أدخل كود الإشتراك" 
-                            required
-                            className="w-full pr-12 pl-4 py-3 rounded-xl border-[3px] border-[#000000] bg-white text-[#000000] font-mono font-black text-base focus:outline-none focus:ring-4 focus:ring-[#7E22CE]/20 transition-all shadow-sm"
-                          />
-                        </div>
-                        <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#FACC15] hover:bg-[#EAB308] border-[3px] border-[#000000] text-[#000000] font-black py-3 rounded-xl transition-all shadow-3d-soft active:translate-y-1 active:shadow-none">
-                          <Unlock className="w-5 h-5" />
-                          تفعيل المادة
-                        </button>
-                      </form>
+                      <SubjectActivationForm subjectId={subject.id} />
                     )}
                   </div>
                 </div>

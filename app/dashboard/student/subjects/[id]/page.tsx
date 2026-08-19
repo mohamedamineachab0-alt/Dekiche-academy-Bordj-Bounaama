@@ -9,7 +9,6 @@ import {
   BrainCircuit, 
   AlertCircle, 
   Video, 
-  Award,
   Play
 } from "lucide-react";
 import Link from "next/link";
@@ -94,199 +93,138 @@ export default async function SubjectDetailsPage({
   const accessibleLessons = subject.lessons.filter(l => enrolledMonths.includes(l.month));
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] bg-notebook-grid font-arabic" dir="rtl">
-      <div className="max-w-6xl mx-auto py-8 px-4 space-y-8">
+    <div 
+      className="font-arabic text-gray-900 selection:bg-[#FDE047] selection:text-[#5B21B6]" 
+      dir="rtl"
+    >
+      <div className="max-w-4xl mx-auto py-8 px-4 space-y-6">
         
-        <Link href="/dashboard/student/subjects" className="inline-flex items-center gap-2 text-purple-700 hover:text-purple-950 font-bold transition-colors bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
-          <ChevronLeft className="w-5 h-5" />
-          العودة إلى المواد
-        </Link>
-
-        {/* Hero Section */}
-        <div className="w-full bg-purple-800 rounded-3xl shadow-[0_8px_30px_-4px_rgba(14,165,233,0.3)] py-10 px-6 md:py-14 md:px-12 flex flex-col items-center justify-center text-center space-y-6 overflow-hidden relative border border-purple-700">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-black opacity-10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3"></div>
+        {/* Dashboard Vertical List */}
+        <div className="flex flex-col gap-5">
           
-          <h1 className="text-4xl md:text-5xl font-black text-purple-950 tracking-tight relative z-10">{subject.title}</h1>
-          <p className="text-purple-100 font-medium max-w-3xl text-lg md:text-xl relative z-10 bg-white/30 px-6 py-3 rounded-2xl border border-purple-700/30">
-            {subject.description}
-          </p>
-          <div className="inline-block bg-purple-700 text-white px-8 py-3 rounded-xl font-bold shadow-lg relative z-10 border border-purple-500">
-            الأستاذ: {subject.teacherName}
-          </div>
-        </div>
-
-        {/* Dashboard Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          
-          {/* Lessons (الدروس) */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-black text-purple-900 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
-                  <Play className="w-5 h-5" />
-                </div>
-                الدروس المسجلة
-              </h2>
-              <span className="bg-purple-50 text-purple-700 px-3 py-1 rounded-lg text-sm font-bold flex items-center gap-1 border border-purple-100">
-                <CheckCircle2 className="w-4 h-4" /> {accessibleLessons.length}
-              </span>
-            </div>
-            {accessibleLessons.length > 0 ? (
-              <div className="space-y-3">
-                {accessibleLessons.slice(0, 3).map(lesson => (
-                  <Link key={lesson.id} href={`/dashboard/student/lessons/${lesson.id}`} className="block bg-white p-4 rounded-2xl hover:bg-purple-50 hover:text-purple-800 transition-colors border border-slate-100 font-bold text-purple-800">
-                    {lesson.title}
-                  </Link>
-                ))}
-                {accessibleLessons.length > 3 && (
-                  <Link href={`/dashboard/student/subjects/${id}/lessons`} className="block text-center text-sm font-bold text-purple-700 pt-2">
-                    عرض الكل
-                  </Link>
-                )}
+          {/* 1. Daily Exercises (التمارين اليومية) */}
+          <div className="bg-white rounded-2xl p-5 md:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-purple-900/5 flex flex-col md:flex-row md:items-center justify-between gap-5 hover:shadow-[0_12px_40px_rgba(91,33,182,0.08)] transition-all">
+            <div className="flex items-center gap-5">
+              <div className="w-14 h-14 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                <FileText className="w-6 h-6" />
               </div>
-            ) : (
-              <p className="text-slate-400 font-medium text-center py-4">لا توجد دروس متاحة حالياً</p>
-            )}
-          </div>
-
-          {/* Review Cards (بطاقات المراجعة) */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-black text-purple-900 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
-                  <Library className="w-5 h-5" />
-                </div>
-                بطاقات المراجعة
-              </h2>
-              <span className="bg-purple-50 text-purple-700 px-3 py-1 rounded-lg text-sm font-bold flex items-center gap-1 border border-purple-100">
-                <CheckCircle2 className="w-4 h-4" /> {reviewCards.length}
-              </span>
+              <div>
+                <h2 className="text-xl font-black text-gray-900">التمارين اليومية</h2>
+                <p className="text-sm text-gray-500 font-medium mt-1">تدريبات مستمرة لترسيخ الفهم</p>
+              </div>
             </div>
-            {reviewCards.length > 0 ? (
-              <Link href={`/dashboard/student/review-cards`} className="block bg-purple-800 text-white text-center p-4 rounded-2xl hover:bg-purple-800 transition-colors font-bold shadow-md shadow-purple-600/20">
-                تصفح البطاقات
-              </Link>
-            ) : (
-              <p className="text-slate-400 font-medium text-center py-4">لا توجد بطاقات متاحة حالياً</p>
-            )}
-          </div>
-
-          {/* Daily Exercises (التمارين اليومية) */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-black text-purple-900 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
-                  <FileText className="w-5 h-5" />
-                </div>
-                التمارين اليومية
-              </h2>
-              <span className="bg-purple-50 text-purple-700 px-3 py-1 rounded-lg text-sm font-bold flex items-center gap-1 border border-purple-100">
+            <div className="flex items-center gap-4 w-full md:w-auto">
+              <span className="bg-purple-50 text-purple-700 px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2 border border-purple-100 whitespace-nowrap">
                 <CheckCircle2 className="w-4 h-4" /> {dailyExercises.length}
               </span>
-            </div>
-            {dailyExercises.length > 0 ? (
-              <div className="space-y-3">
-                {dailyExercises.slice(0, 3).map(ex => (
-                  <Link key={ex.id} href={`/dashboard/student/exercises`} className="block bg-white p-4 rounded-2xl hover:bg-purple-50 hover:text-purple-800 transition-colors border border-slate-100 font-bold text-purple-800 truncate">
-                    {ex.title}
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <p className="text-slate-400 font-medium text-center py-4">لا توجد تمارين متاحة حالياً</p>
-            )}
-          </div>
-
-          {/* Exams & Assignments (الاختبارات والفروض) */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-black text-purple-900 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
-                  <BrainCircuit className="w-5 h-5" />
-                </div>
-                الاختبارات والفروض
-              </h2>
-              <span className="bg-purple-50 text-purple-700 px-3 py-1 rounded-lg text-sm font-bold flex items-center gap-1 border border-purple-100">
-                <CheckCircle2 className="w-4 h-4" /> {exams.length}
-              </span>
-            </div>
-            {exams.length > 0 ? (
-              <div className="space-y-3">
-                {exams.slice(0, 3).map(exam => (
-                  <Link key={exam.id} href={`/dashboard/student/exams`} className="block bg-white p-4 rounded-2xl hover:bg-purple-50 hover:text-purple-800 transition-colors border border-slate-100 font-bold text-purple-800 truncate">
-                    {exam.title}
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <p className="text-slate-400 font-medium text-center py-4">لا توجد اختبارات متاحة حالياً</p>
-            )}
-          </div>
-
-          {/* My Mistakes (أخطائي) */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-black text-purple-900 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
-                  <AlertCircle className="w-5 h-5" />
-                </div>
-                أخطائي
-              </h2>
-              <span className="bg-purple-50 text-purple-700 px-3 py-1 rounded-lg text-sm font-bold flex items-center gap-1 border border-purple-100">
-                <CheckCircle2 className="w-4 h-4" /> {mistakes.length}
-              </span>
-            </div>
-            {mistakes.length > 0 ? (
-              <Link href={`/dashboard/student/mistakes`} className="block bg-purple-50 text-purple-800 text-center p-4 rounded-2xl hover:bg-purple-100 transition-colors font-bold border border-purple-200">
-                مراجعة الأخطاء
+              <Link href="/dashboard/student/exercises" className="flex-1 md:flex-none text-center bg-purple-800 hover:bg-purple-900 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-sm">
+                الدخول
               </Link>
-            ) : (
-              <p className="text-slate-400 font-medium text-center py-4">لم تقم بأي أخطاء في الكويزات بعد!</p>
-            )}
+            </div>
           </div>
 
-          {/* Live Sessions (الحصص المباشرة) */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-black text-purple-900 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
-                  <Video className="w-5 h-5" />
-                </div>
-                الحصص المباشرة
-              </h2>
-              <span className="bg-purple-50 text-purple-700 px-3 py-1 rounded-lg text-sm font-bold flex items-center gap-1 border border-purple-100">
+          {/* 2. Review Cards (بطاقات المراجعة) */}
+          <div className="bg-white rounded-2xl p-5 md:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-purple-900/5 flex flex-col md:flex-row md:items-center justify-between gap-5 hover:shadow-[0_12px_40px_rgba(91,33,182,0.08)] transition-all">
+            <div className="flex items-center gap-5">
+              <div className="w-14 h-14 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                <Library className="w-6 h-6" />
+              </div>
+              <div>
+                <h2 className="text-xl font-black text-gray-900">بطاقات المراجعة</h2>
+                <p className="text-sm text-gray-500 font-medium mt-1">مراجعة سريعة ومكثفة للمعلومات</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 w-full md:w-auto">
+              <span className="bg-purple-50 text-purple-700 px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2 border border-purple-100 whitespace-nowrap">
+                <CheckCircle2 className="w-4 h-4" /> {reviewCards.length}
+              </span>
+              <Link href="/dashboard/student/review-cards" className="flex-1 md:flex-none text-center bg-purple-800 hover:bg-purple-900 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-sm">
+                الدخول
+              </Link>
+            </div>
+          </div>
+
+          {/* 3. Recorded Lessons (الدروس المسجلة) */}
+          <div className="bg-white rounded-2xl p-5 md:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-purple-900/5 flex flex-col md:flex-row md:items-center justify-between gap-5 hover:shadow-[0_12px_40px_rgba(91,33,182,0.08)] transition-all">
+            <div className="flex items-center gap-5">
+              <div className="w-14 h-14 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                <Play className="w-6 h-6" />
+              </div>
+              <div>
+                <h2 className="text-xl font-black text-gray-900">الدروس المسجلة</h2>
+                <p className="text-sm text-gray-500 font-medium mt-1">شرح مفصل للمقرر الدراسي</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 w-full md:w-auto">
+              <span className="bg-purple-50 text-purple-700 px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2 border border-purple-100 whitespace-nowrap">
+                <CheckCircle2 className="w-4 h-4" /> {accessibleLessons.length}
+              </span>
+              <Link href={`/dashboard/student/subjects/${id}/lessons`} className="flex-1 md:flex-none text-center bg-purple-800 hover:bg-purple-900 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-sm">
+                الدخول
+              </Link>
+            </div>
+          </div>
+
+          {/* 4. Live Classes (الحصص المباشرة) */}
+          <div className="bg-white rounded-2xl p-5 md:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-purple-900/5 flex flex-col md:flex-row md:items-center justify-between gap-5 hover:shadow-[0_12px_40px_rgba(91,33,182,0.08)] transition-all">
+            <div className="flex items-center gap-5">
+              <div className="w-14 h-14 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                <Video className="w-6 h-6" />
+              </div>
+              <div>
+                <h2 className="text-xl font-black text-gray-900">الحصص المباشرة</h2>
+                <p className="text-sm text-gray-500 font-medium mt-1">تفاعل مباشر مع الأستاذ</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 w-full md:w-auto">
+              <span className="bg-purple-50 text-purple-700 px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2 border border-purple-100 whitespace-nowrap">
                 <CheckCircle2 className="w-4 h-4" /> {liveClasses.length}
               </span>
+              <Link href="/dashboard/student/live-classes" className="flex-1 md:flex-none text-center bg-purple-800 hover:bg-purple-900 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-sm">
+                الدخول
+              </Link>
             </div>
-            {liveClasses.length > 0 ? (
-              <div className="space-y-3">
-                {liveClasses.slice(0, 3).map(live => (
-                  <Link key={live.id} href={`/dashboard/student/live-classes`} className="block bg-white p-4 rounded-2xl hover:bg-purple-50 hover:text-purple-800 transition-colors border border-slate-100 font-bold text-purple-800 truncate">
-                    {live.title}
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <p className="text-slate-400 font-medium text-center py-4">لا توجد حصص مباشرة مجدولة</p>
-            )}
           </div>
 
-          {/* Badges/Achievements (الشعارات) */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow md:col-span-2 lg:col-span-3">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-black text-purple-900 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
-                  <Award className="w-5 h-5" />
-                </div>
-                الشعارات وإنجازاتي
-              </h2>
+          {/* 5. My Mistakes (أخطائي) */}
+          <div className="bg-white rounded-2xl p-5 md:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-purple-900/5 flex flex-col md:flex-row md:items-center justify-between gap-5 hover:shadow-[0_12px_40px_rgba(91,33,182,0.08)] transition-all">
+            <div className="flex items-center gap-5">
+              <div className="w-14 h-14 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                <AlertCircle className="w-6 h-6" />
+              </div>
+              <div>
+                <h2 className="text-xl font-black text-gray-900">أخطائي</h2>
+                <p className="text-sm text-gray-500 font-medium mt-1">راجع أخطاءك لتجنب تكرارها</p>
+              </div>
             </div>
-            
-            <div className="flex flex-col items-center justify-center py-10 bg-white rounded-2xl border border-slate-100">
-              <Award className="w-16 h-16 text-purple-800 mb-4" />
-              <p className="text-slate-500 font-bold text-lg">سيتم إضافة نظام الشعارات قريباً!</p>
-              <p className="text-slate-400 font-medium">استمر في التعلم وحل التمارين لتجمع النقاط.</p>
+            <div className="flex items-center gap-4 w-full md:w-auto">
+              <span className="bg-purple-50 text-purple-700 px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2 border border-purple-100 whitespace-nowrap">
+                <CheckCircle2 className="w-4 h-4" /> {mistakes.length}
+              </span>
+              <Link href="/dashboard/student/mistakes" className="flex-1 md:flex-none text-center bg-purple-800 hover:bg-purple-900 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-sm">
+                الدخول
+              </Link>
+            </div>
+          </div>
+
+          {/* 6. Exams & Assignments (الاختبارات والفروض) */}
+          <div className="bg-white rounded-2xl p-5 md:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-purple-900/5 flex flex-col md:flex-row md:items-center justify-between gap-5 hover:shadow-[0_12px_40px_rgba(91,33,182,0.08)] transition-all">
+            <div className="flex items-center gap-5">
+              <div className="w-14 h-14 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                <BrainCircuit className="w-6 h-6" />
+              </div>
+              <div>
+                <h2 className="text-xl font-black text-gray-900">الاختبارات والفروض</h2>
+                <p className="text-sm text-gray-500 font-medium mt-1">اختبر جاهزيتك وتقييم مستواك</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 w-full md:w-auto">
+              <span className="bg-purple-50 text-purple-700 px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2 border border-purple-100 whitespace-nowrap">
+                <CheckCircle2 className="w-4 h-4" /> {exams.length}
+              </span>
+              <Link href="/dashboard/student/exams" className="flex-1 md:flex-none text-center bg-purple-800 hover:bg-purple-900 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-sm">
+                الدخول
+              </Link>
             </div>
           </div>
 

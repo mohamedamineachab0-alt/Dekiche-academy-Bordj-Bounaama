@@ -33,6 +33,7 @@ export default async function StudentDashboardPage() {
       studentProfile: true,
       enrollments: true,
       mistakes: true,
+      studentLinks: true,
     }
   });
 
@@ -50,6 +51,11 @@ export default async function StudentDashboardPage() {
 
   const enrolledCount = enrolledSubjectIds.length;
   const mistakesCount = user.mistakes.length;
+  const isParentLinked = user.studentLinks && user.studentLinks.length > 0;
+
+  // TODO: Fetch actual pending lessons and quizzes from the database
+  const pendingLessons: any[] = []; 
+  const pendingQuizzes: any[] = [];
 
   const SECTIONS = [
     {
@@ -224,6 +230,33 @@ export default async function StudentDashboardPage() {
 
       {/* Wrapping the DailyTip component in a wrapper if it doesn't match yet, but we'll assume it's standalone */}
       <DailyTip variant="card" />
+
+      {/* Pending Status & Warnings Badges */}
+      {(!isParentLinked || pendingLessons.length > 0 || pendingQuizzes.length > 0) && (
+        <div className="flex flex-wrap items-center gap-4">
+          
+          {!isParentLinked && (
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-white text-red-600 text-sm font-bold border-2 border-red-600 rounded-lg shadow-[2px_2px_0px_#dc2626] transition-all hover:translate-y-[2px] hover:shadow-none cursor-default w-fit">
+              <AlertTriangle className="w-4 h-4" />
+              عدم ربط حسابه لولي
+            </div>
+          )}
+
+          {pendingLessons.length > 0 && (
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-white text-red-600 text-sm font-bold border-2 border-red-600 rounded-lg shadow-[2px_2px_0px_#dc2626] transition-all hover:translate-y-[2px] hover:shadow-none cursor-default w-fit">
+              <BookOpen className="w-4 h-4" />
+              دروس لم تشاهد وما زالت معلقة
+            </div>
+          )}
+
+          {pendingQuizzes.length > 0 && (
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-white text-red-600 text-sm font-bold border-2 border-red-600 rounded-lg shadow-[2px_2px_0px_#dc2626] transition-all hover:translate-y-[2px] hover:shadow-none cursor-default w-fit">
+              <FileText className="w-4 h-4" />
+              تمارين وكويزز معلقة
+            </div>
+          )}
+        </div>
+      )}
 
       <div>
         <h2 className="text-2xl font-black text-[#000000] mb-6">أقسام المنصة</h2>

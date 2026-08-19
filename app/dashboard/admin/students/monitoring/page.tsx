@@ -185,8 +185,9 @@ export default async function AdminStudentMonitoringPage(props: {
                             مربوط بالولي
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-[#000000]/60 bg-[#EAE4D9] border-[2px] border-[#000000] px-3 py-1 rounded-xl text-xs font-black shadow-sm">
-                            غير مربوط
+                          <span className="inline-flex items-center gap-1 text-[#FFFFFF] bg-[#EF4444] border-[2px] border-[#000000] px-3 py-1 rounded-xl text-xs font-black shadow-sm">
+                            <AlertTriangle className="w-4 h-4" />
+                            عدم ربط حسابه لولي
                           </span>
                         )}
                       </td>

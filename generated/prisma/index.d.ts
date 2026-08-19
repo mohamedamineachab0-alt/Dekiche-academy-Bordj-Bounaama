@@ -104,10 +104,20 @@ export type ChatMessage = $Result.DefaultSelection<Prisma.$ChatMessagePayload>
  */
 export type DailyExercise = $Result.DefaultSelection<Prisma.$DailyExercisePayload>
 /**
+ * Model ExerciseMaterial
+ * 
+ */
+export type ExerciseMaterial = $Result.DefaultSelection<Prisma.$ExerciseMaterialPayload>
+/**
  * Model Exam
  * 
  */
 export type Exam = $Result.DefaultSelection<Prisma.$ExamPayload>
+/**
+ * Model ExamMaterial
+ * 
+ */
+export type ExamMaterial = $Result.DefaultSelection<Prisma.$ExamMaterialPayload>
 /**
  * Model StudentSubmission
  * 
@@ -595,6 +605,16 @@ export class PrismaClient<
   get dailyExercise(): Prisma.DailyExerciseDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.exerciseMaterial`: Exposes CRUD operations for the **ExerciseMaterial** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ExerciseMaterials
+    * const exerciseMaterials = await prisma.exerciseMaterial.findMany()
+    * ```
+    */
+  get exerciseMaterial(): Prisma.ExerciseMaterialDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.exam`: Exposes CRUD operations for the **Exam** model.
     * Example usage:
     * ```ts
@@ -603,6 +623,16 @@ export class PrismaClient<
     * ```
     */
   get exam(): Prisma.ExamDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.examMaterial`: Exposes CRUD operations for the **ExamMaterial** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ExamMaterials
+    * const examMaterials = await prisma.examMaterial.findMany()
+    * ```
+    */
+  get examMaterial(): Prisma.ExamMaterialDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.studentSubmission`: Exposes CRUD operations for the **StudentSubmission** model.
@@ -1128,7 +1158,9 @@ export namespace Prisma {
     ChatSession: 'ChatSession',
     ChatMessage: 'ChatMessage',
     DailyExercise: 'DailyExercise',
+    ExerciseMaterial: 'ExerciseMaterial',
     Exam: 'Exam',
+    ExamMaterial: 'ExamMaterial',
     StudentSubmission: 'StudentSubmission',
     Notification: 'Notification',
     ReviewCard: 'ReviewCard',
@@ -1150,7 +1182,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "lesson" | "lessonMaterial" | "quiz" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exam" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket"
+      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "lesson" | "lessonMaterial" | "quiz" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exerciseMaterial" | "exam" | "examMaterial" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2486,6 +2518,80 @@ export namespace Prisma {
           }
         }
       }
+      ExerciseMaterial: {
+        payload: Prisma.$ExerciseMaterialPayload<ExtArgs>
+        fields: Prisma.ExerciseMaterialFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ExerciseMaterialFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExerciseMaterialPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ExerciseMaterialFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExerciseMaterialPayload>
+          }
+          findFirst: {
+            args: Prisma.ExerciseMaterialFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExerciseMaterialPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ExerciseMaterialFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExerciseMaterialPayload>
+          }
+          findMany: {
+            args: Prisma.ExerciseMaterialFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExerciseMaterialPayload>[]
+          }
+          create: {
+            args: Prisma.ExerciseMaterialCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExerciseMaterialPayload>
+          }
+          createMany: {
+            args: Prisma.ExerciseMaterialCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ExerciseMaterialCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExerciseMaterialPayload>[]
+          }
+          delete: {
+            args: Prisma.ExerciseMaterialDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExerciseMaterialPayload>
+          }
+          update: {
+            args: Prisma.ExerciseMaterialUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExerciseMaterialPayload>
+          }
+          deleteMany: {
+            args: Prisma.ExerciseMaterialDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ExerciseMaterialUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ExerciseMaterialUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExerciseMaterialPayload>[]
+          }
+          upsert: {
+            args: Prisma.ExerciseMaterialUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExerciseMaterialPayload>
+          }
+          aggregate: {
+            args: Prisma.ExerciseMaterialAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateExerciseMaterial>
+          }
+          groupBy: {
+            args: Prisma.ExerciseMaterialGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ExerciseMaterialGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ExerciseMaterialCountArgs<ExtArgs>
+            result: $Utils.Optional<ExerciseMaterialCountAggregateOutputType> | number
+          }
+        }
+      }
       Exam: {
         payload: Prisma.$ExamPayload<ExtArgs>
         fields: Prisma.ExamFieldRefs
@@ -2557,6 +2663,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ExamCountArgs<ExtArgs>
             result: $Utils.Optional<ExamCountAggregateOutputType> | number
+          }
+        }
+      }
+      ExamMaterial: {
+        payload: Prisma.$ExamMaterialPayload<ExtArgs>
+        fields: Prisma.ExamMaterialFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ExamMaterialFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamMaterialPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ExamMaterialFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamMaterialPayload>
+          }
+          findFirst: {
+            args: Prisma.ExamMaterialFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamMaterialPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ExamMaterialFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamMaterialPayload>
+          }
+          findMany: {
+            args: Prisma.ExamMaterialFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamMaterialPayload>[]
+          }
+          create: {
+            args: Prisma.ExamMaterialCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamMaterialPayload>
+          }
+          createMany: {
+            args: Prisma.ExamMaterialCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ExamMaterialCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamMaterialPayload>[]
+          }
+          delete: {
+            args: Prisma.ExamMaterialDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamMaterialPayload>
+          }
+          update: {
+            args: Prisma.ExamMaterialUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamMaterialPayload>
+          }
+          deleteMany: {
+            args: Prisma.ExamMaterialDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ExamMaterialUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ExamMaterialUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamMaterialPayload>[]
+          }
+          upsert: {
+            args: Prisma.ExamMaterialUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamMaterialPayload>
+          }
+          aggregate: {
+            args: Prisma.ExamMaterialAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateExamMaterial>
+          }
+          groupBy: {
+            args: Prisma.ExamMaterialGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ExamMaterialGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ExamMaterialCountArgs<ExtArgs>
+            result: $Utils.Optional<ExamMaterialCountAggregateOutputType> | number
           }
         }
       }
@@ -3145,7 +3325,9 @@ export namespace Prisma {
     chatSession?: ChatSessionOmit
     chatMessage?: ChatMessageOmit
     dailyExercise?: DailyExerciseOmit
+    exerciseMaterial?: ExerciseMaterialOmit
     exam?: ExamOmit
+    examMaterial?: ExamMaterialOmit
     studentSubmission?: StudentSubmissionOmit
     notification?: NotificationOmit
     reviewCard?: ReviewCardOmit
@@ -3612,15 +3794,48 @@ export namespace Prisma {
 
 
   /**
+   * Count Type DailyExerciseCountOutputType
+   */
+
+  export type DailyExerciseCountOutputType = {
+    materials: number
+  }
+
+  export type DailyExerciseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    materials?: boolean | DailyExerciseCountOutputTypeCountMaterialsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DailyExerciseCountOutputType without action
+   */
+  export type DailyExerciseCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyExerciseCountOutputType
+     */
+    select?: DailyExerciseCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DailyExerciseCountOutputType without action
+   */
+  export type DailyExerciseCountOutputTypeCountMaterialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExerciseMaterialWhereInput
+  }
+
+
+  /**
    * Count Type ExamCountOutputType
    */
 
   export type ExamCountOutputType = {
     submissions: number
+    materials: number
   }
 
   export type ExamCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     submissions?: boolean | ExamCountOutputTypeCountSubmissionsArgs
+    materials?: boolean | ExamCountOutputTypeCountMaterialsArgs
   }
 
   // Custom InputTypes
@@ -3639,6 +3854,13 @@ export namespace Prisma {
    */
   export type ExamCountOutputTypeCountSubmissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StudentSubmissionWhereInput
+  }
+
+  /**
+   * ExamCountOutputType without action
+   */
+  export type ExamCountOutputTypeCountMaterialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExamMaterialWhereInput
   }
 
 
@@ -23663,6 +23885,8 @@ export namespace Prisma {
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
     secondarySubject?: boolean | DailyExercise$secondarySubjectArgs<ExtArgs>
     quiz?: boolean | DailyExercise$quizArgs<ExtArgs>
+    materials?: boolean | DailyExercise$materialsArgs<ExtArgs>
+    _count?: boolean | DailyExerciseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["dailyExercise"]>
 
   export type DailyExerciseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -23716,6 +23940,8 @@ export namespace Prisma {
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
     secondarySubject?: boolean | DailyExercise$secondarySubjectArgs<ExtArgs>
     quiz?: boolean | DailyExercise$quizArgs<ExtArgs>
+    materials?: boolean | DailyExercise$materialsArgs<ExtArgs>
+    _count?: boolean | DailyExerciseCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type DailyExerciseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
@@ -23732,6 +23958,7 @@ export namespace Prisma {
       subject: Prisma.$SubjectPayload<ExtArgs>
       secondarySubject: Prisma.$SubjectPayload<ExtArgs> | null
       quiz: Prisma.$QuizPayload<ExtArgs> | null
+      materials: Prisma.$ExerciseMaterialPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -24142,6 +24369,7 @@ export namespace Prisma {
     subject<T extends SubjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubjectDefaultArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     secondarySubject<T extends DailyExercise$secondarySubjectArgs<ExtArgs> = {}>(args?: Subset<T, DailyExercise$secondarySubjectArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     quiz<T extends DailyExercise$quizArgs<ExtArgs> = {}>(args?: Subset<T, DailyExercise$quizArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    materials<T extends DailyExercise$materialsArgs<ExtArgs> = {}>(args?: Subset<T, DailyExercise$materialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExerciseMaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -24621,6 +24849,30 @@ export namespace Prisma {
   }
 
   /**
+   * DailyExercise.materials
+   */
+  export type DailyExercise$materialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExerciseMaterial
+     */
+    select?: ExerciseMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExerciseMaterial
+     */
+    omit?: ExerciseMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExerciseMaterialInclude<ExtArgs> | null
+    where?: ExerciseMaterialWhereInput
+    orderBy?: ExerciseMaterialOrderByWithRelationInput | ExerciseMaterialOrderByWithRelationInput[]
+    cursor?: ExerciseMaterialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExerciseMaterialScalarFieldEnum | ExerciseMaterialScalarFieldEnum[]
+  }
+
+  /**
    * DailyExercise without action
    */
   export type DailyExerciseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -24636,6 +24888,1069 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: DailyExerciseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ExerciseMaterial
+   */
+
+  export type AggregateExerciseMaterial = {
+    _count: ExerciseMaterialCountAggregateOutputType | null
+    _min: ExerciseMaterialMinAggregateOutputType | null
+    _max: ExerciseMaterialMaxAggregateOutputType | null
+  }
+
+  export type ExerciseMaterialMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    fileUrl: string | null
+    dailyExerciseId: string | null
+    createdAt: Date | null
+  }
+
+  export type ExerciseMaterialMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    fileUrl: string | null
+    dailyExerciseId: string | null
+    createdAt: Date | null
+  }
+
+  export type ExerciseMaterialCountAggregateOutputType = {
+    id: number
+    title: number
+    fileUrl: number
+    dailyExerciseId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ExerciseMaterialMinAggregateInputType = {
+    id?: true
+    title?: true
+    fileUrl?: true
+    dailyExerciseId?: true
+    createdAt?: true
+  }
+
+  export type ExerciseMaterialMaxAggregateInputType = {
+    id?: true
+    title?: true
+    fileUrl?: true
+    dailyExerciseId?: true
+    createdAt?: true
+  }
+
+  export type ExerciseMaterialCountAggregateInputType = {
+    id?: true
+    title?: true
+    fileUrl?: true
+    dailyExerciseId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ExerciseMaterialAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExerciseMaterial to aggregate.
+     */
+    where?: ExerciseMaterialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExerciseMaterials to fetch.
+     */
+    orderBy?: ExerciseMaterialOrderByWithRelationInput | ExerciseMaterialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ExerciseMaterialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExerciseMaterials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExerciseMaterials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ExerciseMaterials
+    **/
+    _count?: true | ExerciseMaterialCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ExerciseMaterialMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ExerciseMaterialMaxAggregateInputType
+  }
+
+  export type GetExerciseMaterialAggregateType<T extends ExerciseMaterialAggregateArgs> = {
+        [P in keyof T & keyof AggregateExerciseMaterial]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateExerciseMaterial[P]>
+      : GetScalarType<T[P], AggregateExerciseMaterial[P]>
+  }
+
+
+
+
+  export type ExerciseMaterialGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExerciseMaterialWhereInput
+    orderBy?: ExerciseMaterialOrderByWithAggregationInput | ExerciseMaterialOrderByWithAggregationInput[]
+    by: ExerciseMaterialScalarFieldEnum[] | ExerciseMaterialScalarFieldEnum
+    having?: ExerciseMaterialScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ExerciseMaterialCountAggregateInputType | true
+    _min?: ExerciseMaterialMinAggregateInputType
+    _max?: ExerciseMaterialMaxAggregateInputType
+  }
+
+  export type ExerciseMaterialGroupByOutputType = {
+    id: string
+    title: string
+    fileUrl: string
+    dailyExerciseId: string
+    createdAt: Date
+    _count: ExerciseMaterialCountAggregateOutputType | null
+    _min: ExerciseMaterialMinAggregateOutputType | null
+    _max: ExerciseMaterialMaxAggregateOutputType | null
+  }
+
+  type GetExerciseMaterialGroupByPayload<T extends ExerciseMaterialGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ExerciseMaterialGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ExerciseMaterialGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ExerciseMaterialGroupByOutputType[P]>
+            : GetScalarType<T[P], ExerciseMaterialGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ExerciseMaterialSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    fileUrl?: boolean
+    dailyExerciseId?: boolean
+    createdAt?: boolean
+    dailyExercise?: boolean | DailyExerciseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["exerciseMaterial"]>
+
+  export type ExerciseMaterialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    fileUrl?: boolean
+    dailyExerciseId?: boolean
+    createdAt?: boolean
+    dailyExercise?: boolean | DailyExerciseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["exerciseMaterial"]>
+
+  export type ExerciseMaterialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    fileUrl?: boolean
+    dailyExerciseId?: boolean
+    createdAt?: boolean
+    dailyExercise?: boolean | DailyExerciseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["exerciseMaterial"]>
+
+  export type ExerciseMaterialSelectScalar = {
+    id?: boolean
+    title?: boolean
+    fileUrl?: boolean
+    dailyExerciseId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ExerciseMaterialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "fileUrl" | "dailyExerciseId" | "createdAt", ExtArgs["result"]["exerciseMaterial"]>
+  export type ExerciseMaterialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    dailyExercise?: boolean | DailyExerciseDefaultArgs<ExtArgs>
+  }
+  export type ExerciseMaterialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    dailyExercise?: boolean | DailyExerciseDefaultArgs<ExtArgs>
+  }
+  export type ExerciseMaterialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    dailyExercise?: boolean | DailyExerciseDefaultArgs<ExtArgs>
+  }
+
+  export type $ExerciseMaterialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ExerciseMaterial"
+    objects: {
+      dailyExercise: Prisma.$DailyExercisePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      fileUrl: string
+      dailyExerciseId: string
+      createdAt: Date
+    }, ExtArgs["result"]["exerciseMaterial"]>
+    composites: {}
+  }
+
+  type ExerciseMaterialGetPayload<S extends boolean | null | undefined | ExerciseMaterialDefaultArgs> = $Result.GetResult<Prisma.$ExerciseMaterialPayload, S>
+
+  type ExerciseMaterialCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ExerciseMaterialFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ExerciseMaterialCountAggregateInputType | true
+    }
+
+  export interface ExerciseMaterialDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ExerciseMaterial'], meta: { name: 'ExerciseMaterial' } }
+    /**
+     * Find zero or one ExerciseMaterial that matches the filter.
+     * @param {ExerciseMaterialFindUniqueArgs} args - Arguments to find a ExerciseMaterial
+     * @example
+     * // Get one ExerciseMaterial
+     * const exerciseMaterial = await prisma.exerciseMaterial.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ExerciseMaterialFindUniqueArgs>(args: SelectSubset<T, ExerciseMaterialFindUniqueArgs<ExtArgs>>): Prisma__ExerciseMaterialClient<$Result.GetResult<Prisma.$ExerciseMaterialPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ExerciseMaterial that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ExerciseMaterialFindUniqueOrThrowArgs} args - Arguments to find a ExerciseMaterial
+     * @example
+     * // Get one ExerciseMaterial
+     * const exerciseMaterial = await prisma.exerciseMaterial.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ExerciseMaterialFindUniqueOrThrowArgs>(args: SelectSubset<T, ExerciseMaterialFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ExerciseMaterialClient<$Result.GetResult<Prisma.$ExerciseMaterialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExerciseMaterial that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExerciseMaterialFindFirstArgs} args - Arguments to find a ExerciseMaterial
+     * @example
+     * // Get one ExerciseMaterial
+     * const exerciseMaterial = await prisma.exerciseMaterial.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ExerciseMaterialFindFirstArgs>(args?: SelectSubset<T, ExerciseMaterialFindFirstArgs<ExtArgs>>): Prisma__ExerciseMaterialClient<$Result.GetResult<Prisma.$ExerciseMaterialPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExerciseMaterial that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExerciseMaterialFindFirstOrThrowArgs} args - Arguments to find a ExerciseMaterial
+     * @example
+     * // Get one ExerciseMaterial
+     * const exerciseMaterial = await prisma.exerciseMaterial.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ExerciseMaterialFindFirstOrThrowArgs>(args?: SelectSubset<T, ExerciseMaterialFindFirstOrThrowArgs<ExtArgs>>): Prisma__ExerciseMaterialClient<$Result.GetResult<Prisma.$ExerciseMaterialPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ExerciseMaterials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExerciseMaterialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ExerciseMaterials
+     * const exerciseMaterials = await prisma.exerciseMaterial.findMany()
+     * 
+     * // Get first 10 ExerciseMaterials
+     * const exerciseMaterials = await prisma.exerciseMaterial.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const exerciseMaterialWithIdOnly = await prisma.exerciseMaterial.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ExerciseMaterialFindManyArgs>(args?: SelectSubset<T, ExerciseMaterialFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExerciseMaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ExerciseMaterial.
+     * @param {ExerciseMaterialCreateArgs} args - Arguments to create a ExerciseMaterial.
+     * @example
+     * // Create one ExerciseMaterial
+     * const ExerciseMaterial = await prisma.exerciseMaterial.create({
+     *   data: {
+     *     // ... data to create a ExerciseMaterial
+     *   }
+     * })
+     * 
+     */
+    create<T extends ExerciseMaterialCreateArgs>(args: SelectSubset<T, ExerciseMaterialCreateArgs<ExtArgs>>): Prisma__ExerciseMaterialClient<$Result.GetResult<Prisma.$ExerciseMaterialPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ExerciseMaterials.
+     * @param {ExerciseMaterialCreateManyArgs} args - Arguments to create many ExerciseMaterials.
+     * @example
+     * // Create many ExerciseMaterials
+     * const exerciseMaterial = await prisma.exerciseMaterial.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ExerciseMaterialCreateManyArgs>(args?: SelectSubset<T, ExerciseMaterialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ExerciseMaterials and returns the data saved in the database.
+     * @param {ExerciseMaterialCreateManyAndReturnArgs} args - Arguments to create many ExerciseMaterials.
+     * @example
+     * // Create many ExerciseMaterials
+     * const exerciseMaterial = await prisma.exerciseMaterial.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ExerciseMaterials and only return the `id`
+     * const exerciseMaterialWithIdOnly = await prisma.exerciseMaterial.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ExerciseMaterialCreateManyAndReturnArgs>(args?: SelectSubset<T, ExerciseMaterialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExerciseMaterialPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ExerciseMaterial.
+     * @param {ExerciseMaterialDeleteArgs} args - Arguments to delete one ExerciseMaterial.
+     * @example
+     * // Delete one ExerciseMaterial
+     * const ExerciseMaterial = await prisma.exerciseMaterial.delete({
+     *   where: {
+     *     // ... filter to delete one ExerciseMaterial
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ExerciseMaterialDeleteArgs>(args: SelectSubset<T, ExerciseMaterialDeleteArgs<ExtArgs>>): Prisma__ExerciseMaterialClient<$Result.GetResult<Prisma.$ExerciseMaterialPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ExerciseMaterial.
+     * @param {ExerciseMaterialUpdateArgs} args - Arguments to update one ExerciseMaterial.
+     * @example
+     * // Update one ExerciseMaterial
+     * const exerciseMaterial = await prisma.exerciseMaterial.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ExerciseMaterialUpdateArgs>(args: SelectSubset<T, ExerciseMaterialUpdateArgs<ExtArgs>>): Prisma__ExerciseMaterialClient<$Result.GetResult<Prisma.$ExerciseMaterialPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ExerciseMaterials.
+     * @param {ExerciseMaterialDeleteManyArgs} args - Arguments to filter ExerciseMaterials to delete.
+     * @example
+     * // Delete a few ExerciseMaterials
+     * const { count } = await prisma.exerciseMaterial.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ExerciseMaterialDeleteManyArgs>(args?: SelectSubset<T, ExerciseMaterialDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExerciseMaterials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExerciseMaterialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ExerciseMaterials
+     * const exerciseMaterial = await prisma.exerciseMaterial.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ExerciseMaterialUpdateManyArgs>(args: SelectSubset<T, ExerciseMaterialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExerciseMaterials and returns the data updated in the database.
+     * @param {ExerciseMaterialUpdateManyAndReturnArgs} args - Arguments to update many ExerciseMaterials.
+     * @example
+     * // Update many ExerciseMaterials
+     * const exerciseMaterial = await prisma.exerciseMaterial.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ExerciseMaterials and only return the `id`
+     * const exerciseMaterialWithIdOnly = await prisma.exerciseMaterial.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ExerciseMaterialUpdateManyAndReturnArgs>(args: SelectSubset<T, ExerciseMaterialUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExerciseMaterialPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ExerciseMaterial.
+     * @param {ExerciseMaterialUpsertArgs} args - Arguments to update or create a ExerciseMaterial.
+     * @example
+     * // Update or create a ExerciseMaterial
+     * const exerciseMaterial = await prisma.exerciseMaterial.upsert({
+     *   create: {
+     *     // ... data to create a ExerciseMaterial
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ExerciseMaterial we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ExerciseMaterialUpsertArgs>(args: SelectSubset<T, ExerciseMaterialUpsertArgs<ExtArgs>>): Prisma__ExerciseMaterialClient<$Result.GetResult<Prisma.$ExerciseMaterialPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ExerciseMaterials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExerciseMaterialCountArgs} args - Arguments to filter ExerciseMaterials to count.
+     * @example
+     * // Count the number of ExerciseMaterials
+     * const count = await prisma.exerciseMaterial.count({
+     *   where: {
+     *     // ... the filter for the ExerciseMaterials we want to count
+     *   }
+     * })
+    **/
+    count<T extends ExerciseMaterialCountArgs>(
+      args?: Subset<T, ExerciseMaterialCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ExerciseMaterialCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ExerciseMaterial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExerciseMaterialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ExerciseMaterialAggregateArgs>(args: Subset<T, ExerciseMaterialAggregateArgs>): Prisma.PrismaPromise<GetExerciseMaterialAggregateType<T>>
+
+    /**
+     * Group by ExerciseMaterial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExerciseMaterialGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ExerciseMaterialGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ExerciseMaterialGroupByArgs['orderBy'] }
+        : { orderBy?: ExerciseMaterialGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ExerciseMaterialGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExerciseMaterialGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ExerciseMaterial model
+   */
+  readonly fields: ExerciseMaterialFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ExerciseMaterial.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ExerciseMaterialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    dailyExercise<T extends DailyExerciseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DailyExerciseDefaultArgs<ExtArgs>>): Prisma__DailyExerciseClient<$Result.GetResult<Prisma.$DailyExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ExerciseMaterial model
+   */
+  interface ExerciseMaterialFieldRefs {
+    readonly id: FieldRef<"ExerciseMaterial", 'String'>
+    readonly title: FieldRef<"ExerciseMaterial", 'String'>
+    readonly fileUrl: FieldRef<"ExerciseMaterial", 'String'>
+    readonly dailyExerciseId: FieldRef<"ExerciseMaterial", 'String'>
+    readonly createdAt: FieldRef<"ExerciseMaterial", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ExerciseMaterial findUnique
+   */
+  export type ExerciseMaterialFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExerciseMaterial
+     */
+    select?: ExerciseMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExerciseMaterial
+     */
+    omit?: ExerciseMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExerciseMaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which ExerciseMaterial to fetch.
+     */
+    where: ExerciseMaterialWhereUniqueInput
+  }
+
+  /**
+   * ExerciseMaterial findUniqueOrThrow
+   */
+  export type ExerciseMaterialFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExerciseMaterial
+     */
+    select?: ExerciseMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExerciseMaterial
+     */
+    omit?: ExerciseMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExerciseMaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which ExerciseMaterial to fetch.
+     */
+    where: ExerciseMaterialWhereUniqueInput
+  }
+
+  /**
+   * ExerciseMaterial findFirst
+   */
+  export type ExerciseMaterialFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExerciseMaterial
+     */
+    select?: ExerciseMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExerciseMaterial
+     */
+    omit?: ExerciseMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExerciseMaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which ExerciseMaterial to fetch.
+     */
+    where?: ExerciseMaterialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExerciseMaterials to fetch.
+     */
+    orderBy?: ExerciseMaterialOrderByWithRelationInput | ExerciseMaterialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExerciseMaterials.
+     */
+    cursor?: ExerciseMaterialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExerciseMaterials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExerciseMaterials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExerciseMaterials.
+     */
+    distinct?: ExerciseMaterialScalarFieldEnum | ExerciseMaterialScalarFieldEnum[]
+  }
+
+  /**
+   * ExerciseMaterial findFirstOrThrow
+   */
+  export type ExerciseMaterialFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExerciseMaterial
+     */
+    select?: ExerciseMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExerciseMaterial
+     */
+    omit?: ExerciseMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExerciseMaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which ExerciseMaterial to fetch.
+     */
+    where?: ExerciseMaterialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExerciseMaterials to fetch.
+     */
+    orderBy?: ExerciseMaterialOrderByWithRelationInput | ExerciseMaterialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExerciseMaterials.
+     */
+    cursor?: ExerciseMaterialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExerciseMaterials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExerciseMaterials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExerciseMaterials.
+     */
+    distinct?: ExerciseMaterialScalarFieldEnum | ExerciseMaterialScalarFieldEnum[]
+  }
+
+  /**
+   * ExerciseMaterial findMany
+   */
+  export type ExerciseMaterialFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExerciseMaterial
+     */
+    select?: ExerciseMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExerciseMaterial
+     */
+    omit?: ExerciseMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExerciseMaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which ExerciseMaterials to fetch.
+     */
+    where?: ExerciseMaterialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExerciseMaterials to fetch.
+     */
+    orderBy?: ExerciseMaterialOrderByWithRelationInput | ExerciseMaterialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ExerciseMaterials.
+     */
+    cursor?: ExerciseMaterialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExerciseMaterials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExerciseMaterials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExerciseMaterials.
+     */
+    distinct?: ExerciseMaterialScalarFieldEnum | ExerciseMaterialScalarFieldEnum[]
+  }
+
+  /**
+   * ExerciseMaterial create
+   */
+  export type ExerciseMaterialCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExerciseMaterial
+     */
+    select?: ExerciseMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExerciseMaterial
+     */
+    omit?: ExerciseMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExerciseMaterialInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ExerciseMaterial.
+     */
+    data: XOR<ExerciseMaterialCreateInput, ExerciseMaterialUncheckedCreateInput>
+  }
+
+  /**
+   * ExerciseMaterial createMany
+   */
+  export type ExerciseMaterialCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ExerciseMaterials.
+     */
+    data: ExerciseMaterialCreateManyInput | ExerciseMaterialCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ExerciseMaterial createManyAndReturn
+   */
+  export type ExerciseMaterialCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExerciseMaterial
+     */
+    select?: ExerciseMaterialSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExerciseMaterial
+     */
+    omit?: ExerciseMaterialOmit<ExtArgs> | null
+    /**
+     * The data used to create many ExerciseMaterials.
+     */
+    data: ExerciseMaterialCreateManyInput | ExerciseMaterialCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExerciseMaterialIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExerciseMaterial update
+   */
+  export type ExerciseMaterialUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExerciseMaterial
+     */
+    select?: ExerciseMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExerciseMaterial
+     */
+    omit?: ExerciseMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExerciseMaterialInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ExerciseMaterial.
+     */
+    data: XOR<ExerciseMaterialUpdateInput, ExerciseMaterialUncheckedUpdateInput>
+    /**
+     * Choose, which ExerciseMaterial to update.
+     */
+    where: ExerciseMaterialWhereUniqueInput
+  }
+
+  /**
+   * ExerciseMaterial updateMany
+   */
+  export type ExerciseMaterialUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ExerciseMaterials.
+     */
+    data: XOR<ExerciseMaterialUpdateManyMutationInput, ExerciseMaterialUncheckedUpdateManyInput>
+    /**
+     * Filter which ExerciseMaterials to update
+     */
+    where?: ExerciseMaterialWhereInput
+    /**
+     * Limit how many ExerciseMaterials to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExerciseMaterial updateManyAndReturn
+   */
+  export type ExerciseMaterialUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExerciseMaterial
+     */
+    select?: ExerciseMaterialSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExerciseMaterial
+     */
+    omit?: ExerciseMaterialOmit<ExtArgs> | null
+    /**
+     * The data used to update ExerciseMaterials.
+     */
+    data: XOR<ExerciseMaterialUpdateManyMutationInput, ExerciseMaterialUncheckedUpdateManyInput>
+    /**
+     * Filter which ExerciseMaterials to update
+     */
+    where?: ExerciseMaterialWhereInput
+    /**
+     * Limit how many ExerciseMaterials to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExerciseMaterialIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExerciseMaterial upsert
+   */
+  export type ExerciseMaterialUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExerciseMaterial
+     */
+    select?: ExerciseMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExerciseMaterial
+     */
+    omit?: ExerciseMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExerciseMaterialInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ExerciseMaterial to update in case it exists.
+     */
+    where: ExerciseMaterialWhereUniqueInput
+    /**
+     * In case the ExerciseMaterial found by the `where` argument doesn't exist, create a new ExerciseMaterial with this data.
+     */
+    create: XOR<ExerciseMaterialCreateInput, ExerciseMaterialUncheckedCreateInput>
+    /**
+     * In case the ExerciseMaterial was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ExerciseMaterialUpdateInput, ExerciseMaterialUncheckedUpdateInput>
+  }
+
+  /**
+   * ExerciseMaterial delete
+   */
+  export type ExerciseMaterialDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExerciseMaterial
+     */
+    select?: ExerciseMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExerciseMaterial
+     */
+    omit?: ExerciseMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExerciseMaterialInclude<ExtArgs> | null
+    /**
+     * Filter which ExerciseMaterial to delete.
+     */
+    where: ExerciseMaterialWhereUniqueInput
+  }
+
+  /**
+   * ExerciseMaterial deleteMany
+   */
+  export type ExerciseMaterialDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExerciseMaterials to delete
+     */
+    where?: ExerciseMaterialWhereInput
+    /**
+     * Limit how many ExerciseMaterials to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExerciseMaterial without action
+   */
+  export type ExerciseMaterialDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExerciseMaterial
+     */
+    select?: ExerciseMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExerciseMaterial
+     */
+    omit?: ExerciseMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExerciseMaterialInclude<ExtArgs> | null
   }
 
 
@@ -24893,6 +26208,7 @@ export namespace Prisma {
     secondarySubject?: boolean | Exam$secondarySubjectArgs<ExtArgs>
     quiz?: boolean | Exam$quizArgs<ExtArgs>
     submissions?: boolean | Exam$submissionsArgs<ExtArgs>
+    materials?: boolean | Exam$materialsArgs<ExtArgs>
     _count?: boolean | ExamCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["exam"]>
 
@@ -24948,6 +26264,7 @@ export namespace Prisma {
     secondarySubject?: boolean | Exam$secondarySubjectArgs<ExtArgs>
     quiz?: boolean | Exam$quizArgs<ExtArgs>
     submissions?: boolean | Exam$submissionsArgs<ExtArgs>
+    materials?: boolean | Exam$materialsArgs<ExtArgs>
     _count?: boolean | ExamCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ExamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -24966,6 +26283,7 @@ export namespace Prisma {
       secondarySubject: Prisma.$SubjectPayload<ExtArgs> | null
       quiz: Prisma.$QuizPayload<ExtArgs> | null
       submissions: Prisma.$StudentSubmissionPayload<ExtArgs>[]
+      materials: Prisma.$ExamMaterialPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -25377,6 +26695,7 @@ export namespace Prisma {
     secondarySubject<T extends Exam$secondarySubjectArgs<ExtArgs> = {}>(args?: Subset<T, Exam$secondarySubjectArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     quiz<T extends Exam$quizArgs<ExtArgs> = {}>(args?: Subset<T, Exam$quizArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     submissions<T extends Exam$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, Exam$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    materials<T extends Exam$materialsArgs<ExtArgs> = {}>(args?: Subset<T, Exam$materialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamMaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -25880,6 +27199,30 @@ export namespace Prisma {
   }
 
   /**
+   * Exam.materials
+   */
+  export type Exam$materialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamMaterial
+     */
+    select?: ExamMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamMaterial
+     */
+    omit?: ExamMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamMaterialInclude<ExtArgs> | null
+    where?: ExamMaterialWhereInput
+    orderBy?: ExamMaterialOrderByWithRelationInput | ExamMaterialOrderByWithRelationInput[]
+    cursor?: ExamMaterialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExamMaterialScalarFieldEnum | ExamMaterialScalarFieldEnum[]
+  }
+
+  /**
    * Exam without action
    */
   export type ExamDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -25895,6 +27238,1069 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ExamInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ExamMaterial
+   */
+
+  export type AggregateExamMaterial = {
+    _count: ExamMaterialCountAggregateOutputType | null
+    _min: ExamMaterialMinAggregateOutputType | null
+    _max: ExamMaterialMaxAggregateOutputType | null
+  }
+
+  export type ExamMaterialMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    fileUrl: string | null
+    examId: string | null
+    createdAt: Date | null
+  }
+
+  export type ExamMaterialMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    fileUrl: string | null
+    examId: string | null
+    createdAt: Date | null
+  }
+
+  export type ExamMaterialCountAggregateOutputType = {
+    id: number
+    title: number
+    fileUrl: number
+    examId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ExamMaterialMinAggregateInputType = {
+    id?: true
+    title?: true
+    fileUrl?: true
+    examId?: true
+    createdAt?: true
+  }
+
+  export type ExamMaterialMaxAggregateInputType = {
+    id?: true
+    title?: true
+    fileUrl?: true
+    examId?: true
+    createdAt?: true
+  }
+
+  export type ExamMaterialCountAggregateInputType = {
+    id?: true
+    title?: true
+    fileUrl?: true
+    examId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ExamMaterialAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExamMaterial to aggregate.
+     */
+    where?: ExamMaterialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExamMaterials to fetch.
+     */
+    orderBy?: ExamMaterialOrderByWithRelationInput | ExamMaterialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ExamMaterialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExamMaterials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExamMaterials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ExamMaterials
+    **/
+    _count?: true | ExamMaterialCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ExamMaterialMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ExamMaterialMaxAggregateInputType
+  }
+
+  export type GetExamMaterialAggregateType<T extends ExamMaterialAggregateArgs> = {
+        [P in keyof T & keyof AggregateExamMaterial]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateExamMaterial[P]>
+      : GetScalarType<T[P], AggregateExamMaterial[P]>
+  }
+
+
+
+
+  export type ExamMaterialGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExamMaterialWhereInput
+    orderBy?: ExamMaterialOrderByWithAggregationInput | ExamMaterialOrderByWithAggregationInput[]
+    by: ExamMaterialScalarFieldEnum[] | ExamMaterialScalarFieldEnum
+    having?: ExamMaterialScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ExamMaterialCountAggregateInputType | true
+    _min?: ExamMaterialMinAggregateInputType
+    _max?: ExamMaterialMaxAggregateInputType
+  }
+
+  export type ExamMaterialGroupByOutputType = {
+    id: string
+    title: string
+    fileUrl: string
+    examId: string
+    createdAt: Date
+    _count: ExamMaterialCountAggregateOutputType | null
+    _min: ExamMaterialMinAggregateOutputType | null
+    _max: ExamMaterialMaxAggregateOutputType | null
+  }
+
+  type GetExamMaterialGroupByPayload<T extends ExamMaterialGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ExamMaterialGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ExamMaterialGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ExamMaterialGroupByOutputType[P]>
+            : GetScalarType<T[P], ExamMaterialGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ExamMaterialSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    fileUrl?: boolean
+    examId?: boolean
+    createdAt?: boolean
+    exam?: boolean | ExamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["examMaterial"]>
+
+  export type ExamMaterialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    fileUrl?: boolean
+    examId?: boolean
+    createdAt?: boolean
+    exam?: boolean | ExamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["examMaterial"]>
+
+  export type ExamMaterialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    fileUrl?: boolean
+    examId?: boolean
+    createdAt?: boolean
+    exam?: boolean | ExamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["examMaterial"]>
+
+  export type ExamMaterialSelectScalar = {
+    id?: boolean
+    title?: boolean
+    fileUrl?: boolean
+    examId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ExamMaterialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "fileUrl" | "examId" | "createdAt", ExtArgs["result"]["examMaterial"]>
+  export type ExamMaterialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    exam?: boolean | ExamDefaultArgs<ExtArgs>
+  }
+  export type ExamMaterialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    exam?: boolean | ExamDefaultArgs<ExtArgs>
+  }
+  export type ExamMaterialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    exam?: boolean | ExamDefaultArgs<ExtArgs>
+  }
+
+  export type $ExamMaterialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ExamMaterial"
+    objects: {
+      exam: Prisma.$ExamPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      fileUrl: string
+      examId: string
+      createdAt: Date
+    }, ExtArgs["result"]["examMaterial"]>
+    composites: {}
+  }
+
+  type ExamMaterialGetPayload<S extends boolean | null | undefined | ExamMaterialDefaultArgs> = $Result.GetResult<Prisma.$ExamMaterialPayload, S>
+
+  type ExamMaterialCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ExamMaterialFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ExamMaterialCountAggregateInputType | true
+    }
+
+  export interface ExamMaterialDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ExamMaterial'], meta: { name: 'ExamMaterial' } }
+    /**
+     * Find zero or one ExamMaterial that matches the filter.
+     * @param {ExamMaterialFindUniqueArgs} args - Arguments to find a ExamMaterial
+     * @example
+     * // Get one ExamMaterial
+     * const examMaterial = await prisma.examMaterial.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ExamMaterialFindUniqueArgs>(args: SelectSubset<T, ExamMaterialFindUniqueArgs<ExtArgs>>): Prisma__ExamMaterialClient<$Result.GetResult<Prisma.$ExamMaterialPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ExamMaterial that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ExamMaterialFindUniqueOrThrowArgs} args - Arguments to find a ExamMaterial
+     * @example
+     * // Get one ExamMaterial
+     * const examMaterial = await prisma.examMaterial.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ExamMaterialFindUniqueOrThrowArgs>(args: SelectSubset<T, ExamMaterialFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ExamMaterialClient<$Result.GetResult<Prisma.$ExamMaterialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExamMaterial that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamMaterialFindFirstArgs} args - Arguments to find a ExamMaterial
+     * @example
+     * // Get one ExamMaterial
+     * const examMaterial = await prisma.examMaterial.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ExamMaterialFindFirstArgs>(args?: SelectSubset<T, ExamMaterialFindFirstArgs<ExtArgs>>): Prisma__ExamMaterialClient<$Result.GetResult<Prisma.$ExamMaterialPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExamMaterial that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamMaterialFindFirstOrThrowArgs} args - Arguments to find a ExamMaterial
+     * @example
+     * // Get one ExamMaterial
+     * const examMaterial = await prisma.examMaterial.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ExamMaterialFindFirstOrThrowArgs>(args?: SelectSubset<T, ExamMaterialFindFirstOrThrowArgs<ExtArgs>>): Prisma__ExamMaterialClient<$Result.GetResult<Prisma.$ExamMaterialPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ExamMaterials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamMaterialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ExamMaterials
+     * const examMaterials = await prisma.examMaterial.findMany()
+     * 
+     * // Get first 10 ExamMaterials
+     * const examMaterials = await prisma.examMaterial.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const examMaterialWithIdOnly = await prisma.examMaterial.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ExamMaterialFindManyArgs>(args?: SelectSubset<T, ExamMaterialFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamMaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ExamMaterial.
+     * @param {ExamMaterialCreateArgs} args - Arguments to create a ExamMaterial.
+     * @example
+     * // Create one ExamMaterial
+     * const ExamMaterial = await prisma.examMaterial.create({
+     *   data: {
+     *     // ... data to create a ExamMaterial
+     *   }
+     * })
+     * 
+     */
+    create<T extends ExamMaterialCreateArgs>(args: SelectSubset<T, ExamMaterialCreateArgs<ExtArgs>>): Prisma__ExamMaterialClient<$Result.GetResult<Prisma.$ExamMaterialPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ExamMaterials.
+     * @param {ExamMaterialCreateManyArgs} args - Arguments to create many ExamMaterials.
+     * @example
+     * // Create many ExamMaterials
+     * const examMaterial = await prisma.examMaterial.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ExamMaterialCreateManyArgs>(args?: SelectSubset<T, ExamMaterialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ExamMaterials and returns the data saved in the database.
+     * @param {ExamMaterialCreateManyAndReturnArgs} args - Arguments to create many ExamMaterials.
+     * @example
+     * // Create many ExamMaterials
+     * const examMaterial = await prisma.examMaterial.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ExamMaterials and only return the `id`
+     * const examMaterialWithIdOnly = await prisma.examMaterial.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ExamMaterialCreateManyAndReturnArgs>(args?: SelectSubset<T, ExamMaterialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamMaterialPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ExamMaterial.
+     * @param {ExamMaterialDeleteArgs} args - Arguments to delete one ExamMaterial.
+     * @example
+     * // Delete one ExamMaterial
+     * const ExamMaterial = await prisma.examMaterial.delete({
+     *   where: {
+     *     // ... filter to delete one ExamMaterial
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ExamMaterialDeleteArgs>(args: SelectSubset<T, ExamMaterialDeleteArgs<ExtArgs>>): Prisma__ExamMaterialClient<$Result.GetResult<Prisma.$ExamMaterialPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ExamMaterial.
+     * @param {ExamMaterialUpdateArgs} args - Arguments to update one ExamMaterial.
+     * @example
+     * // Update one ExamMaterial
+     * const examMaterial = await prisma.examMaterial.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ExamMaterialUpdateArgs>(args: SelectSubset<T, ExamMaterialUpdateArgs<ExtArgs>>): Prisma__ExamMaterialClient<$Result.GetResult<Prisma.$ExamMaterialPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ExamMaterials.
+     * @param {ExamMaterialDeleteManyArgs} args - Arguments to filter ExamMaterials to delete.
+     * @example
+     * // Delete a few ExamMaterials
+     * const { count } = await prisma.examMaterial.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ExamMaterialDeleteManyArgs>(args?: SelectSubset<T, ExamMaterialDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExamMaterials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamMaterialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ExamMaterials
+     * const examMaterial = await prisma.examMaterial.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ExamMaterialUpdateManyArgs>(args: SelectSubset<T, ExamMaterialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExamMaterials and returns the data updated in the database.
+     * @param {ExamMaterialUpdateManyAndReturnArgs} args - Arguments to update many ExamMaterials.
+     * @example
+     * // Update many ExamMaterials
+     * const examMaterial = await prisma.examMaterial.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ExamMaterials and only return the `id`
+     * const examMaterialWithIdOnly = await prisma.examMaterial.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ExamMaterialUpdateManyAndReturnArgs>(args: SelectSubset<T, ExamMaterialUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamMaterialPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ExamMaterial.
+     * @param {ExamMaterialUpsertArgs} args - Arguments to update or create a ExamMaterial.
+     * @example
+     * // Update or create a ExamMaterial
+     * const examMaterial = await prisma.examMaterial.upsert({
+     *   create: {
+     *     // ... data to create a ExamMaterial
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ExamMaterial we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ExamMaterialUpsertArgs>(args: SelectSubset<T, ExamMaterialUpsertArgs<ExtArgs>>): Prisma__ExamMaterialClient<$Result.GetResult<Prisma.$ExamMaterialPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ExamMaterials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamMaterialCountArgs} args - Arguments to filter ExamMaterials to count.
+     * @example
+     * // Count the number of ExamMaterials
+     * const count = await prisma.examMaterial.count({
+     *   where: {
+     *     // ... the filter for the ExamMaterials we want to count
+     *   }
+     * })
+    **/
+    count<T extends ExamMaterialCountArgs>(
+      args?: Subset<T, ExamMaterialCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ExamMaterialCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ExamMaterial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamMaterialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ExamMaterialAggregateArgs>(args: Subset<T, ExamMaterialAggregateArgs>): Prisma.PrismaPromise<GetExamMaterialAggregateType<T>>
+
+    /**
+     * Group by ExamMaterial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamMaterialGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ExamMaterialGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ExamMaterialGroupByArgs['orderBy'] }
+        : { orderBy?: ExamMaterialGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ExamMaterialGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExamMaterialGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ExamMaterial model
+   */
+  readonly fields: ExamMaterialFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ExamMaterial.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ExamMaterialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    exam<T extends ExamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ExamDefaultArgs<ExtArgs>>): Prisma__ExamClient<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ExamMaterial model
+   */
+  interface ExamMaterialFieldRefs {
+    readonly id: FieldRef<"ExamMaterial", 'String'>
+    readonly title: FieldRef<"ExamMaterial", 'String'>
+    readonly fileUrl: FieldRef<"ExamMaterial", 'String'>
+    readonly examId: FieldRef<"ExamMaterial", 'String'>
+    readonly createdAt: FieldRef<"ExamMaterial", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ExamMaterial findUnique
+   */
+  export type ExamMaterialFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamMaterial
+     */
+    select?: ExamMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamMaterial
+     */
+    omit?: ExamMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamMaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamMaterial to fetch.
+     */
+    where: ExamMaterialWhereUniqueInput
+  }
+
+  /**
+   * ExamMaterial findUniqueOrThrow
+   */
+  export type ExamMaterialFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamMaterial
+     */
+    select?: ExamMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamMaterial
+     */
+    omit?: ExamMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamMaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamMaterial to fetch.
+     */
+    where: ExamMaterialWhereUniqueInput
+  }
+
+  /**
+   * ExamMaterial findFirst
+   */
+  export type ExamMaterialFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamMaterial
+     */
+    select?: ExamMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamMaterial
+     */
+    omit?: ExamMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamMaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamMaterial to fetch.
+     */
+    where?: ExamMaterialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExamMaterials to fetch.
+     */
+    orderBy?: ExamMaterialOrderByWithRelationInput | ExamMaterialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExamMaterials.
+     */
+    cursor?: ExamMaterialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExamMaterials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExamMaterials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExamMaterials.
+     */
+    distinct?: ExamMaterialScalarFieldEnum | ExamMaterialScalarFieldEnum[]
+  }
+
+  /**
+   * ExamMaterial findFirstOrThrow
+   */
+  export type ExamMaterialFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamMaterial
+     */
+    select?: ExamMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamMaterial
+     */
+    omit?: ExamMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamMaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamMaterial to fetch.
+     */
+    where?: ExamMaterialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExamMaterials to fetch.
+     */
+    orderBy?: ExamMaterialOrderByWithRelationInput | ExamMaterialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExamMaterials.
+     */
+    cursor?: ExamMaterialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExamMaterials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExamMaterials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExamMaterials.
+     */
+    distinct?: ExamMaterialScalarFieldEnum | ExamMaterialScalarFieldEnum[]
+  }
+
+  /**
+   * ExamMaterial findMany
+   */
+  export type ExamMaterialFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamMaterial
+     */
+    select?: ExamMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamMaterial
+     */
+    omit?: ExamMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamMaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamMaterials to fetch.
+     */
+    where?: ExamMaterialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExamMaterials to fetch.
+     */
+    orderBy?: ExamMaterialOrderByWithRelationInput | ExamMaterialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ExamMaterials.
+     */
+    cursor?: ExamMaterialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExamMaterials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExamMaterials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExamMaterials.
+     */
+    distinct?: ExamMaterialScalarFieldEnum | ExamMaterialScalarFieldEnum[]
+  }
+
+  /**
+   * ExamMaterial create
+   */
+  export type ExamMaterialCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamMaterial
+     */
+    select?: ExamMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamMaterial
+     */
+    omit?: ExamMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamMaterialInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ExamMaterial.
+     */
+    data: XOR<ExamMaterialCreateInput, ExamMaterialUncheckedCreateInput>
+  }
+
+  /**
+   * ExamMaterial createMany
+   */
+  export type ExamMaterialCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ExamMaterials.
+     */
+    data: ExamMaterialCreateManyInput | ExamMaterialCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ExamMaterial createManyAndReturn
+   */
+  export type ExamMaterialCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamMaterial
+     */
+    select?: ExamMaterialSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamMaterial
+     */
+    omit?: ExamMaterialOmit<ExtArgs> | null
+    /**
+     * The data used to create many ExamMaterials.
+     */
+    data: ExamMaterialCreateManyInput | ExamMaterialCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamMaterialIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExamMaterial update
+   */
+  export type ExamMaterialUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamMaterial
+     */
+    select?: ExamMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamMaterial
+     */
+    omit?: ExamMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamMaterialInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ExamMaterial.
+     */
+    data: XOR<ExamMaterialUpdateInput, ExamMaterialUncheckedUpdateInput>
+    /**
+     * Choose, which ExamMaterial to update.
+     */
+    where: ExamMaterialWhereUniqueInput
+  }
+
+  /**
+   * ExamMaterial updateMany
+   */
+  export type ExamMaterialUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ExamMaterials.
+     */
+    data: XOR<ExamMaterialUpdateManyMutationInput, ExamMaterialUncheckedUpdateManyInput>
+    /**
+     * Filter which ExamMaterials to update
+     */
+    where?: ExamMaterialWhereInput
+    /**
+     * Limit how many ExamMaterials to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExamMaterial updateManyAndReturn
+   */
+  export type ExamMaterialUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamMaterial
+     */
+    select?: ExamMaterialSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamMaterial
+     */
+    omit?: ExamMaterialOmit<ExtArgs> | null
+    /**
+     * The data used to update ExamMaterials.
+     */
+    data: XOR<ExamMaterialUpdateManyMutationInput, ExamMaterialUncheckedUpdateManyInput>
+    /**
+     * Filter which ExamMaterials to update
+     */
+    where?: ExamMaterialWhereInput
+    /**
+     * Limit how many ExamMaterials to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamMaterialIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExamMaterial upsert
+   */
+  export type ExamMaterialUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamMaterial
+     */
+    select?: ExamMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamMaterial
+     */
+    omit?: ExamMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamMaterialInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ExamMaterial to update in case it exists.
+     */
+    where: ExamMaterialWhereUniqueInput
+    /**
+     * In case the ExamMaterial found by the `where` argument doesn't exist, create a new ExamMaterial with this data.
+     */
+    create: XOR<ExamMaterialCreateInput, ExamMaterialUncheckedCreateInput>
+    /**
+     * In case the ExamMaterial was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ExamMaterialUpdateInput, ExamMaterialUncheckedUpdateInput>
+  }
+
+  /**
+   * ExamMaterial delete
+   */
+  export type ExamMaterialDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamMaterial
+     */
+    select?: ExamMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamMaterial
+     */
+    omit?: ExamMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamMaterialInclude<ExtArgs> | null
+    /**
+     * Filter which ExamMaterial to delete.
+     */
+    where: ExamMaterialWhereUniqueInput
+  }
+
+  /**
+   * ExamMaterial deleteMany
+   */
+  export type ExamMaterialDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExamMaterials to delete
+     */
+    where?: ExamMaterialWhereInput
+    /**
+     * Limit how many ExamMaterials to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExamMaterial without action
+   */
+  export type ExamMaterialDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamMaterial
+     */
+    select?: ExamMaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamMaterial
+     */
+    omit?: ExamMaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamMaterialInclude<ExtArgs> | null
   }
 
 
@@ -33028,6 +35434,17 @@ export namespace Prisma {
   export type DailyExerciseScalarFieldEnum = (typeof DailyExerciseScalarFieldEnum)[keyof typeof DailyExerciseScalarFieldEnum]
 
 
+  export const ExerciseMaterialScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    fileUrl: 'fileUrl',
+    dailyExerciseId: 'dailyExerciseId',
+    createdAt: 'createdAt'
+  };
+
+  export type ExerciseMaterialScalarFieldEnum = (typeof ExerciseMaterialScalarFieldEnum)[keyof typeof ExerciseMaterialScalarFieldEnum]
+
+
   export const ExamScalarFieldEnum: {
     id: 'id',
     title: 'title',
@@ -33043,6 +35460,17 @@ export namespace Prisma {
   };
 
   export type ExamScalarFieldEnum = (typeof ExamScalarFieldEnum)[keyof typeof ExamScalarFieldEnum]
+
+
+  export const ExamMaterialScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    fileUrl: 'fileUrl',
+    examId: 'examId',
+    createdAt: 'createdAt'
+  };
+
+  export type ExamMaterialScalarFieldEnum = (typeof ExamMaterialScalarFieldEnum)[keyof typeof ExamMaterialScalarFieldEnum]
 
 
   export const StudentSubmissionScalarFieldEnum: {
@@ -34578,6 +37006,7 @@ export namespace Prisma {
     subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
     secondarySubject?: XOR<SubjectNullableScalarRelationFilter, SubjectWhereInput> | null
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
+    materials?: ExerciseMaterialListRelationFilter
   }
 
   export type DailyExerciseOrderByWithRelationInput = {
@@ -34595,6 +37024,7 @@ export namespace Prisma {
     subject?: SubjectOrderByWithRelationInput
     secondarySubject?: SubjectOrderByWithRelationInput
     quiz?: QuizOrderByWithRelationInput
+    materials?: ExerciseMaterialOrderByRelationAggregateInput
   }
 
   export type DailyExerciseWhereUniqueInput = Prisma.AtLeast<{
@@ -34615,6 +37045,7 @@ export namespace Prisma {
     subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
     secondarySubject?: XOR<SubjectNullableScalarRelationFilter, SubjectWhereInput> | null
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
+    materials?: ExerciseMaterialListRelationFilter
   }, "id">
 
   export type DailyExerciseOrderByWithAggregationInput = {
@@ -34653,6 +37084,61 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"DailyExercise"> | Date | string
   }
 
+  export type ExerciseMaterialWhereInput = {
+    AND?: ExerciseMaterialWhereInput | ExerciseMaterialWhereInput[]
+    OR?: ExerciseMaterialWhereInput[]
+    NOT?: ExerciseMaterialWhereInput | ExerciseMaterialWhereInput[]
+    id?: StringFilter<"ExerciseMaterial"> | string
+    title?: StringFilter<"ExerciseMaterial"> | string
+    fileUrl?: StringFilter<"ExerciseMaterial"> | string
+    dailyExerciseId?: StringFilter<"ExerciseMaterial"> | string
+    createdAt?: DateTimeFilter<"ExerciseMaterial"> | Date | string
+    dailyExercise?: XOR<DailyExerciseScalarRelationFilter, DailyExerciseWhereInput>
+  }
+
+  export type ExerciseMaterialOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    fileUrl?: SortOrder
+    dailyExerciseId?: SortOrder
+    createdAt?: SortOrder
+    dailyExercise?: DailyExerciseOrderByWithRelationInput
+  }
+
+  export type ExerciseMaterialWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ExerciseMaterialWhereInput | ExerciseMaterialWhereInput[]
+    OR?: ExerciseMaterialWhereInput[]
+    NOT?: ExerciseMaterialWhereInput | ExerciseMaterialWhereInput[]
+    title?: StringFilter<"ExerciseMaterial"> | string
+    fileUrl?: StringFilter<"ExerciseMaterial"> | string
+    dailyExerciseId?: StringFilter<"ExerciseMaterial"> | string
+    createdAt?: DateTimeFilter<"ExerciseMaterial"> | Date | string
+    dailyExercise?: XOR<DailyExerciseScalarRelationFilter, DailyExerciseWhereInput>
+  }, "id">
+
+  export type ExerciseMaterialOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    fileUrl?: SortOrder
+    dailyExerciseId?: SortOrder
+    createdAt?: SortOrder
+    _count?: ExerciseMaterialCountOrderByAggregateInput
+    _max?: ExerciseMaterialMaxOrderByAggregateInput
+    _min?: ExerciseMaterialMinOrderByAggregateInput
+  }
+
+  export type ExerciseMaterialScalarWhereWithAggregatesInput = {
+    AND?: ExerciseMaterialScalarWhereWithAggregatesInput | ExerciseMaterialScalarWhereWithAggregatesInput[]
+    OR?: ExerciseMaterialScalarWhereWithAggregatesInput[]
+    NOT?: ExerciseMaterialScalarWhereWithAggregatesInput | ExerciseMaterialScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ExerciseMaterial"> | string
+    title?: StringWithAggregatesFilter<"ExerciseMaterial"> | string
+    fileUrl?: StringWithAggregatesFilter<"ExerciseMaterial"> | string
+    dailyExerciseId?: StringWithAggregatesFilter<"ExerciseMaterial"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ExerciseMaterial"> | Date | string
+  }
+
   export type ExamWhereInput = {
     AND?: ExamWhereInput | ExamWhereInput[]
     OR?: ExamWhereInput[]
@@ -34672,6 +37158,7 @@ export namespace Prisma {
     secondarySubject?: XOR<SubjectNullableScalarRelationFilter, SubjectWhereInput> | null
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
     submissions?: StudentSubmissionListRelationFilter
+    materials?: ExamMaterialListRelationFilter
   }
 
   export type ExamOrderByWithRelationInput = {
@@ -34690,6 +37177,7 @@ export namespace Prisma {
     secondarySubject?: SubjectOrderByWithRelationInput
     quiz?: QuizOrderByWithRelationInput
     submissions?: StudentSubmissionOrderByRelationAggregateInput
+    materials?: ExamMaterialOrderByRelationAggregateInput
   }
 
   export type ExamWhereUniqueInput = Prisma.AtLeast<{
@@ -34711,6 +37199,7 @@ export namespace Prisma {
     secondarySubject?: XOR<SubjectNullableScalarRelationFilter, SubjectWhereInput> | null
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
     submissions?: StudentSubmissionListRelationFilter
+    materials?: ExamMaterialListRelationFilter
   }, "id">
 
   export type ExamOrderByWithAggregationInput = {
@@ -34747,6 +37236,61 @@ export namespace Prisma {
     a4ImageUrl?: StringWithAggregatesFilter<"Exam"> | string
     maxScore?: IntWithAggregatesFilter<"Exam"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Exam"> | Date | string
+  }
+
+  export type ExamMaterialWhereInput = {
+    AND?: ExamMaterialWhereInput | ExamMaterialWhereInput[]
+    OR?: ExamMaterialWhereInput[]
+    NOT?: ExamMaterialWhereInput | ExamMaterialWhereInput[]
+    id?: StringFilter<"ExamMaterial"> | string
+    title?: StringFilter<"ExamMaterial"> | string
+    fileUrl?: StringFilter<"ExamMaterial"> | string
+    examId?: StringFilter<"ExamMaterial"> | string
+    createdAt?: DateTimeFilter<"ExamMaterial"> | Date | string
+    exam?: XOR<ExamScalarRelationFilter, ExamWhereInput>
+  }
+
+  export type ExamMaterialOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    fileUrl?: SortOrder
+    examId?: SortOrder
+    createdAt?: SortOrder
+    exam?: ExamOrderByWithRelationInput
+  }
+
+  export type ExamMaterialWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ExamMaterialWhereInput | ExamMaterialWhereInput[]
+    OR?: ExamMaterialWhereInput[]
+    NOT?: ExamMaterialWhereInput | ExamMaterialWhereInput[]
+    title?: StringFilter<"ExamMaterial"> | string
+    fileUrl?: StringFilter<"ExamMaterial"> | string
+    examId?: StringFilter<"ExamMaterial"> | string
+    createdAt?: DateTimeFilter<"ExamMaterial"> | Date | string
+    exam?: XOR<ExamScalarRelationFilter, ExamWhereInput>
+  }, "id">
+
+  export type ExamMaterialOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    fileUrl?: SortOrder
+    examId?: SortOrder
+    createdAt?: SortOrder
+    _count?: ExamMaterialCountOrderByAggregateInput
+    _max?: ExamMaterialMaxOrderByAggregateInput
+    _min?: ExamMaterialMinOrderByAggregateInput
+  }
+
+  export type ExamMaterialScalarWhereWithAggregatesInput = {
+    AND?: ExamMaterialScalarWhereWithAggregatesInput | ExamMaterialScalarWhereWithAggregatesInput[]
+    OR?: ExamMaterialScalarWhereWithAggregatesInput[]
+    NOT?: ExamMaterialScalarWhereWithAggregatesInput | ExamMaterialScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ExamMaterial"> | string
+    title?: StringWithAggregatesFilter<"ExamMaterial"> | string
+    fileUrl?: StringWithAggregatesFilter<"ExamMaterial"> | string
+    examId?: StringWithAggregatesFilter<"ExamMaterial"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ExamMaterial"> | Date | string
   }
 
   export type StudentSubmissionWhereInput = {
@@ -36506,6 +39050,7 @@ export namespace Prisma {
     subject: SubjectCreateNestedOneWithoutDailyExercisesInput
     secondarySubject?: SubjectCreateNestedOneWithoutSecondaryDailyExercisesInput
     quiz?: QuizCreateNestedOneWithoutDailyExerciseInput
+    materials?: ExerciseMaterialCreateNestedManyWithoutDailyExerciseInput
   }
 
   export type DailyExerciseUncheckedCreateInput = {
@@ -36521,6 +39066,7 @@ export namespace Prisma {
     month: number
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutDailyExerciseInput
+    materials?: ExerciseMaterialUncheckedCreateNestedManyWithoutDailyExerciseInput
   }
 
   export type DailyExerciseUpdateInput = {
@@ -36536,6 +39082,7 @@ export namespace Prisma {
     subject?: SubjectUpdateOneRequiredWithoutDailyExercisesNestedInput
     secondarySubject?: SubjectUpdateOneWithoutSecondaryDailyExercisesNestedInput
     quiz?: QuizUpdateOneWithoutDailyExerciseNestedInput
+    materials?: ExerciseMaterialUpdateManyWithoutDailyExerciseNestedInput
   }
 
   export type DailyExerciseUncheckedUpdateInput = {
@@ -36551,6 +39098,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutDailyExerciseNestedInput
+    materials?: ExerciseMaterialUncheckedUpdateManyWithoutDailyExerciseNestedInput
   }
 
   export type DailyExerciseCreateManyInput = {
@@ -36593,6 +39141,61 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ExerciseMaterialCreateInput = {
+    id?: string
+    title: string
+    fileUrl: string
+    createdAt?: Date | string
+    dailyExercise: DailyExerciseCreateNestedOneWithoutMaterialsInput
+  }
+
+  export type ExerciseMaterialUncheckedCreateInput = {
+    id?: string
+    title: string
+    fileUrl: string
+    dailyExerciseId: string
+    createdAt?: Date | string
+  }
+
+  export type ExerciseMaterialUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyExercise?: DailyExerciseUpdateOneRequiredWithoutMaterialsNestedInput
+  }
+
+  export type ExerciseMaterialUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    dailyExerciseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExerciseMaterialCreateManyInput = {
+    id?: string
+    title: string
+    fileUrl: string
+    dailyExerciseId: string
+    createdAt?: Date | string
+  }
+
+  export type ExerciseMaterialUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExerciseMaterialUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    dailyExerciseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ExamCreateInput = {
     id?: string
     title: string
@@ -36607,6 +39210,7 @@ export namespace Prisma {
     secondarySubject?: SubjectCreateNestedOneWithoutSecondaryExamsInput
     quiz?: QuizCreateNestedOneWithoutExamInput
     submissions?: StudentSubmissionCreateNestedManyWithoutExamInput
+    materials?: ExamMaterialCreateNestedManyWithoutExamInput
   }
 
   export type ExamUncheckedCreateInput = {
@@ -36623,6 +39227,7 @@ export namespace Prisma {
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutExamInput
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutExamInput
+    materials?: ExamMaterialUncheckedCreateNestedManyWithoutExamInput
   }
 
   export type ExamUpdateInput = {
@@ -36639,6 +39244,7 @@ export namespace Prisma {
     secondarySubject?: SubjectUpdateOneWithoutSecondaryExamsNestedInput
     quiz?: QuizUpdateOneWithoutExamNestedInput
     submissions?: StudentSubmissionUpdateManyWithoutExamNestedInput
+    materials?: ExamMaterialUpdateManyWithoutExamNestedInput
   }
 
   export type ExamUncheckedUpdateInput = {
@@ -36655,6 +39261,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutExamNestedInput
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutExamNestedInput
+    materials?: ExamMaterialUncheckedUpdateManyWithoutExamNestedInput
   }
 
   export type ExamCreateManyInput = {
@@ -36694,6 +39301,61 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     a4ImageUrl?: StringFieldUpdateOperationsInput | string
     maxScore?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamMaterialCreateInput = {
+    id?: string
+    title: string
+    fileUrl: string
+    createdAt?: Date | string
+    exam: ExamCreateNestedOneWithoutMaterialsInput
+  }
+
+  export type ExamMaterialUncheckedCreateInput = {
+    id?: string
+    title: string
+    fileUrl: string
+    examId: string
+    createdAt?: Date | string
+  }
+
+  export type ExamMaterialUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    exam?: ExamUpdateOneRequiredWithoutMaterialsNestedInput
+  }
+
+  export type ExamMaterialUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    examId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamMaterialCreateManyInput = {
+    id?: string
+    title: string
+    fileUrl: string
+    examId: string
+    createdAt?: Date | string
+  }
+
+  export type ExamMaterialUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamMaterialUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    examId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -38346,6 +41008,16 @@ export namespace Prisma {
     isNot?: SubjectWhereInput | null
   }
 
+  export type ExerciseMaterialListRelationFilter = {
+    every?: ExerciseMaterialWhereInput
+    some?: ExerciseMaterialWhereInput
+    none?: ExerciseMaterialWhereInput
+  }
+
+  export type ExerciseMaterialOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type DailyExerciseCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -38396,6 +41068,45 @@ export namespace Prisma {
   export type DailyExerciseSumOrderByAggregateInput = {
     maxScore?: SortOrder
     month?: SortOrder
+  }
+
+  export type DailyExerciseScalarRelationFilter = {
+    is?: DailyExerciseWhereInput
+    isNot?: DailyExerciseWhereInput
+  }
+
+  export type ExerciseMaterialCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    fileUrl?: SortOrder
+    dailyExerciseId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExerciseMaterialMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    fileUrl?: SortOrder
+    dailyExerciseId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExerciseMaterialMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    fileUrl?: SortOrder
+    dailyExerciseId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExamMaterialListRelationFilter = {
+    every?: ExamMaterialWhereInput
+    some?: ExamMaterialWhereInput
+    none?: ExamMaterialWhereInput
+  }
+
+  export type ExamMaterialOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type ExamCountOrderByAggregateInput = {
@@ -38450,6 +41161,35 @@ export namespace Prisma {
     maxScore?: SortOrder
   }
 
+  export type ExamScalarRelationFilter = {
+    is?: ExamWhereInput
+    isNot?: ExamWhereInput
+  }
+
+  export type ExamMaterialCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    fileUrl?: SortOrder
+    examId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExamMaterialMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    fileUrl?: SortOrder
+    examId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExamMaterialMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    fileUrl?: SortOrder
+    examId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -38459,11 +41199,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type ExamScalarRelationFilter = {
-    is?: ExamWhereInput
-    isNot?: ExamWhereInput
   }
 
   export type StudentSubmissionExamIdStudentIdCompoundUniqueInput = {
@@ -40544,10 +43279,24 @@ export namespace Prisma {
     connect?: QuizWhereUniqueInput
   }
 
+  export type ExerciseMaterialCreateNestedManyWithoutDailyExerciseInput = {
+    create?: XOR<ExerciseMaterialCreateWithoutDailyExerciseInput, ExerciseMaterialUncheckedCreateWithoutDailyExerciseInput> | ExerciseMaterialCreateWithoutDailyExerciseInput[] | ExerciseMaterialUncheckedCreateWithoutDailyExerciseInput[]
+    connectOrCreate?: ExerciseMaterialCreateOrConnectWithoutDailyExerciseInput | ExerciseMaterialCreateOrConnectWithoutDailyExerciseInput[]
+    createMany?: ExerciseMaterialCreateManyDailyExerciseInputEnvelope
+    connect?: ExerciseMaterialWhereUniqueInput | ExerciseMaterialWhereUniqueInput[]
+  }
+
   export type QuizUncheckedCreateNestedOneWithoutDailyExerciseInput = {
     create?: XOR<QuizCreateWithoutDailyExerciseInput, QuizUncheckedCreateWithoutDailyExerciseInput>
     connectOrCreate?: QuizCreateOrConnectWithoutDailyExerciseInput
     connect?: QuizWhereUniqueInput
+  }
+
+  export type ExerciseMaterialUncheckedCreateNestedManyWithoutDailyExerciseInput = {
+    create?: XOR<ExerciseMaterialCreateWithoutDailyExerciseInput, ExerciseMaterialUncheckedCreateWithoutDailyExerciseInput> | ExerciseMaterialCreateWithoutDailyExerciseInput[] | ExerciseMaterialUncheckedCreateWithoutDailyExerciseInput[]
+    connectOrCreate?: ExerciseMaterialCreateOrConnectWithoutDailyExerciseInput | ExerciseMaterialCreateOrConnectWithoutDailyExerciseInput[]
+    createMany?: ExerciseMaterialCreateManyDailyExerciseInputEnvelope
+    connect?: ExerciseMaterialWhereUniqueInput | ExerciseMaterialWhereUniqueInput[]
   }
 
   export type SubjectUpdateOneRequiredWithoutDailyExercisesNestedInput = {
@@ -40578,6 +43327,20 @@ export namespace Prisma {
     update?: XOR<XOR<QuizUpdateToOneWithWhereWithoutDailyExerciseInput, QuizUpdateWithoutDailyExerciseInput>, QuizUncheckedUpdateWithoutDailyExerciseInput>
   }
 
+  export type ExerciseMaterialUpdateManyWithoutDailyExerciseNestedInput = {
+    create?: XOR<ExerciseMaterialCreateWithoutDailyExerciseInput, ExerciseMaterialUncheckedCreateWithoutDailyExerciseInput> | ExerciseMaterialCreateWithoutDailyExerciseInput[] | ExerciseMaterialUncheckedCreateWithoutDailyExerciseInput[]
+    connectOrCreate?: ExerciseMaterialCreateOrConnectWithoutDailyExerciseInput | ExerciseMaterialCreateOrConnectWithoutDailyExerciseInput[]
+    upsert?: ExerciseMaterialUpsertWithWhereUniqueWithoutDailyExerciseInput | ExerciseMaterialUpsertWithWhereUniqueWithoutDailyExerciseInput[]
+    createMany?: ExerciseMaterialCreateManyDailyExerciseInputEnvelope
+    set?: ExerciseMaterialWhereUniqueInput | ExerciseMaterialWhereUniqueInput[]
+    disconnect?: ExerciseMaterialWhereUniqueInput | ExerciseMaterialWhereUniqueInput[]
+    delete?: ExerciseMaterialWhereUniqueInput | ExerciseMaterialWhereUniqueInput[]
+    connect?: ExerciseMaterialWhereUniqueInput | ExerciseMaterialWhereUniqueInput[]
+    update?: ExerciseMaterialUpdateWithWhereUniqueWithoutDailyExerciseInput | ExerciseMaterialUpdateWithWhereUniqueWithoutDailyExerciseInput[]
+    updateMany?: ExerciseMaterialUpdateManyWithWhereWithoutDailyExerciseInput | ExerciseMaterialUpdateManyWithWhereWithoutDailyExerciseInput[]
+    deleteMany?: ExerciseMaterialScalarWhereInput | ExerciseMaterialScalarWhereInput[]
+  }
+
   export type QuizUncheckedUpdateOneWithoutDailyExerciseNestedInput = {
     create?: XOR<QuizCreateWithoutDailyExerciseInput, QuizUncheckedCreateWithoutDailyExerciseInput>
     connectOrCreate?: QuizCreateOrConnectWithoutDailyExerciseInput
@@ -40586,6 +43349,34 @@ export namespace Prisma {
     delete?: QuizWhereInput | boolean
     connect?: QuizWhereUniqueInput
     update?: XOR<XOR<QuizUpdateToOneWithWhereWithoutDailyExerciseInput, QuizUpdateWithoutDailyExerciseInput>, QuizUncheckedUpdateWithoutDailyExerciseInput>
+  }
+
+  export type ExerciseMaterialUncheckedUpdateManyWithoutDailyExerciseNestedInput = {
+    create?: XOR<ExerciseMaterialCreateWithoutDailyExerciseInput, ExerciseMaterialUncheckedCreateWithoutDailyExerciseInput> | ExerciseMaterialCreateWithoutDailyExerciseInput[] | ExerciseMaterialUncheckedCreateWithoutDailyExerciseInput[]
+    connectOrCreate?: ExerciseMaterialCreateOrConnectWithoutDailyExerciseInput | ExerciseMaterialCreateOrConnectWithoutDailyExerciseInput[]
+    upsert?: ExerciseMaterialUpsertWithWhereUniqueWithoutDailyExerciseInput | ExerciseMaterialUpsertWithWhereUniqueWithoutDailyExerciseInput[]
+    createMany?: ExerciseMaterialCreateManyDailyExerciseInputEnvelope
+    set?: ExerciseMaterialWhereUniqueInput | ExerciseMaterialWhereUniqueInput[]
+    disconnect?: ExerciseMaterialWhereUniqueInput | ExerciseMaterialWhereUniqueInput[]
+    delete?: ExerciseMaterialWhereUniqueInput | ExerciseMaterialWhereUniqueInput[]
+    connect?: ExerciseMaterialWhereUniqueInput | ExerciseMaterialWhereUniqueInput[]
+    update?: ExerciseMaterialUpdateWithWhereUniqueWithoutDailyExerciseInput | ExerciseMaterialUpdateWithWhereUniqueWithoutDailyExerciseInput[]
+    updateMany?: ExerciseMaterialUpdateManyWithWhereWithoutDailyExerciseInput | ExerciseMaterialUpdateManyWithWhereWithoutDailyExerciseInput[]
+    deleteMany?: ExerciseMaterialScalarWhereInput | ExerciseMaterialScalarWhereInput[]
+  }
+
+  export type DailyExerciseCreateNestedOneWithoutMaterialsInput = {
+    create?: XOR<DailyExerciseCreateWithoutMaterialsInput, DailyExerciseUncheckedCreateWithoutMaterialsInput>
+    connectOrCreate?: DailyExerciseCreateOrConnectWithoutMaterialsInput
+    connect?: DailyExerciseWhereUniqueInput
+  }
+
+  export type DailyExerciseUpdateOneRequiredWithoutMaterialsNestedInput = {
+    create?: XOR<DailyExerciseCreateWithoutMaterialsInput, DailyExerciseUncheckedCreateWithoutMaterialsInput>
+    connectOrCreate?: DailyExerciseCreateOrConnectWithoutMaterialsInput
+    upsert?: DailyExerciseUpsertWithoutMaterialsInput
+    connect?: DailyExerciseWhereUniqueInput
+    update?: XOR<XOR<DailyExerciseUpdateToOneWithWhereWithoutMaterialsInput, DailyExerciseUpdateWithoutMaterialsInput>, DailyExerciseUncheckedUpdateWithoutMaterialsInput>
   }
 
   export type SubjectCreateNestedOneWithoutExamsInput = {
@@ -40613,6 +43404,13 @@ export namespace Prisma {
     connect?: StudentSubmissionWhereUniqueInput | StudentSubmissionWhereUniqueInput[]
   }
 
+  export type ExamMaterialCreateNestedManyWithoutExamInput = {
+    create?: XOR<ExamMaterialCreateWithoutExamInput, ExamMaterialUncheckedCreateWithoutExamInput> | ExamMaterialCreateWithoutExamInput[] | ExamMaterialUncheckedCreateWithoutExamInput[]
+    connectOrCreate?: ExamMaterialCreateOrConnectWithoutExamInput | ExamMaterialCreateOrConnectWithoutExamInput[]
+    createMany?: ExamMaterialCreateManyExamInputEnvelope
+    connect?: ExamMaterialWhereUniqueInput | ExamMaterialWhereUniqueInput[]
+  }
+
   export type QuizUncheckedCreateNestedOneWithoutExamInput = {
     create?: XOR<QuizCreateWithoutExamInput, QuizUncheckedCreateWithoutExamInput>
     connectOrCreate?: QuizCreateOrConnectWithoutExamInput
@@ -40624,6 +43422,13 @@ export namespace Prisma {
     connectOrCreate?: StudentSubmissionCreateOrConnectWithoutExamInput | StudentSubmissionCreateOrConnectWithoutExamInput[]
     createMany?: StudentSubmissionCreateManyExamInputEnvelope
     connect?: StudentSubmissionWhereUniqueInput | StudentSubmissionWhereUniqueInput[]
+  }
+
+  export type ExamMaterialUncheckedCreateNestedManyWithoutExamInput = {
+    create?: XOR<ExamMaterialCreateWithoutExamInput, ExamMaterialUncheckedCreateWithoutExamInput> | ExamMaterialCreateWithoutExamInput[] | ExamMaterialUncheckedCreateWithoutExamInput[]
+    connectOrCreate?: ExamMaterialCreateOrConnectWithoutExamInput | ExamMaterialCreateOrConnectWithoutExamInput[]
+    createMany?: ExamMaterialCreateManyExamInputEnvelope
+    connect?: ExamMaterialWhereUniqueInput | ExamMaterialWhereUniqueInput[]
   }
 
   export type SubjectUpdateOneRequiredWithoutExamsNestedInput = {
@@ -40668,6 +43473,20 @@ export namespace Prisma {
     deleteMany?: StudentSubmissionScalarWhereInput | StudentSubmissionScalarWhereInput[]
   }
 
+  export type ExamMaterialUpdateManyWithoutExamNestedInput = {
+    create?: XOR<ExamMaterialCreateWithoutExamInput, ExamMaterialUncheckedCreateWithoutExamInput> | ExamMaterialCreateWithoutExamInput[] | ExamMaterialUncheckedCreateWithoutExamInput[]
+    connectOrCreate?: ExamMaterialCreateOrConnectWithoutExamInput | ExamMaterialCreateOrConnectWithoutExamInput[]
+    upsert?: ExamMaterialUpsertWithWhereUniqueWithoutExamInput | ExamMaterialUpsertWithWhereUniqueWithoutExamInput[]
+    createMany?: ExamMaterialCreateManyExamInputEnvelope
+    set?: ExamMaterialWhereUniqueInput | ExamMaterialWhereUniqueInput[]
+    disconnect?: ExamMaterialWhereUniqueInput | ExamMaterialWhereUniqueInput[]
+    delete?: ExamMaterialWhereUniqueInput | ExamMaterialWhereUniqueInput[]
+    connect?: ExamMaterialWhereUniqueInput | ExamMaterialWhereUniqueInput[]
+    update?: ExamMaterialUpdateWithWhereUniqueWithoutExamInput | ExamMaterialUpdateWithWhereUniqueWithoutExamInput[]
+    updateMany?: ExamMaterialUpdateManyWithWhereWithoutExamInput | ExamMaterialUpdateManyWithWhereWithoutExamInput[]
+    deleteMany?: ExamMaterialScalarWhereInput | ExamMaterialScalarWhereInput[]
+  }
+
   export type QuizUncheckedUpdateOneWithoutExamNestedInput = {
     create?: XOR<QuizCreateWithoutExamInput, QuizUncheckedCreateWithoutExamInput>
     connectOrCreate?: QuizCreateOrConnectWithoutExamInput
@@ -40690,6 +43509,34 @@ export namespace Prisma {
     update?: StudentSubmissionUpdateWithWhereUniqueWithoutExamInput | StudentSubmissionUpdateWithWhereUniqueWithoutExamInput[]
     updateMany?: StudentSubmissionUpdateManyWithWhereWithoutExamInput | StudentSubmissionUpdateManyWithWhereWithoutExamInput[]
     deleteMany?: StudentSubmissionScalarWhereInput | StudentSubmissionScalarWhereInput[]
+  }
+
+  export type ExamMaterialUncheckedUpdateManyWithoutExamNestedInput = {
+    create?: XOR<ExamMaterialCreateWithoutExamInput, ExamMaterialUncheckedCreateWithoutExamInput> | ExamMaterialCreateWithoutExamInput[] | ExamMaterialUncheckedCreateWithoutExamInput[]
+    connectOrCreate?: ExamMaterialCreateOrConnectWithoutExamInput | ExamMaterialCreateOrConnectWithoutExamInput[]
+    upsert?: ExamMaterialUpsertWithWhereUniqueWithoutExamInput | ExamMaterialUpsertWithWhereUniqueWithoutExamInput[]
+    createMany?: ExamMaterialCreateManyExamInputEnvelope
+    set?: ExamMaterialWhereUniqueInput | ExamMaterialWhereUniqueInput[]
+    disconnect?: ExamMaterialWhereUniqueInput | ExamMaterialWhereUniqueInput[]
+    delete?: ExamMaterialWhereUniqueInput | ExamMaterialWhereUniqueInput[]
+    connect?: ExamMaterialWhereUniqueInput | ExamMaterialWhereUniqueInput[]
+    update?: ExamMaterialUpdateWithWhereUniqueWithoutExamInput | ExamMaterialUpdateWithWhereUniqueWithoutExamInput[]
+    updateMany?: ExamMaterialUpdateManyWithWhereWithoutExamInput | ExamMaterialUpdateManyWithWhereWithoutExamInput[]
+    deleteMany?: ExamMaterialScalarWhereInput | ExamMaterialScalarWhereInput[]
+  }
+
+  export type ExamCreateNestedOneWithoutMaterialsInput = {
+    create?: XOR<ExamCreateWithoutMaterialsInput, ExamUncheckedCreateWithoutMaterialsInput>
+    connectOrCreate?: ExamCreateOrConnectWithoutMaterialsInput
+    connect?: ExamWhereUniqueInput
+  }
+
+  export type ExamUpdateOneRequiredWithoutMaterialsNestedInput = {
+    create?: XOR<ExamCreateWithoutMaterialsInput, ExamUncheckedCreateWithoutMaterialsInput>
+    connectOrCreate?: ExamCreateOrConnectWithoutMaterialsInput
+    upsert?: ExamUpsertWithoutMaterialsInput
+    connect?: ExamWhereUniqueInput
+    update?: XOR<XOR<ExamUpdateToOneWithWhereWithoutMaterialsInput, ExamUpdateWithoutMaterialsInput>, ExamUncheckedUpdateWithoutMaterialsInput>
   }
 
   export type ExamCreateNestedOneWithoutSubmissionsInput = {
@@ -42682,6 +45529,7 @@ export namespace Prisma {
     createdAt?: Date | string
     secondarySubject?: SubjectCreateNestedOneWithoutSecondaryDailyExercisesInput
     quiz?: QuizCreateNestedOneWithoutDailyExerciseInput
+    materials?: ExerciseMaterialCreateNestedManyWithoutDailyExerciseInput
   }
 
   export type DailyExerciseUncheckedCreateWithoutSubjectInput = {
@@ -42696,6 +45544,7 @@ export namespace Prisma {
     month: number
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutDailyExerciseInput
+    materials?: ExerciseMaterialUncheckedCreateNestedManyWithoutDailyExerciseInput
   }
 
   export type DailyExerciseCreateOrConnectWithoutSubjectInput = {
@@ -42720,6 +45569,7 @@ export namespace Prisma {
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutDailyExercisesInput
     quiz?: QuizCreateNestedOneWithoutDailyExerciseInput
+    materials?: ExerciseMaterialCreateNestedManyWithoutDailyExerciseInput
   }
 
   export type DailyExerciseUncheckedCreateWithoutSecondarySubjectInput = {
@@ -42734,6 +45584,7 @@ export namespace Prisma {
     month: number
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutDailyExerciseInput
+    materials?: ExerciseMaterialUncheckedCreateNestedManyWithoutDailyExerciseInput
   }
 
   export type DailyExerciseCreateOrConnectWithoutSecondarySubjectInput = {
@@ -42759,6 +45610,7 @@ export namespace Prisma {
     secondarySubject?: SubjectCreateNestedOneWithoutSecondaryExamsInput
     quiz?: QuizCreateNestedOneWithoutExamInput
     submissions?: StudentSubmissionCreateNestedManyWithoutExamInput
+    materials?: ExamMaterialCreateNestedManyWithoutExamInput
   }
 
   export type ExamUncheckedCreateWithoutSubjectInput = {
@@ -42774,6 +45626,7 @@ export namespace Prisma {
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutExamInput
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutExamInput
+    materials?: ExamMaterialUncheckedCreateNestedManyWithoutExamInput
   }
 
   export type ExamCreateOrConnectWithoutSubjectInput = {
@@ -42799,6 +45652,7 @@ export namespace Prisma {
     subject: SubjectCreateNestedOneWithoutExamsInput
     quiz?: QuizCreateNestedOneWithoutExamInput
     submissions?: StudentSubmissionCreateNestedManyWithoutExamInput
+    materials?: ExamMaterialCreateNestedManyWithoutExamInput
   }
 
   export type ExamUncheckedCreateWithoutSecondarySubjectInput = {
@@ -42814,6 +45668,7 @@ export namespace Prisma {
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutExamInput
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutExamInput
+    materials?: ExamMaterialUncheckedCreateNestedManyWithoutExamInput
   }
 
   export type ExamCreateOrConnectWithoutSecondarySubjectInput = {
@@ -43583,6 +46438,7 @@ export namespace Prisma {
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutDailyExercisesInput
     secondarySubject?: SubjectCreateNestedOneWithoutSecondaryDailyExercisesInput
+    materials?: ExerciseMaterialCreateNestedManyWithoutDailyExerciseInput
   }
 
   export type DailyExerciseUncheckedCreateWithoutQuizInput = {
@@ -43597,6 +46453,7 @@ export namespace Prisma {
     secondarySubjectId?: string | null
     month: number
     createdAt?: Date | string
+    materials?: ExerciseMaterialUncheckedCreateNestedManyWithoutDailyExerciseInput
   }
 
   export type DailyExerciseCreateOrConnectWithoutQuizInput = {
@@ -43617,6 +46474,7 @@ export namespace Prisma {
     subject: SubjectCreateNestedOneWithoutExamsInput
     secondarySubject?: SubjectCreateNestedOneWithoutSecondaryExamsInput
     submissions?: StudentSubmissionCreateNestedManyWithoutExamInput
+    materials?: ExamMaterialCreateNestedManyWithoutExamInput
   }
 
   export type ExamUncheckedCreateWithoutQuizInput = {
@@ -43632,6 +46490,7 @@ export namespace Prisma {
     maxScore?: number
     createdAt?: Date | string
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutExamInput
+    materials?: ExamMaterialUncheckedCreateNestedManyWithoutExamInput
   }
 
   export type ExamCreateOrConnectWithoutQuizInput = {
@@ -43725,6 +46584,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutDailyExercisesNestedInput
     secondarySubject?: SubjectUpdateOneWithoutSecondaryDailyExercisesNestedInput
+    materials?: ExerciseMaterialUpdateManyWithoutDailyExerciseNestedInput
   }
 
   export type DailyExerciseUncheckedUpdateWithoutQuizInput = {
@@ -43739,6 +46599,7 @@ export namespace Prisma {
     secondarySubjectId?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    materials?: ExerciseMaterialUncheckedUpdateManyWithoutDailyExerciseNestedInput
   }
 
   export type ExamUpsertWithoutQuizInput = {
@@ -43765,6 +46626,7 @@ export namespace Prisma {
     subject?: SubjectUpdateOneRequiredWithoutExamsNestedInput
     secondarySubject?: SubjectUpdateOneWithoutSecondaryExamsNestedInput
     submissions?: StudentSubmissionUpdateManyWithoutExamNestedInput
+    materials?: ExamMaterialUpdateManyWithoutExamNestedInput
   }
 
   export type ExamUncheckedUpdateWithoutQuizInput = {
@@ -43780,6 +46642,7 @@ export namespace Prisma {
     maxScore?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutExamNestedInput
+    materials?: ExamMaterialUncheckedUpdateManyWithoutExamNestedInput
   }
 
   export type StudentMistakeUpsertWithWhereUniqueWithoutQuizInput = {
@@ -45510,6 +48373,30 @@ export namespace Prisma {
     create: XOR<QuizCreateWithoutDailyExerciseInput, QuizUncheckedCreateWithoutDailyExerciseInput>
   }
 
+  export type ExerciseMaterialCreateWithoutDailyExerciseInput = {
+    id?: string
+    title: string
+    fileUrl: string
+    createdAt?: Date | string
+  }
+
+  export type ExerciseMaterialUncheckedCreateWithoutDailyExerciseInput = {
+    id?: string
+    title: string
+    fileUrl: string
+    createdAt?: Date | string
+  }
+
+  export type ExerciseMaterialCreateOrConnectWithoutDailyExerciseInput = {
+    where: ExerciseMaterialWhereUniqueInput
+    create: XOR<ExerciseMaterialCreateWithoutDailyExerciseInput, ExerciseMaterialUncheckedCreateWithoutDailyExerciseInput>
+  }
+
+  export type ExerciseMaterialCreateManyDailyExerciseInputEnvelope = {
+    data: ExerciseMaterialCreateManyDailyExerciseInput | ExerciseMaterialCreateManyDailyExerciseInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SubjectUpsertWithoutDailyExercisesInput = {
     update: XOR<SubjectUpdateWithoutDailyExercisesInput, SubjectUncheckedUpdateWithoutDailyExercisesInput>
     create: XOR<SubjectCreateWithoutDailyExercisesInput, SubjectUncheckedCreateWithoutDailyExercisesInput>
@@ -45667,6 +48554,109 @@ export namespace Prisma {
     questions?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutQuizNestedInput
+  }
+
+  export type ExerciseMaterialUpsertWithWhereUniqueWithoutDailyExerciseInput = {
+    where: ExerciseMaterialWhereUniqueInput
+    update: XOR<ExerciseMaterialUpdateWithoutDailyExerciseInput, ExerciseMaterialUncheckedUpdateWithoutDailyExerciseInput>
+    create: XOR<ExerciseMaterialCreateWithoutDailyExerciseInput, ExerciseMaterialUncheckedCreateWithoutDailyExerciseInput>
+  }
+
+  export type ExerciseMaterialUpdateWithWhereUniqueWithoutDailyExerciseInput = {
+    where: ExerciseMaterialWhereUniqueInput
+    data: XOR<ExerciseMaterialUpdateWithoutDailyExerciseInput, ExerciseMaterialUncheckedUpdateWithoutDailyExerciseInput>
+  }
+
+  export type ExerciseMaterialUpdateManyWithWhereWithoutDailyExerciseInput = {
+    where: ExerciseMaterialScalarWhereInput
+    data: XOR<ExerciseMaterialUpdateManyMutationInput, ExerciseMaterialUncheckedUpdateManyWithoutDailyExerciseInput>
+  }
+
+  export type ExerciseMaterialScalarWhereInput = {
+    AND?: ExerciseMaterialScalarWhereInput | ExerciseMaterialScalarWhereInput[]
+    OR?: ExerciseMaterialScalarWhereInput[]
+    NOT?: ExerciseMaterialScalarWhereInput | ExerciseMaterialScalarWhereInput[]
+    id?: StringFilter<"ExerciseMaterial"> | string
+    title?: StringFilter<"ExerciseMaterial"> | string
+    fileUrl?: StringFilter<"ExerciseMaterial"> | string
+    dailyExerciseId?: StringFilter<"ExerciseMaterial"> | string
+    createdAt?: DateTimeFilter<"ExerciseMaterial"> | Date | string
+  }
+
+  export type DailyExerciseCreateWithoutMaterialsInput = {
+    id?: string
+    title: string
+    a4ImageUrl: string
+    maxScore?: number
+    phase?: $Enums.Phase
+    level: $Enums.Level
+    stream: $Enums.Stream
+    month: number
+    createdAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutDailyExercisesInput
+    secondarySubject?: SubjectCreateNestedOneWithoutSecondaryDailyExercisesInput
+    quiz?: QuizCreateNestedOneWithoutDailyExerciseInput
+  }
+
+  export type DailyExerciseUncheckedCreateWithoutMaterialsInput = {
+    id?: string
+    title: string
+    a4ImageUrl: string
+    maxScore?: number
+    phase?: $Enums.Phase
+    level: $Enums.Level
+    stream: $Enums.Stream
+    subjectId: string
+    secondarySubjectId?: string | null
+    month: number
+    createdAt?: Date | string
+    quiz?: QuizUncheckedCreateNestedOneWithoutDailyExerciseInput
+  }
+
+  export type DailyExerciseCreateOrConnectWithoutMaterialsInput = {
+    where: DailyExerciseWhereUniqueInput
+    create: XOR<DailyExerciseCreateWithoutMaterialsInput, DailyExerciseUncheckedCreateWithoutMaterialsInput>
+  }
+
+  export type DailyExerciseUpsertWithoutMaterialsInput = {
+    update: XOR<DailyExerciseUpdateWithoutMaterialsInput, DailyExerciseUncheckedUpdateWithoutMaterialsInput>
+    create: XOR<DailyExerciseCreateWithoutMaterialsInput, DailyExerciseUncheckedCreateWithoutMaterialsInput>
+    where?: DailyExerciseWhereInput
+  }
+
+  export type DailyExerciseUpdateToOneWithWhereWithoutMaterialsInput = {
+    where?: DailyExerciseWhereInput
+    data: XOR<DailyExerciseUpdateWithoutMaterialsInput, DailyExerciseUncheckedUpdateWithoutMaterialsInput>
+  }
+
+  export type DailyExerciseUpdateWithoutMaterialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    a4ImageUrl?: StringFieldUpdateOperationsInput | string
+    maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    month?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutDailyExercisesNestedInput
+    secondarySubject?: SubjectUpdateOneWithoutSecondaryDailyExercisesNestedInput
+    quiz?: QuizUpdateOneWithoutDailyExerciseNestedInput
+  }
+
+  export type DailyExerciseUncheckedUpdateWithoutMaterialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    a4ImageUrl?: StringFieldUpdateOperationsInput | string
+    maxScore?: IntFieldUpdateOperationsInput | number
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    subjectId?: StringFieldUpdateOperationsInput | string
+    secondarySubjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    month?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quiz?: QuizUncheckedUpdateOneWithoutDailyExerciseNestedInput
   }
 
   export type SubjectCreateWithoutExamsInput = {
@@ -45837,6 +48827,30 @@ export namespace Prisma {
 
   export type StudentSubmissionCreateManyExamInputEnvelope = {
     data: StudentSubmissionCreateManyExamInput | StudentSubmissionCreateManyExamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ExamMaterialCreateWithoutExamInput = {
+    id?: string
+    title: string
+    fileUrl: string
+    createdAt?: Date | string
+  }
+
+  export type ExamMaterialUncheckedCreateWithoutExamInput = {
+    id?: string
+    title: string
+    fileUrl: string
+    createdAt?: Date | string
+  }
+
+  export type ExamMaterialCreateOrConnectWithoutExamInput = {
+    where: ExamMaterialWhereUniqueInput
+    create: XOR<ExamMaterialCreateWithoutExamInput, ExamMaterialUncheckedCreateWithoutExamInput>
+  }
+
+  export type ExamMaterialCreateManyExamInputEnvelope = {
+    data: ExamMaterialCreateManyExamInput | ExamMaterialCreateManyExamInput[]
     skipDuplicates?: boolean
   }
 
@@ -46015,6 +49029,113 @@ export namespace Prisma {
     data: XOR<StudentSubmissionUpdateManyMutationInput, StudentSubmissionUncheckedUpdateManyWithoutExamInput>
   }
 
+  export type ExamMaterialUpsertWithWhereUniqueWithoutExamInput = {
+    where: ExamMaterialWhereUniqueInput
+    update: XOR<ExamMaterialUpdateWithoutExamInput, ExamMaterialUncheckedUpdateWithoutExamInput>
+    create: XOR<ExamMaterialCreateWithoutExamInput, ExamMaterialUncheckedCreateWithoutExamInput>
+  }
+
+  export type ExamMaterialUpdateWithWhereUniqueWithoutExamInput = {
+    where: ExamMaterialWhereUniqueInput
+    data: XOR<ExamMaterialUpdateWithoutExamInput, ExamMaterialUncheckedUpdateWithoutExamInput>
+  }
+
+  export type ExamMaterialUpdateManyWithWhereWithoutExamInput = {
+    where: ExamMaterialScalarWhereInput
+    data: XOR<ExamMaterialUpdateManyMutationInput, ExamMaterialUncheckedUpdateManyWithoutExamInput>
+  }
+
+  export type ExamMaterialScalarWhereInput = {
+    AND?: ExamMaterialScalarWhereInput | ExamMaterialScalarWhereInput[]
+    OR?: ExamMaterialScalarWhereInput[]
+    NOT?: ExamMaterialScalarWhereInput | ExamMaterialScalarWhereInput[]
+    id?: StringFilter<"ExamMaterial"> | string
+    title?: StringFilter<"ExamMaterial"> | string
+    fileUrl?: StringFilter<"ExamMaterial"> | string
+    examId?: StringFilter<"ExamMaterial"> | string
+    createdAt?: DateTimeFilter<"ExamMaterial"> | Date | string
+  }
+
+  export type ExamCreateWithoutMaterialsInput = {
+    id?: string
+    title: string
+    phase?: $Enums.Phase
+    level: $Enums.Level
+    stream: $Enums.Stream
+    month: number
+    a4ImageUrl: string
+    maxScore?: number
+    createdAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutExamsInput
+    secondarySubject?: SubjectCreateNestedOneWithoutSecondaryExamsInput
+    quiz?: QuizCreateNestedOneWithoutExamInput
+    submissions?: StudentSubmissionCreateNestedManyWithoutExamInput
+  }
+
+  export type ExamUncheckedCreateWithoutMaterialsInput = {
+    id?: string
+    title: string
+    subjectId: string
+    secondarySubjectId?: string | null
+    phase?: $Enums.Phase
+    level: $Enums.Level
+    stream: $Enums.Stream
+    month: number
+    a4ImageUrl: string
+    maxScore?: number
+    createdAt?: Date | string
+    quiz?: QuizUncheckedCreateNestedOneWithoutExamInput
+    submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutExamInput
+  }
+
+  export type ExamCreateOrConnectWithoutMaterialsInput = {
+    where: ExamWhereUniqueInput
+    create: XOR<ExamCreateWithoutMaterialsInput, ExamUncheckedCreateWithoutMaterialsInput>
+  }
+
+  export type ExamUpsertWithoutMaterialsInput = {
+    update: XOR<ExamUpdateWithoutMaterialsInput, ExamUncheckedUpdateWithoutMaterialsInput>
+    create: XOR<ExamCreateWithoutMaterialsInput, ExamUncheckedCreateWithoutMaterialsInput>
+    where?: ExamWhereInput
+  }
+
+  export type ExamUpdateToOneWithWhereWithoutMaterialsInput = {
+    where?: ExamWhereInput
+    data: XOR<ExamUpdateWithoutMaterialsInput, ExamUncheckedUpdateWithoutMaterialsInput>
+  }
+
+  export type ExamUpdateWithoutMaterialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    month?: IntFieldUpdateOperationsInput | number
+    a4ImageUrl?: StringFieldUpdateOperationsInput | string
+    maxScore?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutExamsNestedInput
+    secondarySubject?: SubjectUpdateOneWithoutSecondaryExamsNestedInput
+    quiz?: QuizUpdateOneWithoutExamNestedInput
+    submissions?: StudentSubmissionUpdateManyWithoutExamNestedInput
+  }
+
+  export type ExamUncheckedUpdateWithoutMaterialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    secondarySubjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    month?: IntFieldUpdateOperationsInput | number
+    a4ImageUrl?: StringFieldUpdateOperationsInput | string
+    maxScore?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quiz?: QuizUncheckedUpdateOneWithoutExamNestedInput
+    submissions?: StudentSubmissionUncheckedUpdateManyWithoutExamNestedInput
+  }
+
   export type ExamCreateWithoutSubmissionsInput = {
     id?: string
     title: string
@@ -46028,6 +49149,7 @@ export namespace Prisma {
     subject: SubjectCreateNestedOneWithoutExamsInput
     secondarySubject?: SubjectCreateNestedOneWithoutSecondaryExamsInput
     quiz?: QuizCreateNestedOneWithoutExamInput
+    materials?: ExamMaterialCreateNestedManyWithoutExamInput
   }
 
   export type ExamUncheckedCreateWithoutSubmissionsInput = {
@@ -46043,6 +49165,7 @@ export namespace Prisma {
     maxScore?: number
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutExamInput
+    materials?: ExamMaterialUncheckedCreateNestedManyWithoutExamInput
   }
 
   export type ExamCreateOrConnectWithoutSubmissionsInput = {
@@ -46133,6 +49256,7 @@ export namespace Prisma {
     subject?: SubjectUpdateOneRequiredWithoutExamsNestedInput
     secondarySubject?: SubjectUpdateOneWithoutSecondaryExamsNestedInput
     quiz?: QuizUpdateOneWithoutExamNestedInput
+    materials?: ExamMaterialUpdateManyWithoutExamNestedInput
   }
 
   export type ExamUncheckedUpdateWithoutSubmissionsInput = {
@@ -46148,6 +49272,7 @@ export namespace Prisma {
     maxScore?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutExamNestedInput
+    materials?: ExamMaterialUncheckedUpdateManyWithoutExamNestedInput
   }
 
   export type UserUpsertWithoutSubmissionsInput = {
@@ -47795,6 +50920,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     secondarySubject?: SubjectUpdateOneWithoutSecondaryDailyExercisesNestedInput
     quiz?: QuizUpdateOneWithoutDailyExerciseNestedInput
+    materials?: ExerciseMaterialUpdateManyWithoutDailyExerciseNestedInput
   }
 
   export type DailyExerciseUncheckedUpdateWithoutSubjectInput = {
@@ -47809,6 +50935,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutDailyExerciseNestedInput
+    materials?: ExerciseMaterialUncheckedUpdateManyWithoutDailyExerciseNestedInput
   }
 
   export type DailyExerciseUncheckedUpdateManyWithoutSubjectInput = {
@@ -47836,6 +50963,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutDailyExercisesNestedInput
     quiz?: QuizUpdateOneWithoutDailyExerciseNestedInput
+    materials?: ExerciseMaterialUpdateManyWithoutDailyExerciseNestedInput
   }
 
   export type DailyExerciseUncheckedUpdateWithoutSecondarySubjectInput = {
@@ -47850,6 +50978,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutDailyExerciseNestedInput
+    materials?: ExerciseMaterialUncheckedUpdateManyWithoutDailyExerciseNestedInput
   }
 
   export type DailyExerciseUncheckedUpdateManyWithoutSecondarySubjectInput = {
@@ -47878,6 +51007,7 @@ export namespace Prisma {
     secondarySubject?: SubjectUpdateOneWithoutSecondaryExamsNestedInput
     quiz?: QuizUpdateOneWithoutExamNestedInput
     submissions?: StudentSubmissionUpdateManyWithoutExamNestedInput
+    materials?: ExamMaterialUpdateManyWithoutExamNestedInput
   }
 
   export type ExamUncheckedUpdateWithoutSubjectInput = {
@@ -47893,6 +51023,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutExamNestedInput
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutExamNestedInput
+    materials?: ExamMaterialUncheckedUpdateManyWithoutExamNestedInput
   }
 
   export type ExamUncheckedUpdateManyWithoutSubjectInput = {
@@ -47921,6 +51052,7 @@ export namespace Prisma {
     subject?: SubjectUpdateOneRequiredWithoutExamsNestedInput
     quiz?: QuizUpdateOneWithoutExamNestedInput
     submissions?: StudentSubmissionUpdateManyWithoutExamNestedInput
+    materials?: ExamMaterialUpdateManyWithoutExamNestedInput
   }
 
   export type ExamUncheckedUpdateWithoutSecondarySubjectInput = {
@@ -47936,6 +51068,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutExamNestedInput
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutExamNestedInput
+    materials?: ExamMaterialUncheckedUpdateManyWithoutExamNestedInput
   }
 
   export type ExamUncheckedUpdateManyWithoutSecondarySubjectInput = {
@@ -48159,6 +51292,34 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ExerciseMaterialCreateManyDailyExerciseInput = {
+    id?: string
+    title: string
+    fileUrl: string
+    createdAt?: Date | string
+  }
+
+  export type ExerciseMaterialUpdateWithoutDailyExerciseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExerciseMaterialUncheckedUpdateWithoutDailyExerciseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExerciseMaterialUncheckedUpdateManyWithoutDailyExerciseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StudentSubmissionCreateManyExamInput = {
     id?: string
     studentId: string
@@ -48167,6 +51328,13 @@ export namespace Prisma {
     feedback?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ExamMaterialCreateManyExamInput = {
+    id?: string
+    title: string
+    fileUrl: string
+    createdAt?: Date | string
   }
 
   export type StudentSubmissionUpdateWithoutExamInput = {
@@ -48197,6 +51365,27 @@ export namespace Prisma {
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamMaterialUpdateWithoutExamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamMaterialUncheckedUpdateWithoutExamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamMaterialUncheckedUpdateManyWithoutExamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ForumMessageCreateManyForumInput = {

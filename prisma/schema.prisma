@@ -358,7 +358,17 @@ model DailyExercise {
   secondarySubject   Subject? @relation("SecondarySubject", fields: [secondarySubjectId], references: [id], onDelete: SetNull)
   month      Int
   quiz       Quiz?
+  materials  ExerciseMaterial[]
   createdAt  DateTime @default(now())
+}
+
+model ExerciseMaterial {
+  id              String         @id @default(uuid())
+  title           String
+  fileUrl         String
+  dailyExerciseId String
+  dailyExercise   DailyExercise  @relation(fields: [dailyExerciseId], references: [id], onDelete: Cascade)
+  createdAt       DateTime       @default(now())
 }
 
 model Exam {
@@ -376,6 +386,16 @@ model Exam {
   maxScore   Int      @default(20)
   quiz       Quiz?
   submissions StudentSubmission[]
+  materials  ExamMaterial[]
+  createdAt  DateTime @default(now())
+}
+
+model ExamMaterial {
+  id         String   @id @default(uuid())
+  title      String
+  fileUrl    String
+  examId     String
+  exam       Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
 }
 

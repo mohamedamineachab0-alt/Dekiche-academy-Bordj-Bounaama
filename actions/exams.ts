@@ -47,6 +47,19 @@ export async function createExamAndExtractQuiz(formData: FormData) {
     const quizType = formData.get("quizType") as string || (triggerAi ? "AI" : "MANUAL");
     const secondarySubjectId = formData.get("secondarySubjectId") as string || null;
 
+    const rawMaterials = formData.getAll("materials") as File[];
+    const materialTitle = formData.get("materialTitle") as string;
+    let materialsData: { title: string, fileUrl: string }[] = [];
+
+    for (let i = 0; i < rawMaterials.length; i++) {
+      const matFile = rawMaterials[i];
+      if (matFile && matFile.size > 0) {
+        const fileUrl = await uploadToSupabase(matFile, "exams", `exam-${subjectId}-material`);
+        const t = materialTitle ? (rawMaterials.length > 1 ? `${materialTitle} - ${i + 1}` : materialTitle) : matFile.name;
+        materialsData.push({ title: t, fileUrl });
+      }
+    }
+
     let manualQuestionsData: any = [];
     if (quizType === "MANUAL") {
       const rawQs = formData.get("manualQuestions") as string;
@@ -83,6 +96,12 @@ export async function createExamAndExtractQuiz(formData: FormData) {
         month,
         maxScore,
         a4ImageUrl,
+        materials: {
+          create: materialsData.map(m => ({
+            title: m.title,
+            fileUrl: m.fileUrl,
+          })),
+        },
       }
     });
 

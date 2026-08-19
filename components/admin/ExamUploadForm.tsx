@@ -339,6 +339,22 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
           </div>
         </div>
 
+        <div className="bg-purple-50 p-6 rounded-2xl border border-purple-100 space-y-4">
+          <h3 className="font-bold text-purple-900 flex items-center gap-2">
+            <Plus className="w-4 h-4" /> ملحقات أخرى (اختياري)
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-purple-800">عنوان المرفقات</label>
+              <input type="text" name="materialTitle" className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="مثال: ملخص الدرس" />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-purple-800 block">رفع الملفات</label>
+              <input type="file" name="materials" multiple className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium file:ml-4 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:font-bold file:bg-purple-100 file:text-purple-700 hover:file:bg-purple-200" />
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <label className="text-sm font-bold text-purple-800">الشهر</label>

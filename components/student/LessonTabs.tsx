@@ -87,16 +87,26 @@ export function LessonTabs({ lesson }: LessonTabsProps) {
                         <span className="font-black text-sm text-black line-clamp-1 flex-1">
                           {mat.title}
                         </span>
-                        <a 
-                          href={`${mat.fileUrl}?download=`}
-                          download
-                          target="_blank"
-                          rel="noreferrer"
-                          className="shrink-0 bg-white border-2 border-black text-black hover:bg-purple-100 px-4 py-2 rounded-lg text-xs font-black transition-all flex items-center gap-2"
-                        >
-                          <Download className="w-4 h-4" />
-                          تحميل
-                        </a>
+                        <div className="flex items-center gap-2">
+                          <a 
+                            href={mat.fileUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="shrink-0 bg-purple-100 border-2 border-black text-purple-900 hover:bg-purple-200 px-4 py-2 rounded-lg text-xs font-black transition-all flex items-center gap-2"
+                          >
+                            عرض
+                          </a>
+                          <a 
+                            href={`${mat.fileUrl}?download=`}
+                            download
+                            target="_blank"
+                            rel="noreferrer"
+                            className="shrink-0 bg-white border-2 border-black text-black hover:bg-purple-100 px-4 py-2 rounded-lg text-xs font-black transition-all flex items-center gap-2"
+                          >
+                            <Download className="w-4 h-4" />
+                            تحميل
+                          </a>
+                        </div>
                       </div>
                     ))
                   ) : (

@@ -345,20 +345,30 @@ model ChatMessage {
 }
 
 model DailyExercise {
-  id                 String   @id @default(uuid())
+  id                 String             @id @default(uuid())
   title              String
   a4ImageUrl         String
-  maxScore           Int      @default(20)
-  phase              Phase    @default(SECONDARY)
+  maxScore           Int                @default(20)
+  phase              Phase              @default(SECONDARY)
   level              Level
   stream             Stream
   subjectId          String
-  subject            Subject  @relation("PrimarySubject", fields: [subjectId], references: [id], onDelete: Cascade)
+  subject            Subject            @relation("PrimarySubject", fields: [subjectId], references: [id], onDelete: Cascade)
   secondarySubjectId String?
-  secondarySubject   Subject? @relation("SecondarySubject", fields: [secondarySubjectId], references: [id], onDelete: SetNull)
+  secondarySubject   Subject?           @relation("SecondarySubject", fields: [secondarySubjectId], references: [id], onDelete: SetNull)
   month              Int
   quiz               Quiz?
-  createdAt          DateTime @default(now())
+  materials          ExerciseMaterial[]
+  createdAt          DateTime           @default(now())
+}
+
+model ExerciseMaterial {
+  id              String        @id @default(uuid())
+  title           String
+  fileUrl         String
+  dailyExerciseId String
+  dailyExercise   DailyExercise @relation(fields: [dailyExerciseId], references: [id], onDelete: Cascade)
+  createdAt       DateTime      @default(now())
 }
 
 model Exam {
@@ -376,7 +386,17 @@ model Exam {
   maxScore           Int                 @default(20)
   quiz               Quiz?
   submissions        StudentSubmission[]
+  materials          ExamMaterial[]
   createdAt          DateTime            @default(now())
+}
+
+model ExamMaterial {
+  id        String   @id @default(uuid())
+  title     String
+  fileUrl   String
+  examId    String
+  exam      Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
 
 model StudentSubmission {

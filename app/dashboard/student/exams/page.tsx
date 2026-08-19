@@ -80,42 +80,20 @@ export default async function StudentExamsPage() {
                   </div>
                 </div>
 
-                <div className="p-6 md:p-8 flex-1 flex flex-col gap-6 relative z-10 bg-white">
-                  {/* View Exam A4 Image */}
-                  <a 
-                    href={exam.a4ImageUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
+                <div className="p-6 md:p-8 flex-1 flex flex-col gap-6 relative z-10 bg-white justify-end">
+                  {/* Enter Exam Page */}
+                  <Link 
+                    href={`/dashboard/student/exams/${exam.id}`}
                     className="flex items-center justify-between p-4 bg-[#FFFFFF] border-[3px] border-[#000000] rounded-2xl hover:bg-[#FACC15] transition-colors shadow-sm group-hover:scale-[1.02]"
                   >
                     <div>
-                      <h4 className="font-black text-[#000000]">تحميل أو عرض موضوع الاختبار</h4>
-                      <p className="text-xs text-gray-600 font-bold mt-1">صيغة A4 لطباعة ورقة الأسئلة</p>
+                      <h4 className="font-black text-[#000000]">الدخول إلى الاختبار</h4>
+                      <p className="text-xs text-gray-600 font-bold mt-1">عرض الأسئلة والملحقات وتقديم الحل</p>
                     </div>
                     <div className="w-10 h-10 bg-white border-[2px] border-[#000000] rounded-xl flex items-center justify-center shrink-0 shadow-sm">
                       <ExternalLink className="w-5 h-5 text-[#000000]" strokeWidth={3} />
                     </div>
-                  </a>
-
-                  {/* Submit Area or Interactive Quiz */}
-                  <div className="mt-auto">
-                    {exam.quiz ? (
-                      <Link 
-                        href={`/dashboard/student/exams/${exam.id}/quiz`}
-                        className="flex items-center justify-center w-full bg-[#22C55E] hover:bg-[#16A34A] text-[#000000] border-[3px] border-[#000000] font-black text-lg py-4 rounded-xl transition-all shadow-sm text-center hover:-translate-y-1 hover:shadow-3d-hover"
-                      >
-                        بدأ الاختبار الان
-                      </Link>
-                    ) : (
-                      <ExamSubmissionForm 
-                        examId={exam.id}
-                        studentId={user.id}
-                        hasSubmitted={hasSubmitted}
-                        previousScore={submission?.score}
-                        previousFeedback={submission?.feedback}
-                      />
-                    )}
-                  </div>
+                  </Link>
                 </div>
 
               </div>

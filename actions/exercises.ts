@@ -2,6 +2,27 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { supabase } from "@/lib/supabase";
+
+async function uploadToSupabase(file: File, bucketName: string, pathPrefix: string): Promise<string> {
+  const ext = file.name.split('.').pop() || "pdf";
+  const filePath = `${pathPrefix}-${Date.now()}.${ext}`;
+  
+  const { error } = await supabase.storage
+    .from(bucketName)
+    .upload(filePath, file, {
+      contentType: file.type,
+      upsert: true,
+    });
+    
+  if (error) {
+    console.error("Supabase upload error:", error);
+    throw new Error("فشل رفع المرفق إلى قاعدة البيانات");
+  }
+  
+  const { data: publicUrlData } = supabase.storage.from(bucketName).getPublicUrl(filePath);
+  return publicUrlData.publicUrl;
+}
 
 export async function createDailyExercise(formData: FormData): Promise<void> {
   const title = formData.get("title") as string;
@@ -14,6 +35,19 @@ export async function createDailyExercise(formData: FormData): Promise<void> {
   const subjectId = formData.get("subjectId") as string;
   const secondarySubjectId = formData.get("secondarySubjectId") as string || null;
   const quizType = formData.get("quizType") as string || "AI";
+
+  const rawMaterials = formData.getAll("materials") as File[];
+  const materialTitle = formData.get("materialTitle") as string;
+  let materialsData: { title: string, fileUrl: string }[] = [];
+
+  for (let i = 0; i < rawMaterials.length; i++) {
+    const file = rawMaterials[i];
+    if (file && file.size > 0) {
+      const fileUrl = await uploadToSupabase(file, "exercises", `exercise-${subjectId}-material`);
+      const t = materialTitle ? (rawMaterials.length > 1 ? `${materialTitle} - ${i + 1}` : materialTitle) : file.name;
+      materialsData.push({ title: t, fileUrl });
+    }
+  }
 
   let questionsData: any = [];
   if (quizType === "MANUAL") {
@@ -48,6 +82,12 @@ export async function createDailyExercise(formData: FormData): Promise<void> {
         month,
         subjectId,
         secondarySubjectId,
+        materials: {
+          create: materialsData.map(m => ({
+            title: m.title,
+            fileUrl: m.fileUrl,
+          })),
+        },
       },
     });
 

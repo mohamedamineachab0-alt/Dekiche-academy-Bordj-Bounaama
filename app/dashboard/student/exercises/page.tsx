@@ -69,21 +69,11 @@ export default async function StudentExercisesPage() {
                   المادة: {ex.subject.title}
                 </span>
                 
-                <div className="mt-auto pt-6 grid grid-cols-2 gap-3">
-                  <a href={ex.a4ImageUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-[#FFFFFF] hover:bg-[#FACC15] text-[#000000] font-black py-3 rounded-xl transition-all border-[3px] border-[#000000] shadow-sm hover:-translate-y-1 hover:shadow-3d-hover">
+                <div className="mt-auto pt-6 flex">
+                  <Link href={`/dashboard/student/exercises/${ex.id}`} className="flex-1 flex items-center justify-center gap-2 bg-[#FFFFFF] hover:bg-[#FACC15] text-[#000000] font-black py-3 rounded-xl transition-all border-[3px] border-[#000000] shadow-sm hover:-translate-y-1 hover:shadow-3d-hover">
                     <Eye className="w-5 h-5" strokeWidth={2.5} />
-                    عرض
-                  </a>
-                  {ex.quiz ? (
-                    <Link href={`/dashboard/student/exercises/${ex.id}/quiz`} className="flex items-center justify-center gap-2 bg-[#22C55E] hover:bg-[#16A34A] text-[#000000] font-black py-3 rounded-xl transition-all border-[3px] border-[#000000] shadow-sm hover:-translate-y-1 hover:shadow-3d-hover text-center">
-                      بدأ التمرين
-                    </Link>
-                  ) : (
-                    <button className="flex items-center justify-center gap-2 bg-[#7E22CE] hover:bg-[#6B21A8] text-white border-[3px] border-[#000000] font-black py-3 rounded-xl transition-all shadow-sm hover:-translate-y-1 hover:shadow-3d-hover">
-                      <UploadCloud className="w-5 h-5" strokeWidth={2.5} />
-                      إرسال الحل
-                    </button>
-                  )}
+                    الدخول إلى التمرين
+                  </Link>
                 </div>
               </div>
             </div>

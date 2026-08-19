@@ -303,6 +303,14 @@ exports.Prisma.DailyExerciseScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ExerciseMaterialScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  fileUrl: 'fileUrl',
+  dailyExerciseId: 'dailyExerciseId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ExamScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -314,6 +322,14 @@ exports.Prisma.ExamScalarFieldEnum = {
   month: 'month',
   a4ImageUrl: 'a4ImageUrl',
   maxScore: 'maxScore',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ExamMaterialScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  fileUrl: 'fileUrl',
+  examId: 'examId',
   createdAt: 'createdAt'
 };
 
@@ -530,7 +546,9 @@ exports.Prisma.ModelName = {
   ChatSession: 'ChatSession',
   ChatMessage: 'ChatMessage',
   DailyExercise: 'DailyExercise',
+  ExerciseMaterial: 'ExerciseMaterial',
   Exam: 'Exam',
+  ExamMaterial: 'ExamMaterial',
   StudentSubmission: 'StudentSubmission',
   Notification: 'Notification',
   ReviewCard: 'ReviewCard',

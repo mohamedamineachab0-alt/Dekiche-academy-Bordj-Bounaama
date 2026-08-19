@@ -34,7 +34,7 @@ export function SubjectActivationForm({ subjectId }: { subjectId: string }) {
     <form onSubmit={handleActivate} className="space-y-3">
       <input type="hidden" name="subjectId" value={subjectId} />
       <div className="relative">
-        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#000000]">
+        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
           <Key className="w-5 h-5" />
         </span>
         <input 
@@ -42,13 +42,13 @@ export function SubjectActivationForm({ subjectId }: { subjectId: string }) {
           name="code" 
           placeholder="أدخل كود الإشتراك" 
           required
-          className="w-full pr-12 pl-4 py-3 rounded-xl border-[3px] border-[#000000] bg-white text-[#000000] font-mono font-black text-base focus:outline-none focus:ring-4 focus:ring-[#7E22CE]/20 transition-all shadow-sm"
+          className="w-full pr-11 pl-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-center text-gray-800 font-mono text-base focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
         />
       </div>
       <button 
         type="submit" 
         disabled={loading}
-        className="w-full flex items-center justify-center gap-2 bg-purple-900 hover:bg-purple-800 disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black text-white font-black py-3 rounded-xl transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none"
+        className="w-full flex items-center justify-center gap-2 bg-[#6b21a8] hover:bg-purple-800 disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition-colors"
       >
         {loading ? (
           <>

@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { DailyTip } from "@/components/student/DailyTip";
+import { formatSubjectsCount } from "@/lib/utils/translations";
 
 export default async function StudentDashboardPage() {
   const cookieStore = await cookies();
@@ -49,6 +50,19 @@ export default async function StudentDashboardPage() {
     },
   });
 
+  const { phase, level, stream } = user.studentProfile;
+  const availableSubjectsCount = await prisma.subject.count({
+    where: {
+      isPublished: true,
+      phase,
+      level,
+      OR: [
+        { stream },
+        { stream: "NONE" }
+      ]
+    }
+  });
+
   const enrolledCount = enrolledSubjectIds.length;
   const mistakesCount = user.mistakes.length;
   const isParentLinked = user.studentLinks && user.studentLinks.length > 0;
@@ -68,7 +82,7 @@ export default async function StudentDashboardPage() {
       descClass: "text-purple-100",
       iconBg: "bg-[#FACC15]",
       iconColor: "text-[#000000]",
-      badge: `${enrolledCount} مادة`,
+      badge: formatSubjectsCount(availableSubjectsCount),
       actionText: "تصفح المواد",
       route: "/dashboard/student/subjects"
     },
@@ -236,10 +250,16 @@ export default async function StudentDashboardPage() {
         <div className="flex flex-wrap items-center gap-4">
           
           {!isParentLinked && (
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-white text-red-600 text-sm font-bold border-2 border-red-600 rounded-lg shadow-[2px_2px_0px_#dc2626] transition-all hover:translate-y-[2px] hover:shadow-none cursor-default w-fit">
-              <AlertTriangle className="w-4 h-4" />
-              عدم ربط حسابه لولي
-            </div>
+            <Link 
+              href="/dashboard/student/settings" 
+              className="flex items-center justify-between w-full p-3 bg-red-50 border border-red-200 rounded-xl cursor-pointer hover:bg-red-100 transition-colors"
+            >
+              <div className="flex items-center gap-2 text-red-700">
+                <AlertTriangle className="w-5 h-5 flex-shrink-0" />
+                <span className="text-sm font-medium">لم تربط حسابك بحساب وليّ أمرك، يرجى الربط الآن</span>
+              </div>
+              <ChevronLeft className="w-5 h-5 text-red-700 opacity-70" />
+            </Link>
           )}
 
           {pendingLessons.length > 0 && (

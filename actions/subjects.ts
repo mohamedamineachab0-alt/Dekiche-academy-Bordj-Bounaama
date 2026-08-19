@@ -135,17 +135,33 @@ export async function redeemAccessCode(
 
     if (!codeStr) return { error: "يرجى إدخال رمز الدخول" };
 
+    // 1. Existence Check & Pre-validation
     const code = await prisma.accessCode.findUnique({
       where: { code: codeStr.toUpperCase() },
       include: { subject: true },
     });
 
-    if (!code) return { error: "الرمز غير صحيح" };
-    if (targetSubjectId && code.subjectId !== targetSubjectId) return { error: "هذا الرمز لا يخص هذه المادة" };
-    if (code.isUsed) return { error: "تم استخدام هذا الرمز مسبقاً" };
+    if (!code) return { error: "كود الاشتراك غير صحيح" };
+    
+    // 2. Subject Match Check
+    if (targetSubjectId && code.subjectId !== targetSubjectId) {
+      return { error: "هذا الرمز لا يخص هذه المادة" };
+    }
 
-    // Valid, let's redeem it
-    await prisma.$transaction(async (tx) => {
+    // 3 & 4. Usage Check and Transactional Activation
+    const result = await prisma.$transaction(async (tx) => {
+      // Re-fetch the code inside the transaction to ensure it wasn't used split-second ago
+      const currentCode = await tx.accessCode.findUnique({
+        where: { id: code.id },
+      });
+
+      if (!currentCode) return { error: "كود الاشتراك غير صحيح" };
+      
+      // 3. Single-use usage check
+      if (currentCode.isUsed) {
+        return { error: "تم استخدام هذا الكود من قبل" };
+      }
+
       // Mark code as used
       await tx.accessCode.update({
         where: { id: code.id },
@@ -186,7 +202,11 @@ export async function redeemAccessCode(
           }
         });
       }
+      
+      return { success: true };
     });
+
+    if (result.error) return result;
 
     revalidatePath("/dashboard/student/subjects");
     redirectUrl = `/dashboard/student/subjects/${code.subjectId}`;

@@ -5,6 +5,7 @@ import { Key, Unlock, Lock, PlayCircle, BookOpen } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import Link from "next/link";
 import { SubjectActivationForm } from "@/components/student/SubjectActivationForm";
+import { translateLevel, translateStream } from "@/lib/utils/translations";
 
 export default async function StudentSubjectsPage() {
   const cookieStore = await cookies();
@@ -55,48 +56,43 @@ export default async function StudentSubjectsPage() {
             const enrollment = enrollments.find(e => e.subjectId === subject.id);
 
             return (
-              <div key={subject.id} className="bg-purple-900 rounded-2xl border-[3px] border-[#000000] overflow-hidden flex flex-col group max-w-sm mx-auto w-full transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] relative">
-                {/* Graph Paper Grid Background */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.15)_1px,transparent_1px)] bg-[size:20px_20px] z-0 pointer-events-none"></div>
-
-                <div className="aspect-video w-full relative bg-[#F8F9FA] overflow-hidden border-b-[3px] border-[#000000] z-10">
-                  <img src={subject.image} alt={subject.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  
-                  {/* Status Badge */}
+              <div key={subject.id} className="bg-white rounded-2xl border border-gray-100 flex flex-col group max-w-sm mx-auto w-full transition-shadow shadow-sm hover:shadow-md relative overflow-hidden">
+                {/* Cover Image & Badge */}
+                <div className="relative w-full aspect-video bg-[#1e1b4b] rounded-t-2xl overflow-hidden flex items-center justify-center">
+                  <img src={subject.image} alt={subject.title} className="w-full h-full object-contain" />
                   <div className="absolute top-3 left-3">
                     {isEnrolled ? (
-                      <div className="bg-[#22C55E] text-[#000000] px-3 py-1.5 rounded-xl border-[2px] border-[#000000] text-xs font-black flex items-center gap-1.5 shadow-sm transform -rotate-2">
-                        <Unlock className="w-4 h-4" /> تم الفتح
+                      <div className="bg-white/90 backdrop-blur-sm text-green-600 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-sm border border-green-100">
+                        <Unlock className="w-3.5 h-3.5" /> تم الفتح
                       </div>
                     ) : (
-                      <div className="bg-[#FFFFFF] text-[#000000] px-3 py-1.5 rounded-xl border-[2px] border-[#000000] text-xs font-black flex items-center gap-1.5 shadow-sm transform rotate-2">
-                        <Lock className="w-4 h-4" /> مغلق
+                      <div className="bg-white/90 backdrop-blur-sm text-red-600 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-sm border border-red-100">
+                        <Lock className="w-3.5 h-3.5" /> مغلق
                       </div>
                     )}
                   </div>
                 </div>
-                
-                <div className="p-6 flex-1 flex flex-col relative z-10">
-                  <h3 className="font-black text-xl text-white line-clamp-1 mb-2">{subject.title}</h3>
-                  <p className="text-sm font-bold text-purple-200 line-clamp-2 leading-relaxed">{subject.description}</p>
-                  
-                  <div className="mt-4 mb-6">
-                    <span className="text-xs font-black text-white bg-purple-950 px-3 py-1.5 rounded-lg border-[2px] border-black shadow-sm">
-                      الأستاذ {subject.teacherName}
-                    </span>
-                  </div>
 
-                  <div className="mt-auto">
+                {/* Content Section */}
+                <div className="p-5 flex-1 flex flex-col">
+                  {/* Subject Info */}
+                  <h3 className="text-xl font-bold text-gray-800 mb-1 line-clamp-1">{subject.title}</h3>
+                  <p className="text-sm text-gray-500 mb-6 line-clamp-1">
+                    الأستاذ {subject.teacherName} • المستوى {translateLevel(subject.level)}
+                  </p>
+                  
+                  {/* Action Area */}
+                  <div className="mt-auto border-t border-gray-100 pt-5">
                     {isEnrolled ? (
                       <Link 
                         href={`/dashboard/student/subjects/${subject.id}`}
-                        className="w-full flex items-center justify-center gap-2 bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] border-[3px] border-[#000000] font-black py-3 rounded-xl transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none"
+                        className="w-full flex items-center justify-center gap-2 bg-[#6b21a8] hover:bg-purple-800 text-white font-semibold py-3 rounded-xl transition-colors"
                       >
-                        <PlayCircle className="w-6 h-6" />
+                        <PlayCircle className="w-5 h-5" />
                         الدخول للمادة
                       </Link>
                     ) : (
-                      <div className="bg-white p-3 rounded-xl border-[3px] border-black shadow-sm">
+                      <div className="w-full">
                         <SubjectActivationForm subjectId={subject.id} />
                       </div>
                     )}

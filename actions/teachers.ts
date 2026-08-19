@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { Phase, Level, Stream } from "@prisma/client";
+import { Phase, Level, Stream } from "@/generated/prisma";
 
 export type AddTeacherData = {
   fullName: string;

@@ -55,8 +55,11 @@ export default async function StudentSubjectsPage() {
             const enrollment = enrollments.find(e => e.subjectId === subject.id);
 
             return (
-              <div key={subject.id} className="bg-[#FFFFFF] rounded-2xl border-[3px] border-[#000000] overflow-hidden flex flex-col group max-w-sm mx-auto w-full transition-all duration-300 shadow-3d-soft shadow-3d-hover paper-cut relative">
-                <div className="aspect-video w-full relative bg-[#F8F9FA] overflow-hidden border-b-[3px] border-[#000000]">
+              <div key={subject.id} className="bg-purple-900 rounded-2xl border-[3px] border-[#000000] overflow-hidden flex flex-col group max-w-sm mx-auto w-full transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] relative">
+                {/* Graph Paper Grid Background */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.15)_1px,transparent_1px)] bg-[size:20px_20px] z-0 pointer-events-none"></div>
+
+                <div className="aspect-video w-full relative bg-[#F8F9FA] overflow-hidden border-b-[3px] border-[#000000] z-10">
                   <img src={subject.image} alt={subject.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   
                   {/* Status Badge */}
@@ -74,11 +77,11 @@ export default async function StudentSubjectsPage() {
                 </div>
                 
                 <div className="p-6 flex-1 flex flex-col relative z-10">
-                  <h3 className="font-black text-xl text-[#000000] line-clamp-1 mb-2">{subject.title}</h3>
-                  <p className="text-sm font-bold text-gray-600 line-clamp-2 leading-relaxed">{subject.description}</p>
+                  <h3 className="font-black text-xl text-white line-clamp-1 mb-2">{subject.title}</h3>
+                  <p className="text-sm font-bold text-purple-200 line-clamp-2 leading-relaxed">{subject.description}</p>
                   
                   <div className="mt-4 mb-6">
-                    <span className="text-xs font-black text-white bg-purple-900 px-3 py-1.5 rounded-lg border-[2px] border-black shadow-sm">
+                    <span className="text-xs font-black text-white bg-purple-950 px-3 py-1.5 rounded-lg border-[2px] border-black shadow-sm">
                       الأستاذ {subject.teacherName}
                     </span>
                   </div>
@@ -87,13 +90,15 @@ export default async function StudentSubjectsPage() {
                     {isEnrolled ? (
                       <Link 
                         href={`/dashboard/student/subjects/${subject.id}`}
-                        className="w-full flex items-center justify-center gap-2 bg-[#7E22CE] hover:bg-[#6B21A8] text-white border-[3px] border-[#000000] font-black py-3 rounded-xl transition-colors shadow-3d-soft"
+                        className="w-full flex items-center justify-center gap-2 bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] border-[3px] border-[#000000] font-black py-3 rounded-xl transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none"
                       >
                         <PlayCircle className="w-6 h-6" />
                         الدخول للمادة
                       </Link>
                     ) : (
-                      <SubjectActivationForm subjectId={subject.id} />
+                      <div className="bg-white p-3 rounded-xl border-[3px] border-black shadow-sm">
+                        <SubjectActivationForm subjectId={subject.id} />
+                      </div>
                     )}
                   </div>
                 </div>

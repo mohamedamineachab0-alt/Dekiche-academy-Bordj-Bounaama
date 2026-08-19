@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { BookOpen, Target, Trophy, Sparkles } from "lucide-react";
 
 const steps = [
@@ -39,7 +39,7 @@ const steps = [
 ];
 
 export function HowItWorksSection() {
-  const container = {
+  const container: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -47,7 +47,7 @@ export function HowItWorksSection() {
     }
   };
 
-  const item = {
+  const item: Variants = {
     hidden: { opacity: 0, y: 20 },
     show: { 
       opacity: 1, 

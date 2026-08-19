@@ -83,7 +83,7 @@ export default async function LessonStudyViewPage({
         <div className="relative w-full rounded-[1.5rem] p-[3px] bg-gradient-to-br from-white via-purple-500 to-slate-950 shadow-[0_10px_40px_rgba(14,165,233,0.3)] mb-8">
           <div className="relative rounded-[1.3rem] overflow-hidden bg-black/5 backdrop-blur-sm w-full aspect-video flex items-center justify-center">
             <iframe 
-              src={`https://player.vimeo.com/video/${lesson.vimeoVideoId}?title=0&byline=0&portrait=0`}
+              src={`https://player.vimeo.com/video/${lesson.vimeoVideoId}?title=0&byline=0&portrait=0&badge=0&vimeo_logo=0&share=0&like=0&watch_later=0`}
               className="w-full h-full absolute top-0 left-0"
               frameBorder="0"
               allow="autoplay; fullscreen; picture-in-picture"

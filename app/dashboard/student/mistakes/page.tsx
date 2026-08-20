@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { AlertTriangle, Search } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
+import { MathPreview } from "@/components/shared/MathPreview";
 
 export default async function StudentMistakesPage() {
   const cookieStore = await cookies();
@@ -16,7 +17,7 @@ export default async function StudentMistakesPage() {
     where: { studentId: sessionId },
     include: {
       lesson: {
-        include: { subject: true }
+        include: { subjects: true }
       },
       quiz: true,
     },
@@ -67,17 +68,17 @@ export default async function StudentMistakesPage() {
                   <div className="border-b-[3px] border-[#000000]/10 border-dashed pb-3">
                     <p className="font-black text-[#000000] text-lg">{mistake.lesson.title}</p>
                     <div className="flex justify-between items-center mt-2">
-                      <span className="text-xs font-bold bg-[#EAE4D9] px-2 py-1 rounded-md border-[2px] border-[#000000]">{mistake.lesson.subject.title}</span>
+                      <span className="text-xs font-bold bg-[#EAE4D9] px-2 py-1 rounded-md border-[2px] border-[#000000]">{mistake.lesson.subjects.map(s => s.title).join(" | ")}</span>
                       <span className="text-xs font-black text-gray-500">{mistake.createdAt.toLocaleDateString("en-GB")}</span>
                     </div>
                   </div>
                   <div className="bg-[#FEE2E2] text-[#000000] p-4 rounded-xl border-[3px] border-[#000000] text-sm whitespace-pre-wrap relative">
                     <div className="absolute -top-3 right-4 bg-[#EF4444] text-white px-2 py-0.5 rounded-md border-[2px] border-[#000000] text-[10px] font-black transform rotate-3">الخطأ</div>
-                    <div className="mt-1 font-bold">{mistake.mistakeContent}</div>
+                    <div className="mt-1 font-bold"><MathPreview text={mistake.mistakeContent} className="" /></div>
                   </div>
                   <div className="bg-[#DCFCE7] text-[#000000] p-4 rounded-xl border-[3px] border-[#000000] text-sm whitespace-pre-wrap relative">
                     <div className="absolute -top-3 right-4 bg-[#22C55E] text-[#000000] px-2 py-0.5 rounded-md border-[2px] border-[#000000] text-[10px] font-black transform -rotate-2">الحل الصحيح</div>
-                    <div className="mt-1 font-bold">{mistake.correctSolution}</div>
+                    <div className="mt-1 font-bold"><MathPreview text={mistake.correctSolution} className="" /></div>
                   </div>
                 </div>
               ))}
@@ -98,19 +99,19 @@ export default async function StudentMistakesPage() {
                     <tr key={mistake.id} className="hover:bg-[#EAE4D9]/30 transition-colors group">
                       <td className="px-6 py-5 align-top">
                         <div className="font-black text-[#000000] text-base mb-2">{mistake.lesson.title}</div>
-                        <div className="inline-block text-xs bg-[#FACC15] border-[2px] border-[#000000] px-2 py-1 rounded-md mb-2">{mistake.lesson.subject.title}</div>
+                        <div className="inline-block text-xs bg-[#FACC15] border-[2px] border-[#000000] px-2 py-1 rounded-md mb-2">{mistake.lesson.subjects.map(s => s.title).join(" | ")}</div>
                         <div className="text-xs text-gray-500 font-black mt-1" dir="ltr" style={{ textAlign: "right" }}>
                           {mistake.createdAt.toLocaleDateString("en-GB")}
                         </div>
                       </td>
                       <td className="px-6 py-5 align-top max-w-xs border-r-[3px] border-[#000000]">
                         <div className="bg-[#FEE2E2] text-[#000000] p-4 rounded-xl border-[2px] border-[#000000] whitespace-pre-wrap h-full group-hover:scale-[1.02] transition-transform shadow-sm">
-                          {mistake.mistakeContent}
+                          <MathPreview text={mistake.mistakeContent} className="" />
                         </div>
                       </td>
                       <td className="px-6 py-5 align-top max-w-xs border-r-[3px] border-[#000000]">
                         <div className="bg-[#DCFCE7] text-[#000000] p-4 rounded-xl border-[2px] border-[#000000] whitespace-pre-wrap h-full group-hover:scale-[1.02] transition-transform shadow-sm">
-                          {mistake.correctSolution}
+                          <MathPreview text={mistake.correctSolution} className="" />
                         </div>
                       </td>
                     </tr>

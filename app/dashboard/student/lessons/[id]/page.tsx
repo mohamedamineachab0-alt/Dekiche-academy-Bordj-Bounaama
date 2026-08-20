@@ -22,24 +22,23 @@ export default async function LessonStudyViewPage({
     include: {
       materials: true,
       quiz: true,
-      subject: true
+      subjects: true
     }
   });
 
   if (!lesson) redirect("/dashboard/student/subjects");
 
-  const enrollment = await prisma.enrollment.findUnique({
+  const enrollments = await prisma.enrollment.findMany({
     where: {
-      studentId_subjectId: {
-        studentId: sessionId,
-        subjectId: lesson.subjectId,
-      }
+      studentId: sessionId,
+      subjectId: { in: lesson.subjects.map((s) => s.id) },
     }
   });
 
-  if (!enrollment) redirect("/dashboard/student/subjects");
+  if (enrollments.length === 0) redirect("/dashboard/student/subjects");
 
-  const isUnlocked = enrollment.enrolledMonths.includes(lesson.month);
+  const isUnlocked = enrollments.some((e) => e.enrolledMonths.includes(lesson.month));
+  const primarySubjectId = lesson.subjects[0]?.id;
   
   if (!isUnlocked) {
     return (
@@ -52,7 +51,7 @@ export default async function LessonStudyViewPage({
           <p className="text-slate-500 font-medium mt-2 max-w-sm mx-auto">هذا الدرس ينتمي إلى الشهر {lesson.month} وهو غير مفعل في اشتراكك الحالي</p>
         </div>
         <Link 
-          href={`/dashboard/student/subjects/${lesson.subjectId}`}
+          href={`/dashboard/student/subjects/${primarySubjectId}`}
           className="bg-purple-600 hover:bg-purple-700 text-slate-950 font-black px-6 py-3 rounded-xl font-bold transition-colors shadow-sm"
         >
           العودة للمادة
@@ -66,7 +65,7 @@ export default async function LessonStudyViewPage({
       {/* Navigation Breadcrumb */}
       <div className="flex items-center justify-between">
         <Link 
-          href={`/dashboard/student/subjects/${lesson.subjectId}`} 
+          href={`/dashboard/student/subjects/${primarySubjectId}`} 
           className="inline-flex items-center gap-2 text-slate-500 hover:text-purple-800 font-bold transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />

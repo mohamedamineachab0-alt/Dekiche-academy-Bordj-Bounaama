@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { AlertTriangle, Search, Filter } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
+import { MathPreview } from "@/components/shared/MathPreview";
 
 export default async function AdminMistakesPage({
   searchParams,
@@ -17,17 +18,19 @@ export default async function AdminMistakesPage({
   const mistakes = await prisma.studentMistake.findMany({
     where: {
       lesson: {
-        subject: {
-          ...(subject ? { id: subject } : {}),
-          ...(level ? { level: level as any } : {}),
-          ...(stream ? { stream: stream as any } : {}),
+        subjects: {
+          some: {
+            ...(subject ? { id: subject } : {}),
+            ...(level ? { level: level as any } : {}),
+            ...(stream ? { stream: stream as any } : {}),
+          }
         }
       }
     },
     include: {
       user: true,
       lesson: {
-        include: { subject: true }
+        include: { subjects: true }
       },
       quiz: true,
     },
@@ -92,19 +95,19 @@ export default async function AdminMistakesPage({
                     </td>
                     <td className="px-6 py-4 align-top">
                       <div className="font-bold text-purple-950">{mistake.lesson.title}</div>
-                      <div className="text-xs text-slate-500 mt-1">{mistake.lesson.subject.title}</div>
+                      <div className="text-xs text-slate-500 mt-1">{mistake.lesson.subjects.map(s => s.title).join(" | ")}</div>
                       <div className="text-xs text-slate-400 mt-1">
                         {mistake.createdAt.toLocaleDateString("en-GB")}
                       </div>
                     </td>
                     <td className="px-6 py-4 align-top max-w-[250px]">
                       <div className="bg-purple-50 text-purple-800 p-3 rounded-xl border border-purple-100 whitespace-pre-wrap">
-                        {mistake.mistakeContent}
+                        <MathPreview text={mistake.mistakeContent} className="" />
                       </div>
                     </td>
                     <td className="px-6 py-4 align-top max-w-[250px]">
                       <div className="bg-purple-50 text-purple-800 p-3 rounded-xl border border-purple-100 whitespace-pre-wrap">
-                        {mistake.correctSolution}
+                        <MathPreview text={mistake.correctSolution} className="" />
                       </div>
                     </td>
                   </tr>

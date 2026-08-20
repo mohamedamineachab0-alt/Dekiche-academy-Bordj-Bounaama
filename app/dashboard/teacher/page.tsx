@@ -48,7 +48,11 @@ export default async function TeacherDashboardPage() {
           mistakes: {
             where: {
               lesson: {
-                subjectId: { in: subjectIds }
+                subjects: {
+                  some: {
+                    id: { in: subjectIds }
+                  }
+                }
               }
             }
           }

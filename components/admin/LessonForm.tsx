@@ -9,6 +9,40 @@ import { supabase } from "@/lib/supabase";
 import { MonthSelect } from "@/components/shared/MonthSelect";
 import { compressImageForAi } from "@/lib/utils/image-compression";
 import { MathPreview } from "@/components/shared/MathPreview";
+import { Stream } from "@/generated/prisma";
+
+const STREAMS: Stream[] = [
+  'COMMON_SCIENCE', 'COMMON_LETTERS', 'EXPERIMENTAL_SCIENCES', 
+  'MATHEMATICS', 'TECHNICAL_MATH', 'MANAGEMENT_ECONOMY', 
+  'LITERATURE_PHILOSOPHY', 'FOREIGN_LANGUAGES'
+];
+
+const STREAM_ARABIC: Record<string, string> = {
+  NONE: 'بدون شعبة',
+  COMMON_SCIENCE: 'جذع مشترك علوم',
+  COMMON_LETTERS: 'جذع مشترك آداب',
+  EXPERIMENTAL_SCIENCES: 'علوم تجريبية',
+  MATHEMATICS: 'رياضيات',
+  TECHNICAL_MATH: 'تقني رياضي',
+  MANAGEMENT_ECONOMY: 'تسيير واقتصاد',
+  LITERATURE_PHILOSOPHY: 'آداب وفلسفة',
+  FOREIGN_LANGUAGES: 'لغات أجنبية'
+};
+
+const LEVEL_ARABIC: Record<string, string> = {
+  PRIMARY_1: 'الأولى ابتدائي',
+  PRIMARY_2: 'الثانية ابتدائي',
+  PRIMARY_3: 'الثالثة ابتدائي',
+  PRIMARY_4: 'الرابعة ابتدائي',
+  PRIMARY_5: 'الخامسة ابتدائي',
+  MIDDLE_1: 'الأولى متوسط',
+  MIDDLE_2: 'الثانية متوسط',
+  MIDDLE_3: 'الثالثة متوسط',
+  MIDDLE_4: 'الرابعة متوسط',
+  SECONDARY_1: 'الأولى ثانوي',
+  SECONDARY_2: 'الثانية ثانوي',
+  SECONDARY_3: 'الثالثة ثانوي'
+};
 
 type Subject = {
   id: string;
@@ -30,7 +64,8 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
   const [error, setError] = useState<string | null>(null);
 
   const [title, setTitle] = useState("");
-  const [subjectId, setSubjectId] = useState("");
+  const [subjectIds, setSubjectIds] = useState<string[]>([]);
+  const [streams, setStreams] = useState<Stream[]>([]);
   const [month, setMonth] = useState("1");
   const [vimeoVideoId, setVimeoVideoId] = useState("");
 
@@ -130,8 +165,8 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !subjectId || !month || !vimeoVideoId) {
-      setError("جميع الحقول الأساسية مطلوبة");
+    if (!title || subjectIds.length === 0 || !month || !vimeoVideoId) {
+      setError("جميع الحقول الأساسية مطلوبة (ويجب اختيار مادة واحدة على الأقل)");
       return;
     }
 
@@ -145,7 +180,7 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
       for (const mat of materials) {
         const fileExt = mat.file.name.split('.').pop();
         const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
-        const filePath = `${subjectId}/${fileName}`;
+        const filePath = `${subjectIds[0]}/${fileName}`;
 
         const { error: uploadError } = await supabase.storage
           .from("lesson-materials")
@@ -167,7 +202,8 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
 
       const payload: LessonPayload = {
         title,
-        subjectId,
+        subjectIds,
+        streams,
         month: parseInt(month),
         vimeoVideoId,
         materials: uploadedMaterials,
@@ -224,19 +260,54 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-purple-800 ">المادة</label>
-            <select 
-              value={subjectId}
-              onChange={e => setSubjectId(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
-              required
-            >
-              <option value="">اختر المادة</option>
-              {subjects.map(s => (
-                <option key={s.id} value={s.id}>{s.title} ({s.level} {s.stream})</option>
-              ))}
-            </select>
+          <div className="space-y-2 md:col-span-2">
+            <label className="text-sm font-bold text-purple-800 ">المواد والشعب الموجه لها الدرس</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <div>
+                <label className="text-sm font-bold text-slate-700 mb-3 block">المواد (يمكن اختيار أكثر من مادة)</label>
+                <div className="grid grid-cols-1 gap-2 max-h-48 overflow-y-auto p-2 bg-white border border-slate-200 rounded-lg">
+                  {subjects.map(s => (
+                    <label key={s.id} className="flex items-center space-x-3 space-x-reverse text-sm font-bold text-slate-600 cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        checked={subjectIds.includes(s.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSubjectIds([...subjectIds, s.id]);
+                          } else {
+                            setSubjectIds(subjectIds.filter(id => id !== s.id));
+                          }
+                        }}
+                        className="w-4 h-4 rounded text-purple-600 border-slate-300 focus:ring-purple-600" 
+                      />
+                      <span>{s.title} ({LEVEL_ARABIC[s.level] || s.level}{s.stream && s.stream !== 'NONE' ? ` - ${STREAM_ARABIC[s.stream] || s.stream}` : ''})</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="text-sm font-bold text-slate-700 mb-3 block">الشعب (يمكن اختيار أكثر من شعبة)</label>
+                <div className="grid grid-cols-1 gap-2 max-h-48 overflow-y-auto p-2 bg-white border border-slate-200 rounded-lg">
+                  {STREAMS.map(stream => (
+                    <label key={stream} className="flex items-center space-x-3 space-x-reverse text-sm font-bold text-slate-600 cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        checked={streams.includes(stream)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setStreams([...streams, stream]);
+                          } else {
+                            setStreams(streams.filter(st => st !== stream));
+                          }
+                        }}
+                        className="w-4 h-4 rounded text-purple-600 border-slate-300 focus:ring-purple-600" 
+                      />
+                      <span>{STREAM_ARABIC[stream as string] || stream}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="space-y-2">
@@ -455,6 +526,7 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
             <input 
               type="file" 
               multiple 
+              accept="*/*"
               onChange={handleFileChange}
               className="hidden"
             />

@@ -22,7 +22,7 @@ export default async function NewLessonPage() {
     take: 10,
     orderBy: { createdAt: "desc" },
     include: { 
-      subject: { 
+      subjects: { 
         select: { title: true } 
       } 
     }
@@ -71,7 +71,7 @@ export default async function NewLessonPage() {
                   <div>
                     <h3 className="font-black text-black text-lg">{lesson.title}</h3>
                     <p className="text-sm font-bold text-slate-600 mt-1">
-                      المادة: <span className="text-purple-700">{lesson.subject?.title}</span> • الشهر: {lesson.month}
+                      المادة: <span className="text-purple-700">{lesson.subjects?.map(s => s.title).join(" | ")}</span> • الشهر: {lesson.month}
                     </p>
                   </div>
                 </div>

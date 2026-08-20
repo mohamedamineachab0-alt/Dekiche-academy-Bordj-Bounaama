@@ -79,16 +79,9 @@ export default async function SubjectLessonsPage({
               key={lesson.id}
               className="bg-white rounded-3xl overflow-hidden border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all group flex flex-col"
             >
-              <div className="aspect-video relative bg-slate-100 overflow-hidden border-b-2 border-black">
-                <img 
-                  src={lesson.image || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=400&auto=format&fit=crop"} 
-                  alt={lesson.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="w-16 h-16 bg-white border-2 border-black rounded-full flex items-center justify-center text-black">
-                    <PlayCircle className="w-8 h-8" />
-                  </div>
+              <div className="aspect-video relative bg-[#FACC15]/20 overflow-hidden border-b-2 border-black flex items-center justify-center group-hover:bg-[#FACC15]/40 transition-colors">
+                <div className="w-16 h-16 bg-white border-2 border-black rounded-full flex items-center justify-center text-black shadow-sm group-hover:scale-110 transition-transform">
+                  <PlayCircle className="w-8 h-8" />
                 </div>
                 <div className="absolute top-3 right-3 bg-[#FACC15] text-black border-2 border-black text-xs font-black px-3 py-1 rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]">
                   الشهر {lesson.month}

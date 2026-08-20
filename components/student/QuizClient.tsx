@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronRight, CheckCircle2, XCircle, Trophy, ArrowLeft, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { saveQuizMistakes } from "@/actions/quiz";
+import { MathPreview } from "@/components/shared/MathPreview";
 
 type Question = {
   question: string;
@@ -187,9 +188,9 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
 
       {/* Question Card */}
       <div className="bg-[#FFFFFF] rounded-3xl p-8 md:p-12 shadow-3d-soft border-[3px] border-[#000000] paper-cut relative z-10">
-        <h2 className="text-2xl font-black text-[#000000] mb-8 leading-relaxed">
-          {currentQuestion.question}
-        </h2>
+        <div className="mb-8">
+          <MathPreview text={currentQuestion.question} className="text-2xl font-black text-[#000000] leading-relaxed" />
+        </div>
 
         <div className="space-y-4">
           {currentQuestion.options.map((opt, idx) => {
@@ -205,9 +206,9 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
                     : 'border-[#000000] bg-[#F8F9FA] hover:bg-[#EAE4D9] shadow-sm'
                 }`}
               >
-                <span className={`font-black text-lg text-[#000000]`}>
-                  {opt}
-                </span>
+                <div className={`font-black text-lg text-[#000000] flex-1 ml-4`}>
+                  <MathPreview text={opt} className="" />
+                </div>
                 <div className={`w-8 h-8 rounded-xl border-[3px] border-[#000000] flex items-center justify-center shrink-0 transition-colors shadow-sm transform ${
                   isSelected 
                     ? 'bg-[#22C55E] text-[#000000] rotate-3' 

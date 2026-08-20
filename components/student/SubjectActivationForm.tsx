@@ -21,7 +21,11 @@ export function SubjectActivationForm({ subjectId }: { subjectId: string }) {
         alert(res.error);
       } else {
         alert("تم تفعيل المادة بنجاح!");
-        router.refresh(); // Refresh the page to unlock the subject
+        if (res.redirectUrl) {
+          router.push(res.redirectUrl);
+        } else {
+          router.refresh(); // Refresh the page to unlock the subject
+        }
       }
     } catch (err) {
       alert("حدث خطأ غير متوقع. يرجى المحاولة لاحقاً.");

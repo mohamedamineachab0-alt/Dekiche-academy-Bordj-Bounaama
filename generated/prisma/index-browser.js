@@ -187,7 +187,7 @@ exports.Prisma.LessonScalarFieldEnum = {
   month: 'month',
   vimeoVideoId: 'vimeoVideoId',
   image: 'image',
-  subjectId: 'subjectId',
+  streams: 'streams',
   createdAt: 'createdAt'
 };
 
@@ -402,6 +402,15 @@ exports.Prisma.ParentTicketScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.FileScalarFieldEnum = {
+  id: 'id',
+  originalName: 'originalName',
+  mimeType: 'mimeType',
+  size: 'size',
+  storagePath: 'storagePath',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -554,7 +563,8 @@ exports.Prisma.ModelName = {
   ReviewCard: 'ReviewCard',
   ClassForum: 'ClassForum',
   ForumMessage: 'ForumMessage',
-  ParentTicket: 'ParentTicket'
+  ParentTicket: 'ParentTicket',
+  File: 'File'
 };
 
 /**

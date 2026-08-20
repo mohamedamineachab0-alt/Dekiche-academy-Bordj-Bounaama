@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { Stream } from "@/generated/prisma";
 
 export type LessonMaterialInput = {
   title: string;
@@ -10,7 +11,8 @@ export type LessonMaterialInput = {
 
 export type LessonPayload = {
   title: string;
-  subjectId: string;
+  subjectIds: string[];
+  streams: Stream[];
   month: number;
   vimeoVideoId: string;
   materials: LessonMaterialInput[];
@@ -27,7 +29,7 @@ export type ActionState = {
 };
 
 export async function createLesson(payload: LessonPayload): Promise<ActionState> {
-  if (!payload.title || !payload.subjectId || !payload.vimeoVideoId || !payload.month) {
+  if (!payload.title || payload.subjectIds.length === 0 || !payload.vimeoVideoId || !payload.month) {
     return { error: "جميع الحقول الاساسية مطلوبة" };
   }
 
@@ -35,7 +37,10 @@ export async function createLesson(payload: LessonPayload): Promise<ActionState>
     const lesson = await prisma.lesson.create({
       data: {
         title: payload.title,
-        subjectId: payload.subjectId,
+        subjects: {
+          connect: payload.subjectIds.map(id => ({ id }))
+        },
+        streams: payload.streams,
         month: payload.month,
         vimeoVideoId: payload.vimeoVideoId,
         materials: {
@@ -57,7 +62,7 @@ export async function createLesson(payload: LessonPayload): Promise<ActionState>
     });
 
     revalidatePath(`/dashboard/admin/lessons`);
-    revalidatePath(`/dashboard/student/subjects/${payload.subjectId}`);
+    payload.subjectIds.forEach(id => revalidatePath(`/dashboard/student/subjects/${id}`));
     return { success: true };
   } catch (error) {
     console.error("خطا اثناء حفظ الدرس", error);

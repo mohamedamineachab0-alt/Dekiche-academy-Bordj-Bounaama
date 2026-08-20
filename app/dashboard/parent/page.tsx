@@ -24,7 +24,7 @@ export default async function ParentDashboardPage() {
           mistakes: {
             orderBy: { createdAt: "desc" },
             take: 3,
-            include: { lesson: { include: { subject: true } } }
+            include: { lesson: { include: { subjects: true } } }
           }
         }
       }

@@ -192,7 +192,6 @@ model Subject {
   price       Float
   accessType  String // 'MONTHLY' or 'YEARLY'
   isPublished Boolean      @default(false)
-  lessons     Lesson[] // One-to-many relation
   liveClasses LiveClass[] // One-to-many relation
   notifications Notification[]
   codes       AccessCode[] // One-to-many relation
@@ -203,6 +202,7 @@ model Subject {
   secondaryExams Exam[]    @relation("ExamSecondarySubject")
   reviewCards ReviewCard[]
   classForums ClassForum[]
+  lessons     Lesson[]     @relation("LessonSubjects")
   createdAt   DateTime     @default(now())
 }
 
@@ -212,8 +212,8 @@ model Lesson {
   month     Int // e.g., 1, 2, 3
   vimeoVideoId String // Vimeo video ID
   image     String? // Square image URL for the lesson from Supabase Storage
-  subjectId String
-  subject   Subject          @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  subjects  Subject[]        @relation("LessonSubjects")
+  streams   Stream[]         @default([])
   quiz      Quiz? // One-to-one relation with AI Quiz
   mistakes  StudentMistake[]
   materials LessonMaterial[]
@@ -478,4 +478,15 @@ model ParentTicket {
   message   String
   status    String   @default("OPEN")
   createdAt DateTime @default(now())
+}
+
+model File {
+  id           String   @id @default(uuid())
+  originalName String
+  mimeType     String
+  size         Int
+  storagePath  String
+  createdAt    DateTime @default(now())
+
+  @@index([createdAt(sort: Desc)])
 }

@@ -148,6 +148,11 @@ export type ForumMessage = $Result.DefaultSelection<Prisma.$ForumMessagePayload>
  * 
  */
 export type ParentTicket = $Result.DefaultSelection<Prisma.$ParentTicketPayload>
+/**
+ * Model File
+ * 
+ */
+export type File = $Result.DefaultSelection<Prisma.$FilePayload>
 
 /**
  * Enums
@@ -693,6 +698,16 @@ export class PrismaClient<
     * ```
     */
   get parentTicket(): Prisma.ParentTicketDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.file`: Exposes CRUD operations for the **File** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Files
+    * const files = await prisma.file.findMany()
+    * ```
+    */
+  get file(): Prisma.FileDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1166,7 +1181,8 @@ export namespace Prisma {
     ReviewCard: 'ReviewCard',
     ClassForum: 'ClassForum',
     ForumMessage: 'ForumMessage',
-    ParentTicket: 'ParentTicket'
+    ParentTicket: 'ParentTicket',
+    File: 'File'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1182,7 +1198,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "lesson" | "lessonMaterial" | "quiz" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exerciseMaterial" | "exam" | "examMaterial" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket"
+      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "lesson" | "lessonMaterial" | "quiz" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exerciseMaterial" | "exam" | "examMaterial" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket" | "file"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3184,6 +3200,80 @@ export namespace Prisma {
           }
         }
       }
+      File: {
+        payload: Prisma.$FilePayload<ExtArgs>
+        fields: Prisma.FileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilePayload>
+          }
+          findFirst: {
+            args: Prisma.FileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilePayload>
+          }
+          findMany: {
+            args: Prisma.FileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilePayload>[]
+          }
+          create: {
+            args: Prisma.FileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilePayload>
+          }
+          createMany: {
+            args: Prisma.FileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilePayload>[]
+          }
+          delete: {
+            args: Prisma.FileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilePayload>
+          }
+          update: {
+            args: Prisma.FileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilePayload>
+          }
+          deleteMany: {
+            args: Prisma.FileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilePayload>[]
+          }
+          upsert: {
+            args: Prisma.FileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilePayload>
+          }
+          aggregate: {
+            args: Prisma.FileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFile>
+          }
+          groupBy: {
+            args: Prisma.FileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FileCountArgs<ExtArgs>
+            result: $Utils.Optional<FileCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3334,6 +3424,7 @@ export namespace Prisma {
     classForum?: ClassForumOmit
     forumMessage?: ForumMessageOmit
     parentTicket?: ParentTicketOmit
+    file?: FileOmit
   }
 
   /* Types for Logging */
@@ -3575,7 +3666,6 @@ export namespace Prisma {
    */
 
   export type SubjectCountOutputType = {
-    lessons: number
     liveClasses: number
     notifications: number
     codes: number
@@ -3586,10 +3676,10 @@ export namespace Prisma {
     secondaryExams: number
     reviewCards: number
     classForums: number
+    lessons: number
   }
 
   export type SubjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    lessons?: boolean | SubjectCountOutputTypeCountLessonsArgs
     liveClasses?: boolean | SubjectCountOutputTypeCountLiveClassesArgs
     notifications?: boolean | SubjectCountOutputTypeCountNotificationsArgs
     codes?: boolean | SubjectCountOutputTypeCountCodesArgs
@@ -3600,6 +3690,7 @@ export namespace Prisma {
     secondaryExams?: boolean | SubjectCountOutputTypeCountSecondaryExamsArgs
     reviewCards?: boolean | SubjectCountOutputTypeCountReviewCardsArgs
     classForums?: boolean | SubjectCountOutputTypeCountClassForumsArgs
+    lessons?: boolean | SubjectCountOutputTypeCountLessonsArgs
   }
 
   // Custom InputTypes
@@ -3611,13 +3702,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the SubjectCountOutputType
      */
     select?: SubjectCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * SubjectCountOutputType without action
-   */
-  export type SubjectCountOutputTypeCountLessonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: LessonWhereInput
   }
 
   /**
@@ -3690,17 +3774,26 @@ export namespace Prisma {
     where?: ClassForumWhereInput
   }
 
+  /**
+   * SubjectCountOutputType without action
+   */
+  export type SubjectCountOutputTypeCountLessonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LessonWhereInput
+  }
+
 
   /**
    * Count Type LessonCountOutputType
    */
 
   export type LessonCountOutputType = {
+    subjects: number
     mistakes: number
     materials: number
   }
 
   export type LessonCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subjects?: boolean | LessonCountOutputTypeCountSubjectsArgs
     mistakes?: boolean | LessonCountOutputTypeCountMistakesArgs
     materials?: boolean | LessonCountOutputTypeCountMaterialsArgs
   }
@@ -3714,6 +3807,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the LessonCountOutputType
      */
     select?: LessonCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LessonCountOutputType without action
+   */
+  export type LessonCountOutputTypeCountSubjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubjectWhereInput
   }
 
   /**
@@ -9043,7 +9143,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: boolean
     teacher?: boolean | Subject$teacherArgs<ExtArgs>
-    lessons?: boolean | Subject$lessonsArgs<ExtArgs>
     liveClasses?: boolean | Subject$liveClassesArgs<ExtArgs>
     notifications?: boolean | Subject$notificationsArgs<ExtArgs>
     codes?: boolean | Subject$codesArgs<ExtArgs>
@@ -9054,6 +9153,7 @@ export namespace Prisma {
     secondaryExams?: boolean | Subject$secondaryExamsArgs<ExtArgs>
     reviewCards?: boolean | Subject$reviewCardsArgs<ExtArgs>
     classForums?: boolean | Subject$classForumsArgs<ExtArgs>
+    lessons?: boolean | Subject$lessonsArgs<ExtArgs>
     _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subject"]>
 
@@ -9110,7 +9210,6 @@ export namespace Prisma {
   export type SubjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "teacherName" | "teacherId" | "phase" | "level" | "stream" | "image" | "price" | "accessType" | "isPublished" | "createdAt", ExtArgs["result"]["subject"]>
   export type SubjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teacher?: boolean | Subject$teacherArgs<ExtArgs>
-    lessons?: boolean | Subject$lessonsArgs<ExtArgs>
     liveClasses?: boolean | Subject$liveClassesArgs<ExtArgs>
     notifications?: boolean | Subject$notificationsArgs<ExtArgs>
     codes?: boolean | Subject$codesArgs<ExtArgs>
@@ -9121,6 +9220,7 @@ export namespace Prisma {
     secondaryExams?: boolean | Subject$secondaryExamsArgs<ExtArgs>
     reviewCards?: boolean | Subject$reviewCardsArgs<ExtArgs>
     classForums?: boolean | Subject$classForumsArgs<ExtArgs>
+    lessons?: boolean | Subject$lessonsArgs<ExtArgs>
     _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SubjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9134,7 +9234,6 @@ export namespace Prisma {
     name: "Subject"
     objects: {
       teacher: Prisma.$TeacherPayload<ExtArgs> | null
-      lessons: Prisma.$LessonPayload<ExtArgs>[]
       liveClasses: Prisma.$LiveClassPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
       codes: Prisma.$AccessCodePayload<ExtArgs>[]
@@ -9145,6 +9244,7 @@ export namespace Prisma {
       secondaryExams: Prisma.$ExamPayload<ExtArgs>[]
       reviewCards: Prisma.$ReviewCardPayload<ExtArgs>[]
       classForums: Prisma.$ClassForumPayload<ExtArgs>[]
+      lessons: Prisma.$LessonPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9555,7 +9655,6 @@ export namespace Prisma {
   export interface Prisma__SubjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     teacher<T extends Subject$teacherArgs<ExtArgs> = {}>(args?: Subset<T, Subject$teacherArgs<ExtArgs>>): Prisma__TeacherClient<$Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    lessons<T extends Subject$lessonsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$lessonsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     liveClasses<T extends Subject$liveClassesArgs<ExtArgs> = {}>(args?: Subset<T, Subject$liveClassesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LiveClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends Subject$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     codes<T extends Subject$codesArgs<ExtArgs> = {}>(args?: Subset<T, Subject$codesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccessCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -9566,6 +9665,7 @@ export namespace Prisma {
     secondaryExams<T extends Subject$secondaryExamsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$secondaryExamsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviewCards<T extends Subject$reviewCardsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$reviewCardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewCardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     classForums<T extends Subject$classForumsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$classForumsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassForumPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    lessons<T extends Subject$lessonsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$lessonsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10028,30 +10128,6 @@ export namespace Prisma {
   }
 
   /**
-   * Subject.lessons
-   */
-  export type Subject$lessonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Lesson
-     */
-    select?: LessonSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Lesson
-     */
-    omit?: LessonOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LessonInclude<ExtArgs> | null
-    where?: LessonWhereInput
-    orderBy?: LessonOrderByWithRelationInput | LessonOrderByWithRelationInput[]
-    cursor?: LessonWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: LessonScalarFieldEnum | LessonScalarFieldEnum[]
-  }
-
-  /**
    * Subject.liveClasses
    */
   export type Subject$liveClassesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10292,6 +10368,30 @@ export namespace Prisma {
   }
 
   /**
+   * Subject.lessons
+   */
+  export type Subject$lessonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Lesson
+     */
+    select?: LessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Lesson
+     */
+    omit?: LessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LessonInclude<ExtArgs> | null
+    where?: LessonWhereInput
+    orderBy?: LessonOrderByWithRelationInput | LessonOrderByWithRelationInput[]
+    cursor?: LessonWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LessonScalarFieldEnum | LessonScalarFieldEnum[]
+  }
+
+  /**
    * Subject without action
    */
   export type SubjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10336,7 +10436,6 @@ export namespace Prisma {
     month: number | null
     vimeoVideoId: string | null
     image: string | null
-    subjectId: string | null
     createdAt: Date | null
   }
 
@@ -10346,7 +10445,6 @@ export namespace Prisma {
     month: number | null
     vimeoVideoId: string | null
     image: string | null
-    subjectId: string | null
     createdAt: Date | null
   }
 
@@ -10356,7 +10454,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: number
     image: number
-    subjectId: number
+    streams: number
     createdAt: number
     _all: number
   }
@@ -10376,7 +10474,6 @@ export namespace Prisma {
     month?: true
     vimeoVideoId?: true
     image?: true
-    subjectId?: true
     createdAt?: true
   }
 
@@ -10386,7 +10483,6 @@ export namespace Prisma {
     month?: true
     vimeoVideoId?: true
     image?: true
-    subjectId?: true
     createdAt?: true
   }
 
@@ -10396,7 +10492,7 @@ export namespace Prisma {
     month?: true
     vimeoVideoId?: true
     image?: true
-    subjectId?: true
+    streams?: true
     createdAt?: true
     _all?: true
   }
@@ -10493,7 +10589,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image: string | null
-    subjectId: string
+    streams: $Enums.Stream[]
     createdAt: Date
     _count: LessonCountAggregateOutputType | null
     _avg: LessonAvgAggregateOutputType | null
@@ -10522,9 +10618,9 @@ export namespace Prisma {
     month?: boolean
     vimeoVideoId?: boolean
     image?: boolean
-    subjectId?: boolean
+    streams?: boolean
     createdAt?: boolean
-    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    subjects?: boolean | Lesson$subjectsArgs<ExtArgs>
     quiz?: boolean | Lesson$quizArgs<ExtArgs>
     mistakes?: boolean | Lesson$mistakesArgs<ExtArgs>
     materials?: boolean | Lesson$materialsArgs<ExtArgs>
@@ -10537,9 +10633,8 @@ export namespace Prisma {
     month?: boolean
     vimeoVideoId?: boolean
     image?: boolean
-    subjectId?: boolean
+    streams?: boolean
     createdAt?: boolean
-    subject?: boolean | SubjectDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lesson"]>
 
   export type LessonSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -10548,9 +10643,8 @@ export namespace Prisma {
     month?: boolean
     vimeoVideoId?: boolean
     image?: boolean
-    subjectId?: boolean
+    streams?: boolean
     createdAt?: boolean
-    subject?: boolean | SubjectDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lesson"]>
 
   export type LessonSelectScalar = {
@@ -10559,29 +10653,25 @@ export namespace Prisma {
     month?: boolean
     vimeoVideoId?: boolean
     image?: boolean
-    subjectId?: boolean
+    streams?: boolean
     createdAt?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "month" | "vimeoVideoId" | "image" | "subjectId" | "createdAt", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "month" | "vimeoVideoId" | "image" | "streams" | "createdAt", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    subjects?: boolean | Lesson$subjectsArgs<ExtArgs>
     quiz?: boolean | Lesson$quizArgs<ExtArgs>
     mistakes?: boolean | Lesson$mistakesArgs<ExtArgs>
     materials?: boolean | Lesson$materialsArgs<ExtArgs>
     _count?: boolean | LessonCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type LessonIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    subject?: boolean | SubjectDefaultArgs<ExtArgs>
-  }
-  export type LessonIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    subject?: boolean | SubjectDefaultArgs<ExtArgs>
-  }
+  export type LessonIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type LessonIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $LessonPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Lesson"
     objects: {
-      subject: Prisma.$SubjectPayload<ExtArgs>
+      subjects: Prisma.$SubjectPayload<ExtArgs>[]
       quiz: Prisma.$QuizPayload<ExtArgs> | null
       mistakes: Prisma.$StudentMistakePayload<ExtArgs>[]
       materials: Prisma.$LessonMaterialPayload<ExtArgs>[]
@@ -10592,7 +10682,7 @@ export namespace Prisma {
       month: number
       vimeoVideoId: string
       image: string | null
-      subjectId: string
+      streams: $Enums.Stream[]
       createdAt: Date
     }, ExtArgs["result"]["lesson"]>
     composites: {}
@@ -10988,7 +11078,7 @@ export namespace Prisma {
    */
   export interface Prisma__LessonClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    subject<T extends SubjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubjectDefaultArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    subjects<T extends Lesson$subjectsArgs<ExtArgs> = {}>(args?: Subset<T, Lesson$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     quiz<T extends Lesson$quizArgs<ExtArgs> = {}>(args?: Subset<T, Lesson$quizArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     mistakes<T extends Lesson$mistakesArgs<ExtArgs> = {}>(args?: Subset<T, Lesson$mistakesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentMistakePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     materials<T extends Lesson$materialsArgs<ExtArgs> = {}>(args?: Subset<T, Lesson$materialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LessonMaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -11026,7 +11116,7 @@ export namespace Prisma {
     readonly month: FieldRef<"Lesson", 'Int'>
     readonly vimeoVideoId: FieldRef<"Lesson", 'String'>
     readonly image: FieldRef<"Lesson", 'String'>
-    readonly subjectId: FieldRef<"Lesson", 'String'>
+    readonly streams: FieldRef<"Lesson", 'Stream[]'>
     readonly createdAt: FieldRef<"Lesson", 'DateTime'>
   }
     
@@ -11282,10 +11372,6 @@ export namespace Prisma {
      */
     data: LessonCreateManyInput | LessonCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LessonIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -11356,10 +11442,6 @@ export namespace Prisma {
      * Limit how many Lessons to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LessonIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -11426,6 +11508,30 @@ export namespace Prisma {
      * Limit how many Lessons to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Lesson.subjects
+   */
+  export type Lesson$subjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subject
+     */
+    omit?: SubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    where?: SubjectWhereInput
+    orderBy?: SubjectOrderByWithRelationInput | SubjectOrderByWithRelationInput[]
+    cursor?: SubjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SubjectScalarFieldEnum | SubjectScalarFieldEnum[]
   }
 
   /**
@@ -35184,6 +35290,1053 @@ export namespace Prisma {
 
 
   /**
+   * Model File
+   */
+
+  export type AggregateFile = {
+    _count: FileCountAggregateOutputType | null
+    _avg: FileAvgAggregateOutputType | null
+    _sum: FileSumAggregateOutputType | null
+    _min: FileMinAggregateOutputType | null
+    _max: FileMaxAggregateOutputType | null
+  }
+
+  export type FileAvgAggregateOutputType = {
+    size: number | null
+  }
+
+  export type FileSumAggregateOutputType = {
+    size: number | null
+  }
+
+  export type FileMinAggregateOutputType = {
+    id: string | null
+    originalName: string | null
+    mimeType: string | null
+    size: number | null
+    storagePath: string | null
+    createdAt: Date | null
+  }
+
+  export type FileMaxAggregateOutputType = {
+    id: string | null
+    originalName: string | null
+    mimeType: string | null
+    size: number | null
+    storagePath: string | null
+    createdAt: Date | null
+  }
+
+  export type FileCountAggregateOutputType = {
+    id: number
+    originalName: number
+    mimeType: number
+    size: number
+    storagePath: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type FileAvgAggregateInputType = {
+    size?: true
+  }
+
+  export type FileSumAggregateInputType = {
+    size?: true
+  }
+
+  export type FileMinAggregateInputType = {
+    id?: true
+    originalName?: true
+    mimeType?: true
+    size?: true
+    storagePath?: true
+    createdAt?: true
+  }
+
+  export type FileMaxAggregateInputType = {
+    id?: true
+    originalName?: true
+    mimeType?: true
+    size?: true
+    storagePath?: true
+    createdAt?: true
+  }
+
+  export type FileCountAggregateInputType = {
+    id?: true
+    originalName?: true
+    mimeType?: true
+    size?: true
+    storagePath?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type FileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which File to aggregate.
+     */
+    where?: FileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Files to fetch.
+     */
+    orderBy?: FileOrderByWithRelationInput | FileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Files from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Files.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Files
+    **/
+    _count?: true | FileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FileAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FileSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FileMaxAggregateInputType
+  }
+
+  export type GetFileAggregateType<T extends FileAggregateArgs> = {
+        [P in keyof T & keyof AggregateFile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFile[P]>
+      : GetScalarType<T[P], AggregateFile[P]>
+  }
+
+
+
+
+  export type FileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FileWhereInput
+    orderBy?: FileOrderByWithAggregationInput | FileOrderByWithAggregationInput[]
+    by: FileScalarFieldEnum[] | FileScalarFieldEnum
+    having?: FileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FileCountAggregateInputType | true
+    _avg?: FileAvgAggregateInputType
+    _sum?: FileSumAggregateInputType
+    _min?: FileMinAggregateInputType
+    _max?: FileMaxAggregateInputType
+  }
+
+  export type FileGroupByOutputType = {
+    id: string
+    originalName: string
+    mimeType: string
+    size: number
+    storagePath: string
+    createdAt: Date
+    _count: FileCountAggregateOutputType | null
+    _avg: FileAvgAggregateOutputType | null
+    _sum: FileSumAggregateOutputType | null
+    _min: FileMinAggregateOutputType | null
+    _max: FileMaxAggregateOutputType | null
+  }
+
+  type GetFileGroupByPayload<T extends FileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FileGroupByOutputType[P]>
+            : GetScalarType<T[P], FileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    originalName?: boolean
+    mimeType?: boolean
+    size?: boolean
+    storagePath?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["file"]>
+
+  export type FileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    originalName?: boolean
+    mimeType?: boolean
+    size?: boolean
+    storagePath?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["file"]>
+
+  export type FileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    originalName?: boolean
+    mimeType?: boolean
+    size?: boolean
+    storagePath?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["file"]>
+
+  export type FileSelectScalar = {
+    id?: boolean
+    originalName?: boolean
+    mimeType?: boolean
+    size?: boolean
+    storagePath?: boolean
+    createdAt?: boolean
+  }
+
+  export type FileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "originalName" | "mimeType" | "size" | "storagePath" | "createdAt", ExtArgs["result"]["file"]>
+
+  export type $FilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "File"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      originalName: string
+      mimeType: string
+      size: number
+      storagePath: string
+      createdAt: Date
+    }, ExtArgs["result"]["file"]>
+    composites: {}
+  }
+
+  type FileGetPayload<S extends boolean | null | undefined | FileDefaultArgs> = $Result.GetResult<Prisma.$FilePayload, S>
+
+  type FileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FileCountAggregateInputType | true
+    }
+
+  export interface FileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['File'], meta: { name: 'File' } }
+    /**
+     * Find zero or one File that matches the filter.
+     * @param {FileFindUniqueArgs} args - Arguments to find a File
+     * @example
+     * // Get one File
+     * const file = await prisma.file.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FileFindUniqueArgs>(args: SelectSubset<T, FileFindUniqueArgs<ExtArgs>>): Prisma__FileClient<$Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one File that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FileFindUniqueOrThrowArgs} args - Arguments to find a File
+     * @example
+     * // Get one File
+     * const file = await prisma.file.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FileFindUniqueOrThrowArgs>(args: SelectSubset<T, FileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FileClient<$Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first File that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FileFindFirstArgs} args - Arguments to find a File
+     * @example
+     * // Get one File
+     * const file = await prisma.file.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FileFindFirstArgs>(args?: SelectSubset<T, FileFindFirstArgs<ExtArgs>>): Prisma__FileClient<$Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first File that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FileFindFirstOrThrowArgs} args - Arguments to find a File
+     * @example
+     * // Get one File
+     * const file = await prisma.file.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FileFindFirstOrThrowArgs>(args?: SelectSubset<T, FileFindFirstOrThrowArgs<ExtArgs>>): Prisma__FileClient<$Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Files that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Files
+     * const files = await prisma.file.findMany()
+     * 
+     * // Get first 10 Files
+     * const files = await prisma.file.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const fileWithIdOnly = await prisma.file.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FileFindManyArgs>(args?: SelectSubset<T, FileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a File.
+     * @param {FileCreateArgs} args - Arguments to create a File.
+     * @example
+     * // Create one File
+     * const File = await prisma.file.create({
+     *   data: {
+     *     // ... data to create a File
+     *   }
+     * })
+     * 
+     */
+    create<T extends FileCreateArgs>(args: SelectSubset<T, FileCreateArgs<ExtArgs>>): Prisma__FileClient<$Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Files.
+     * @param {FileCreateManyArgs} args - Arguments to create many Files.
+     * @example
+     * // Create many Files
+     * const file = await prisma.file.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FileCreateManyArgs>(args?: SelectSubset<T, FileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Files and returns the data saved in the database.
+     * @param {FileCreateManyAndReturnArgs} args - Arguments to create many Files.
+     * @example
+     * // Create many Files
+     * const file = await prisma.file.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Files and only return the `id`
+     * const fileWithIdOnly = await prisma.file.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FileCreateManyAndReturnArgs>(args?: SelectSubset<T, FileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a File.
+     * @param {FileDeleteArgs} args - Arguments to delete one File.
+     * @example
+     * // Delete one File
+     * const File = await prisma.file.delete({
+     *   where: {
+     *     // ... filter to delete one File
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FileDeleteArgs>(args: SelectSubset<T, FileDeleteArgs<ExtArgs>>): Prisma__FileClient<$Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one File.
+     * @param {FileUpdateArgs} args - Arguments to update one File.
+     * @example
+     * // Update one File
+     * const file = await prisma.file.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FileUpdateArgs>(args: SelectSubset<T, FileUpdateArgs<ExtArgs>>): Prisma__FileClient<$Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Files.
+     * @param {FileDeleteManyArgs} args - Arguments to filter Files to delete.
+     * @example
+     * // Delete a few Files
+     * const { count } = await prisma.file.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FileDeleteManyArgs>(args?: SelectSubset<T, FileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Files.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Files
+     * const file = await prisma.file.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FileUpdateManyArgs>(args: SelectSubset<T, FileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Files and returns the data updated in the database.
+     * @param {FileUpdateManyAndReturnArgs} args - Arguments to update many Files.
+     * @example
+     * // Update many Files
+     * const file = await prisma.file.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Files and only return the `id`
+     * const fileWithIdOnly = await prisma.file.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FileUpdateManyAndReturnArgs>(args: SelectSubset<T, FileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one File.
+     * @param {FileUpsertArgs} args - Arguments to update or create a File.
+     * @example
+     * // Update or create a File
+     * const file = await prisma.file.upsert({
+     *   create: {
+     *     // ... data to create a File
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the File we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FileUpsertArgs>(args: SelectSubset<T, FileUpsertArgs<ExtArgs>>): Prisma__FileClient<$Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Files.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FileCountArgs} args - Arguments to filter Files to count.
+     * @example
+     * // Count the number of Files
+     * const count = await prisma.file.count({
+     *   where: {
+     *     // ... the filter for the Files we want to count
+     *   }
+     * })
+    **/
+    count<T extends FileCountArgs>(
+      args?: Subset<T, FileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a File.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FileAggregateArgs>(args: Subset<T, FileAggregateArgs>): Prisma.PrismaPromise<GetFileAggregateType<T>>
+
+    /**
+     * Group by File.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FileGroupByArgs['orderBy'] }
+        : { orderBy?: FileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the File model
+   */
+  readonly fields: FileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for File.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the File model
+   */
+  interface FileFieldRefs {
+    readonly id: FieldRef<"File", 'String'>
+    readonly originalName: FieldRef<"File", 'String'>
+    readonly mimeType: FieldRef<"File", 'String'>
+    readonly size: FieldRef<"File", 'Int'>
+    readonly storagePath: FieldRef<"File", 'String'>
+    readonly createdAt: FieldRef<"File", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * File findUnique
+   */
+  export type FileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+    /**
+     * Filter, which File to fetch.
+     */
+    where: FileWhereUniqueInput
+  }
+
+  /**
+   * File findUniqueOrThrow
+   */
+  export type FileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+    /**
+     * Filter, which File to fetch.
+     */
+    where: FileWhereUniqueInput
+  }
+
+  /**
+   * File findFirst
+   */
+  export type FileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+    /**
+     * Filter, which File to fetch.
+     */
+    where?: FileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Files to fetch.
+     */
+    orderBy?: FileOrderByWithRelationInput | FileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Files.
+     */
+    cursor?: FileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Files from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Files.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Files.
+     */
+    distinct?: FileScalarFieldEnum | FileScalarFieldEnum[]
+  }
+
+  /**
+   * File findFirstOrThrow
+   */
+  export type FileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+    /**
+     * Filter, which File to fetch.
+     */
+    where?: FileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Files to fetch.
+     */
+    orderBy?: FileOrderByWithRelationInput | FileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Files.
+     */
+    cursor?: FileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Files from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Files.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Files.
+     */
+    distinct?: FileScalarFieldEnum | FileScalarFieldEnum[]
+  }
+
+  /**
+   * File findMany
+   */
+  export type FileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+    /**
+     * Filter, which Files to fetch.
+     */
+    where?: FileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Files to fetch.
+     */
+    orderBy?: FileOrderByWithRelationInput | FileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Files.
+     */
+    cursor?: FileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Files from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Files.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Files.
+     */
+    distinct?: FileScalarFieldEnum | FileScalarFieldEnum[]
+  }
+
+  /**
+   * File create
+   */
+  export type FileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+    /**
+     * The data needed to create a File.
+     */
+    data: XOR<FileCreateInput, FileUncheckedCreateInput>
+  }
+
+  /**
+   * File createMany
+   */
+  export type FileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Files.
+     */
+    data: FileCreateManyInput | FileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * File createManyAndReturn
+   */
+  export type FileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+    /**
+     * The data used to create many Files.
+     */
+    data: FileCreateManyInput | FileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * File update
+   */
+  export type FileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+    /**
+     * The data needed to update a File.
+     */
+    data: XOR<FileUpdateInput, FileUncheckedUpdateInput>
+    /**
+     * Choose, which File to update.
+     */
+    where: FileWhereUniqueInput
+  }
+
+  /**
+   * File updateMany
+   */
+  export type FileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Files.
+     */
+    data: XOR<FileUpdateManyMutationInput, FileUncheckedUpdateManyInput>
+    /**
+     * Filter which Files to update
+     */
+    where?: FileWhereInput
+    /**
+     * Limit how many Files to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * File updateManyAndReturn
+   */
+  export type FileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+    /**
+     * The data used to update Files.
+     */
+    data: XOR<FileUpdateManyMutationInput, FileUncheckedUpdateManyInput>
+    /**
+     * Filter which Files to update
+     */
+    where?: FileWhereInput
+    /**
+     * Limit how many Files to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * File upsert
+   */
+  export type FileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+    /**
+     * The filter to search for the File to update in case it exists.
+     */
+    where: FileWhereUniqueInput
+    /**
+     * In case the File found by the `where` argument doesn't exist, create a new File with this data.
+     */
+    create: XOR<FileCreateInput, FileUncheckedCreateInput>
+    /**
+     * In case the File was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FileUpdateInput, FileUncheckedUpdateInput>
+  }
+
+  /**
+   * File delete
+   */
+  export type FileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+    /**
+     * Filter which File to delete.
+     */
+    where: FileWhereUniqueInput
+  }
+
+  /**
+   * File deleteMany
+   */
+  export type FileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Files to delete
+     */
+    where?: FileWhereInput
+    /**
+     * Limit how many Files to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * File without action
+   */
+  export type FileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -35279,7 +36432,7 @@ export namespace Prisma {
     month: 'month',
     vimeoVideoId: 'vimeoVideoId',
     image: 'image',
-    subjectId: 'subjectId',
+    streams: 'streams',
     createdAt: 'createdAt'
   };
 
@@ -35558,6 +36711,18 @@ export namespace Prisma {
   };
 
   export type ParentTicketScalarFieldEnum = (typeof ParentTicketScalarFieldEnum)[keyof typeof ParentTicketScalarFieldEnum]
+
+
+  export const FileScalarFieldEnum: {
+    id: 'id',
+    originalName: 'originalName',
+    mimeType: 'mimeType',
+    size: 'size',
+    storagePath: 'storagePath',
+    createdAt: 'createdAt'
+  };
+
+  export type FileScalarFieldEnum = (typeof FileScalarFieldEnum)[keyof typeof FileScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -36105,7 +37270,6 @@ export namespace Prisma {
     isPublished?: BoolFilter<"Subject"> | boolean
     createdAt?: DateTimeFilter<"Subject"> | Date | string
     teacher?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
-    lessons?: LessonListRelationFilter
     liveClasses?: LiveClassListRelationFilter
     notifications?: NotificationListRelationFilter
     codes?: AccessCodeListRelationFilter
@@ -36116,6 +37280,7 @@ export namespace Prisma {
     secondaryExams?: ExamListRelationFilter
     reviewCards?: ReviewCardListRelationFilter
     classForums?: ClassForumListRelationFilter
+    lessons?: LessonListRelationFilter
   }
 
   export type SubjectOrderByWithRelationInput = {
@@ -36133,7 +37298,6 @@ export namespace Prisma {
     isPublished?: SortOrder
     createdAt?: SortOrder
     teacher?: TeacherOrderByWithRelationInput
-    lessons?: LessonOrderByRelationAggregateInput
     liveClasses?: LiveClassOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
     codes?: AccessCodeOrderByRelationAggregateInput
@@ -36144,6 +37308,7 @@ export namespace Prisma {
     secondaryExams?: ExamOrderByRelationAggregateInput
     reviewCards?: ReviewCardOrderByRelationAggregateInput
     classForums?: ClassForumOrderByRelationAggregateInput
+    lessons?: LessonOrderByRelationAggregateInput
   }
 
   export type SubjectWhereUniqueInput = Prisma.AtLeast<{
@@ -36164,7 +37329,6 @@ export namespace Prisma {
     isPublished?: BoolFilter<"Subject"> | boolean
     createdAt?: DateTimeFilter<"Subject"> | Date | string
     teacher?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
-    lessons?: LessonListRelationFilter
     liveClasses?: LiveClassListRelationFilter
     notifications?: NotificationListRelationFilter
     codes?: AccessCodeListRelationFilter
@@ -36175,6 +37339,7 @@ export namespace Prisma {
     secondaryExams?: ExamListRelationFilter
     reviewCards?: ReviewCardListRelationFilter
     classForums?: ClassForumListRelationFilter
+    lessons?: LessonListRelationFilter
   }, "id">
 
   export type SubjectOrderByWithAggregationInput = {
@@ -36226,9 +37391,9 @@ export namespace Prisma {
     month?: IntFilter<"Lesson"> | number
     vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
-    subjectId?: StringFilter<"Lesson"> | string
+    streams?: EnumStreamNullableListFilter<"Lesson">
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
-    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+    subjects?: SubjectListRelationFilter
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
     mistakes?: StudentMistakeListRelationFilter
     materials?: LessonMaterialListRelationFilter
@@ -36240,9 +37405,9 @@ export namespace Prisma {
     month?: SortOrder
     vimeoVideoId?: SortOrder
     image?: SortOrderInput | SortOrder
-    subjectId?: SortOrder
+    streams?: SortOrder
     createdAt?: SortOrder
-    subject?: SubjectOrderByWithRelationInput
+    subjects?: SubjectOrderByRelationAggregateInput
     quiz?: QuizOrderByWithRelationInput
     mistakes?: StudentMistakeOrderByRelationAggregateInput
     materials?: LessonMaterialOrderByRelationAggregateInput
@@ -36257,9 +37422,9 @@ export namespace Prisma {
     month?: IntFilter<"Lesson"> | number
     vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
-    subjectId?: StringFilter<"Lesson"> | string
+    streams?: EnumStreamNullableListFilter<"Lesson">
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
-    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+    subjects?: SubjectListRelationFilter
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
     mistakes?: StudentMistakeListRelationFilter
     materials?: LessonMaterialListRelationFilter
@@ -36271,7 +37436,7 @@ export namespace Prisma {
     month?: SortOrder
     vimeoVideoId?: SortOrder
     image?: SortOrderInput | SortOrder
-    subjectId?: SortOrder
+    streams?: SortOrder
     createdAt?: SortOrder
     _count?: LessonCountOrderByAggregateInput
     _avg?: LessonAvgOrderByAggregateInput
@@ -36289,7 +37454,7 @@ export namespace Prisma {
     month?: IntWithAggregatesFilter<"Lesson"> | number
     vimeoVideoId?: StringWithAggregatesFilter<"Lesson"> | string
     image?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
-    subjectId?: StringWithAggregatesFilter<"Lesson"> | string
+    streams?: EnumStreamNullableListFilter<"Lesson">
     createdAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
   }
 
@@ -37749,6 +38914,65 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"ParentTicket"> | Date | string
   }
 
+  export type FileWhereInput = {
+    AND?: FileWhereInput | FileWhereInput[]
+    OR?: FileWhereInput[]
+    NOT?: FileWhereInput | FileWhereInput[]
+    id?: StringFilter<"File"> | string
+    originalName?: StringFilter<"File"> | string
+    mimeType?: StringFilter<"File"> | string
+    size?: IntFilter<"File"> | number
+    storagePath?: StringFilter<"File"> | string
+    createdAt?: DateTimeFilter<"File"> | Date | string
+  }
+
+  export type FileOrderByWithRelationInput = {
+    id?: SortOrder
+    originalName?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
+    storagePath?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: FileWhereInput | FileWhereInput[]
+    OR?: FileWhereInput[]
+    NOT?: FileWhereInput | FileWhereInput[]
+    originalName?: StringFilter<"File"> | string
+    mimeType?: StringFilter<"File"> | string
+    size?: IntFilter<"File"> | number
+    storagePath?: StringFilter<"File"> | string
+    createdAt?: DateTimeFilter<"File"> | Date | string
+  }, "id">
+
+  export type FileOrderByWithAggregationInput = {
+    id?: SortOrder
+    originalName?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
+    storagePath?: SortOrder
+    createdAt?: SortOrder
+    _count?: FileCountOrderByAggregateInput
+    _avg?: FileAvgOrderByAggregateInput
+    _max?: FileMaxOrderByAggregateInput
+    _min?: FileMinOrderByAggregateInput
+    _sum?: FileSumOrderByAggregateInput
+  }
+
+  export type FileScalarWhereWithAggregatesInput = {
+    AND?: FileScalarWhereWithAggregatesInput | FileScalarWhereWithAggregatesInput[]
+    OR?: FileScalarWhereWithAggregatesInput[]
+    NOT?: FileScalarWhereWithAggregatesInput | FileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"File"> | string
+    originalName?: StringWithAggregatesFilter<"File"> | string
+    mimeType?: StringWithAggregatesFilter<"File"> | string
+    size?: IntWithAggregatesFilter<"File"> | number
+    storagePath?: StringWithAggregatesFilter<"File"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"File"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     fullName: string
@@ -38139,7 +39363,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
-    lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
     notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
@@ -38150,6 +39373,7 @@ export namespace Prisma {
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectUncheckedCreateInput = {
@@ -38166,7 +39390,6 @@ export namespace Prisma {
     accessType: string
     isPublished?: boolean
     createdAt?: Date | string
-    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
@@ -38177,6 +39400,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectUpdateInput = {
@@ -38193,7 +39417,6 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
-    lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
@@ -38204,6 +39427,7 @@ export namespace Prisma {
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUncheckedUpdateInput = {
@@ -38220,7 +39444,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
@@ -38231,6 +39454,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectCreateManyInput = {
@@ -38286,8 +39510,9 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
-    subject: SubjectCreateNestedOneWithoutLessonsInput
+    subjects?: SubjectCreateNestedManyWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeCreateNestedManyWithoutLessonInput
     materials?: LessonMaterialCreateNestedManyWithoutLessonInput
@@ -38299,8 +39524,9 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
-    subjectId: string
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
+    subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
     materials?: LessonMaterialUncheckedCreateNestedManyWithoutLessonInput
@@ -38312,8 +39538,9 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
+    subjects?: SubjectUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUpdateManyWithoutLessonNestedInput
     materials?: LessonMaterialUpdateManyWithoutLessonNestedInput
@@ -38325,8 +39552,9 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    subjectId?: StringFieldUpdateOperationsInput | string
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
     materials?: LessonMaterialUncheckedUpdateManyWithoutLessonNestedInput
@@ -38338,7 +39566,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
-    subjectId: string
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
   }
 
@@ -38348,6 +39576,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -38357,7 +39586,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    subjectId?: StringFieldUpdateOperationsInput | string
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -39837,6 +41066,69 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FileCreateInput = {
+    id?: string
+    originalName: string
+    mimeType: string
+    size: number
+    storagePath: string
+    createdAt?: Date | string
+  }
+
+  export type FileUncheckedCreateInput = {
+    id?: string
+    originalName: string
+    mimeType: string
+    size: number
+    storagePath: string
+    createdAt?: Date | string
+  }
+
+  export type FileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    storagePath?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    storagePath?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FileCreateManyInput = {
+    id?: string
+    originalName: string
+    mimeType: string
+    size: number
+    storagePath: string
+    createdAt?: Date | string
+  }
+
+  export type FileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    storagePath?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    storagePath?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -40365,12 +41657,6 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type LessonListRelationFilter = {
-    every?: LessonWhereInput
-    some?: LessonWhereInput
-    none?: LessonWhereInput
-  }
-
   export type LiveClassListRelationFilter = {
     every?: LiveClassWhereInput
     some?: LiveClassWhereInput
@@ -40401,8 +41687,10 @@ export namespace Prisma {
     none?: ClassForumWhereInput
   }
 
-  export type LessonOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type LessonListRelationFilter = {
+    every?: LessonWhereInput
+    some?: LessonWhereInput
+    none?: LessonWhereInput
   }
 
   export type LiveClassOrderByRelationAggregateInput = {
@@ -40422,6 +41710,10 @@ export namespace Prisma {
   }
 
   export type ClassForumOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LessonOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -40505,11 +41797,6 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type SubjectScalarRelationFilter = {
-    is?: SubjectWhereInput
-    isNot?: SubjectWhereInput
-  }
-
   export type QuizNullableScalarRelationFilter = {
     is?: QuizWhereInput | null
     isNot?: QuizWhereInput | null
@@ -40531,7 +41818,7 @@ export namespace Prisma {
     month?: SortOrder
     vimeoVideoId?: SortOrder
     image?: SortOrder
-    subjectId?: SortOrder
+    streams?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -40545,7 +41832,6 @@ export namespace Prisma {
     month?: SortOrder
     vimeoVideoId?: SortOrder
     image?: SortOrder
-    subjectId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -40555,7 +41841,6 @@ export namespace Prisma {
     month?: SortOrder
     vimeoVideoId?: SortOrder
     image?: SortOrder
-    subjectId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -40701,6 +41986,11 @@ export namespace Prisma {
     hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>
     hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>
     isEmpty?: boolean
+  }
+
+  export type SubjectScalarRelationFilter = {
+    is?: SubjectWhereInput
+    isNot?: SubjectWhereInput
   }
 
   export type AccessCodeCountOrderByAggregateInput = {
@@ -41517,6 +42807,41 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type FileCountOrderByAggregateInput = {
+    id?: SortOrder
+    originalName?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
+    storagePath?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FileAvgOrderByAggregateInput = {
+    size?: SortOrder
+  }
+
+  export type FileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    originalName?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
+    storagePath?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FileMinOrderByAggregateInput = {
+    id?: SortOrder
+    originalName?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
+    storagePath?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FileSumOrderByAggregateInput = {
+    size?: SortOrder
+  }
+
   export type UserCreatedeviceFingerprintsInput = {
     set: string[]
   }
@@ -42285,13 +43610,6 @@ export namespace Prisma {
     connect?: TeacherWhereUniqueInput
   }
 
-  export type LessonCreateNestedManyWithoutSubjectInput = {
-    create?: XOR<LessonCreateWithoutSubjectInput, LessonUncheckedCreateWithoutSubjectInput> | LessonCreateWithoutSubjectInput[] | LessonUncheckedCreateWithoutSubjectInput[]
-    connectOrCreate?: LessonCreateOrConnectWithoutSubjectInput | LessonCreateOrConnectWithoutSubjectInput[]
-    createMany?: LessonCreateManySubjectInputEnvelope
-    connect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
-  }
-
   export type LiveClassCreateNestedManyWithoutSubjectInput = {
     create?: XOR<LiveClassCreateWithoutSubjectInput, LiveClassUncheckedCreateWithoutSubjectInput> | LiveClassCreateWithoutSubjectInput[] | LiveClassUncheckedCreateWithoutSubjectInput[]
     connectOrCreate?: LiveClassCreateOrConnectWithoutSubjectInput | LiveClassCreateOrConnectWithoutSubjectInput[]
@@ -42362,10 +43680,9 @@ export namespace Prisma {
     connect?: ClassForumWhereUniqueInput | ClassForumWhereUniqueInput[]
   }
 
-  export type LessonUncheckedCreateNestedManyWithoutSubjectInput = {
-    create?: XOR<LessonCreateWithoutSubjectInput, LessonUncheckedCreateWithoutSubjectInput> | LessonCreateWithoutSubjectInput[] | LessonUncheckedCreateWithoutSubjectInput[]
-    connectOrCreate?: LessonCreateOrConnectWithoutSubjectInput | LessonCreateOrConnectWithoutSubjectInput[]
-    createMany?: LessonCreateManySubjectInputEnvelope
+  export type LessonCreateNestedManyWithoutSubjectsInput = {
+    create?: XOR<LessonCreateWithoutSubjectsInput, LessonUncheckedCreateWithoutSubjectsInput> | LessonCreateWithoutSubjectsInput[] | LessonUncheckedCreateWithoutSubjectsInput[]
+    connectOrCreate?: LessonCreateOrConnectWithoutSubjectsInput | LessonCreateOrConnectWithoutSubjectsInput[]
     connect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
   }
 
@@ -42439,6 +43756,12 @@ export namespace Prisma {
     connect?: ClassForumWhereUniqueInput | ClassForumWhereUniqueInput[]
   }
 
+  export type LessonUncheckedCreateNestedManyWithoutSubjectsInput = {
+    create?: XOR<LessonCreateWithoutSubjectsInput, LessonUncheckedCreateWithoutSubjectsInput> | LessonCreateWithoutSubjectsInput[] | LessonUncheckedCreateWithoutSubjectsInput[]
+    connectOrCreate?: LessonCreateOrConnectWithoutSubjectsInput | LessonCreateOrConnectWithoutSubjectsInput[]
+    connect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
+  }
+
   export type FloatFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -42459,20 +43782,6 @@ export namespace Prisma {
     delete?: TeacherWhereInput | boolean
     connect?: TeacherWhereUniqueInput
     update?: XOR<XOR<TeacherUpdateToOneWithWhereWithoutSubjectsInput, TeacherUpdateWithoutSubjectsInput>, TeacherUncheckedUpdateWithoutSubjectsInput>
-  }
-
-  export type LessonUpdateManyWithoutSubjectNestedInput = {
-    create?: XOR<LessonCreateWithoutSubjectInput, LessonUncheckedCreateWithoutSubjectInput> | LessonCreateWithoutSubjectInput[] | LessonUncheckedCreateWithoutSubjectInput[]
-    connectOrCreate?: LessonCreateOrConnectWithoutSubjectInput | LessonCreateOrConnectWithoutSubjectInput[]
-    upsert?: LessonUpsertWithWhereUniqueWithoutSubjectInput | LessonUpsertWithWhereUniqueWithoutSubjectInput[]
-    createMany?: LessonCreateManySubjectInputEnvelope
-    set?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
-    disconnect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
-    delete?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
-    connect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
-    update?: LessonUpdateWithWhereUniqueWithoutSubjectInput | LessonUpdateWithWhereUniqueWithoutSubjectInput[]
-    updateMany?: LessonUpdateManyWithWhereWithoutSubjectInput | LessonUpdateManyWithWhereWithoutSubjectInput[]
-    deleteMany?: LessonScalarWhereInput | LessonScalarWhereInput[]
   }
 
   export type LiveClassUpdateManyWithoutSubjectNestedInput = {
@@ -42615,17 +43924,16 @@ export namespace Prisma {
     deleteMany?: ClassForumScalarWhereInput | ClassForumScalarWhereInput[]
   }
 
-  export type LessonUncheckedUpdateManyWithoutSubjectNestedInput = {
-    create?: XOR<LessonCreateWithoutSubjectInput, LessonUncheckedCreateWithoutSubjectInput> | LessonCreateWithoutSubjectInput[] | LessonUncheckedCreateWithoutSubjectInput[]
-    connectOrCreate?: LessonCreateOrConnectWithoutSubjectInput | LessonCreateOrConnectWithoutSubjectInput[]
-    upsert?: LessonUpsertWithWhereUniqueWithoutSubjectInput | LessonUpsertWithWhereUniqueWithoutSubjectInput[]
-    createMany?: LessonCreateManySubjectInputEnvelope
+  export type LessonUpdateManyWithoutSubjectsNestedInput = {
+    create?: XOR<LessonCreateWithoutSubjectsInput, LessonUncheckedCreateWithoutSubjectsInput> | LessonCreateWithoutSubjectsInput[] | LessonUncheckedCreateWithoutSubjectsInput[]
+    connectOrCreate?: LessonCreateOrConnectWithoutSubjectsInput | LessonCreateOrConnectWithoutSubjectsInput[]
+    upsert?: LessonUpsertWithWhereUniqueWithoutSubjectsInput | LessonUpsertWithWhereUniqueWithoutSubjectsInput[]
     set?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
     disconnect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
     delete?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
     connect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
-    update?: LessonUpdateWithWhereUniqueWithoutSubjectInput | LessonUpdateWithWhereUniqueWithoutSubjectInput[]
-    updateMany?: LessonUpdateManyWithWhereWithoutSubjectInput | LessonUpdateManyWithWhereWithoutSubjectInput[]
+    update?: LessonUpdateWithWhereUniqueWithoutSubjectsInput | LessonUpdateWithWhereUniqueWithoutSubjectsInput[]
+    updateMany?: LessonUpdateManyWithWhereWithoutSubjectsInput | LessonUpdateManyWithWhereWithoutSubjectsInput[]
     deleteMany?: LessonScalarWhereInput | LessonScalarWhereInput[]
   }
 
@@ -42769,10 +44077,27 @@ export namespace Prisma {
     deleteMany?: ClassForumScalarWhereInput | ClassForumScalarWhereInput[]
   }
 
-  export type SubjectCreateNestedOneWithoutLessonsInput = {
-    create?: XOR<SubjectCreateWithoutLessonsInput, SubjectUncheckedCreateWithoutLessonsInput>
-    connectOrCreate?: SubjectCreateOrConnectWithoutLessonsInput
-    connect?: SubjectWhereUniqueInput
+  export type LessonUncheckedUpdateManyWithoutSubjectsNestedInput = {
+    create?: XOR<LessonCreateWithoutSubjectsInput, LessonUncheckedCreateWithoutSubjectsInput> | LessonCreateWithoutSubjectsInput[] | LessonUncheckedCreateWithoutSubjectsInput[]
+    connectOrCreate?: LessonCreateOrConnectWithoutSubjectsInput | LessonCreateOrConnectWithoutSubjectsInput[]
+    upsert?: LessonUpsertWithWhereUniqueWithoutSubjectsInput | LessonUpsertWithWhereUniqueWithoutSubjectsInput[]
+    set?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
+    disconnect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
+    delete?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
+    connect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
+    update?: LessonUpdateWithWhereUniqueWithoutSubjectsInput | LessonUpdateWithWhereUniqueWithoutSubjectsInput[]
+    updateMany?: LessonUpdateManyWithWhereWithoutSubjectsInput | LessonUpdateManyWithWhereWithoutSubjectsInput[]
+    deleteMany?: LessonScalarWhereInput | LessonScalarWhereInput[]
+  }
+
+  export type LessonCreatestreamsInput = {
+    set: $Enums.Stream[]
+  }
+
+  export type SubjectCreateNestedManyWithoutLessonsInput = {
+    create?: XOR<SubjectCreateWithoutLessonsInput, SubjectUncheckedCreateWithoutLessonsInput> | SubjectCreateWithoutLessonsInput[] | SubjectUncheckedCreateWithoutLessonsInput[]
+    connectOrCreate?: SubjectCreateOrConnectWithoutLessonsInput | SubjectCreateOrConnectWithoutLessonsInput[]
+    connect?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
   }
 
   export type QuizCreateNestedOneWithoutLessonInput = {
@@ -42795,6 +44120,12 @@ export namespace Prisma {
     connect?: LessonMaterialWhereUniqueInput | LessonMaterialWhereUniqueInput[]
   }
 
+  export type SubjectUncheckedCreateNestedManyWithoutLessonsInput = {
+    create?: XOR<SubjectCreateWithoutLessonsInput, SubjectUncheckedCreateWithoutLessonsInput> | SubjectCreateWithoutLessonsInput[] | SubjectUncheckedCreateWithoutLessonsInput[]
+    connectOrCreate?: SubjectCreateOrConnectWithoutLessonsInput | SubjectCreateOrConnectWithoutLessonsInput[]
+    connect?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
+  }
+
   export type QuizUncheckedCreateNestedOneWithoutLessonInput = {
     create?: XOR<QuizCreateWithoutLessonInput, QuizUncheckedCreateWithoutLessonInput>
     connectOrCreate?: QuizCreateOrConnectWithoutLessonInput
@@ -42815,12 +44146,22 @@ export namespace Prisma {
     connect?: LessonMaterialWhereUniqueInput | LessonMaterialWhereUniqueInput[]
   }
 
-  export type SubjectUpdateOneRequiredWithoutLessonsNestedInput = {
-    create?: XOR<SubjectCreateWithoutLessonsInput, SubjectUncheckedCreateWithoutLessonsInput>
-    connectOrCreate?: SubjectCreateOrConnectWithoutLessonsInput
-    upsert?: SubjectUpsertWithoutLessonsInput
-    connect?: SubjectWhereUniqueInput
-    update?: XOR<XOR<SubjectUpdateToOneWithWhereWithoutLessonsInput, SubjectUpdateWithoutLessonsInput>, SubjectUncheckedUpdateWithoutLessonsInput>
+  export type LessonUpdatestreamsInput = {
+    set?: $Enums.Stream[]
+    push?: $Enums.Stream | $Enums.Stream[]
+  }
+
+  export type SubjectUpdateManyWithoutLessonsNestedInput = {
+    create?: XOR<SubjectCreateWithoutLessonsInput, SubjectUncheckedCreateWithoutLessonsInput> | SubjectCreateWithoutLessonsInput[] | SubjectUncheckedCreateWithoutLessonsInput[]
+    connectOrCreate?: SubjectCreateOrConnectWithoutLessonsInput | SubjectCreateOrConnectWithoutLessonsInput[]
+    upsert?: SubjectUpsertWithWhereUniqueWithoutLessonsInput | SubjectUpsertWithWhereUniqueWithoutLessonsInput[]
+    set?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
+    disconnect?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
+    delete?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
+    connect?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
+    update?: SubjectUpdateWithWhereUniqueWithoutLessonsInput | SubjectUpdateWithWhereUniqueWithoutLessonsInput[]
+    updateMany?: SubjectUpdateManyWithWhereWithoutLessonsInput | SubjectUpdateManyWithWhereWithoutLessonsInput[]
+    deleteMany?: SubjectScalarWhereInput | SubjectScalarWhereInput[]
   }
 
   export type QuizUpdateOneWithoutLessonNestedInput = {
@@ -42859,6 +44200,19 @@ export namespace Prisma {
     update?: LessonMaterialUpdateWithWhereUniqueWithoutLessonInput | LessonMaterialUpdateWithWhereUniqueWithoutLessonInput[]
     updateMany?: LessonMaterialUpdateManyWithWhereWithoutLessonInput | LessonMaterialUpdateManyWithWhereWithoutLessonInput[]
     deleteMany?: LessonMaterialScalarWhereInput | LessonMaterialScalarWhereInput[]
+  }
+
+  export type SubjectUncheckedUpdateManyWithoutLessonsNestedInput = {
+    create?: XOR<SubjectCreateWithoutLessonsInput, SubjectUncheckedCreateWithoutLessonsInput> | SubjectCreateWithoutLessonsInput[] | SubjectUncheckedCreateWithoutLessonsInput[]
+    connectOrCreate?: SubjectCreateOrConnectWithoutLessonsInput | SubjectCreateOrConnectWithoutLessonsInput[]
+    upsert?: SubjectUpsertWithWhereUniqueWithoutLessonsInput | SubjectUpsertWithWhereUniqueWithoutLessonsInput[]
+    set?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
+    disconnect?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
+    delete?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
+    connect?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
+    update?: SubjectUpdateWithWhereUniqueWithoutLessonsInput | SubjectUpdateWithWhereUniqueWithoutLessonsInput[]
+    updateMany?: SubjectUpdateManyWithWhereWithoutLessonsInput | SubjectUpdateManyWithWhereWithoutLessonsInput[]
+    deleteMany?: SubjectScalarWhereInput | SubjectScalarWhereInput[]
   }
 
   export type QuizUncheckedUpdateOneWithoutLessonNestedInput = {
@@ -45191,7 +46545,6 @@ export namespace Prisma {
     accessType: string
     isPublished?: boolean
     createdAt?: Date | string
-    lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
     notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
@@ -45202,6 +46555,7 @@ export namespace Prisma {
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectUncheckedCreateWithoutTeacherInput = {
@@ -45217,7 +46571,6 @@ export namespace Prisma {
     accessType: string
     isPublished?: boolean
     createdAt?: Date | string
-    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
@@ -45228,6 +46581,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectCreateOrConnectWithoutTeacherInput = {
@@ -45365,40 +46719,6 @@ export namespace Prisma {
   export type TeacherCreateOrConnectWithoutSubjectsInput = {
     where: TeacherWhereUniqueInput
     create: XOR<TeacherCreateWithoutSubjectsInput, TeacherUncheckedCreateWithoutSubjectsInput>
-  }
-
-  export type LessonCreateWithoutSubjectInput = {
-    id?: string
-    title: string
-    month: number
-    vimeoVideoId: string
-    image?: string | null
-    createdAt?: Date | string
-    quiz?: QuizCreateNestedOneWithoutLessonInput
-    mistakes?: StudentMistakeCreateNestedManyWithoutLessonInput
-    materials?: LessonMaterialCreateNestedManyWithoutLessonInput
-  }
-
-  export type LessonUncheckedCreateWithoutSubjectInput = {
-    id?: string
-    title: string
-    month: number
-    vimeoVideoId: string
-    image?: string | null
-    createdAt?: Date | string
-    quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
-    mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
-    materials?: LessonMaterialUncheckedCreateNestedManyWithoutLessonInput
-  }
-
-  export type LessonCreateOrConnectWithoutSubjectInput = {
-    where: LessonWhereUniqueInput
-    create: XOR<LessonCreateWithoutSubjectInput, LessonUncheckedCreateWithoutSubjectInput>
-  }
-
-  export type LessonCreateManySubjectInputEnvelope = {
-    data: LessonCreateManySubjectInput | LessonCreateManySubjectInput[]
-    skipDuplicates?: boolean
   }
 
   export type LiveClassCreateWithoutSubjectInput = {
@@ -45755,6 +47075,37 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LessonCreateWithoutSubjectsInput = {
+    id?: string
+    title: string
+    month: number
+    vimeoVideoId: string
+    image?: string | null
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    createdAt?: Date | string
+    quiz?: QuizCreateNestedOneWithoutLessonInput
+    mistakes?: StudentMistakeCreateNestedManyWithoutLessonInput
+    materials?: LessonMaterialCreateNestedManyWithoutLessonInput
+  }
+
+  export type LessonUncheckedCreateWithoutSubjectsInput = {
+    id?: string
+    title: string
+    month: number
+    vimeoVideoId: string
+    image?: string | null
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    createdAt?: Date | string
+    quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
+    mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
+    materials?: LessonMaterialUncheckedCreateNestedManyWithoutLessonInput
+  }
+
+  export type LessonCreateOrConnectWithoutSubjectsInput = {
+    where: LessonWhereUniqueInput
+    create: XOR<LessonCreateWithoutSubjectsInput, LessonUncheckedCreateWithoutSubjectsInput>
+  }
+
   export type TeacherUpsertWithoutSubjectsInput = {
     update: XOR<TeacherUpdateWithoutSubjectsInput, TeacherUncheckedUpdateWithoutSubjectsInput>
     create: XOR<TeacherCreateWithoutSubjectsInput, TeacherUncheckedCreateWithoutSubjectsInput>
@@ -45786,35 +47137,6 @@ export namespace Prisma {
     levels?: TeacherUpdatelevelsInput | $Enums.Level[]
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LessonUpsertWithWhereUniqueWithoutSubjectInput = {
-    where: LessonWhereUniqueInput
-    update: XOR<LessonUpdateWithoutSubjectInput, LessonUncheckedUpdateWithoutSubjectInput>
-    create: XOR<LessonCreateWithoutSubjectInput, LessonUncheckedCreateWithoutSubjectInput>
-  }
-
-  export type LessonUpdateWithWhereUniqueWithoutSubjectInput = {
-    where: LessonWhereUniqueInput
-    data: XOR<LessonUpdateWithoutSubjectInput, LessonUncheckedUpdateWithoutSubjectInput>
-  }
-
-  export type LessonUpdateManyWithWhereWithoutSubjectInput = {
-    where: LessonScalarWhereInput
-    data: XOR<LessonUpdateManyMutationInput, LessonUncheckedUpdateManyWithoutSubjectInput>
-  }
-
-  export type LessonScalarWhereInput = {
-    AND?: LessonScalarWhereInput | LessonScalarWhereInput[]
-    OR?: LessonScalarWhereInput[]
-    NOT?: LessonScalarWhereInput | LessonScalarWhereInput[]
-    id?: StringFilter<"Lesson"> | string
-    title?: StringFilter<"Lesson"> | string
-    month?: IntFilter<"Lesson"> | number
-    vimeoVideoId?: StringFilter<"Lesson"> | string
-    image?: StringNullableFilter<"Lesson"> | string | null
-    subjectId?: StringFilter<"Lesson"> | string
-    createdAt?: DateTimeFilter<"Lesson"> | Date | string
   }
 
   export type LiveClassUpsertWithWhereUniqueWithoutSubjectInput = {
@@ -46058,6 +47380,35 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ClassForum"> | Date | string
   }
 
+  export type LessonUpsertWithWhereUniqueWithoutSubjectsInput = {
+    where: LessonWhereUniqueInput
+    update: XOR<LessonUpdateWithoutSubjectsInput, LessonUncheckedUpdateWithoutSubjectsInput>
+    create: XOR<LessonCreateWithoutSubjectsInput, LessonUncheckedCreateWithoutSubjectsInput>
+  }
+
+  export type LessonUpdateWithWhereUniqueWithoutSubjectsInput = {
+    where: LessonWhereUniqueInput
+    data: XOR<LessonUpdateWithoutSubjectsInput, LessonUncheckedUpdateWithoutSubjectsInput>
+  }
+
+  export type LessonUpdateManyWithWhereWithoutSubjectsInput = {
+    where: LessonScalarWhereInput
+    data: XOR<LessonUpdateManyMutationInput, LessonUncheckedUpdateManyWithoutSubjectsInput>
+  }
+
+  export type LessonScalarWhereInput = {
+    AND?: LessonScalarWhereInput | LessonScalarWhereInput[]
+    OR?: LessonScalarWhereInput[]
+    NOT?: LessonScalarWhereInput | LessonScalarWhereInput[]
+    id?: StringFilter<"Lesson"> | string
+    title?: StringFilter<"Lesson"> | string
+    month?: IntFilter<"Lesson"> | number
+    vimeoVideoId?: StringFilter<"Lesson"> | string
+    image?: StringNullableFilter<"Lesson"> | string | null
+    streams?: EnumStreamNullableListFilter<"Lesson">
+    createdAt?: DateTimeFilter<"Lesson"> | Date | string
+  }
+
   export type SubjectCreateWithoutLessonsInput = {
     id?: string
     title: string
@@ -46194,67 +47545,20 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type SubjectUpsertWithoutLessonsInput = {
+  export type SubjectUpsertWithWhereUniqueWithoutLessonsInput = {
+    where: SubjectWhereUniqueInput
     update: XOR<SubjectUpdateWithoutLessonsInput, SubjectUncheckedUpdateWithoutLessonsInput>
     create: XOR<SubjectCreateWithoutLessonsInput, SubjectUncheckedCreateWithoutLessonsInput>
-    where?: SubjectWhereInput
   }
 
-  export type SubjectUpdateToOneWithWhereWithoutLessonsInput = {
-    where?: SubjectWhereInput
+  export type SubjectUpdateWithWhereUniqueWithoutLessonsInput = {
+    where: SubjectWhereUniqueInput
     data: XOR<SubjectUpdateWithoutLessonsInput, SubjectUncheckedUpdateWithoutLessonsInput>
   }
 
-  export type SubjectUpdateWithoutLessonsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    teacherName?: StringFieldUpdateOperationsInput | string
-    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
-    image?: StringFieldUpdateOperationsInput | string
-    price?: FloatFieldUpdateOperationsInput | number
-    accessType?: StringFieldUpdateOperationsInput | string
-    isPublished?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
-    liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
-    codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
-    enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
-    dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
-    secondaryDailyExercises?: DailyExerciseUpdateManyWithoutSecondarySubjectNestedInput
-    exams?: ExamUpdateManyWithoutSubjectNestedInput
-    secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
-    reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
-    classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
-  }
-
-  export type SubjectUncheckedUpdateWithoutLessonsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    teacherName?: StringFieldUpdateOperationsInput | string
-    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
-    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
-    image?: StringFieldUpdateOperationsInput | string
-    price?: FloatFieldUpdateOperationsInput | number
-    accessType?: StringFieldUpdateOperationsInput | string
-    isPublished?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
-    codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
-    enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
-    dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
-    secondaryDailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSecondarySubjectNestedInput
-    exams?: ExamUncheckedUpdateManyWithoutSubjectNestedInput
-    secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
-    reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
-    classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+  export type SubjectUpdateManyWithWhereWithoutLessonsInput = {
+    where: SubjectScalarWhereInput
+    data: XOR<SubjectUpdateManyMutationInput, SubjectUncheckedUpdateManyWithoutLessonsInput>
   }
 
   export type QuizUpsertWithoutLessonInput = {
@@ -46339,8 +47643,9 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
-    subject: SubjectCreateNestedOneWithoutLessonsInput
+    subjects?: SubjectCreateNestedManyWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeCreateNestedManyWithoutLessonInput
   }
@@ -46351,8 +47656,9 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
-    subjectId: string
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
+    subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
   }
@@ -46379,8 +47685,9 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
+    subjects?: SubjectUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUpdateManyWithoutLessonNestedInput
   }
@@ -46391,8 +47698,9 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    subjectId?: StringFieldUpdateOperationsInput | string
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
   }
@@ -46403,8 +47711,9 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
-    subject: SubjectCreateNestedOneWithoutLessonsInput
+    subjects?: SubjectCreateNestedManyWithoutLessonsInput
     mistakes?: StudentMistakeCreateNestedManyWithoutLessonInput
     materials?: LessonMaterialCreateNestedManyWithoutLessonInput
   }
@@ -46415,8 +47724,9 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
-    subjectId: string
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
+    subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
     materials?: LessonMaterialUncheckedCreateNestedManyWithoutLessonInput
   }
@@ -46543,8 +47853,9 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
+    subjects?: SubjectUpdateManyWithoutLessonsNestedInput
     mistakes?: StudentMistakeUpdateManyWithoutLessonNestedInput
     materials?: LessonMaterialUpdateManyWithoutLessonNestedInput
   }
@@ -46555,8 +47866,9 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    subjectId?: StringFieldUpdateOperationsInput | string
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
     materials?: LessonMaterialUncheckedUpdateManyWithoutLessonNestedInput
   }
@@ -46734,7 +48046,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
-    lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
     notifications?: NotificationCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
@@ -46744,6 +48055,7 @@ export namespace Prisma {
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectUncheckedCreateWithoutCodesInput = {
@@ -46760,7 +48072,6 @@ export namespace Prisma {
     accessType: string
     isPublished?: boolean
     createdAt?: Date | string
-    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
@@ -46770,6 +48081,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectCreateOrConnectWithoutCodesInput = {
@@ -46867,7 +48179,6 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
-    lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
@@ -46877,6 +48188,7 @@ export namespace Prisma {
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutCodesInput = {
@@ -46893,7 +48205,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
@@ -46903,6 +48214,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
   }
 
   export type UserCreateWithoutParentLinksInput = {
@@ -47466,8 +48778,9 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
-    subject: SubjectCreateNestedOneWithoutLessonsInput
+    subjects?: SubjectCreateNestedManyWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
     materials?: LessonMaterialCreateNestedManyWithoutLessonInput
   }
@@ -47478,8 +48791,9 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
-    subjectId: string
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
+    subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
     materials?: LessonMaterialUncheckedCreateNestedManyWithoutLessonInput
   }
@@ -47598,8 +48912,9 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
+    subjects?: SubjectUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
     materials?: LessonMaterialUpdateManyWithoutLessonNestedInput
   }
@@ -47610,8 +48925,9 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    subjectId?: StringFieldUpdateOperationsInput | string
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     materials?: LessonMaterialUncheckedUpdateManyWithoutLessonNestedInput
   }
@@ -47722,7 +49038,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
-    lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
     notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
@@ -47732,6 +49047,7 @@ export namespace Prisma {
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectUncheckedCreateWithoutEnrollmentsInput = {
@@ -47748,7 +49064,6 @@ export namespace Prisma {
     accessType: string
     isPublished?: boolean
     createdAt?: Date | string
-    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
@@ -47758,6 +49073,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectCreateOrConnectWithoutEnrollmentsInput = {
@@ -47855,7 +49171,6 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
-    lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
@@ -47865,6 +49180,7 @@ export namespace Prisma {
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutEnrollmentsInput = {
@@ -47881,7 +49197,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
@@ -47891,6 +49206,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectCreateWithoutLiveClassesInput = {
@@ -47907,7 +49223,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
-    lessons?: LessonCreateNestedManyWithoutSubjectInput
     notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
@@ -47917,6 +49232,7 @@ export namespace Prisma {
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectUncheckedCreateWithoutLiveClassesInput = {
@@ -47933,7 +49249,6 @@ export namespace Prisma {
     accessType: string
     isPublished?: boolean
     createdAt?: Date | string
-    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
@@ -47943,6 +49258,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectCreateOrConnectWithoutLiveClassesInput = {
@@ -47975,7 +49291,6 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
-    lessons?: LessonUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
@@ -47985,6 +49300,7 @@ export namespace Prisma {
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutLiveClassesInput = {
@@ -48001,7 +49317,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
@@ -48011,6 +49326,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
   }
 
   export type UserCreateWithoutChatSessionsInput = {
@@ -48246,7 +49562,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
-    lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
     notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
@@ -48256,6 +49571,7 @@ export namespace Prisma {
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectUncheckedCreateWithoutDailyExercisesInput = {
@@ -48272,7 +49588,6 @@ export namespace Prisma {
     accessType: string
     isPublished?: boolean
     createdAt?: Date | string
-    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
@@ -48282,6 +49597,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectCreateOrConnectWithoutDailyExercisesInput = {
@@ -48303,7 +49619,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
-    lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
     notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
@@ -48313,6 +49628,7 @@ export namespace Prisma {
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectUncheckedCreateWithoutSecondaryDailyExercisesInput = {
@@ -48329,7 +49645,6 @@ export namespace Prisma {
     accessType: string
     isPublished?: boolean
     createdAt?: Date | string
-    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
@@ -48339,6 +49654,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectCreateOrConnectWithoutSecondaryDailyExercisesInput = {
@@ -48422,7 +49738,6 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
-    lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
@@ -48432,6 +49747,7 @@ export namespace Prisma {
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutDailyExercisesInput = {
@@ -48448,7 +49764,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
@@ -48458,6 +49773,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUpsertWithoutSecondaryDailyExercisesInput = {
@@ -48485,7 +49801,6 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
-    lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
@@ -48495,6 +49810,7 @@ export namespace Prisma {
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutSecondaryDailyExercisesInput = {
@@ -48511,7 +49827,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
@@ -48521,6 +49836,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
   }
 
   export type QuizUpsertWithoutDailyExerciseInput = {
@@ -48673,7 +49989,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
-    lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
     notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
@@ -48683,6 +49998,7 @@ export namespace Prisma {
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectUncheckedCreateWithoutExamsInput = {
@@ -48699,7 +50015,6 @@ export namespace Prisma {
     accessType: string
     isPublished?: boolean
     createdAt?: Date | string
-    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
@@ -48709,6 +50024,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectCreateOrConnectWithoutExamsInput = {
@@ -48730,7 +50046,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
-    lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
     notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
@@ -48740,6 +50055,7 @@ export namespace Prisma {
     exams?: ExamCreateNestedManyWithoutSubjectInput
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectUncheckedCreateWithoutSecondaryExamsInput = {
@@ -48756,7 +50072,6 @@ export namespace Prisma {
     accessType: string
     isPublished?: boolean
     createdAt?: Date | string
-    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
@@ -48766,6 +50081,7 @@ export namespace Prisma {
     exams?: ExamUncheckedCreateNestedManyWithoutSubjectInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectCreateOrConnectWithoutSecondaryExamsInput = {
@@ -48879,7 +50195,6 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
-    lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
@@ -48889,6 +50204,7 @@ export namespace Prisma {
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutExamsInput = {
@@ -48905,7 +50221,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
@@ -48915,6 +50230,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUpsertWithoutSecondaryExamsInput = {
@@ -48942,7 +50258,6 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
-    lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
@@ -48952,6 +50267,7 @@ export namespace Prisma {
     exams?: ExamUpdateManyWithoutSubjectNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutSecondaryExamsInput = {
@@ -48968,7 +50284,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
@@ -48978,6 +50293,7 @@ export namespace Prisma {
     exams?: ExamUncheckedUpdateManyWithoutSubjectNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
   }
 
   export type QuizUpsertWithoutExamInput = {
@@ -49354,7 +50670,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
-    lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
@@ -49364,6 +50679,7 @@ export namespace Prisma {
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectUncheckedCreateWithoutNotificationsInput = {
@@ -49380,7 +50696,6 @@ export namespace Prisma {
     accessType: string
     isPublished?: boolean
     createdAt?: Date | string
-    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
@@ -49390,6 +50705,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectCreateOrConnectWithoutNotificationsInput = {
@@ -49481,7 +50797,6 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
-    lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
@@ -49491,6 +50806,7 @@ export namespace Prisma {
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutNotificationsInput = {
@@ -49507,7 +50823,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
@@ -49517,6 +50832,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
   }
 
   export type UserUpsertWithoutNotificationsInput = {
@@ -49598,7 +50914,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
-    lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
     notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
@@ -49608,6 +50923,7 @@ export namespace Prisma {
     exams?: ExamCreateNestedManyWithoutSubjectInput
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectUncheckedCreateWithoutReviewCardsInput = {
@@ -49624,7 +50940,6 @@ export namespace Prisma {
     accessType: string
     isPublished?: boolean
     createdAt?: Date | string
-    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
@@ -49634,6 +50949,7 @@ export namespace Prisma {
     exams?: ExamUncheckedCreateNestedManyWithoutSubjectInput
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectCreateOrConnectWithoutReviewCardsInput = {
@@ -49666,7 +50982,6 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
-    lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
@@ -49676,6 +50991,7 @@ export namespace Prisma {
     exams?: ExamUpdateManyWithoutSubjectNestedInput
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutReviewCardsInput = {
@@ -49692,7 +51008,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
@@ -49702,6 +51017,7 @@ export namespace Prisma {
     exams?: ExamUncheckedUpdateManyWithoutSubjectNestedInput
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectCreateWithoutClassForumsInput = {
@@ -49718,7 +51034,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
-    lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
     notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
@@ -49728,6 +51043,7 @@ export namespace Prisma {
     exams?: ExamCreateNestedManyWithoutSubjectInput
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectUncheckedCreateWithoutClassForumsInput = {
@@ -49744,7 +51060,6 @@ export namespace Prisma {
     accessType: string
     isPublished?: boolean
     createdAt?: Date | string
-    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
@@ -49754,6 +51069,7 @@ export namespace Prisma {
     exams?: ExamUncheckedCreateNestedManyWithoutSubjectInput
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
   }
 
   export type SubjectCreateOrConnectWithoutClassForumsInput = {
@@ -49810,7 +51126,6 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
-    lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
@@ -49820,6 +51135,7 @@ export namespace Prisma {
     exams?: ExamUpdateManyWithoutSubjectNestedInput
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutClassForumsInput = {
@@ -49836,7 +51152,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
@@ -49846,6 +51161,7 @@ export namespace Prisma {
     exams?: ExamUncheckedUpdateManyWithoutSubjectNestedInput
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
   }
 
   export type ForumMessageUpsertWithWhereUniqueWithoutForumInput = {
@@ -50582,7 +51898,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
@@ -50593,6 +51908,7 @@ export namespace Prisma {
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutTeacherInput = {
@@ -50608,7 +51924,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
@@ -50619,6 +51934,7 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
   }
 
   export type SubjectUncheckedUpdateManyWithoutTeacherInput = {
@@ -50634,15 +51950,6 @@ export namespace Prisma {
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LessonCreateManySubjectInput = {
-    id?: string
-    title: string
-    month: number
-    vimeoVideoId: string
-    image?: string | null
-    createdAt?: Date | string
   }
 
   export type LiveClassCreateManySubjectInput = {
@@ -50759,39 +52066,6 @@ export namespace Prisma {
     isOpen?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-  }
-
-  export type LessonUpdateWithoutSubjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    month?: IntFieldUpdateOperationsInput | number
-    vimeoVideoId?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    quiz?: QuizUpdateOneWithoutLessonNestedInput
-    mistakes?: StudentMistakeUpdateManyWithoutLessonNestedInput
-    materials?: LessonMaterialUpdateManyWithoutLessonNestedInput
-  }
-
-  export type LessonUncheckedUpdateWithoutSubjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    month?: IntFieldUpdateOperationsInput | number
-    vimeoVideoId?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
-    mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
-    materials?: LessonMaterialUncheckedUpdateManyWithoutLessonNestedInput
-  }
-
-  export type LessonUncheckedUpdateManyWithoutSubjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    month?: IntFieldUpdateOperationsInput | number
-    vimeoVideoId?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LiveClassUpdateWithoutSubjectInput = {
@@ -51164,6 +52438,42 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LessonUpdateWithoutSubjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quiz?: QuizUpdateOneWithoutLessonNestedInput
+    mistakes?: StudentMistakeUpdateManyWithoutLessonNestedInput
+    materials?: LessonMaterialUpdateManyWithoutLessonNestedInput
+  }
+
+  export type LessonUncheckedUpdateWithoutSubjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
+    mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
+    materials?: LessonMaterialUncheckedUpdateManyWithoutLessonNestedInput
+  }
+
+  export type LessonUncheckedUpdateManyWithoutSubjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StudentMistakeCreateManyLessonInput = {
     id?: string
     studentId: string
@@ -51178,6 +52488,74 @@ export namespace Prisma {
     title: string
     fileUrl: string
     createdAt?: Date | string
+  }
+
+  export type SubjectUpdateWithoutLessonsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    image?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    accessType?: StringFieldUpdateOperationsInput | string
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
+    liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
+    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
+    codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
+    dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
+    secondaryDailyExercises?: DailyExerciseUpdateManyWithoutSecondarySubjectNestedInput
+    exams?: ExamUpdateManyWithoutSubjectNestedInput
+    secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
+    reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
+    classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectUncheckedUpdateWithoutLessonsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    teacherName?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    image?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    accessType?: StringFieldUpdateOperationsInput | string
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
+    codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
+    dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
+    secondaryDailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSecondarySubjectNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutSubjectNestedInput
+    secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
+    reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
+    classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectUncheckedUpdateManyWithoutLessonsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    teacherName?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    image?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    accessType?: StringFieldUpdateOperationsInput | string
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StudentMistakeUpdateWithoutLessonInput = {

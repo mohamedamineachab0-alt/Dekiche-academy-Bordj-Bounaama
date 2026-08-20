@@ -84,7 +84,7 @@ export default async function SubjectDetailsPage({
     prisma.studentMistake.findMany({ 
       where: { 
         studentId: sessionId, 
-        lesson: { subjectId: id, month: { in: enrolledMonths } } 
+        lesson: { subjects: { some: { id } }, month: { in: enrolledMonths } } 
       } 
     }),
   ]);

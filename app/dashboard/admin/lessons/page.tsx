@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Plus, Video, FileText, Download } from "lucide-react";
+import { Plus, Video, FileText, Download, PlayCircle } from "lucide-react";
 import { createLesson, addLessonMaterial } from "@/actions/lessons";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import Link from "next/link";
@@ -9,13 +9,14 @@ import { SubjectFilterForm } from "@/components/admin/SubjectFilterForm";
 export default async function AdminLessonsPage({
   searchParams,
 }: {
-  searchParams: { subjectId?: string };
+  searchParams: Promise<{ subjectId?: string }>;
 }) {
+  const params = await searchParams;
   const subjects = await prisma.subject.findMany({
     orderBy: { title: "asc" },
   });
 
-  const selectedSubjectId = searchParams.subjectId || (subjects.length > 0 ? subjects[0].id : null);
+  const selectedSubjectId = params.subjectId || (subjects.length > 0 ? subjects[0].id : null);
 
   const selectedSubject = selectedSubjectId ? await prisma.subject.findUnique({
     where: { id: selectedSubjectId },
@@ -93,11 +94,15 @@ export default async function AdminLessonsPage({
                   <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {monthLessons.map(lesson => (
                       <div key={lesson.id} className="border border-slate-100 rounded-2xl p-4 flex flex-col">
-                        <div className="aspect-video bg-slate-100 rounded-xl overflow-hidden mb-3">
-                          <img src={lesson.image || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=400&auto=format&fit=crop"} alt={lesson.title} className="w-full h-full object-cover" />
+                        <div className="flex items-center gap-4 mb-4">
+                          <div className="w-12 h-12 rounded-xl bg-purple-100 overflow-hidden shrink-0 border border-purple-200 flex items-center justify-center">
+                            <PlayCircle className="w-6 h-6 text-purple-600" />
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-purple-950">{lesson.title}</h4>
+                            <p className="text-xs text-slate-500 font-mono">Vimeo: {lesson.vimeoVideoId}</p>
+                          </div>
                         </div>
-                        <h4 className="font-bold text-purple-950 mb-1">{lesson.title}</h4>
-                        <p className="text-xs text-slate-500 font-mono mb-3">Vimeo: {lesson.vimeoVideoId}</p>
                         
                         {lesson.materials.length > 0 ? (
                           <div className="mt-auto space-y-1.5 pt-3 border-t border-slate-100">

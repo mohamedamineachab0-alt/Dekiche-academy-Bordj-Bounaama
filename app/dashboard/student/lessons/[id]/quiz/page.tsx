@@ -19,7 +19,7 @@ export default async function LessonQuizPage({
     where: { id },
     include: {
       quiz: true,
-      subject: true
+      subjects: true
     }
   });
 

@@ -144,7 +144,33 @@ export async function redeemAccessCode(
     if (!code) return { error: "كود الاشتراك غير صحيح" };
     
     // 2. Subject Match Check
-    if (targetSubjectId && code.subjectId !== targetSubjectId) {
+    let isValidSubject = false;
+    let subjectIdToEnroll = code.subjectId;
+
+    if (targetSubjectId) {
+      if (code.subjectId === targetSubjectId) {
+        isValidSubject = true;
+      } else {
+        // Check if targetSubjectId shares any lessons with code.subjectId via the new Many-to-Many relation
+        const sharedLessonsCount = await prisma.lesson.count({
+          where: {
+            AND: [
+              { subjects: { some: { id: code.subjectId } } },
+              { subjects: { some: { id: targetSubjectId } } }
+            ]
+          }
+        });
+
+        if (sharedLessonsCount > 0) {
+          isValidSubject = true;
+          subjectIdToEnroll = targetSubjectId; // Enroll them in the subject they actually requested
+        }
+      }
+    } else {
+      isValidSubject = true;
+    }
+
+    if (!isValidSubject) {
       return { error: "هذا الرمز لا يخص هذه المادة" };
     }
 
@@ -176,7 +202,7 @@ export async function redeemAccessCode(
         where: {
           studentId_subjectId: {
             studentId: sessionId,
-            subjectId: code.subjectId,
+            subjectId: subjectIdToEnroll,
           }
         }
       });
@@ -197,7 +223,7 @@ export async function redeemAccessCode(
         await tx.enrollment.create({
           data: {
             studentId: sessionId,
-            subjectId: code.subjectId,
+            subjectId: subjectIdToEnroll,
             enrolledMonths: initialMonths,
           }
         });
@@ -209,13 +235,13 @@ export async function redeemAccessCode(
     if (result.error) return result;
 
     revalidatePath("/dashboard/student/subjects");
-    redirectUrl = `/dashboard/student/subjects/${code.subjectId}`;
+    redirectUrl = `/dashboard/student/subjects/${subjectIdToEnroll}`;
   } catch (err: any) {
     return { error: "حدث خطأ أثناء تفعيل الرمز" };
   }
 
   if (redirectUrl) {
-    redirect(redirectUrl);
+    return { success: true, redirectUrl };
   }
 
   return { success: true };

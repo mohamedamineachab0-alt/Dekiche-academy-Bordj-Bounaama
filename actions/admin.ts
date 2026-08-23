@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { Level, Stream, Phase } from "@/generated/prisma";
+import { requireUser } from "@/lib/authz";
 
 // ─── TEACHER MANAGEMENT ──────────────────────────────────────────────────
 
@@ -15,6 +16,7 @@ export type ActionState = {
 export async function createTeacher(
   formData: FormData
 ): Promise<ActionState> {
+  await requireUser(["ADMIN"]);
   try {
     const fullName = (formData.get("fullName") as string)?.trim();
     const phoneNumber = (formData.get("phoneNumber") as string)?.trim();

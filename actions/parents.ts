@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
+import { requireUser } from "@/lib/authz";
 
 export async function linkStudentToParent(formData: FormData) {
   try {
@@ -12,12 +12,7 @@ export async function linkStudentToParent(formData: FormData) {
       return { error: "يرجى إدخال الرمز السري" };
     }
 
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
-
-    if (!sessionId) {
-      return { error: "غير مصرح لك" };
-    }
+    const sessionId = (await requireUser(["PARENT"])).id
 
     const studentProfile = await prisma.studentProfile.findUnique({
       where: { parentCode }
@@ -57,7 +52,8 @@ export async function linkStudentToParent(formData: FormData) {
   }
 }
 
-export async function getLinkedChildren(parentId: string) {
+export async function getLinkedChildren(_parentId: string) {
+  const parentId = (await requireUser(["PARENT"])).id;
   try {
     const parentLinks = await prisma.parentStudentLink.findMany({
       where: { parentId },
@@ -85,7 +81,8 @@ export async function getLinkedChildren(parentId: string) {
   }
 }
 
-export async function submitParentTicket(parentId: string, subject: string, message: string) {
+export async function submitParentTicket(_parentId: string, subject: string, message: string) {
+  const parentId = (await requireUser(["PARENT"])).id;
   try {
     if (!subject.trim() || !message.trim()) {
       return { error: "يرجى ملء جميع الحقول" };

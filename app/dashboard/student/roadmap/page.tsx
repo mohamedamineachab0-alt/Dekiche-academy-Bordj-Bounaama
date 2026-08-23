@@ -4,6 +4,7 @@ import { Map, CheckCircle2, Circle, AlertTriangle, BookOpen, FileText, CheckCirc
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { getStudentRoadmap, SubjectRoadmap, RoadmapNode } from "@/actions/roadmap";
 import Link from "next/link";
+import { requireUser } from "@/lib/authz";
 
 function getNodeIcon(type: RoadmapNode["type"]) {
   switch (type) {
@@ -31,8 +32,7 @@ function getNodeStatusIcon(status: RoadmapNode["status"]) {
 }
 
 export default async function StudentRoadmapPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) redirect("/login");
 

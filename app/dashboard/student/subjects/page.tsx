@@ -6,10 +6,10 @@ import { HeroBanner } from "@/components/shared/HeroBanner";
 import Link from "next/link";
 import { SubjectActivationForm } from "@/components/student/SubjectActivationForm";
 import { translateLevel, translateStream } from "@/lib/utils/translations";
+import { requireUser } from "@/lib/authz";
 
 export default async function StudentSubjectsPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) return null;
 

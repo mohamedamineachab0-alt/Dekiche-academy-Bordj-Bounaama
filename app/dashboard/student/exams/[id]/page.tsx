@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { ChevronLeft, Lock, FileText, Download, BrainCircuit } from "lucide-react";
 import Link from "next/link";
 import { ExamSubmissionForm } from "@/components/student/ExamSubmissionForm";
+import { requireUser } from "@/lib/authz";
 
 export default async function ExamDetailsPage({
   params,
@@ -11,9 +12,7 @@ export default async function ExamDetailsPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) redirect("/login");
 

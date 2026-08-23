@@ -88,29 +88,14 @@ export default function LoginPage() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="login-fullname" className="block text-sm font-bold text-[#000000]">
-                  الاسم الكامل <span className="text-[#7E22CE]">*</span>
-                </label>
-                <div className="relative">
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#000000]">
-                    <User className="w-5 h-5" />
-                  </span>
-                  <input
-                    id="login-fullname"
-                    name="fullName"
-                    type="text"
-                    dir="rtl"
-                    placeholder="أدخل اسمك الكامل"
-                    required
-                    className="w-full pr-12 pl-4 py-3.5 rounded-xl border-[3px] border-[#000000] bg-white text-[#000000] font-bold text-base placeholder:text-gray-400 focus:outline-none focus:ring-4 focus:ring-[#7E22CE]/20 transition-all shadow-sm"
-                  />
-                </div>
+                <label htmlFor="login-password" className="block text-sm font-bold text-[#000000]">كلمة المرور <span className="text-[#7E22CE]">*</span></label>
+                <input id="login-password" name="password" type="password" autoComplete="current-password" required className="w-full px-4 py-3.5 rounded-xl border-[3px] border-[#000000] bg-white text-[#000000] font-bold" />
               </div>
             </div>
 
             <div className="flex items-center justify-between mt-2">
               <label className="flex items-center gap-2 cursor-pointer group">
-                <input type="checkbox" className="w-5 h-5 rounded-md border-[2px] border-[#000000] text-[#7E22CE] focus:ring-[#7E22CE] cursor-pointer" />
+                <input name="rememberMe" type="checkbox" className="w-5 h-5 rounded-md border-[2px] border-[#000000] text-[#7E22CE] focus:ring-[#7E22CE] cursor-pointer" />
                 <span className="text-sm font-bold text-[#000000] group-hover:text-[#7E22CE] transition-colors">تذكرني</span>
               </label>
             </div>

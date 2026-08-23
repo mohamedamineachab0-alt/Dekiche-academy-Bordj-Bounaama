@@ -2,14 +2,14 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { DashboardLayoutWrapper } from "@/components/shared/DashboardLayoutWrapper";
+import { requireUser } from "@/lib/authz";
 
 export default async function ParentLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser(["PARENT"])).id;
 
   if (!sessionId) {
     redirect("/login");

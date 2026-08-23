@@ -5,10 +5,10 @@ import { HeroBanner } from "@/components/shared/HeroBanner";
 import { AiChatClient } from "@/components/student/AiChatClient";
 import { prisma } from "@/lib/prisma";
 import { EDUCATION_LEVELS, getStreamsForLevel } from "@/lib/constants/education";
+import { requireUser } from "@/lib/authz";
 
 export default async function AiAssistantPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) {
     redirect("/login");

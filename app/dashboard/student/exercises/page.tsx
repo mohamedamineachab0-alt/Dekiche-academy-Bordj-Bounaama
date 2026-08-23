@@ -4,10 +4,10 @@ import { prisma } from "@/lib/prisma";
 import { CheckCircle, Eye, UploadCloud, BrainCircuit } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import Link from "next/link";
+import { requireUser } from "@/lib/authz";
 
 export default async function StudentExercisesPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) {
     redirect("/login");

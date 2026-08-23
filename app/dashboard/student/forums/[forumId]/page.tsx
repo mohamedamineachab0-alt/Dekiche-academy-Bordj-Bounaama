@@ -5,11 +5,11 @@ import { prisma } from "@/lib/prisma";
 import { ForumChatClient } from "@/components/student/ForumChatClient";
 import { Lock, Unlock, Key } from "lucide-react";
 import Link from "next/link";
+import { requireUser } from "@/lib/authz";
 
 export default async function StudentChatRoomPage(props: { params: Promise<{ forumId: string }> }) {
   const params = await props.params;
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) redirect("/login");
 

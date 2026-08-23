@@ -5,10 +5,10 @@ import { STREAMS, LEVELS } from "@/lib/constants";
 import { Video, Calendar, Plus, Link as LinkIcon, Trash2 } from "lucide-react";
 import { createLiveClass, deleteLiveClass } from "@/actions/live";
 import { HeroBanner } from "@/components/shared/HeroBanner";
+import { requireUser } from "@/lib/authz";
 
 export default async function TeacherLiveClassesPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) redirect("/login");
 

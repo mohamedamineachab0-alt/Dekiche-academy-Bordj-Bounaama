@@ -2,8 +2,10 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { requireUser } from "@/lib/authz";
 
 export async function createLiveClass(formData: FormData) {
+  await requireUser(["ADMIN"]);
   try {
     const title = formData.get("title") as string;
     const zoomLink = formData.get("zoomLink") as string;
@@ -38,6 +40,7 @@ export async function createLiveClass(formData: FormData) {
 }
 
 export async function deleteLiveClass(id: string) {
+  await requireUser(["ADMIN"]);
   try {
     await prisma.liveClass.delete({
       where: { id }

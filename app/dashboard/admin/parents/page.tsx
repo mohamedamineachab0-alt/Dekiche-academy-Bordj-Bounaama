@@ -5,10 +5,10 @@ import { Users } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { ParentsTableClient } from "@/components/admin/ParentsTableClient";
 import { getStudentsWithParents } from "@/actions/admin-parents";
+import { requireUser } from "@/lib/authz";
 
 export default async function AdminParentsPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) {
     redirect("/login");

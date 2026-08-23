@@ -5,10 +5,10 @@ import { HeroBanner } from "@/components/shared/HeroBanner";
 import { GraduationCap, ExternalLink, BrainCircuit } from "lucide-react";
 import Link from "next/link";
 import { ExamSubmissionForm } from "@/components/student/ExamSubmissionForm";
+import { requireUser } from "@/lib/authz";
 
 export default async function StudentExamsPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) {
     redirect("/login");

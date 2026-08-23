@@ -1,16 +1,11 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { requireUser } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 
 export async function getUserSessionProfile() {
   try {
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
-
-    if (!sessionId) {
-      return null;
-    }
+    const sessionId = (await requireUser()).id;
 
     const user = await prisma.user.findUnique({
       where: { id: sessionId },
@@ -34,12 +29,7 @@ export async function getUserSessionProfile() {
 
 export async function updateUserAvatar(avatarUrl: string) {
   try {
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
-
-    if (!sessionId) {
-      return { error: "غير مصرح" };
-    }
+    const sessionId = (await requireUser()).id;
 
     await prisma.user.update({
       where: { id: sessionId },

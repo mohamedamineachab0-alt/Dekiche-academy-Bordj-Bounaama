@@ -135,11 +135,26 @@ model User {
   submissions        StudentSubmission[] @relation("StudentSubmissions")
   enrollments        Enrollment[]        @relation("StudentEnrollments")
   chatSessions       ChatSession[]
+  sessions           Session[]
+  files              File[]
+  failedLoginCount   Int                 @default(0)
+  lockedUntil        DateTime?
   notifications      Notification[]      @relation("UserNotifications")
   parentTickets      ParentTicket[]
   forumMessages      ForumMessage[]
   friendLinksSource  StudentFriendLink[] @relation("StudentLinkSource")
   friendLinksTarget  StudentFriendLink[] @relation("StudentLinkTarget")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 model StudentProfile {
@@ -486,7 +501,10 @@ model File {
   mimeType     String
   size         Int
   storagePath  String
+  ownerId      String?
+  owner        User?    @relation(fields: [ownerId], references: [id], onDelete: SetNull)
   createdAt    DateTime @default(now())
 
   @@index([createdAt(sort: Desc)])
+  @@index([ownerId])
 }

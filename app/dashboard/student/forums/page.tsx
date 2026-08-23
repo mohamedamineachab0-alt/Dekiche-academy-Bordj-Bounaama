@@ -5,10 +5,10 @@ import { HeroBanner } from "@/components/shared/HeroBanner";
 import { getStudentForums } from "@/actions/forums";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { requireUser } from "@/lib/authz";
 
 export default async function StudentForumsPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) redirect("/login");
 

@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { supabase } from "@/lib/supabase";
+import { requireUser } from "@/lib/authz";
 
 async function uploadToSupabase(file: File, bucketName: string, pathPrefix: string): Promise<string> {
   const ext = file.name.split('.').pop() || "pdf";
@@ -25,6 +26,7 @@ async function uploadToSupabase(file: File, bucketName: string, pathPrefix: stri
 }
 
 export async function createDailyExercise(formData: FormData): Promise<void> {
+  await requireUser(["ADMIN"]);
   const title = formData.get("title") as string;
   const a4ImageUrl = formData.get("a4ImageUrl") as string;
   const maxScore = parseInt(formData.get("maxScore") as string) || 20;

@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { requireUser } from "@/lib/authz";
 
 export type RoadmapNode = {
   id: string;
@@ -22,7 +23,8 @@ export type SubjectRoadmap = {
   }[];
 };
 
-export async function getStudentRoadmap(studentId: string): Promise<SubjectRoadmap[]> {
+export async function getStudentRoadmap(_studentId: string): Promise<SubjectRoadmap[]> {
+  const studentId = (await requireUser(["STUDENT"])).id;
   try {
     const enrollments = await prisma.enrollment.findMany({
       where: { studentId },

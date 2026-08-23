@@ -1,5 +1,7 @@
 'use server'
 
+import { requireUser } from "@/lib/authz"
+
 import { prisma } from '@/lib/prisma'
 import { randomUUID } from 'crypto'
 import { writeFile } from 'fs/promises'
@@ -9,6 +11,7 @@ import fs from 'fs'
 import { Stream } from '@/generated/prisma'
 
 export async function createPublishedLesson(formData: FormData) {
+  await requireUser(["ADMIN"]);
   const title = formData.get('title') as string
   const month = parseInt(formData.get('month') as string)
   const vimeoVideoId = formData.get('vimeoVideoId') as string

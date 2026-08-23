@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { ChevronLeft, PlayCircle, Lock } from "lucide-react";
 import Link from "next/link";
+import { requireUser } from "@/lib/authz";
 
 export const dynamic = 'force-dynamic';
 
@@ -12,9 +13,7 @@ export default async function SubjectLessonsPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) redirect("/login");
 

@@ -1,17 +1,12 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { requireUser } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export async function linkFriend(friendCode: string) {
   try {
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
-
-    if (!sessionId) {
-      return { error: "غير مصرح" };
-    }
+    const sessionId = (await requireUser(["STUDENT"])).id;
 
     const trimmedCode = friendCode.trim();
     if (!trimmedCode) {
@@ -58,7 +53,8 @@ export async function linkFriend(friendCode: string) {
   }
 }
 
-export async function getFriendChallengeData(studentId: string) {
+export async function getFriendChallengeData(_studentId: string) {
+  const studentId = (await requireUser(["STUDENT"])).id;
   try {
     const linksAsSource = await prisma.studentFriendLink.findMany({
       where: { studentId },

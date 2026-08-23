@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { requireUser } from "@/lib/authz";
 
 export async function getStudentsWithParents() {
   try {
@@ -45,6 +46,8 @@ export async function getStudentsWithParents() {
 }
 
 export async function sendDirectNotification(userId: string, title: string, content: string) {
+  await requireUser(["ADMIN"]);
+  await requireUser(["ADMIN"]);
   try {
     if (!title.trim() || !content.trim()) {
       return { error: "يرجى ملء جميع الحقول" };

@@ -4,10 +4,10 @@ import { prisma } from "@/lib/prisma";
 import { AlertTriangle, Search } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { MathPreview } from "@/components/shared/MathPreview";
+import { requireUser } from "@/lib/authz";
 
 export default async function StudentMistakesPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) {
     redirect("/login");

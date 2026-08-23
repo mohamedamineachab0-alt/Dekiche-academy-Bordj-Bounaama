@@ -3,9 +3,10 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
-import { supabase, ensureBucketExists } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase-admin";
+import { randomUUID } from "crypto";
 import { Level, Stream, Phase } from "@/generated/prisma";
+import { requireUser } from "@/lib/authz";
 
 export type SubjectActionState = {
   error?: string;
@@ -16,6 +17,7 @@ export type SubjectActionState = {
 export async function createSubject(
   formData: FormData
 ): Promise<SubjectActionState> {
+  await requireUser(["ADMIN"]);
   try {
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
@@ -25,14 +27,16 @@ export async function createSubject(
     let imageUrl = "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop";
     const imageFile = formData.get("image") as File | null;
     if (imageFile && imageFile.size > 0) {
-      await ensureBucketExists("subject-covers");
-      const fileExt = imageFile.name.split('.').pop();
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
-      const { data, error } = await supabase.storage.from("subject-covers").upload(fileName, imageFile, { upsert: false });
-      if (data) {
-        const { data: publicUrlData } = supabase.storage.from("subject-covers").getPublicUrl(fileName);
-        imageUrl = publicUrlData.publicUrl;
-      }
+      if (imageFile.size > 2 * 1024 * 1024) return { error: "حجم الصورة يجب ألا يتجاوز 2MB" };
+      const bytes = new Uint8Array(await imageFile.arrayBuffer());
+      const kind = bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff ? ["jpg", "image/jpeg"]
+        : String.fromCharCode(...bytes.slice(0, 8)) === "\x89PNG\r\n\x1a\n" ? ["png", "image/png"]
+        : String.fromCharCode(...bytes.slice(0, 4)) === "RIFF" && String.fromCharCode(...bytes.slice(8, 12)) === "WEBP" ? ["webp", "image/webp"] : null;
+      if (!kind) return { error: "يسمح فقط بصور JPEG أو PNG أو WebP" };
+      const fileName = `${randomUUID()}.${kind[0]}`;
+      const { error } = await supabaseAdmin.storage.from("subject-covers").upload(fileName, bytes, { contentType: kind[1], upsert: false });
+      if (error) return { error: "فشل رفع الصورة" };
+      imageUrl = supabaseAdmin.storage.from("subject-covers").getPublicUrl(fileName).data.publicUrl;
     }
     const priceStr = formData.get("price") as string;
     const price = priceStr ? parseFloat(priceStr) : 0;
@@ -75,21 +79,7 @@ export async function generateAccessCode(
   formData: FormData
 ): Promise<SubjectActionState> {
   try {
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
-    
-    if (!sessionId) {
-      return { error: "غير مصرح" };
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { id: sessionId },
-      select: { role: true },
-    });
-
-    if (!user || user.role !== "ADMIN") {
-      return { error: "غير مصرح" };
-    }
+    await requireUser(["ADMIN"]);
 
     const subjectId = formData.get("subjectId") as string;
     const accessType = formData.get("accessType") as string; // MONTHLY or YEARLY
@@ -126,9 +116,7 @@ export async function redeemAccessCode(
 ): Promise<any> {
   let redirectUrl = "";
   try {
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
-    if (!sessionId) return { error: "يجب تسجيل الدخول" };
+    const sessionId = (await requireUser(["STUDENT"])).id;
 
     const codeStr = formData.get("code") as string;
     const targetSubjectId = formData.get("subjectId") as string;
@@ -250,6 +238,7 @@ export async function redeemAccessCode(
 export async function deleteSubject(
   subjectId: string
 ): Promise<any> {
+  await requireUser(["ADMIN"]);
   try {
     await prisma.subject.delete({
       where: { id: subjectId },

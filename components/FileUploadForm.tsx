@@ -23,12 +23,11 @@ export function FileUploadForm({ uploadAction }: { uploadAction: (formData: Form
       <div className="relative border-2 border-dashed border-neutral-700 rounded-lg p-10 hover:border-purple-500 transition-colors flex flex-col items-center justify-center bg-neutral-950/50">
         <Upload className="w-10 h-10 text-neutral-400 mb-4" />
         <p className="text-sm text-neutral-300 font-medium">Click or drag files to upload</p>
-        <p className="text-xs text-neutral-500 mt-1">Accepts all file types</p>
+        <p className="text-xs text-neutral-500 mt-1">JPEG, PNG, WebP, or PDF — maximum 2 MB</p>
         <input 
           type="file" 
           name="files" 
-          multiple 
-          accept="*/*"
+          accept="image/jpeg,image/png,image/webp,application/pdf"
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
           required 
         />

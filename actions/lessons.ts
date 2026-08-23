@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Stream } from "@/generated/prisma";
+import { requireUser } from "@/lib/authz";
 
 export type LessonMaterialInput = {
   title: string;
@@ -29,6 +30,7 @@ export type ActionState = {
 };
 
 export async function createLesson(payload: LessonPayload): Promise<ActionState> {
+  await requireUser(["ADMIN"]);
   if (!payload.title || payload.subjectIds.length === 0 || !payload.vimeoVideoId || !payload.month) {
     return { error: "جميع الحقول الاساسية مطلوبة" };
   }
@@ -73,6 +75,7 @@ export async function createLesson(payload: LessonPayload): Promise<ActionState>
 export async function addLessonMaterial(
   formData: FormData
 ): Promise<ActionState> {
+  await requireUser(["ADMIN"]);
   try {
     const lessonId = formData.get("lessonId") as string;
     const title = formData.get("title") as string;

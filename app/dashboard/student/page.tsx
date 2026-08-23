@@ -21,10 +21,10 @@ import {
 import Link from "next/link";
 import { DailyTip } from "@/components/student/DailyTip";
 import { formatSubjectsCount } from "@/lib/utils/translations";
+import { requireUser } from "@/lib/authz";
 
 export default async function StudentDashboardPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) return null;
 

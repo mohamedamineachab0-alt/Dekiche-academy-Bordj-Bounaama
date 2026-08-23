@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Phase, Level, Stream } from "@/generated/prisma";
+import { requireUser } from "@/lib/authz";
 
 export type AddTeacherData = {
   fullName: string;
@@ -13,6 +14,7 @@ export type AddTeacherData = {
 };
 
 export async function addTeacherAction(data: AddTeacherData) {
+  await requireUser(["ADMIN"]);
   try {
     if (!data.fullName || !data.phoneNumber) {
       return { error: "يرجى إدخال اسم الأستاذ ورقم الهاتف" };

@@ -4,10 +4,10 @@ import { redirect } from "next/navigation";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { Trophy, Medal, Award, Star } from "lucide-react";
 import { LEVELS, STREAMS } from "@/lib/constants";
+import { requireUser } from "@/lib/authz";
 
 export default async function StudentLeaderboardPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) {
     redirect("/login");

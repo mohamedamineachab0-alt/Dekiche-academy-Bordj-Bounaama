@@ -108,7 +108,8 @@ export default function RegisterPage() {
     phoneNumber: "",
     phase: "",
     level: "",
-    stream: ""
+    stream: "",
+    password: ""
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -214,6 +215,9 @@ export default function RegisterPage() {
               <InputField id="reg-phone" label="البريد الإلكتروني أو رقم الهاتف" name="phoneNumber" type="text"
                 placeholder="أدخل بريدك أو رقم هاتفك" icon={Mail} dir="rtl" autoComplete="email" 
                 value={formData.phoneNumber} onChange={handleInputChange} />
+              <InputField id="reg-password" label="كلمة المرور" name="password" type="password"
+                placeholder="12 حرفاً على الأقل مع رقم" icon={Lock} autoComplete="new-password"
+                value={formData.password} onChange={handleInputChange} />
             </div>
 
             {role === "STUDENT" && (

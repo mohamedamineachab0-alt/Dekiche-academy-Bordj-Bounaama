@@ -1,68 +1,23 @@
 "use server";
 
-import { prisma } from "@/lib/prisma";
-import { cookies } from "next/headers";
+import { createSession } from "@/lib/authz";
+import { verifyLogin } from "@/lib/login-security";
 import { redirect } from "next/navigation";
 
-export type LoginState = {
-  error?: string;
-};
+export type LoginState = { error?: string };
+const INVALID = "بيانات الدخول غير صحيحة، أو الحساب غير موجود";
 
-export async function universalLoginAction(
-  prevState: LoginState,
-  formData: FormData
-): Promise<LoginState> {
-  const fullName = (formData.get("fullName") as string)?.trim();
-  const phoneNumber = (formData.get("phoneNumber") as string)?.trim();
+export async function universalLoginAction(_prevState: LoginState, formData: FormData): Promise<LoginState> {
+  const phoneNumber = String(formData.get("phoneNumber") ?? "").trim();
+  const password = String(formData.get("password") ?? "");
+  if (!phoneNumber || !password) return { error: INVALID };
 
-  // 1. Validate inputs are present
-  if (!fullName || !phoneNumber) {
-    return { error: "يرجى إدخال الاسم الكامل ورقم الهاتف" };
-  }
+  const user = await verifyLogin(phoneNumber, password);
+  if (!user) return { error: INVALID };
+  await createSession(user.id, formData.get("rememberMe") === "on");
 
-  // 2. Lookup user by phone number
-  const user = await prisma.user.findFirst({
-    where: {
-      phoneNumber: phoneNumber,
-    },
-  });
-
-  // 3. Reject if the user does not exist or name mismatches (case-insensitive)
-  if (!user || user.fullName.toLowerCase().trim() !== fullName.toLowerCase().trim()) {
-    return { error: "بيانات الدخول غير صحيحة، أو الحساب غير موجود" };
-  }
-
-  // 4. Set the HTTP-only session cookie
-  const cookieStore = await cookies();
-  cookieStore.set("session", user.id, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-  });
-
-  // 5. Update last login safely
-  await prisma.user.update({
-    where: { id: user.id },
-    data: { lastLoginAt: new Date() },
-  });
-
-  // 6. Dynamic Role-based Redirect
-  switch (user.role) {
-    case "ADMIN":
-      redirect("/dashboard/admin");
-      break;
-    case "TEACHER":
-      redirect("/dashboard/teacher");
-      break;
-    case "STUDENT":
-      redirect("/dashboard/student");
-      break;
-    case "PARENT":
-      redirect("/dashboard/parent");
-      break;
-    default:
-      redirect("/dashboard/student"); // Fallback route
-  }
+  if (user.role === "ADMIN") redirect("/dashboard/admin");
+  if (user.role === "TEACHER") redirect("/dashboard/teacher");
+  if (user.role === "PARENT") redirect("/dashboard/parent");
+  redirect("/dashboard/student");
 }

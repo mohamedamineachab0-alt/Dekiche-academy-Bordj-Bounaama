@@ -6,10 +6,10 @@ import { getWilayaName } from "@/lib/constants";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { CopyParentCodeBtn } from "@/components/student/CopyParentCodeBtn";
 import { AvatarSelector } from "@/components/student/AvatarSelector";
+import { requireUser } from "@/lib/authz";
 
 export default async function StudentSettingsPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) redirect("/login");
 

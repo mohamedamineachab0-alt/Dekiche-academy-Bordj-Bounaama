@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { QuizClient } from "@/components/student/QuizClient";
+import { requireUser } from "@/lib/authz";
 
 export default async function LessonQuizPage({
   params,
@@ -9,9 +10,7 @@ export default async function LessonQuizPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) redirect("/login");
 

@@ -3,9 +3,11 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Level, Stream, Phase } from "@/generated/prisma";
+import { requireUser } from "@/lib/authz";
 
 export async function createReviewCard(formData: FormData) {
   try {
+    await requireUser(["ADMIN"]);
     const title = formData.get("title") as string;
     const question = formData.get("question") as string;
     const answer = formData.get("answer") as string;
@@ -75,10 +77,7 @@ export async function getStudentCards(phase: Phase, level: Level, stream: Stream
 }
 
 export async function fetchMyReviewCards() {
-  const { cookies } = await import("next/headers");
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-  if (!sessionId) throw new Error("غير مسجل الدخول");
+  const sessionId = (await requireUser(["STUDENT"])).id;
 
   const studentProfile = await prisma.studentProfile.findUnique({
     where: { userId: sessionId },

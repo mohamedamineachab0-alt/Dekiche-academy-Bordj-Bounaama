@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { cookies } from "next/headers";
+import { requireUser } from "@/lib/authz";
 
 type MistakePayload = {
   mistakeContent: string;
@@ -13,12 +13,7 @@ export async function saveQuizMistakes(
   quizId: string,
   mistakes: MistakePayload[]
 ) {
-  const cookieStore = await cookies();
-  const studentId = cookieStore.get("session")?.value;
-
-  if (!studentId) {
-    throw new Error("غير مسجل الدخول");
-  }
+  const studentId = (await requireUser(["STUDENT"])).id;
 
   if (mistakes.length === 0) return { success: true };
 

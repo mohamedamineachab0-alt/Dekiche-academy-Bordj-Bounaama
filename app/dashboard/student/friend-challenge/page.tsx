@@ -5,10 +5,10 @@ import { Swords } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { FriendChallengeClient } from "./FriendChallengeClient";
 import { getFriendChallengeData } from "@/actions/friends";
+import { requireUser } from "@/lib/authz";
 
 export default async function FriendChallengePage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) {
     redirect("/login");

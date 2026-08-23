@@ -3,9 +3,11 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Level, Stream, Phase } from "@/generated/prisma";
+import { requireSubjectEnrollment, requireUser } from "@/lib/authz";
 
 export async function createForum(formData: FormData) {
   try {
+    await requireUser(["ADMIN"]);
     const title = formData.get("title") as string;
     const subjectId = formData.get("subjectId") as string;
     const phase = formData.get("phase") as Phase;
@@ -44,6 +46,7 @@ export async function createForum(formData: FormData) {
 
 export async function toggleForumStatus(forumId: string, isOpen: boolean) {
   try {
+    await requireUser(["ADMIN"]);
     await prisma.classForum.update({
       where: { id: forumId },
       data: { isOpen }
@@ -100,8 +103,10 @@ export async function getStudentForums(phase: Phase, level: Level, stream: Strea
   }
 }
 
-export async function sendForumMessage(forumId: string, userId: string, content: string) {
+export async function sendForumMessage(forumId: string, _userId: string, content: string) {
   try {
+    const user = await requireUser();
+    const userId = user.id;
     if (!content.trim()) return { error: "لا يمكن إرسال رسالة فارغة" };
 
     const forum = await prisma.classForum.findUnique({
@@ -112,21 +117,8 @@ export async function sendForumMessage(forumId: string, userId: string, content:
     if (!forum) return { error: "المنتدى غير موجود" };
     if (!forum.isOpen) return { error: "هذا المنتدى مغلق من قبل الإدارة ولا يقبل رسائل جديدة" };
 
-    // Security: Verify user is enrolled in this forum's subject
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { role: true }
-    });
-
-    // Admins and teachers bypass enrollment check
-    if (user?.role === "STUDENT") {
-      const enrollment = await prisma.enrollment.findFirst({
-        where: { studentId: userId, subjectId: forum.subjectId }
-      });
-      if (!enrollment) {
-        return { error: "ليس لديك اشتراك في هذه المادة" };
-      }
-    }
+    if (user.role === "STUDENT") await requireSubjectEnrollment(forum.subjectId);
+    if (user.role !== "STUDENT" && user.role !== "TEACHER" && user.role !== "ADMIN") return { error: "غير مصرح" };
 
     await prisma.forumMessage.create({
       data: {

@@ -3,8 +3,10 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Level, Stream, Phase } from "@/generated/prisma";
+import { requireUser } from "@/lib/authz";
 
 export async function createNotification(formData: FormData) {
+  await requireUser(["ADMIN"]);
   try {
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
@@ -48,6 +50,7 @@ export async function createNotification(formData: FormData) {
 }
 
 export async function deleteNotification(id: string) {
+  await requireUser(["ADMIN"]);
   try {
     await prisma.notification.delete({
       where: { id }

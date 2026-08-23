@@ -12,6 +12,7 @@ import {
   Play
 } from "lucide-react";
 import Link from "next/link";
+import { requireUser } from "@/lib/authz";
 
 export default async function SubjectDetailsPage({
   params,
@@ -19,9 +20,7 @@ export default async function SubjectDetailsPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) redirect("/login");
 

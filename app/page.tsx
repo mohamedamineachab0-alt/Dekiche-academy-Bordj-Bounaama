@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+import { requireUser } from "@/lib/authz";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { TeamSection } from "@/components/landing/TeamSection";
@@ -8,10 +8,7 @@ import { Book, PenTool, Notebook as NotebookIcon, Ruler, Calculator } from "luci
 
 
 export default async function Home() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-
-  const isAuthenticated = !!sessionId;
+  const isAuthenticated = await requireUser().then(() => true).catch(() => false);
 
   // Fetch dynamic student statistics
   const totalStudents = await prisma.studentProfile.count();

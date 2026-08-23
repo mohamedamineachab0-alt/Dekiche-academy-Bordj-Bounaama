@@ -1,7 +1,8 @@
 "use server";
 
+import { requireUser } from "@/lib/authz";
+
 import { prisma } from "@/lib/prisma";
-import { cookies } from "next/headers";
 
 export type AlertType = "SECURITY" | "ACADEMIC" | "ACCOUNT";
 
@@ -23,20 +24,7 @@ export type TenebatiStudentAlert = {
 
 export async function getAdminAlerts(): Promise<{ success: boolean; alerts?: TenebatiStudentAlert[]; error?: string }> {
   try {
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
-
-    if (!sessionId) {
-      return { success: false, error: "غير مصرح" };
-    }
-
-    const admin = await prisma.user.findUnique({
-      where: { id: sessionId },
-    });
-
-    if (!admin || admin.role !== "ADMIN") {
-      return { success: false, error: "غير مصرح" };
-    }
+    await requireUser(["ADMIN"]);
 
     // Fetch all students with related data
     const students = await prisma.user.findMany({

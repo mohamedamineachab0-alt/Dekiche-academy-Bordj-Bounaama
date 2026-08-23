@@ -4,10 +4,10 @@ import { redirect } from "next/navigation";
 import { STREAMS, LEVELS } from "@/lib/constants";
 import { Bell } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
+import { requireUser } from "@/lib/authz";
 
 export default async function StudentNotificationsPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) redirect("/login");
 

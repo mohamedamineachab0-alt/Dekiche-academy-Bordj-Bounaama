@@ -4,10 +4,10 @@ import { redirect } from "next/navigation";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { Presentation, BookOpen, Users, AlertTriangle } from "lucide-react";
 import { getWilayaName, LEVELS, STREAMS } from "@/lib/constants";
+import { requireUser } from "@/lib/authz";
 
 export default async function TeacherDashboardPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionId = (await requireUser()).id;
 
   if (!sessionId) redirect("/login");
 

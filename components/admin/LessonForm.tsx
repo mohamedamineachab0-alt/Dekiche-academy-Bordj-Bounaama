@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { createLesson, LessonPayload } from "@/actions/lessons";
 import { generateQuizFromImage } from "@/actions/ai";
-import { Upload, X, Plus, Loader2, PlayCircle, Save, CheckCircle2, FileText, BrainCircuit } from "lucide-react";
+import { Upload, X, Plus, Loader2, PlayCircle, Save, CheckCircle2, FileText, BrainCircuit, Image as ImageIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { MonthSelect } from "@/components/shared/MonthSelect";
@@ -69,6 +69,8 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
   const [levels, setLevels] = useState<string[]>([]);
   const [month, setMonth] = useState("1");
   const [vimeoVideoId, setVimeoVideoId] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState("");
 
   const [quizType, setQuizType] = useState<"MANUAL" | "AI">("MANUAL");
   const [quizMaxScore, setQuizMaxScore] = useState(20);
@@ -239,6 +241,25 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
         });
       }
 
+      let uploadedImage = null;
+      if (imageFile) {
+        const fileExt = imageFile.name.split('.').pop();
+        const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+        const filePath = `lesson-covers/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("lesson-materials")
+          .upload(filePath, imageFile);
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from("lesson-materials")
+          .getPublicUrl(filePath);
+          
+        uploadedImage = publicUrl;
+      }
+
       setUploadingFiles(false);
 
       const payload: LessonPayload = {
@@ -248,6 +269,7 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
         levels,
         month: parseInt(month),
         vimeoVideoId,
+        image: uploadedImage,
         materials: uploadedMaterials,
         quiz: manualQuestions[0].question ? {
           maxScore: 20, // Forced max score
@@ -366,6 +388,33 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <label className="text-sm font-bold text-slate-700 block">صورة غلاف الدرس (1920x1080)</label>
+            <div className="relative border-2 border-dashed border-slate-200 rounded-xl p-8 hover:border-purple-400 transition-colors bg-white group text-center aspect-video flex flex-col items-center justify-center overflow-hidden">
+              {imageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={imageUrl} alt="Preview" className="absolute inset-0 w-full h-full object-cover" />
+              ) : (
+                <div className="flex flex-col items-center">
+                  <ImageIcon className="w-8 h-8 text-slate-400 mb-3 group-hover:text-purple-500 transition-colors" />
+                  <span className="text-sm font-bold text-slate-600 group-hover:text-purple-600">اضغط لرفع صورة الغلاف</span>
+                  <span className="text-xs text-slate-400 mt-1">PNG, JPG (1920x1080)</span>
+                </div>
+              )}
+              <input 
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    setImageFile(e.target.files[0]);
+                    setImageUrl(URL.createObjectURL(e.target.files[0]));
+                  }
+                }}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
             </div>
           </div>
 

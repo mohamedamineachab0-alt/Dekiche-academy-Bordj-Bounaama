@@ -22,6 +22,7 @@ export type LessonPayload = {
     aiGenerated: boolean;
     questions: any[];
   } | null;
+  image?: string | null;
 };
 
 export type ActionState = {
@@ -45,6 +46,7 @@ export async function createLesson(payload: LessonPayload): Promise<ActionState>
         levels: payload.levels,
         month: payload.month,
         vimeoVideoId: payload.vimeoVideoId,
+        image: payload.image || null,
         materials: {
           create: payload.materials.map(m => ({
             title: m.title,

@@ -47,8 +47,8 @@ const LEVEL_ARABIC: Record<string, string> = {
 type Subject = {
   id: string;
   title: string;
-  level: string;
-  stream: string;
+  levels: string[];
+  streams: string[];
 };
 
 type QuizQuestion = {
@@ -66,13 +66,15 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
   const [title, setTitle] = useState("");
   const [subjectIds, setSubjectIds] = useState<string[]>([]);
   const [streams, setStreams] = useState<Stream[]>([]);
+  const [levels, setLevels] = useState<string[]>([]);
   const [month, setMonth] = useState("1");
   const [vimeoVideoId, setVimeoVideoId] = useState("");
 
   const [quizType, setQuizType] = useState<"MANUAL" | "AI">("MANUAL");
   const [quizMaxScore, setQuizMaxScore] = useState(20);
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
-  const [aiImageFile, setAiImageFile] = useState<File | null>(null);
+  const [aiFile, setAiFile] = useState<File | null>(null);
+  const [aiLanguage, setAiLanguage] = useState("العربية");
   const [manualQuestions, setManualQuestions] = useState<QuizQuestion[]>([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
   
   const [isGeneratingAi, setIsGeneratingAi] = useState(false);
@@ -108,8 +110,8 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
   };
 
   const handleAiGenerate = async () => {
-    if (!aiImageFile) {
-      setError("يرجى رفع صورة أولاً");
+    if (!aiFile) {
+      setError("يرجى رفع ملف أولاً");
       return;
     }
 
@@ -117,15 +119,54 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
     setError(null);
 
     try {
-      const base64Data = await compressImageForAi(aiImageFile);
+      let imageBase64 = null;
+      let pdfBase64 = null;
+      let docxBase64 = null;
+      let textContent = null;
+
+      if (aiFile.type === "application/pdf") {
+        const reader = new FileReader();
+        const pdfPromise = new Promise<string>((resolve, reject) => {
+          reader.onload = () => {
+            const base64String = (reader.result as string).split(',')[1];
+            resolve(base64String);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(aiFile);
+        });
+        pdfBase64 = await pdfPromise;
+      } else if (
+        aiFile.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+        aiFile.name.endsWith(".docx")
+      ) {
+        const reader = new FileReader();
+        const docxPromise = new Promise<string>((resolve, reject) => {
+          reader.onload = () => {
+            const base64String = (reader.result as string).split(',')[1];
+            resolve(base64String);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(aiFile);
+        });
+        docxBase64 = await docxPromise;
+      } else if (aiFile.type.startsWith("image/")) {
+        imageBase64 = await compressImageForAi(aiFile);
+      } else {
+        // Fallback to plain text for .txt, .csv, etc.
+        textContent = await aiFile.text();
+      }
       
       const response = await fetch('/api/generate-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          imageBase64: base64Data,
-          numberOfQuestions: numberOfQuestions,
-          totalPoints: quizMaxScore
+          imageBase64,
+          pdfBase64,
+          docxBase64,
+          textContent,
+          numberOfQuestions,
+          totalPoints: quizMaxScore,
+          language: aiLanguage
         })
       });
 
@@ -204,6 +245,7 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
         title,
         subjectIds,
         streams,
+        levels,
         month: parseInt(month),
         vimeoVideoId,
         materials: uploadedMaterials,
@@ -280,12 +322,29 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
                         }}
                         className="w-4 h-4 rounded text-purple-600 border-slate-300 focus:ring-purple-600" 
                       />
-                      <span>{s.title} ({LEVEL_ARABIC[s.level] || s.level}{s.stream && s.stream !== 'NONE' ? ` - ${STREAM_ARABIC[s.stream] || s.stream}` : ''})</span>
+                      <span>{s.title} ({s.levels?.map(l => LEVEL_ARABIC[l] || l).join(', ')}{s.streams?.length && !s.streams.includes('NONE') ? ` - ${s.streams.map(st => STREAM_ARABIC[st] || st).join(', ')}` : ''})</span>
                     </label>
                   ))}
                 </div>
               </div>
               <div>
+                <label className="text-sm font-bold text-slate-700 mb-3 block">المستويات (يمكن اختيار أكثر من مستوى)</label>
+                <div className="grid grid-cols-1 gap-2 max-h-48 overflow-y-auto p-2 bg-white border border-slate-200 rounded-lg mb-4">
+                  {Object.entries(LEVEL_ARABIC).map(([key, label]) => (
+                    <label key={key} className="flex items-center space-x-3 space-x-reverse text-sm font-bold text-slate-600 cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        checked={levels.includes(key)}
+                        onChange={(e) => {
+                          if (e.target.checked) setLevels([...levels, key]);
+                          else setLevels(levels.filter(l => l !== key));
+                        }}
+                        className="w-4 h-4 rounded text-purple-600 border-slate-300 focus:ring-purple-600" 
+                      />
+                      <span>{label}</span>
+                    </label>
+                  ))}
+                </div>
                 <label className="text-sm font-bold text-slate-700 mb-3 block">الشعب (يمكن اختيار أكثر من شعبة)</label>
                 <div className="grid grid-cols-1 gap-2 max-h-48 overflow-y-auto p-2 bg-white border border-slate-200 rounded-lg">
                   {STREAMS.map(stream => (
@@ -470,6 +529,20 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
                 />
               </div>
             </div>
+            <div className="space-y-2 mb-4">
+              <label className="text-sm font-bold text-purple-800 block">لغة الكويز</label>
+              <select
+                value={aiLanguage}
+                onChange={(e) => setAiLanguage(e.target.value)}
+                className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-purple-600 outline-none"
+              >
+                <option value="العربية">العربية (Arabic)</option>
+                <option value="English">الإنجليزية (English)</option>
+                <option value="Français">الفرنسية (French)</option>
+                <option value="Español">الإسبانية (Spanish)</option>
+                <option value="LATEX">لاتيكس (LaTeX - للرياضيات المتقدمة)</option>
+              </select>
+            </div>
 
             <div className="border-2 border-dashed border-purple-200 rounded-2xl p-8 flex flex-col items-center justify-center text-center bg-purple-50/50">
               <label className="flex flex-col items-center gap-4 cursor-pointer w-full">
@@ -478,15 +551,17 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
                 </div>
                 <div>
                   <h3 className="font-bold text-purple-800 text-lg mb-1">
-                    {aiImageFile ? aiImageFile.name : "اضغط لرفع صورة أو اسحبها هنا"}
+                    {aiFile ? aiFile.name : "اضغط لرفع أي ملف (صورة، PDF، Word، Text) أو اسحبه هنا"}
                   </h3>
-                  <p className="text-slate-500 text-sm max-w-md mx-auto">سيتم قراءة المحتوى وتوليد الأسئلة بشكل دقيق</p>
+                  <p className="text-slate-500 text-sm max-w-md mx-auto">سيتم قراءة المحتوى وتوليد الأسئلة بشكل دقيق باللغة المحددة</p>
                 </div>
-                <input 
-                  type="file" 
-                  accept="image/*"
-                  onChange={e => {
-                    if (e.target.files?.[0]) setAiImageFile(e.target.files[0]);
+                <input
+                  type="file"
+                  accept="*/*"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files.length > 0) {
+                      setAiFile(e.target.files[0]);
+                    }
                   }}
                   className="hidden"
                 />
@@ -496,7 +571,7 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
             <button
               type="button"
               onClick={handleAiGenerate}
-              disabled={isGeneratingAi || !aiImageFile}
+              disabled={isGeneratingAi || !aiFile}
               className="w-full py-3.5 bg-white hover:bg-white text-purple-950 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
             >
               {isGeneratingAi ? (

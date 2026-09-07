@@ -172,8 +172,8 @@ exports.Prisma.SubjectScalarFieldEnum = {
   teacherName: 'teacherName',
   teacherId: 'teacherId',
   phase: 'phase',
-  level: 'level',
-  stream: 'stream',
+  levels: 'levels',
+  streams: 'streams',
   image: 'image',
   price: 'price',
   accessType: 'accessType',
@@ -188,6 +188,7 @@ exports.Prisma.LessonScalarFieldEnum = {
   vimeoVideoId: 'vimeoVideoId',
   image: 'image',
   streams: 'streams',
+  levels: 'levels',
   createdAt: 'createdAt'
 };
 

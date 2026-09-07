@@ -5,7 +5,7 @@ import { ExamUploadForm } from "@/components/admin/ExamUploadForm";
 
 export default async function AdminExamsPage() {
   const subjects = await prisma.subject.findMany({
-    select: { id: true, title: true, phase: true, level: true, stream: true },
+    select: { id: true, title: true, phase: true, levels: true, streams: true },
     orderBy: { createdAt: "desc" }
   });
 

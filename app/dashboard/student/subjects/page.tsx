@@ -27,10 +27,10 @@ export default async function StudentSubjectsPage() {
     where: {
       isPublished: true,
       phase,
-      level,
+      levels: { has: level },
       OR: [
-        { stream },
-        { stream: "NONE" }
+        { streams: { has: stream } },
+        { streams: { has: "NONE" } }
       ]
     },
     include: { teacher: true },
@@ -78,7 +78,7 @@ export default async function StudentSubjectsPage() {
                   {/* Subject Info */}
                   <h3 className="text-xl font-bold text-gray-800 mb-1 line-clamp-1">{subject.title}</h3>
                   <p className="text-sm text-gray-500 mb-6 line-clamp-1">
-                    الأستاذ {subject.teacherName} • المستوى {translateLevel(subject.level)}
+                    الأستاذ {subject.teacherName} • المستوى {translateLevel(subject.levels?.[0] || "")}
                   </p>
                   
                   {/* Action Area */}

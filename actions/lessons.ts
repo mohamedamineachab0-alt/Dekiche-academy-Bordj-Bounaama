@@ -13,6 +13,7 @@ export type LessonPayload = {
   title: string;
   subjectIds: string[];
   streams: Stream[];
+  levels: any[];
   month: number;
   vimeoVideoId: string;
   materials: LessonMaterialInput[];
@@ -41,6 +42,7 @@ export async function createLesson(payload: LessonPayload): Promise<ActionState>
           connect: payload.subjectIds.map(id => ({ id }))
         },
         streams: payload.streams,
+        levels: payload.levels,
         month: payload.month,
         vimeoVideoId: payload.vimeoVideoId,
         materials: {

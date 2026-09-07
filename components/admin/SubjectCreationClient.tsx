@@ -17,8 +17,8 @@ export function SubjectCreationClient({
   const [manualTeacherName, setManualTeacherName] = useState("");
   const [teacherInputMethod, setTeacherInputMethod] = useState<"LIST" | "MANUAL">("LIST");
   const [phase, setPhase] = useState("");
-  const [level, setLevel] = useState("");
-  const [stream, setStream] = useState("");
+  const [levels, setLevels] = useState<string[]>([]);
+  const [streams, setStreams] = useState<string[]>([]);
   const [isFree, setIsFree] = useState(false);
   const [price, setPrice] = useState("2500");
   const [accessType, setAccessType] = useState("MONTHLY");
@@ -31,7 +31,7 @@ export function SubjectCreationClient({
     : (manualTeacherName || "بدون أستاذ");
 
   const currentLevels = phase ? EDUCATION_LEVELS[phase as keyof typeof EDUCATION_LEVELS] : [];
-  const currentStreams = getStreamsForLevel(phase, level);
+  const currentStreams = levels.length > 0 ? getStreamsForLevel(phase, levels[0]) : [];
   const shouldShowStreams = phase === "SECONDARY" && currentStreams.length > 1;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -164,29 +164,55 @@ export function SubjectCreationClient({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-1">
               <label className="text-sm font-bold text-purple-800 dark:text-purple-800">الطور</label>
-              <select name="phase" required value={phase} onChange={e => { setPhase(e.target.value); setLevel(""); setStream(""); }} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-purple-950 dark:text-purple-950 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600">
+              <select name="phase" required value={phase} onChange={e => { setPhase(e.target.value); setLevels([]); setStreams([]); }} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-purple-950 dark:text-purple-950 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600">
                 <option value="">اختر الطور</option>
                 {EDUCATION_STAGES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
               </select>
             </div>
             <div className="space-y-1">
-              <label className="text-sm font-bold text-purple-800 dark:text-purple-800">المستوى</label>
-              <select name="level" required value={level} onChange={e => { setLevel(e.target.value); setStream(""); }} disabled={!phase} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-purple-950 dark:text-purple-950 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 disabled:opacity-50">
-                <option value="">اختر المستوى</option>
-                {currentLevels.map((l: any) => <option key={l.value} value={l.value}>{l.label}</option>)}
-              </select>
+              <label className="text-sm font-bold text-purple-800 dark:text-purple-800">المستويات</label>
+              <div className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-sm max-h-32 overflow-y-auto space-y-2">
+                {currentLevels.map((l: any) => (
+                  <label key={l.value} className="flex items-center gap-2 cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      name="levels" 
+                      value={l.value}
+                      checked={levels.includes(l.value)}
+                      onChange={(e) => {
+                        if (e.target.checked) setLevels([...levels, l.value]);
+                        else setLevels(levels.filter(x => x !== l.value));
+                      }}
+                      className="w-4 h-4 text-purple-700 rounded border-slate-300 focus:ring-purple-600"
+                    />
+                    <span className="text-purple-950">{l.label}</span>
+                  </label>
+                ))}
+                {currentLevels.length === 0 && <span className="text-slate-400">اختر الطور أولاً</span>}
+              </div>
             </div>
             <div className="space-y-1">
-              <label className="text-sm font-bold text-purple-800 dark:text-purple-800">الشعبة</label>
+              <label className="text-sm font-bold text-purple-800 dark:text-purple-800">الشعب</label>
               {shouldShowStreams ? (
-                <select name="stream" required value={stream} onChange={e => setStream(e.target.value)} disabled={!level} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-purple-950 dark:text-purple-950 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 disabled:opacity-50">
-                  <option value="">اختر الشعبة</option>
-                  {currentStreams.map((s: any) => <option key={s.value} value={s.value}>{s.label}</option>)}
-                </select>
+                <div className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-sm max-h-32 overflow-y-auto space-y-2">
+                  {currentStreams.map((s: any) => (
+                    <label key={s.value} className="flex items-center gap-2 cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        name="streams" 
+                        value={s.value}
+                        checked={streams.includes(s.value)}
+                        onChange={(e) => {
+                          if (e.target.checked) setStreams([...streams, s.value]);
+                          else setStreams(streams.filter(x => x !== s.value));
+                        }}
+                        className="w-4 h-4 text-purple-700 rounded border-slate-300 focus:ring-purple-600"
+                      />
+                      <span className="text-purple-950">{s.label}</span>
+                    </label>
+                  ))}
+                </div>
               ) : (
-                <input type="hidden" name="stream" value="NONE" />
-              )}
-              {!shouldShowStreams && (
                 <div className="w-full p-2.5 rounded-xl border border-slate-200 bg-gray-50 text-slate-400 text-sm text-center">
                   غير مطبق
                 </div>

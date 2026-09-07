@@ -38,10 +38,10 @@ export async function createSubject(
     const price = priceStr ? parseFloat(priceStr) : 0;
     const accessType = formData.get("accessType") as string || "YEARLY";
     const phase = formData.get("phase") as Phase;
-    const level = formData.get("level") as Level;
-    const stream = formData.get("stream") as Stream;
+    const levels = formData.getAll("levels") as Level[];
+    const streams = formData.getAll("streams") as Stream[];
 
-    if (!title || !description || isNaN(price) || !phase || !level || !stream) {
+    if (!title || !description || isNaN(price) || !phase || levels.length === 0) {
       return { error: "يرجى ملء جميع الحقول المطلوبة" };
     }
 
@@ -58,8 +58,8 @@ export async function createSubject(
         price,
         accessType, // MONTHLY or YEARLY
         phase,
-        level,
-        stream,
+        levels,
+        streams: streams.length > 0 ? streams : ["NONE"],
         isPublished: true,
       },
     });

@@ -55,10 +55,10 @@ export default async function StudentDashboardPage() {
     where: {
       isPublished: true,
       phase,
-      level,
+      levels: { has: level },
       OR: [
-        { stream },
-        { stream: "NONE" }
+        { streams: { has: stream } },
+        { streams: { has: "NONE" } }
       ]
     }
   });

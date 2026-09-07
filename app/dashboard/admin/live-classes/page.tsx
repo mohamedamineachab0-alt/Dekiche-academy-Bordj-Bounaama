@@ -47,8 +47,8 @@ export default async function AdminLiveClassesPage() {
                 <select name="subjectId" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-purple-700">
                   <option value="">اختر المادة</option>
                   {subjects.map(s => {
-                    const levelStr = LEVELS.find(l => l.value === s.level)?.label || s.level;
-                    const streamStr = STREAMS.find(st => st.value === s.stream)?.label || s.stream;
+                    const levelStr = LEVELS.find(l => l.value === s.levels?.[0])?.label || s.levels?.[0] || '';
+                    const streamStr = STREAMS.find(st => st.value === s.streams?.[0])?.label || s.streams?.[0] || '';
                     return (
                       <option key={s.id} value={s.id}>
                         {s.title} ({levelStr} - {streamStr})
@@ -86,8 +86,8 @@ export default async function AdminLiveClassesPage() {
         <div className="lg:col-span-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {liveClasses.map(liveClass => {
-              const levelStr = LEVELS.find(l => l.value === liveClass.subject.level)?.label || liveClass.subject.level;
-              const streamStr = STREAMS.find(st => st.value === liveClass.subject.stream)?.label || liveClass.subject.stream;
+              const levelStr = LEVELS.find(l => l.value === liveClass.subject.levels?.[0])?.label || liveClass.subject.levels?.[0] || '';
+              const streamStr = STREAMS.find(st => st.value === liveClass.subject.streams?.[0])?.label || liveClass.subject.streams?.[0] || '';
               const formattedDate = new Date(liveClass.date).toLocaleString('ar-DZ', { 
                 weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
               });

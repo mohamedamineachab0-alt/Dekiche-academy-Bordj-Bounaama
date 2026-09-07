@@ -186,8 +186,8 @@ model Subject {
   teacherId               String?
   teacher                 Teacher?        @relation(fields: [teacherId], references: [id])
   phase                   Phase           @default(SECONDARY)
-  level                   Level
-  stream                  Stream
+  levels                  Level[]         @default([])
+  streams                 Stream[]        @default([])
   image                   String // Square image URL from Supabase Storage
   price                   Float
   accessType              String // 'MONTHLY' or 'YEARLY'
@@ -214,6 +214,7 @@ model Lesson {
   image        String? // Square image URL for the lesson from Supabase Storage
   subjects     Subject[]        @relation("LessonSubjects")
   streams      Stream[]         @default([])
+  levels       Level[]          @default([])
   quiz         Quiz? // One-to-one relation with AI Quiz
   mistakes     StudentMistake[]
   materials    LessonMaterial[]

@@ -13,8 +13,8 @@ type Subject = {
   id: string;
   title: string;
   phase: string;
-  level: string;
-  stream: string;
+  levels: string[];
+  streams: string[];
 };
 
 type QuizQuestion = {
@@ -110,8 +110,8 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
 
   const filteredSubjects = subjects.filter(s => {
     if (phase && s.phase !== phase) return false;
-    if (level && s.level !== level) return false;
-    if (stream && s.stream !== stream && stream !== "NONE") return false;
+    if (level && !s.levels?.includes(level)) return false;
+    if (stream && stream !== "NONE" && !s.streams?.includes(stream)) return false;
     return true;
   });
 

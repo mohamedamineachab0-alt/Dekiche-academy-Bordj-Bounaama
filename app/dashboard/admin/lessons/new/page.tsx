@@ -10,8 +10,8 @@ export default async function NewLessonPage() {
     select: {
       id: true,
       title: true,
-      level: true,
-      stream: true,
+      levels: true,
+      streams: true,
     },
     orderBy: {
       createdAt: "desc"

@@ -13,7 +13,7 @@ export default async function AdminReviewCardsPage() {
   });
 
   const subjects = await prisma.subject.findMany({
-    select: { id: true, title: true, phase: true, level: true, stream: true }
+    select: { id: true, title: true, phase: true, levels: true, streams: true }
   });
 
   return (
@@ -34,8 +34,8 @@ export default async function AdminReviewCardsPage() {
               id: s.id,
               title: s.title,
               phase: s.phase,
-              level: s.level,
-              stream: s.stream
+              levels: s.levels,
+              streams: s.streams
             }))}
             action={async (formData: FormData) => { 
               "use server"; 

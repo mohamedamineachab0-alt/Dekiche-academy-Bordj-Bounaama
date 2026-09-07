@@ -8907,8 +8907,6 @@ export namespace Prisma {
     teacherName: string | null
     teacherId: string | null
     phase: $Enums.Phase | null
-    level: $Enums.Level | null
-    stream: $Enums.Stream | null
     image: string | null
     price: number | null
     accessType: string | null
@@ -8923,8 +8921,6 @@ export namespace Prisma {
     teacherName: string | null
     teacherId: string | null
     phase: $Enums.Phase | null
-    level: $Enums.Level | null
-    stream: $Enums.Stream | null
     image: string | null
     price: number | null
     accessType: string | null
@@ -8939,8 +8935,8 @@ export namespace Prisma {
     teacherName: number
     teacherId: number
     phase: number
-    level: number
-    stream: number
+    levels: number
+    streams: number
     image: number
     price: number
     accessType: number
@@ -8965,8 +8961,6 @@ export namespace Prisma {
     teacherName?: true
     teacherId?: true
     phase?: true
-    level?: true
-    stream?: true
     image?: true
     price?: true
     accessType?: true
@@ -8981,8 +8975,6 @@ export namespace Prisma {
     teacherName?: true
     teacherId?: true
     phase?: true
-    level?: true
-    stream?: true
     image?: true
     price?: true
     accessType?: true
@@ -8997,8 +8989,8 @@ export namespace Prisma {
     teacherName?: true
     teacherId?: true
     phase?: true
-    level?: true
-    stream?: true
+    levels?: true
+    streams?: true
     image?: true
     price?: true
     accessType?: true
@@ -9100,8 +9092,8 @@ export namespace Prisma {
     teacherName: string
     teacherId: string | null
     phase: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels: $Enums.Level[]
+    streams: $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -9135,8 +9127,8 @@ export namespace Prisma {
     teacherName?: boolean
     teacherId?: boolean
     phase?: boolean
-    level?: boolean
-    stream?: boolean
+    levels?: boolean
+    streams?: boolean
     image?: boolean
     price?: boolean
     accessType?: boolean
@@ -9164,8 +9156,8 @@ export namespace Prisma {
     teacherName?: boolean
     teacherId?: boolean
     phase?: boolean
-    level?: boolean
-    stream?: boolean
+    levels?: boolean
+    streams?: boolean
     image?: boolean
     price?: boolean
     accessType?: boolean
@@ -9181,8 +9173,8 @@ export namespace Prisma {
     teacherName?: boolean
     teacherId?: boolean
     phase?: boolean
-    level?: boolean
-    stream?: boolean
+    levels?: boolean
+    streams?: boolean
     image?: boolean
     price?: boolean
     accessType?: boolean
@@ -9198,8 +9190,8 @@ export namespace Prisma {
     teacherName?: boolean
     teacherId?: boolean
     phase?: boolean
-    level?: boolean
-    stream?: boolean
+    levels?: boolean
+    streams?: boolean
     image?: boolean
     price?: boolean
     accessType?: boolean
@@ -9207,7 +9199,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type SubjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "teacherName" | "teacherId" | "phase" | "level" | "stream" | "image" | "price" | "accessType" | "isPublished" | "createdAt", ExtArgs["result"]["subject"]>
+  export type SubjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "teacherName" | "teacherId" | "phase" | "levels" | "streams" | "image" | "price" | "accessType" | "isPublished" | "createdAt", ExtArgs["result"]["subject"]>
   export type SubjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teacher?: boolean | Subject$teacherArgs<ExtArgs>
     liveClasses?: boolean | Subject$liveClassesArgs<ExtArgs>
@@ -9253,8 +9245,8 @@ export namespace Prisma {
       teacherName: string
       teacherId: string | null
       phase: $Enums.Phase
-      level: $Enums.Level
-      stream: $Enums.Stream
+      levels: $Enums.Level[]
+      streams: $Enums.Stream[]
       image: string
       price: number
       accessType: string
@@ -9701,8 +9693,8 @@ export namespace Prisma {
     readonly teacherName: FieldRef<"Subject", 'String'>
     readonly teacherId: FieldRef<"Subject", 'String'>
     readonly phase: FieldRef<"Subject", 'Phase'>
-    readonly level: FieldRef<"Subject", 'Level'>
-    readonly stream: FieldRef<"Subject", 'Stream'>
+    readonly levels: FieldRef<"Subject", 'Level[]'>
+    readonly streams: FieldRef<"Subject", 'Stream[]'>
     readonly image: FieldRef<"Subject", 'String'>
     readonly price: FieldRef<"Subject", 'Float'>
     readonly accessType: FieldRef<"Subject", 'String'>
@@ -10455,6 +10447,7 @@ export namespace Prisma {
     vimeoVideoId: number
     image: number
     streams: number
+    levels: number
     createdAt: number
     _all: number
   }
@@ -10493,6 +10486,7 @@ export namespace Prisma {
     vimeoVideoId?: true
     image?: true
     streams?: true
+    levels?: true
     createdAt?: true
     _all?: true
   }
@@ -10590,6 +10584,7 @@ export namespace Prisma {
     vimeoVideoId: string
     image: string | null
     streams: $Enums.Stream[]
+    levels: $Enums.Level[]
     createdAt: Date
     _count: LessonCountAggregateOutputType | null
     _avg: LessonAvgAggregateOutputType | null
@@ -10619,6 +10614,7 @@ export namespace Prisma {
     vimeoVideoId?: boolean
     image?: boolean
     streams?: boolean
+    levels?: boolean
     createdAt?: boolean
     subjects?: boolean | Lesson$subjectsArgs<ExtArgs>
     quiz?: boolean | Lesson$quizArgs<ExtArgs>
@@ -10634,6 +10630,7 @@ export namespace Prisma {
     vimeoVideoId?: boolean
     image?: boolean
     streams?: boolean
+    levels?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["lesson"]>
 
@@ -10644,6 +10641,7 @@ export namespace Prisma {
     vimeoVideoId?: boolean
     image?: boolean
     streams?: boolean
+    levels?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["lesson"]>
 
@@ -10654,10 +10652,11 @@ export namespace Prisma {
     vimeoVideoId?: boolean
     image?: boolean
     streams?: boolean
+    levels?: boolean
     createdAt?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "month" | "vimeoVideoId" | "image" | "streams" | "createdAt", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "month" | "vimeoVideoId" | "image" | "streams" | "levels" | "createdAt", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subjects?: boolean | Lesson$subjectsArgs<ExtArgs>
     quiz?: boolean | Lesson$quizArgs<ExtArgs>
@@ -10683,6 +10682,7 @@ export namespace Prisma {
       vimeoVideoId: string
       image: string | null
       streams: $Enums.Stream[]
+      levels: $Enums.Level[]
       createdAt: Date
     }, ExtArgs["result"]["lesson"]>
     composites: {}
@@ -11117,6 +11117,7 @@ export namespace Prisma {
     readonly vimeoVideoId: FieldRef<"Lesson", 'String'>
     readonly image: FieldRef<"Lesson", 'String'>
     readonly streams: FieldRef<"Lesson", 'Stream[]'>
+    readonly levels: FieldRef<"Lesson", 'Level[]'>
     readonly createdAt: FieldRef<"Lesson", 'DateTime'>
   }
     
@@ -36414,8 +36415,8 @@ export namespace Prisma {
     teacherName: 'teacherName',
     teacherId: 'teacherId',
     phase: 'phase',
-    level: 'level',
-    stream: 'stream',
+    levels: 'levels',
+    streams: 'streams',
     image: 'image',
     price: 'price',
     accessType: 'accessType',
@@ -36433,6 +36434,7 @@ export namespace Prisma {
     vimeoVideoId: 'vimeoVideoId',
     image: 'image',
     streams: 'streams',
+    levels: 'levels',
     createdAt: 'createdAt'
   };
 
@@ -37262,8 +37264,8 @@ export namespace Prisma {
     teacherName?: StringFilter<"Subject"> | string
     teacherId?: StringNullableFilter<"Subject"> | string | null
     phase?: EnumPhaseFilter<"Subject"> | $Enums.Phase
-    level?: EnumLevelFilter<"Subject"> | $Enums.Level
-    stream?: EnumStreamFilter<"Subject"> | $Enums.Stream
+    levels?: EnumLevelNullableListFilter<"Subject">
+    streams?: EnumStreamNullableListFilter<"Subject">
     image?: StringFilter<"Subject"> | string
     price?: FloatFilter<"Subject"> | number
     accessType?: StringFilter<"Subject"> | string
@@ -37290,8 +37292,8 @@ export namespace Prisma {
     teacherName?: SortOrder
     teacherId?: SortOrderInput | SortOrder
     phase?: SortOrder
-    level?: SortOrder
-    stream?: SortOrder
+    levels?: SortOrder
+    streams?: SortOrder
     image?: SortOrder
     price?: SortOrder
     accessType?: SortOrder
@@ -37321,8 +37323,8 @@ export namespace Prisma {
     teacherName?: StringFilter<"Subject"> | string
     teacherId?: StringNullableFilter<"Subject"> | string | null
     phase?: EnumPhaseFilter<"Subject"> | $Enums.Phase
-    level?: EnumLevelFilter<"Subject"> | $Enums.Level
-    stream?: EnumStreamFilter<"Subject"> | $Enums.Stream
+    levels?: EnumLevelNullableListFilter<"Subject">
+    streams?: EnumStreamNullableListFilter<"Subject">
     image?: StringFilter<"Subject"> | string
     price?: FloatFilter<"Subject"> | number
     accessType?: StringFilter<"Subject"> | string
@@ -37349,8 +37351,8 @@ export namespace Prisma {
     teacherName?: SortOrder
     teacherId?: SortOrderInput | SortOrder
     phase?: SortOrder
-    level?: SortOrder
-    stream?: SortOrder
+    levels?: SortOrder
+    streams?: SortOrder
     image?: SortOrder
     price?: SortOrder
     accessType?: SortOrder
@@ -37373,8 +37375,8 @@ export namespace Prisma {
     teacherName?: StringWithAggregatesFilter<"Subject"> | string
     teacherId?: StringNullableWithAggregatesFilter<"Subject"> | string | null
     phase?: EnumPhaseWithAggregatesFilter<"Subject"> | $Enums.Phase
-    level?: EnumLevelWithAggregatesFilter<"Subject"> | $Enums.Level
-    stream?: EnumStreamWithAggregatesFilter<"Subject"> | $Enums.Stream
+    levels?: EnumLevelNullableListFilter<"Subject">
+    streams?: EnumStreamNullableListFilter<"Subject">
     image?: StringWithAggregatesFilter<"Subject"> | string
     price?: FloatWithAggregatesFilter<"Subject"> | number
     accessType?: StringWithAggregatesFilter<"Subject"> | string
@@ -37392,6 +37394,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
     streams?: EnumStreamNullableListFilter<"Lesson">
+    levels?: EnumLevelNullableListFilter<"Lesson">
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     subjects?: SubjectListRelationFilter
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
@@ -37406,6 +37409,7 @@ export namespace Prisma {
     vimeoVideoId?: SortOrder
     image?: SortOrderInput | SortOrder
     streams?: SortOrder
+    levels?: SortOrder
     createdAt?: SortOrder
     subjects?: SubjectOrderByRelationAggregateInput
     quiz?: QuizOrderByWithRelationInput
@@ -37423,6 +37427,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
     streams?: EnumStreamNullableListFilter<"Lesson">
+    levels?: EnumLevelNullableListFilter<"Lesson">
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     subjects?: SubjectListRelationFilter
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
@@ -37437,6 +37442,7 @@ export namespace Prisma {
     vimeoVideoId?: SortOrder
     image?: SortOrderInput | SortOrder
     streams?: SortOrder
+    levels?: SortOrder
     createdAt?: SortOrder
     _count?: LessonCountOrderByAggregateInput
     _avg?: LessonAvgOrderByAggregateInput
@@ -37455,6 +37461,7 @@ export namespace Prisma {
     vimeoVideoId?: StringWithAggregatesFilter<"Lesson"> | string
     image?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     streams?: EnumStreamNullableListFilter<"Lesson">
+    levels?: EnumLevelNullableListFilter<"Lesson">
     createdAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
   }
 
@@ -39355,8 +39362,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -39383,8 +39390,8 @@ export namespace Prisma {
     teacherName: string
     teacherId?: string | null
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -39409,8 +39416,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -39437,8 +39444,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -39464,8 +39471,8 @@ export namespace Prisma {
     teacherName: string
     teacherId?: string | null
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -39479,8 +39486,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -39495,8 +39502,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -39511,6 +39518,7 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
     createdAt?: Date | string
     subjects?: SubjectCreateNestedManyWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
@@ -39525,6 +39533,7 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
@@ -39539,6 +39548,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
@@ -39553,6 +39563,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
@@ -39567,6 +39578,7 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
     createdAt?: Date | string
   }
 
@@ -39577,6 +39589,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -39587,6 +39600,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -41724,8 +41738,8 @@ export namespace Prisma {
     teacherName?: SortOrder
     teacherId?: SortOrder
     phase?: SortOrder
-    level?: SortOrder
-    stream?: SortOrder
+    levels?: SortOrder
+    streams?: SortOrder
     image?: SortOrder
     price?: SortOrder
     accessType?: SortOrder
@@ -41744,8 +41758,6 @@ export namespace Prisma {
     teacherName?: SortOrder
     teacherId?: SortOrder
     phase?: SortOrder
-    level?: SortOrder
-    stream?: SortOrder
     image?: SortOrder
     price?: SortOrder
     accessType?: SortOrder
@@ -41760,8 +41772,6 @@ export namespace Prisma {
     teacherName?: SortOrder
     teacherId?: SortOrder
     phase?: SortOrder
-    level?: SortOrder
-    stream?: SortOrder
     image?: SortOrder
     price?: SortOrder
     accessType?: SortOrder
@@ -41819,6 +41829,7 @@ export namespace Prisma {
     vimeoVideoId?: SortOrder
     image?: SortOrder
     streams?: SortOrder
+    levels?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -43604,6 +43615,14 @@ export namespace Prisma {
     deleteMany?: SubjectScalarWhereInput | SubjectScalarWhereInput[]
   }
 
+  export type SubjectCreatelevelsInput = {
+    set: $Enums.Level[]
+  }
+
+  export type SubjectCreatestreamsInput = {
+    set: $Enums.Stream[]
+  }
+
   export type TeacherCreateNestedOneWithoutSubjectsInput = {
     create?: XOR<TeacherCreateWithoutSubjectsInput, TeacherUncheckedCreateWithoutSubjectsInput>
     connectOrCreate?: TeacherCreateOrConnectWithoutSubjectsInput
@@ -43760,6 +43779,16 @@ export namespace Prisma {
     create?: XOR<LessonCreateWithoutSubjectsInput, LessonUncheckedCreateWithoutSubjectsInput> | LessonCreateWithoutSubjectsInput[] | LessonUncheckedCreateWithoutSubjectsInput[]
     connectOrCreate?: LessonCreateOrConnectWithoutSubjectsInput | LessonCreateOrConnectWithoutSubjectsInput[]
     connect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
+  }
+
+  export type SubjectUpdatelevelsInput = {
+    set?: $Enums.Level[]
+    push?: $Enums.Level | $Enums.Level[]
+  }
+
+  export type SubjectUpdatestreamsInput = {
+    set?: $Enums.Stream[]
+    push?: $Enums.Stream | $Enums.Stream[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -44094,6 +44123,10 @@ export namespace Prisma {
     set: $Enums.Stream[]
   }
 
+  export type LessonCreatelevelsInput = {
+    set: $Enums.Level[]
+  }
+
   export type SubjectCreateNestedManyWithoutLessonsInput = {
     create?: XOR<SubjectCreateWithoutLessonsInput, SubjectUncheckedCreateWithoutLessonsInput> | SubjectCreateWithoutLessonsInput[] | SubjectUncheckedCreateWithoutLessonsInput[]
     connectOrCreate?: SubjectCreateOrConnectWithoutLessonsInput | SubjectCreateOrConnectWithoutLessonsInput[]
@@ -44149,6 +44182,11 @@ export namespace Prisma {
   export type LessonUpdatestreamsInput = {
     set?: $Enums.Stream[]
     push?: $Enums.Stream | $Enums.Stream[]
+  }
+
+  export type LessonUpdatelevelsInput = {
+    set?: $Enums.Level[]
+    push?: $Enums.Level | $Enums.Level[]
   }
 
   export type SubjectUpdateManyWithoutLessonsNestedInput = {
@@ -46538,8 +46576,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -46564,8 +46602,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -46685,8 +46723,8 @@ export namespace Prisma {
     teacherName?: StringFilter<"Subject"> | string
     teacherId?: StringNullableFilter<"Subject"> | string | null
     phase?: EnumPhaseFilter<"Subject"> | $Enums.Phase
-    level?: EnumLevelFilter<"Subject"> | $Enums.Level
-    stream?: EnumStreamFilter<"Subject"> | $Enums.Stream
+    levels?: EnumLevelNullableListFilter<"Subject">
+    streams?: EnumStreamNullableListFilter<"Subject">
     image?: StringFilter<"Subject"> | string
     price?: FloatFilter<"Subject"> | number
     accessType?: StringFilter<"Subject"> | string
@@ -47082,6 +47120,7 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
     createdAt?: Date | string
     quiz?: QuizCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeCreateNestedManyWithoutLessonInput
@@ -47095,6 +47134,7 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
@@ -47406,6 +47446,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
     streams?: EnumStreamNullableListFilter<"Lesson">
+    levels?: EnumLevelNullableListFilter<"Lesson">
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
   }
 
@@ -47415,8 +47456,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -47442,8 +47483,8 @@ export namespace Prisma {
     teacherName: string
     teacherId?: string | null
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -47644,6 +47685,7 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
     createdAt?: Date | string
     subjects?: SubjectCreateNestedManyWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
@@ -47657,6 +47699,7 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
@@ -47686,6 +47729,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
@@ -47699,6 +47743,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
@@ -47712,6 +47757,7 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
     createdAt?: Date | string
     subjects?: SubjectCreateNestedManyWithoutLessonsInput
     mistakes?: StudentMistakeCreateNestedManyWithoutLessonInput
@@ -47725,6 +47771,7 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
@@ -47854,6 +47901,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUpdateManyWithoutLessonsNestedInput
     mistakes?: StudentMistakeUpdateManyWithoutLessonNestedInput
@@ -47867,6 +47915,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
@@ -48038,8 +48087,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -48065,8 +48114,8 @@ export namespace Prisma {
     teacherName: string
     teacherId?: string | null
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -48171,8 +48220,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -48198,8 +48247,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -48779,6 +48828,7 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
     createdAt?: Date | string
     subjects?: SubjectCreateNestedManyWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
@@ -48792,6 +48842,7 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
@@ -48913,6 +48964,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
@@ -48926,6 +48978,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
@@ -49030,8 +49083,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -49057,8 +49110,8 @@ export namespace Prisma {
     teacherName: string
     teacherId?: string | null
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -49163,8 +49216,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -49190,8 +49243,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -49215,8 +49268,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -49242,8 +49295,8 @@ export namespace Prisma {
     teacherName: string
     teacherId?: string | null
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -49283,8 +49336,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -49310,8 +49363,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -49554,8 +49607,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -49581,8 +49634,8 @@ export namespace Prisma {
     teacherName: string
     teacherId?: string | null
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -49611,8 +49664,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -49638,8 +49691,8 @@ export namespace Prisma {
     teacherName: string
     teacherId?: string | null
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -49730,8 +49783,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -49757,8 +49810,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -49793,8 +49846,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -49820,8 +49873,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -49981,8 +50034,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -50008,8 +50061,8 @@ export namespace Prisma {
     teacherName: string
     teacherId?: string | null
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -50038,8 +50091,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -50065,8 +50118,8 @@ export namespace Prisma {
     teacherName: string
     teacherId?: string | null
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -50187,8 +50240,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -50214,8 +50267,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -50250,8 +50303,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -50277,8 +50330,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -50662,8 +50715,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -50689,8 +50742,8 @@ export namespace Prisma {
     teacherName: string
     teacherId?: string | null
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -50789,8 +50842,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -50816,8 +50869,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -50906,8 +50959,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -50933,8 +50986,8 @@ export namespace Prisma {
     teacherName: string
     teacherId?: string | null
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -50974,8 +51027,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -51001,8 +51054,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -51026,8 +51079,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -51053,8 +51106,8 @@ export namespace Prisma {
     teacherName: string
     teacherId?: string | null
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -51118,8 +51171,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -51145,8 +51198,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -51876,8 +51929,8 @@ export namespace Prisma {
     description: string
     teacherName: string
     phase?: $Enums.Phase
-    level: $Enums.Level
-    stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -51891,8 +51944,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -51917,8 +51970,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -51943,8 +51996,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -52445,6 +52498,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUpdateManyWithoutLessonNestedInput
@@ -52458,6 +52512,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
@@ -52471,6 +52526,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -52496,8 +52552,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     teacherName?: StringFieldUpdateOperationsInput | string
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -52523,8 +52579,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -52549,8 +52605,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string

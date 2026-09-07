@@ -53,7 +53,7 @@ export default async function StudentLiveClassesPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {liveClasses.map(liveClass => {
-            const levelStr = LEVELS.find(l => l.value === liveClass.subject.level)?.label || liveClass.subject.level;
+            const levelStr = LEVELS.find(l => l.value === liveClass.subject.levels?.[0])?.label || liveClass.subject.levels?.[0] || '';
             const formattedDate = new Date(liveClass.date).toLocaleString('ar-DZ', { 
               weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
             });

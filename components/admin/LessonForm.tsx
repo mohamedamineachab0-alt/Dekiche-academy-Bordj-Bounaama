@@ -75,7 +75,7 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
   const [quizType, setQuizType] = useState<"MANUAL" | "AI">("MANUAL");
   const [quizMaxScore, setQuizMaxScore] = useState(20);
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
-  const [aiFile, setAiFile] = useState<File | null>(null);
+  const [selectedAiMaterialIndex, setSelectedAiMaterialIndex] = useState<number>(0);
   const [aiLanguage, setAiLanguage] = useState("العربية");
   const [manualQuestions, setManualQuestions] = useState<QuizQuestion[]>([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
   
@@ -112,8 +112,9 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
   };
 
   const handleAiGenerate = async () => {
+    const aiFile = materials[selectedAiMaterialIndex]?.file || null;
     if (!aiFile) {
-      setError("يرجى رفع ملف أولاً");
+      setError("يرجى إضافة ملحقات الدرس أولاً لاستخراج الكويز منها");
       return;
     }
 
@@ -593,34 +594,30 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
               </select>
             </div>
 
-            <div className="border-2 border-dashed border-purple-200 rounded-2xl p-8 flex flex-col items-center justify-center text-center bg-purple-50/50">
-              <label className="flex flex-col items-center gap-4 cursor-pointer w-full">
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center text-purple-700">
-                  <Upload className="w-8 h-8" />
+            <div className="space-y-2 mb-4">
+              <label className="text-sm font-bold text-purple-800 block">اختر الملف لاستخراج الكويز منه</label>
+              {materials.length > 0 ? (
+                <select
+                  value={selectedAiMaterialIndex}
+                  onChange={(e) => setSelectedAiMaterialIndex(Number(e.target.value))}
+                  className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-purple-600 outline-none"
+                >
+                  {materials.map((mat, idx) => (
+                    <option key={idx} value={idx}>{mat.title} ({mat.file.name})</option>
+                  ))}
+                </select>
+              ) : (
+                <div className="p-4 bg-amber-50 text-amber-800 rounded-lg text-sm font-bold flex items-center gap-2">
+                  <FileText className="w-5 h-5" />
+                  يرجى رفع ملحقات الدرس بالأسفل أولاً لتتمكن من استخراج الكويز منها
                 </div>
-                <div>
-                  <h3 className="font-bold text-purple-800 text-lg mb-1">
-                    {aiFile ? aiFile.name : "اضغط لرفع أي ملف (صورة، PDF، Word، Text) أو اسحبه هنا"}
-                  </h3>
-                  <p className="text-slate-500 text-sm max-w-md mx-auto">سيتم قراءة المحتوى وتوليد الأسئلة بشكل دقيق باللغة المحددة</p>
-                </div>
-                <input
-                  type="file"
-                  accept="*/*"
-                  onChange={(e) => {
-                    if (e.target.files && e.target.files.length > 0) {
-                      setAiFile(e.target.files[0]);
-                    }
-                  }}
-                  className="hidden"
-                />
-              </label>
+              )}
             </div>
 
             <button
               type="button"
               onClick={handleAiGenerate}
-              disabled={isGeneratingAi || !aiFile}
+              disabled={isGeneratingAi || materials.length === 0}
               className="w-full py-3.5 bg-white hover:bg-white text-purple-950 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
             >
               {isGeneratingAi ? (

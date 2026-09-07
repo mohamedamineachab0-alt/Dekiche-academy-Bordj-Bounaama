@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, FileText, Download } from "lucide-react";
+import { CheckCircle2, FileText, Download, X } from "lucide-react";
 import Link from "next/link";
 
 type LessonTabsProps = {
@@ -10,6 +10,7 @@ type LessonTabsProps = {
 
 export function LessonTabs({ lesson }: LessonTabsProps) {
   const [activeTab, setActiveTab] = useState<"details" | "attachments" | "quiz">("details");
+  const [previewFile, setPreviewFile] = useState<string | null>(null);
 
   return (
     <div className="w-full pt-4">
@@ -88,14 +89,12 @@ export function LessonTabs({ lesson }: LessonTabsProps) {
                           {mat.title}
                         </span>
                         <div className="flex items-center gap-2">
-                          <a 
-                            href={mat.fileUrl}
-                            target="_blank"
-                            rel="noreferrer"
+                          <button 
+                            onClick={() => setPreviewFile(mat.fileUrl)}
                             className="shrink-0 bg-purple-100 border-2 border-black text-purple-900 hover:bg-purple-200 px-4 py-2 rounded-lg text-xs font-black transition-all flex items-center gap-2"
                           >
                             عرض
-                          </a>
+                          </button>
                           <a 
                             href={`${mat.fileUrl}?download=`}
                             download
@@ -152,6 +151,23 @@ export function LessonTabs({ lesson }: LessonTabsProps) {
         )}
 
       </div>
+
+      {previewFile && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 md:p-8 animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl w-full max-w-6xl h-[90vh] flex flex-col overflow-hidden border-[3px] border-black shadow-[8px_8px_0px_rgba(0,0,0,1)] animate-in zoom-in-95 duration-300">
+            <div className="flex items-center justify-between p-4 border-b-2 border-slate-200 bg-slate-50">
+              <h3 className="font-black text-lg text-black">معاينة الملف</h3>
+              <button onClick={() => setPreviewFile(null)} className="p-2 flex items-center gap-2 bg-red-100 text-red-600 rounded-lg font-black border-2 border-red-200 hover:border-black hover:bg-red-200 hover:text-black transition-all shadow-sm">
+                <X className="w-5 h-5" />
+                إغلاق
+              </button>
+            </div>
+            <div className="flex-1 w-full bg-slate-100 relative">
+              <iframe src={previewFile} className="absolute inset-0 w-full h-full border-0" />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

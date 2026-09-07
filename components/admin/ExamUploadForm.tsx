@@ -25,9 +25,10 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
   const [stream, setStream] = useState("");
   const [file, setFile] = useState<File | null>(null);
 
-  const [numberOfQuestions, setNumberOfQuestions] = useState(5);
+  const [numberOfQuestions, setNumberOfQuestions] = useState(10);
   const [quizMaxScore, setQuizMaxScore] = useState(20);
   const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+  const [aiLanguage, setAiLanguage] = useState("العربية");
 
   const [quizType, setQuizType] = useState<"MANUAL" | "AI">("MANUAL");
   const [manualQuestions, setManualQuestions] = useState<QuizQuestion[]>([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
@@ -88,15 +89,53 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
     setError("");
 
     try {
-      const base64Data = await compressImageForAi(file);
+      let imageBase64 = null;
+      let pdfBase64 = null;
+      let docxBase64 = null;
+      let textContent = null;
+
+      if (file.type === "application/pdf") {
+        const reader = new FileReader();
+        const pdfPromise = new Promise<string>((resolve, reject) => {
+          reader.onload = () => {
+            const base64String = (reader.result as string).split(',')[1];
+            resolve(base64String);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+        pdfBase64 = await pdfPromise;
+      } else if (
+        file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+        file.name.endsWith(".docx")
+      ) {
+        const reader = new FileReader();
+        const docxPromise = new Promise<string>((resolve, reject) => {
+          reader.onload = () => {
+            const base64String = (reader.result as string).split(',')[1];
+            resolve(base64String);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+        docxBase64 = await docxPromise;
+      } else if (file.type.startsWith("image/")) {
+        imageBase64 = await compressImageForAi(file);
+      } else {
+        textContent = await file.text();
+      }
       
       const response = await fetch('/api/generate-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          imageBase64: base64Data,
-          numberOfQuestions: numberOfQuestions,
-          totalPoints: quizMaxScore
+          imageBase64,
+          pdfBase64,
+          docxBase64,
+          textContent,
+          numberOfQuestions,
+          totalPoints: quizMaxScore,
+          language: aiLanguage
         })
       });
 
@@ -198,18 +237,18 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
                 {file ? file.name : "اضغط لرفع صورة أو اسحبها هنا"}
               </span>
               <input 
-                type="file" 
-                accept="image/*,.pdf"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-            </label>
-          </div>
+              type="file" 
+              accept="*/*"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+          </label>
+        </div>
 
-          {file && file.type.startsWith("image/") && (
+        {file && (
             <div className="bg-purple-50 p-6 rounded-2xl border border-purple-100 space-y-4 mt-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-2">
                   <label className="text-sm font-bold text-purple-800 block">عدد الأسئلة</label>
                   <input 
                     type="number" 
@@ -223,14 +262,28 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-purple-800 block">مجموع النقاط</label>
                   <input 
-                    type="number" 
-                    value={quizMaxScore}
-                    onChange={e => setQuizMaxScore(Number(e.target.value))}
-                    min={1}
-                    className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-purple-600 outline-none"
-                  />
-                </div>
+                  type="number" 
+                  value={quizMaxScore}
+                  onChange={e => setQuizMaxScore(Number(e.target.value))}
+                  min={1}
+                  className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-purple-600 outline-none"
+                />
               </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-purple-800 block">لغة الأسئلة</label>
+                <select
+                  value={aiLanguage}
+                  onChange={(e) => setAiLanguage(e.target.value)}
+                  className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-purple-600 outline-none"
+                >
+                  <option value="العربية">العربية (Arabic)</option>
+                  <option value="English">الإنجليزية (English)</option>
+                  <option value="Français">الفرنسية (French)</option>
+                  <option value="Español">الإسبانية (Spanish)</option>
+                  <option value="LATEX">لاتيكس (LaTeX - للرياضيات)</option>
+                </select>
+              </div>
+            </div>
               <button
                 type="button"
                 onClick={handleAiGenerate}

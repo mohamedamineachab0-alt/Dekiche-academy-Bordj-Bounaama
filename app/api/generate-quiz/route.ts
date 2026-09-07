@@ -27,6 +27,9 @@ CRITICAL INSTRUCTIONS & CONSTRAINTS:
 
     let userContent: any[] = [];
     if (pdfBase64) {
+      if (typeof globalThis.DOMMatrix === 'undefined') {
+        (globalThis as any).DOMMatrix = class DOMMatrix {};
+      }
       const pdfParse = require('pdf-parse');
       const pdfBuffer = Buffer.from(pdfBase64, 'base64');
       const pdfData = await pdfParse(pdfBuffer);

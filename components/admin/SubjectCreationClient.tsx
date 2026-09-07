@@ -20,7 +20,7 @@ export function SubjectCreationClient({
   const [levels, setLevels] = useState<string[]>([]);
   const [streams, setStreams] = useState<string[]>([]);
   const [isFree, setIsFree] = useState(false);
-  const [price, setPrice] = useState("2500");
+  const [price, setPrice] = useState("");
   const [accessType, setAccessType] = useState("MONTHLY");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState("");
@@ -74,7 +74,7 @@ export function SubjectCreationClient({
             معاينة حية
           </div>
           <div className="absolute top-2 right-2 bg-white/90 dark:bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold text-purple-800 dark:text-purple-500 shadow-sm">
-            {isFree ? "مجانا" : `${price} دج`}
+            {isFree ? "مجانا" : (price ? `${price} دج` : "حدد السعر")}
           </div>
         </div>
         <div className="p-5 flex-1 flex flex-col">
@@ -235,7 +235,7 @@ export function SubjectCreationClient({
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-sm font-bold text-purple-800 dark:text-purple-800">السعر</label>
-                  <input type="number" name="price" required value={price} onChange={e => setPrice(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-purple-950 dark:text-purple-950 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600" />
+                  <input type="number" name="price" required value={price} onChange={e => setPrice(e.target.value)} placeholder="مثال: 2500" className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-purple-200 bg-white dark:bg-white text-purple-950 dark:text-purple-950 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600" />
                 </div>
                 <div className="space-y-1">
                   <label className="text-sm font-bold text-purple-800 dark:text-purple-800">نوع الوصول</label>

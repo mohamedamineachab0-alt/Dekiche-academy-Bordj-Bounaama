@@ -9,12 +9,14 @@ export default async function AdminLiveClassesPage() {
   const liveClasses = await prisma.liveClass.findMany({
     orderBy: { date: "asc" },
     include: {
-      subject: true,
+      subject: {
+        select: { id: true, title: true, levels: true, streams: true },
+      },
     }
   });
 
   const subjects = await prisma.subject.findMany({
-    select: { id: true, title: true, level: true, stream: true }
+    select: { id: true, title: true, levels: true, streams: true }
   });
 
   return (

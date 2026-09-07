@@ -8,7 +8,7 @@ export function NotificationFormClient({
   subjects,
   action,
 }: {
-  subjects: { id: string; title: string; phase: string; level: string; stream: string }[];
+  subjects: { id: string; title: string; phase: string; levels: any[]; streams: any[] }[];
   action: (formData: FormData) => void;
 }) {
   const [phase, setPhase] = useState("");
@@ -21,8 +21,8 @@ export function NotificationFormClient({
 
   const filteredSubjects = subjects.filter((s) => {
     if (phase && s.phase !== phase) return false;
-    if (level && s.level !== level) return false;
-    if (stream && s.stream !== stream && stream !== "NONE") return false;
+    if (level && !s.levels?.includes(level)) return false;
+    if (stream && !s.streams?.includes(stream) && stream !== "NONE") return false;
     return true;
   });
 

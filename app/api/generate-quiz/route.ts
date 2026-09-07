@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
-const pdfParse = require('pdf-parse');
 const mammoth = require('mammoth');
 
 // Initialize the OpenAI client with the specific token/key
@@ -28,6 +27,7 @@ CRITICAL INSTRUCTIONS & CONSTRAINTS:
 
     let userContent: any[] = [];
     if (pdfBase64) {
+      const pdfParse = require('pdf-parse');
       const pdfBuffer = Buffer.from(pdfBase64, 'base64');
       const pdfData = await pdfParse(pdfBuffer);
       userContent = [

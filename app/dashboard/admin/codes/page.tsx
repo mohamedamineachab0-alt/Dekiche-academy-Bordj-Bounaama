@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Key, Plus, Hash, Copy } from "lucide-react";
+import { Key, Plus, Hash, Copy, Download } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { CodeGeneratorClient } from "@/components/admin/CodeGeneratorClient";
 
@@ -30,7 +30,14 @@ export default async function AdminCodesPage() {
         </div>
 
         {/* List */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-4">
+          <div className="flex items-center justify-between px-2">
+            <h2 className="text-xl font-black text-purple-950 dark:text-purple-950">آخر الرموز</h2>
+            <a href="/api/admin/export-codes" className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-xl text-sm font-bold transition-colors shadow-sm">
+              <Download className="w-4 h-4" />
+              تصدير للإكسل (Excel)
+            </a>
+          </div>
           <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
             <table className="w-full text-sm text-right">
               <thead className="bg-white border-b border-slate-100 text-slate-500">

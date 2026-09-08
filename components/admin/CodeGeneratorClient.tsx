@@ -19,6 +19,27 @@ export function CodeGeneratorClient({ subjects }: { subjects: { id: string, titl
     
     if (result.success && result.codes) {
       setGeneratedCodes(result.codes);
+      
+      // Auto-download as Excel-compatible CSV
+      const subjectId = formData.get("subjectId") as string;
+      const subjectTitle = subjects.find(s => s.id === subjectId)?.title || "مادة غير معروفة";
+      
+      const header = "الرمز,المادة,النوع,الشهور\n";
+      const rows = result.codes.map((c: any) => {
+        const typeStr = c.accessType === "YEARLY" ? "سنوي" : "شهري";
+        const monthsStr = `"${c.validMonths?.join(' - ') || ''}"`;
+        return `${c.code},${subjectTitle},${typeStr},${monthsStr}`;
+      }).join("\n");
+      
+      // Add BOM (\uFEFF) for Excel to read Arabic correctly
+      const csvContent = "\uFEFF" + header + rows;
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `رموز_دخول_${subjectTitle.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
     
     setPending(false);

@@ -1,91 +1,91 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
-const mammoth = require('mammoth');
+import { PrismaClient } from '@prisma/client';
 
-// Initialize the OpenAI client with the specific token/key
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || 'user-BQRTDI4AAUJeJucXMheuuVME',
-});
+const prisma = new PrismaClient();
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req: Request) {
   try {
-    const { imageBase64, pdfBase64, docxBase64, textContent, numberOfQuestions, totalPoints, language } = await req.json();
+    const { lessonId, imageBase64, pdfText, lessonTitle, subjectTitle, level, numberOfQuestions, totalPoints, forcedLanguage } = await req.json();
 
-    if ((!imageBase64 && !pdfBase64 && !docxBase64 && !textContent) || !numberOfQuestions || !totalPoints) {
+    if (!lessonId || !numberOfQuestions || !totalPoints) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const systemPrompt = `You are an elite educational evaluator and subject matter expert for the Algerian curriculum. Your task is to generate a highly rigorous, pedagogically sound, and flawlessly accurate multiple-choice quiz based ONLY on the provided lesson material.
+    const isSTEM = ["Math", "Physics", "Science", "رياضيات", "فيزياء", "علوم"].some(s => subjectTitle?.includes(s));
+    let language = forcedLanguage;
+    
+    if (!language) {
+      if (["English", "إنجليزية"].some(s => subjectTitle?.includes(s))) language = "English";
+      else if (["French", "فرنسية"].some(s => subjectTitle?.includes(s))) language = "French";
+      else language = "Arabic";
+    }
 
-CRITICAL INSTRUCTIONS & CONSTRAINTS:
-1. QUANTITY & SCORING: Generate EXACTLY ${numberOfQuestions} questions. The total sum of 'points' across all questions MUST equal EXACTLY ${totalPoints}. Distribute points logically based on question difficulty.
-2. FORMAT & CHOICES: Provide exactly 4 choices per question. The choices must be plausible distractors to test deep understanding, not just surface recall. DO NOT prepend letters (like A., B.) or numbers to the choices.
-3. LANGUAGE & TONE: The quiz MUST be generated in ${language || 'the exact language of the uploaded subject'}. Maintain a formal, academic tone appropriate for Algerian students. If 'LATEX' is requested, use LaTeX for all text and math.
-4. MATH & SCIENTIFIC FORMATTING: Use strict LaTeX for all mathematical formulas, symbols, and fractions, wrapped in single $ signs (e.g., $E = mc^2$). You MUST double-escape all backslashes for valid JSON (e.g., \\\\frac, \\\\sqrt).
-5. ACCURACY & EXCLUSIVITY: All questions must be strictly derived from the provided content. Do not invent external facts. Ensure exactly ONE correct answer per question.
-6. JSON OUTPUT STRICTNESS: Output ONLY a valid JSON object. No markdown wrapping (do not use \`\`\`json), no preamble, no explanations. The JSON must contain a single key 'quiz' containing an array of objects. Each object must strictly match this schema: { "question": string, "options": [string, string, string, string], "correctAnswerIndex": integer (0-3), "points": number }.`;
+    const systemPrompt = `You are an expert AI quiz generator for the Algerian curriculum.
+Task: Generate exactly ${numberOfQuestions} QCM questions.
+Language: ${language}. Subject: ${subjectTitle} (${level}). Lesson: ${lessonTitle}.
 
-    let userContent: any[] = [];
-    if (pdfBase64) {
-      if (typeof globalThis.DOMMatrix === 'undefined') {
-        (globalThis as any).DOMMatrix = class DOMMatrix {};
-      }
-      const pdfParse = require('pdf-parse');
-      const pdfBuffer = Buffer.from(pdfBase64, 'base64');
-      const pdfData = await pdfParse(pdfBuffer);
-      userContent = [
-        { type: 'text', text: `Generate a quiz from this text content:\n\n${pdfData.text}` }
-      ];
-    } else if (docxBase64) {
-      const docxBuffer = Buffer.from(docxBase64, 'base64');
-      const result = await mammoth.extractRawText({ buffer: docxBuffer });
-      userContent = [
-        { type: 'text', text: `Generate a quiz from this text content:\n\n${result.value}` }
-      ];
-    } else if (textContent) {
-      userContent = [
-        { type: 'text', text: `Generate a quiz from this text content:\n\n${textContent}` }
-      ];
-    } else if (imageBase64) {
-      userContent = [
-        { type: 'text', text: 'Generate a quiz from this content.' },
-        {
-          type: 'image_url',
-          image_url: {
-            url: `data:image/jpeg;base64,${imageBase64}`,
-            detail: 'low',
-          },
-        },
-      ];
+RULES:
+1. Return exactly ${numberOfQuestions} questions.
+2. Each question MUST have exactly 4 options.
+3. Provide the correct answer index (0-3).
+4. ${isSTEM ? "This is a STEM subject. ALL math formulas, numbers, and variables MUST be wrapped in LaTeX `$` (e.g., $f(x) = x^2$). Double-escape backslashes." : "This is a literary subject. DO NOT use LaTeX or math symbols."}
+
+Return ONLY a JSON object in this format:
+{
+  "questions": [
+    {
+      "id": "uuid",
+      "question": "Question text",
+      "options": ["Opt1", "Opt2", "Opt3", "Opt4"],
+      "correctAnswerIndex": 0,
+      "points": ${totalPoints / numberOfQuestions}
+    }
+  ]
+}`;
+
+    const messages: any[] = [{ role: 'system', content: systemPrompt }];
+
+    if (imageBase64) {
+      messages.push({
+        role: 'user',
+        content: [
+          { type: 'text', text: 'Generate questions from this image.' },
+          { type: 'image_url', image_url: { url: imageBase64.startsWith('data:') ? imageBase64 : `data:image/jpeg;base64,${imageBase64}` } }
+        ]
+      });
+    } else {
+      messages.push({ role: 'user', content: `Context: ${pdfText || lessonTitle}` });
     }
 
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
+      messages,
       response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: systemPrompt },
-        {
-          role: 'user',
-          content: userContent,
-        },
-      ],
-      max_tokens: 2000,
-      temperature: 0.2,
     });
 
-    const result = response.choices[0]?.message?.content;
-    
-    if (!result) {
-      throw new Error('No response from OpenAI');
+    const parsed = JSON.parse(response.choices[0].message.content || "{}");
+    if (!parsed.questions || parsed.questions.length !== numberOfQuestions) {
+      throw new Error('AI returned an invalid question count.');
     }
 
-    const parsedResult = JSON.parse(result);
-    return NextResponse.json({ questions: parsedResult.quiz });
+    const sanitizedQuestions = parsed.questions.map((q: any) => ({
+      id: crypto.randomUUID(),
+      question: q.question,
+      options: Array.isArray(q.options) && q.options.length === 4 ? q.options : ["A", "B", "C", "D"],
+      correctAnswerIndex: q.correctAnswerIndex ?? 0,
+      points: Number((totalPoints / numberOfQuestions).toFixed(2))
+    }));
+
+    const quiz = await prisma.quiz.upsert({
+      where: { lessonId },
+      update: { questions: sanitizedQuestions, maxScore: totalPoints, aiGenerated: true },
+      create: { lessonId, questions: sanitizedQuestions, maxScore: totalPoints, aiGenerated: true },
+    });
+
+    return NextResponse.json({ success: true, quiz });
   } catch (error: any) {
-    console.error('Error generating AI quiz:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to generate quiz' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

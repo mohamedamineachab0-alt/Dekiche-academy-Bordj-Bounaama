@@ -127,7 +127,7 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
       let docxBase64 = null;
       let textContent = null;
 
-      if (aiFile.type === "application/pdf") {
+      if (aiFile.type === "application/pdf" || aiFile.name.toLowerCase().endsWith('.pdf')) {
         const reader = new FileReader();
         const pdfPromise = new Promise<string>((resolve, reject) => {
           reader.onload = () => {
@@ -140,7 +140,7 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
         pdfBase64 = await pdfPromise;
       } else if (
         aiFile.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-        aiFile.name.endsWith(".docx")
+        aiFile.name.toLowerCase().endsWith(".docx")
       ) {
         const reader = new FileReader();
         const docxPromise = new Promise<string>((resolve, reject) => {
@@ -152,7 +152,7 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
           reader.readAsDataURL(aiFile);
         });
         docxBase64 = await docxPromise;
-      } else if (aiFile.type.startsWith("image/")) {
+      } else if (aiFile.type.startsWith("image/") || /\.(jpg|jpeg|png|webp|gif)$/i.test(aiFile.name)) {
         imageBase64 = await compressImageForAi(aiFile);
       } else {
         // Fallback to plain text for .txt, .csv, etc.

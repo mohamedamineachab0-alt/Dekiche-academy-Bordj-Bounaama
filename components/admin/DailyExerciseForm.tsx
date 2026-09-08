@@ -83,7 +83,7 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
       let docxBase64 = null;
       let textContent = null;
 
-      if (file.type === "application/pdf") {
+      if (file.type === "application/pdf" || file.name.toLowerCase().endsWith('.pdf')) {
         const reader = new FileReader();
         const pdfPromise = new Promise<string>((resolve, reject) => {
           reader.onload = () => {
@@ -96,7 +96,7 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
         pdfBase64 = await pdfPromise;
       } else if (
         file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-        file.name.endsWith(".docx")
+        file.name.toLowerCase().endsWith(".docx")
       ) {
         const reader = new FileReader();
         const docxPromise = new Promise<string>((resolve, reject) => {
@@ -108,7 +108,7 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
           reader.readAsDataURL(file);
         });
         docxBase64 = await docxPromise;
-      } else if (file.type.startsWith("image/")) {
+      } else if (file.type.startsWith("image/") || /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name)) {
         imageBase64 = await compressImageForAi(file);
       } else {
         textContent = await file.text();

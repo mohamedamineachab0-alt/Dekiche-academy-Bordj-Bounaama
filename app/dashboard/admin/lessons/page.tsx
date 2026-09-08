@@ -95,8 +95,12 @@ export default async function AdminLessonsPage({
                     {monthLessons.map(lesson => (
                       <div key={lesson.id} className="border border-slate-100 rounded-2xl p-4 flex flex-col">
                         <div className="flex items-center gap-4 mb-4">
-                          <div className="w-12 h-12 rounded-xl bg-purple-100 overflow-hidden shrink-0 border border-purple-200 flex items-center justify-center">
-                            <PlayCircle className="w-6 h-6 text-purple-600" />
+                          <div className="w-12 h-12 rounded-xl bg-purple-100 overflow-hidden shrink-0 border border-purple-200 flex items-center justify-center relative">
+                            {lesson.image ? (
+                              /* eslint-disable-next-line @next/next/no-img-element */
+                              <img src={lesson.image} alt={lesson.title} className="absolute inset-0 w-full h-full object-cover z-0" />
+                            ) : null}
+                            <PlayCircle className="w-6 h-6 text-purple-600 relative z-10" />
                           </div>
                           <div>
                             <h4 className="font-bold text-purple-950">{lesson.title}</h4>

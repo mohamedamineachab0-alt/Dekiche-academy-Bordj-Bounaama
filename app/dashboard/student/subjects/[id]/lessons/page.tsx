@@ -80,7 +80,11 @@ export default async function SubjectLessonsPage({
               className="bg-white rounded-3xl overflow-hidden border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all group flex flex-col"
             >
               <div className="aspect-video relative bg-[#FACC15]/20 overflow-hidden border-b-2 border-black flex items-center justify-center group-hover:bg-[#FACC15]/40 transition-colors">
-                <div className="w-16 h-16 bg-white border-2 border-black rounded-full flex items-center justify-center text-black shadow-sm group-hover:scale-110 transition-transform">
+                {lesson.image && (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img src={lesson.image} alt={lesson.title} className="absolute inset-0 w-full h-full object-cover z-0" />
+                )}
+                <div className="w-16 h-16 bg-white border-2 border-black rounded-full flex items-center justify-center text-black shadow-sm group-hover:scale-110 transition-transform relative z-10">
                   <PlayCircle className="w-8 h-8" />
                 </div>
                 <div className="absolute top-3 right-3 bg-[#FACC15] text-black border-2 border-black text-xs font-black px-3 py-1 rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]">

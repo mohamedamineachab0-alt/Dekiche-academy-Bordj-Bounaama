@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createLesson, LessonPayload } from "@/actions/lessons";
 import { generateQuizFromImage } from "@/actions/ai";
-import { Upload, X, Plus, Loader2, PlayCircle, Save, CheckCircle2, FileText, BrainCircuit, Image as ImageIcon } from "lucide-react";
+import { Upload, X, Plus, Loader2, PlayCircle, Save, CheckCircle2, FileText, BrainCircuit, Image as ImageIcon, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { MonthSelect } from "@/components/shared/MonthSelect";
@@ -79,6 +79,16 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
   const [aiLanguage, setAiLanguage] = useState("العربية");
   const [manualQuestions, setManualQuestions] = useState<QuizQuestion[]>([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
   
+  useEffect(() => {
+    const hasMath = subjectIds.some(id => {
+      const subject = subjects.find(s => s.id === id);
+      return subject && subject.title.includes("رياضيات");
+    });
+    if (hasMath) {
+      setAiLanguage("LATEX");
+    }
+  }, [subjectIds, subjects]);
+
   const [isGeneratingAi, setIsGeneratingAi] = useState(false);
 
   const [materials, setMaterials] = useState<{ file: File; title: string }[]>([]);
@@ -196,7 +206,9 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files).map(file => ({
         file,
-        title: materialTitle.trim() !== "" ? materialTitle : file.name.split(".")[0]
+        title: materialTitle.trim() !== "" 
+          ? materialTitle 
+          : (title.trim() !== "" ? title : file.name.split(".")[0])
       }));
       setMaterials([...materials, ...newFiles]);
       setMaterialTitle(""); // Reset for next file

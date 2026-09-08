@@ -27,22 +27,12 @@ export async function GET() {
       orderBy: { createdAt: 'desc' }
     });
 
-    const data = codes.map(c => ({
-      "الرمز": c.code,
-      "المادة": c.subject.title,
-      "النوع": c.accessType === "YEARLY" ? "سنوي" : "شهري",
-      "الشهور": c.validMonths?.join(", ") || "-"
-    }));
+    const codesList = codes.map(c => c.code).join('\n');
 
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "الرموز غير المستخدمة");
-    const buffer = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
-
-    return new NextResponse(buffer, {
+    return new NextResponse(codesList, {
       headers: {
-        "Content-Disposition": 'attachment; filename="codes.xlsx"',
-        "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        "Content-Disposition": 'attachment; filename="codes.txt"',
+        "Content-Type": "text/plain; charset=utf-8"
       }
     });
   } catch (error) {

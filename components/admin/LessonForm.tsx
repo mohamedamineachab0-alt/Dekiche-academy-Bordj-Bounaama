@@ -179,7 +179,9 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
           textContent,
           numberOfQuestions,
           totalPoints: quizMaxScore,
-          language: aiLanguage
+          language: aiLanguage,
+          subjectName: subjects.find(s => s.id === subjectIds[0])?.title,
+          title
         })
       });
 

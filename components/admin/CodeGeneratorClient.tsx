@@ -24,15 +24,9 @@ export function CodeGeneratorClient({ subjects }: { subjects: { id: string, titl
       const subjectId = formData.get("subjectId") as string;
       const subjectTitle = subjects.find(s => s.id === subjectId)?.title || "مادة غير معروفة";
       
-      const header = "الرمز,المادة,النوع,الشهور\n";
-      const rows = result.codes.map((c: any) => {
-        const typeStr = c.accessType === "YEARLY" ? "سنوي" : "شهري";
-        const monthsStr = `"${c.validMonths?.join(' - ') || ''}"`;
-        return `${c.code},${subjectTitle},${typeStr},${monthsStr}`;
-      }).join("\n");
+      const rows = result.codes.map((c: any) => c.code).join("\n");
       
-      // Add BOM (\uFEFF) for Excel to read Arabic correctly
-      const csvContent = "\uFEFF" + header + rows;
+      const csvContent = "\uFEFF" + rows;
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);

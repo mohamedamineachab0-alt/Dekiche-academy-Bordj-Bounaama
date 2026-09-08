@@ -18,13 +18,30 @@ export async function POST(req: Request) {
     let systemPrompt = '';
     
     if (type === 'daily_exercise') {
-      systemPrompt = `You are an expert educator. Analyze the uploaded daily exercise image for Level: ${level}, Stream: ${stream || 'N/A'}, Subject: ${subject}, Month: ${month}.
-      Extract/Generate questions and output strictly as a JSON object with a 'questions' array.
-      Each question object MUST have:
-      - 'question': string (the question text)
-      - 'options': array of 4 strings (possible answers)
-      - 'correctAnswerIndex': number (0-3 indicating the correct option)
-      Ensure strict LaTeX formatting for math ($...$). Double-escape backslashes.`;
+      systemPrompt = `أنت كبير مفتشي الامتحانات ومصممي بنوك الأسئلة في منصة "ديكيش أكاديمي" وخبير فك وتحليل الخطوط اليدوية (Expert Handwriting OCR) للمنهاج الجزائري.
+حلل صورة التمرين اليومي المرفقة للمستوى: ${level}، الشعبة: ${stream || 'N/A'}، المادة: ${subject}، الشهر: ${month}.
+
+القاعدة التشغيلية المطلقة (إلزامية التوليد):
+يجب عليك دائماً وأبداً استخراج أو توليد كويز رقمي كامل يتكون من [5] أسئلة اختيار من متعدد (QCM). ممنوع الاعتذار أو إرجاع مصفوفة فارغة. اقفل على المادة المحددة والتزم بها.
+
+لغة الصياغة:
+اللغة العربية الفصحى حصراً (إلا إذا كانت المادة لغة أجنبية).
+
+قواعد الترميز (LaTeX/KaTeX Rigor):
+- لأي تعبير رياضي أو رمز: ضعه حصراً داخل علامتي دولار $...$ (مثال: $f(x) = 2x + 1$). يجب مضاعفة الهروب (Double-escape backslashes) لكي يعمل JSON (مثال: \\\\frac).
+- لكل سؤال 4 خيارات حصرية: 1 صحيح، 3 مموهات.
+
+التنسيق الإلزامي الصارم:
+أخرج كائن JSON حصراً، بدون أي نصوص تمهيدية أو توديعية وبدون Markdown، بالشكل التالي:
+{
+  "questions": [
+    {
+      "question": "نص السؤال",
+      "options": ["خيار 1", "خيار 2", "خيار 3", "خيار 4"],
+      "correctAnswerIndex": 0
+    }
+  ]
+}`;
     } else if (type === 'exam') {
        systemPrompt = `You are an expert educator. Analyze the uploaded exam image for Level: ${level}, Stream: ${stream || 'N/A'}, Subject: ${subject}, Month: ${month}.
       Extract the questions and allocate a total of ${maxScore || 20} marks. Output strictly as a JSON object with a 'questions' array.

@@ -20,6 +20,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
   const [error, setError] = useState("");
   const router = useRouter();
 
+  const [title, setTitle] = useState("");
   const [phase, setPhase] = useState("");
   const [level, setLevel] = useState("");
   const [stream, setStream] = useState("");
@@ -32,6 +33,8 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
 
   const [quizType, setQuizType] = useState<"MANUAL" | "AI">("MANUAL");
   const [manualQuestions, setManualQuestions] = useState<QuizQuestion[]>([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
+
+  const [subjectId, setSubjectId] = useState("");
 
   const filteredSubjects = subjects.filter(s => {
     if (phase && s.phase !== phase) return false;
@@ -124,6 +127,8 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
         textContent = await file.text();
       }
       
+      const subjectName = subjects.find(s => s.id === subjectId)?.title;
+
       const response = await fetch('/api/generate-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -134,7 +139,9 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
           textContent,
           numberOfQuestions,
           totalPoints: quizMaxScore,
-          language: aiLanguage
+          language: aiLanguage,
+          subjectName,
+          title
         })
       });
 
@@ -221,6 +228,8 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
           <input
             type="text"
             name="title"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
             required
             placeholder="مثال: فرض الفصل الأول في الرياضيات"
             className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
@@ -367,6 +376,8 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
             <label className="text-sm font-bold text-purple-800">المادة الأساسية</label>
             <select
               name="subjectId"
+              value={subjectId}
+              onChange={(e) => setSubjectId(e.target.value)}
               required
               className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
             >

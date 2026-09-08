@@ -102,9 +102,14 @@ export default async function AdminLessonsPage({
                             ) : null}
                             <PlayCircle className="w-6 h-6 text-purple-600 relative z-10" />
                           </div>
-                          <div>
-                            <h4 className="font-bold text-purple-950">{lesson.title}</h4>
-                            <p className="text-xs text-slate-500 font-mono">Vimeo: {lesson.vimeoVideoId}</p>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                              <h4 className="font-bold text-purple-950">{lesson.title}</h4>
+                              <a href={`/dashboard/admin/lessons/${lesson.id}/edit`} className="text-xs bg-purple-100 hover:bg-purple-200 text-purple-700 px-3 py-1.5 rounded-lg font-bold transition-colors">
+                                تعديل الدرس
+                              </a>
+                            </div>
+                            <p className="text-xs text-slate-500 font-mono mt-1">Vimeo: {lesson.vimeoVideoId}</p>
                           </div>
                         </div>
                         

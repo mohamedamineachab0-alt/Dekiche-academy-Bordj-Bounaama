@@ -24,6 +24,7 @@ type QuizQuestion = {
 };
 
 export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
+  const [title, setTitle] = useState("");
   const [phase, setPhase] = useState("");
   const [level, setLevel] = useState("");
   const [stream, setStream] = useState("");
@@ -38,6 +39,8 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
 
   const [quizType, setQuizType] = useState<"MANUAL" | "AI">("MANUAL");
   const [manualQuestions, setManualQuestions] = useState<QuizQuestion[]>([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
+
+  const [subjectId, setSubjectId] = useState("");
 
   const handleQuestionChange = (index: number, value: string) => {
     const newQs = [...manualQuestions];
@@ -114,6 +117,8 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
         textContent = await file.text();
       }
       
+      const subjectName = subjects.find(s => s.id === subjectId)?.title;
+
       const response = await fetch('/api/generate-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -124,7 +129,9 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
           textContent,
           numberOfQuestions,
           totalPoints: quizMaxScore,
-          language: aiLanguage
+          language: aiLanguage,
+          subjectName,
+          title
         })
       });
 
@@ -233,7 +240,15 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1">
           <label className="text-sm font-bold text-purple-800">عنوان التمرين</label>
-          <input type="text" name="title" required className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="مثال: تمرين حول المتتاليات" />
+          <input 
+            type="text" 
+            name="title" 
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            required 
+            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none" 
+            placeholder="مثال: تمرين حول المتتاليات" 
+          />
         </div>
         
         <div className="space-y-1">
@@ -374,6 +389,8 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
             <label className="text-sm font-bold text-purple-800">المادة الأساسية</label>
             <select
               name="subjectId"
+              value={subjectId}
+              onChange={(e) => setSubjectId(e.target.value)}
               required
               className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
             >

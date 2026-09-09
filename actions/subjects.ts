@@ -104,7 +104,7 @@ export async function generateAccessCode(
 
     // Generate N random codes
     const codes = Array.from({ length: count }).map(() => ({
-      code: Math.random().toString(36).substring(2, 10).toUpperCase() + "-" + Math.random().toString(36).substring(2, 6).toUpperCase(),
+      code: Array.from({ length: 8 }, () => Math.floor(Math.random() * 10)).join('') + "-" + Array.from({ length: 4 }, () => Math.floor(Math.random() * 10)).join(''),
       subjectId,
       accessType,
       validMonths,
@@ -137,7 +137,7 @@ export async function redeemAccessCode(
 
     // 1. Existence Check & Pre-validation
     const code = await prisma.accessCode.findUnique({
-      where: { code: codeStr.toUpperCase() },
+      where: { code: codeStr.trim() },
       include: { subject: true },
     });
 

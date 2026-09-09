@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { ChevronLeft, PlayCircle, Lock } from "lucide-react";
+import { ChevronLeft, PlayCircle } from "lucide-react";
 import Link from "next/link";
 
 export const dynamic = 'force-dynamic';
@@ -40,7 +40,6 @@ export default async function SubjectLessonsPage({
 
   if (!enrollment) redirect("/dashboard/student/subjects");
 
-  const enrolledMonths = enrollment.enrolledMonths;
   const allLessons = subject.lessons;
 
   return (
@@ -58,13 +57,13 @@ export default async function SubjectLessonsPage({
 
       <div>
         <h1 className="text-3xl font-black text-purple-950 mb-3 tracking-tight">الدروس المسجلة - {subject.title}</h1>
-        <p className="text-slate-500 font-medium text-lg max-w-3xl">تصفح جميع الدروس المتاحة ضمن هذا المقرر. الدروس المقفلة تتطلب الاشتراك في الشهر الخاص بها.</p>
+        <p className="text-slate-500 font-medium text-lg max-w-3xl">تصفح جميع الدروس المتاحة ضمن هذا المقرر.</p>
       </div>
 
       {allLessons.length === 0 ? (
         <div className="flex flex-col items-center justify-center min-h-[40vh] bg-white rounded-3xl border-2 border-dashed border-slate-200 p-8 text-center space-y-4">
           <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center text-slate-400">
-            <Lock className="w-10 h-10" />
+            <PlayCircle className="w-10 h-10" />
           </div>
           <div>
             <h2 className="text-xl font-black text-slate-700">لا توجد دروس متاحة حالياً</h2>
@@ -74,38 +73,6 @@ export default async function SubjectLessonsPage({
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {allLessons.map((lesson) => {
-            const isAccessible = enrolledMonths.includes(lesson.month);
-            
-            if (!isAccessible) {
-              return (
-                <div 
-                  key={lesson.id}
-                  className="bg-slate-50 rounded-3xl overflow-hidden border-2 border-slate-200 opacity-75 flex flex-col cursor-not-allowed"
-                >
-                  <div className="aspect-video relative bg-slate-200 overflow-hidden border-b-2 border-slate-300 flex items-center justify-center grayscale">
-                    {lesson.image && (
-                      <img src={lesson.image} alt={lesson.title} className="absolute inset-0 w-full h-full object-cover z-0 opacity-50" />
-                    )}
-                    <div className="w-16 h-16 bg-white/50 border-2 border-slate-400 rounded-full flex items-center justify-center text-slate-500 relative z-10 backdrop-blur-sm">
-                      <Lock className="w-6 h-6" />
-                    </div>
-                    <div className="absolute top-3 right-3 bg-slate-600 text-white border-2 border-slate-700 text-xs font-black px-3 py-1 rounded-lg">
-                      الشهر {lesson.month}
-                    </div>
-                  </div>
-                  <div className="p-5 flex-1 flex flex-col">
-                    <h3 className="font-black text-slate-600 text-lg mb-2 line-clamp-2 leading-tight">{lesson.title}</h3>
-                    <div className="mt-auto pt-4 flex items-center justify-between text-sm">
-                      <span className="text-slate-500 font-bold flex items-center gap-2">
-                        <Lock className="w-4 h-4" />
-                        غير متاح (اشترك في الشهر {lesson.month})
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-
             return (
               <Link 
                 href={`/dashboard/student/lessons/${lesson.id}`} 

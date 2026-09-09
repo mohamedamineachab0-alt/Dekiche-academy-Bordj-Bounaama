@@ -1,51 +1,36 @@
 import { cookies } from "next/headers";
+import { Header } from "@/components/landing/Header";
 import { HeroSection } from "@/components/landing/HeroSection";
-import { FeaturesSection } from "@/components/landing/FeaturesSection";
-import { TeamSection } from "@/components/landing/TeamSection";
-import { LeaderboardSection } from "@/components/landing/LeaderboardSection";
-import { prisma } from "@/lib/prisma";
-import { Book, PenTool, Notebook as NotebookIcon, Ruler, Calculator } from "lucide-react";
-
+import { WhyChooseUs } from "@/components/landing/WhyChooseUs";
+import { HowItWorksSection } from "@/components/landing/HowItWorksSection";
+import { TipsSection } from "@/components/landing/TipsSection";
+import { FaqSection } from "@/components/landing/FaqSection";
+import { Footer } from "@/components/landing/Footer";
 
 export default async function Home() {
   const cookieStore = await cookies();
   const sessionId = cookieStore.get("session")?.value;
-
   const isAuthenticated = !!sessionId;
 
-  // Fetch dynamic student statistics
-  const totalStudents = await prisma.studentProfile.count();
-  const totalParents = await prisma.parentStudentLink.count();
-  
-  // Fetch top 10 students by points
-  const topProfiles = await prisma.studentProfile.findMany({
-    orderBy: { totalPoints: 'desc' },
-    take: 10,
-    include: { user: true }
-  });
-
-  const topStudents = topProfiles.map(profile => ({
-    id: profile.userId,
-    name: profile.user.fullName,
-    points: profile.totalPoints
-  }));
-
   return (
-    <div dir="rtl" className="relative min-h-screen overflow-hidden bg-[#F8F9FA] bg-notebook-grid">
-
-      <div className="relative z-10">
+    <div dir="rtl" className="relative min-h-[100dvh] overflow-x-clip bg-background font-sans">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-0 opacity-40"
+        style={{
+          backgroundImage:
+            "radial-gradient(ellipse 50% 35% at 80% 10%, rgba(91,33,182,0.1), transparent 60%), radial-gradient(ellipse 40% 30% at 10% 60%, rgba(109,40,217,0.08), transparent 55%)",
+        }}
+      />
+      <Header isAuthenticated={isAuthenticated} />
+      <main className="relative z-10">
         <HeroSection isAuthenticated={isAuthenticated} />
-        <LeaderboardSection totalStudents={totalStudents} totalParents={totalParents} topStudents={topStudents} />
-        <FeaturesSection />
-        <TeamSection />
-        
-        {/* Footer brutalist */}
-        <footer className="relative py-12 bg-[#000000] text-[#FFFFFF] border-t-8 border-[#7E22CE] text-center">
-          <p className="text-lg font-bold tracking-wider">
-            جميع الحقوق محفوظة لمنصة أكاديمية دقيش التعليمية برج بونعامة © {new Date().getFullYear()}
-          </p>
-        </footer>
-      </div>
+        <WhyChooseUs />
+        <HowItWorksSection />
+        <TipsSection />
+        <FaqSection />
+      </main>
+      <Footer isAuthenticated={isAuthenticated} />
     </div>
   );
 }

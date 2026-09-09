@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { supabase, ensureBucketExists } from "@/lib/supabase";
 import { Level, Stream, Phase } from "@/generated/prisma";
+import { ensureAcademicMonth } from "@/lib/academic-month";
 
 export type SubjectActionState = {
   error?: string;
@@ -101,13 +102,23 @@ export async function generateAccessCode(
     }
 
     const validMonths = validMonthsStr.map(m => parseInt(m)).filter(n => !isNaN(n));
+    const resolvedMonths = [
+      ...new Set(
+        accessType === "YEARLY"
+          ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+          : [1, ...validMonths]
+      ),
+    ].sort((a, b) => a - b);
+    const linkedMonthNumber = 1;
+    const academicMonth = await ensureAcademicMonth(linkedMonthNumber);
 
     // Generate N random codes
     const codes = Array.from({ length: count }).map(() => ({
       code: Array.from({ length: 8 }, () => Math.floor(Math.random() * 10)).join('') + "-" + Array.from({ length: 4 }, () => Math.floor(Math.random() * 10)).join(''),
       subjectId,
       accessType,
-      validMonths,
+      validMonths: resolvedMonths,
+      monthId: academicMonth.id,
     }));
 
     await prisma.accessCode.createMany({
@@ -207,27 +218,33 @@ export async function redeemAccessCode(
         }
       });
 
-      if (existingEnrollment) {
-        // Merge months
-        const newMonths = new Set([...existingEnrollment.enrolledMonths, ...code.validMonths]);
-        if (code.accessType === "YEARLY") {
-          // Add 1-12
-          [1,2,3,4,5,6,7,8,9,10,11,12].forEach(m => newMonths.add(m));
+      const monthsFromCode = [
+        ...new Set([
+          1,
+          ...(currentCode.validMonths.length > 0 ? currentCode.validMonths : []),
+          ...(currentCode.accessType === "YEARLY" ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] : []),
+        ]),
+      ].sort((a, b) => a - b);
+      const initialMonths =
+        currentCode.accessType === "YEARLY"
+          ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+          : monthsFromCode;
+
+        if (existingEnrollment) {
+          const newMonths = new Set([...existingEnrollment.enrolledMonths, ...initialMonths]);
+          await tx.enrollment.update({
+            where: { id: existingEnrollment.id },
+            data: { enrolledMonths: Array.from(newMonths) },
+          });
+        } else {
+          await tx.enrollment.create({
+            data: {
+              studentId: sessionId,
+              subjectId: subjectIdToEnroll,
+              enrolledMonths: initialMonths,
+            }
+          });
         }
-        await tx.enrollment.update({
-          where: { id: existingEnrollment.id },
-          data: { enrolledMonths: Array.from(newMonths) },
-        });
-      } else {
-        const initialMonths = code.accessType === "YEARLY" ? [1,2,3,4,5,6,7,8,9,10,11,12] : code.validMonths;
-        await tx.enrollment.create({
-          data: {
-            studentId: sessionId,
-            subjectId: subjectIdToEnroll,
-            enrolledMonths: initialMonths,
-          }
-        });
-      }
       
       return { success: true };
     });

@@ -31,7 +31,7 @@ export default async function LessonQuizPage({
     : (lesson.quiz.questions as any[]);
 
   return (
-    <div className="max-w-4xl mx-auto py-8 font-arabic" dir="rtl">
+    <div className="max-w-4xl mx-auto py-4 sm:py-8 font-sans min-w-0" dir="rtl">
       <QuizClient 
         lessonId={lesson.id} 
         lessonTitle={lesson.title} 

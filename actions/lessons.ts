@@ -3,6 +3,8 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Stream } from "@/generated/prisma";
+import { ensureAcademicMonth } from "@/lib/academic-month";
+import { generateQuizFromSources, type QuizSourceFile } from "@/lib/ai/generate-quiz";
 
 export type LessonMaterialInput = {
   title: string;
@@ -36,6 +38,8 @@ export async function createLesson(payload: LessonPayload): Promise<ActionState>
   }
 
   try {
+    const academicMonth = await ensureAcademicMonth(payload.month);
+
     const lesson = await prisma.lesson.create({
       data: {
         title: payload.title,
@@ -45,6 +49,7 @@ export async function createLesson(payload: LessonPayload): Promise<ActionState>
         streams: payload.streams,
         levels: payload.levels,
         month: payload.month,
+        academicMonth: { connect: { id: academicMonth.id } },
         vimeoVideoId: payload.vimeoVideoId,
         image: payload.image || null,
         materials: {
@@ -124,6 +129,8 @@ export async function updateLesson(payload: UpdateLessonPayload): Promise<Action
   }
 
   try {
+    const academicMonth = await ensureAcademicMonth(payload.month);
+
     await prisma.lesson.update({
       where: { id: payload.id },
       data: {
@@ -134,6 +141,7 @@ export async function updateLesson(payload: UpdateLessonPayload): Promise<Action
         streams: payload.streams,
         levels: payload.levels,
         month: payload.month,
+        academicMonth: { connect: { id: academicMonth.id } },
         vimeoVideoId: payload.vimeoVideoId,
         ...(payload.image !== undefined && { image: payload.image }),
         ...(payload.quiz !== undefined && {
@@ -164,112 +172,107 @@ export async function updateLesson(payload: UpdateLessonPayload): Promise<Action
   }
 }
 
+function fileNameFromMaterial(title: string, fileUrl: string) {
+  const fromUrl = fileUrl.split("?")[0].split("/").pop() || "";
+  if (/\.[a-z0-9]+$/i.test(title)) return title;
+  if (/\.[a-z0-9]+$/i.test(fromUrl)) {
+    return `${title}.${fromUrl.split(".").pop()}`;
+  }
+  return title || fromUrl || "attachment";
+}
+
+async function loadMaterialFiles(materials: { title: string; fileUrl: string }[]): Promise<QuizSourceFile[]> {
+  const files: QuizSourceFile[] = [];
+  for (const material of materials) {
+    try {
+      const fileRes = await fetch(material.fileUrl);
+      if (!fileRes.ok) continue;
+      files.push({
+        name: fileNameFromMaterial(material.title, material.fileUrl),
+        mimeType: fileRes.headers.get("content-type") || undefined,
+        buffer: Buffer.from(await fileRes.arrayBuffer()),
+      });
+    } catch (error) {
+      console.error("Failed to fetch lesson material", material.fileUrl, error);
+    }
+  }
+  return files;
+}
+
 export async function generateQuizForMaterial(lessonId: string, materialId: string, language: string): Promise<ActionState> {
   try {
-    const material = await prisma.lessonMaterial.findUnique({ where: { id: materialId } });
-    if (!material) return { error: "الملف غير موجود" };
-
-    const fileRes = await globalThis.fetch(material.fileUrl);
-    if (!fileRes.ok) return { error: "فشل تحميل الملف من التخزين" };
-
-    const buffer = await fileRes.arrayBuffer();
-    const base64String = Buffer.from(buffer).toString('base64');
-    const ext = material.fileUrl.split('.').pop()?.toLowerCase() || '';
-
-    let payload: any = { numberOfQuestions: 5, totalPoints: 20, language };
-
-    if (ext === 'pdf') {
-      payload.pdfBase64 = base64String;
-    } else if (ext === 'docx') {
-      payload.docxBase64 = base64String;
-    } else if (['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(ext)) {
-      payload.imageBase64 = base64String;
-    } else {
-      payload.textContent = Buffer.from(buffer).toString('utf-8');
+    const preview = await previewQuizForMaterial(materialId, language);
+    if (preview.error || !preview.questions?.length) {
+      return { error: preview.error || "لم يتم التعرف على أسئلة صالحة" };
     }
 
-    const apiRes = await globalThis.fetch('http://127.0.0.1:3000/api/generate-quiz', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+    await prisma.quiz.upsert({
+      where: { lessonId },
+      update: { questions: preview.questions, maxScore: 20, aiGenerated: true },
+      create: { lessonId, questions: preview.questions, maxScore: 20, aiGenerated: true },
     });
-
-    if (!apiRes.ok) {
-      const errorText = await apiRes.text();
-      console.error("API response not ok:", apiRes.status, errorText);
-      return { error: "فشل توليد الكويز بالذكاء الاصطناعي: " + apiRes.status };
-    }
-
-    const data = await apiRes.json() as any;
-    console.log("Quiz generation result:", data);
-    if (data.questions && Array.isArray(data.questions) && data.questions.length > 0) {
-      const pts = Number((20 / data.questions.length).toFixed(2));
-      const finalQuestions = data.questions.map((q: any) => ({ ...q, points: pts }));
-
-      await prisma.quiz.create({
-        data: {
-          lessonId,
-          maxScore: 20,
-          aiGenerated: true,
-          questions: finalQuestions
-        }
-      });
-      revalidatePath(`/dashboard/admin/lessons`);
-      return { success: true };
-    } else {
-      return { error: "لم يتم التعرف على أسئلة صالحة" };
-    }
+    revalidatePath(`/dashboard/admin/lessons`);
+    return { success: true };
   } catch (error) {
     console.error("خطأ أثناء توليد الكويز", error);
     return { error: "حدث خطأ غير متوقع" };
   }
 }
 
-export async function previewQuizForMaterial(materialId: string, language: string, subjectName?: string, title?: string): Promise<{ error?: string; questions?: any[] }> {
+export async function previewQuizForMaterial(materialId: string, language: string, subjectName?: string, title?: string): Promise<{ error?: string; questions?: any[]; source?: "files" | "title" }> {
   try {
-    const material = await prisma.lessonMaterial.findUnique({ where: { id: materialId } });
+    const material = await prisma.lessonMaterial.findUnique({
+      where: { id: materialId },
+      include: { lesson: { include: { subjects: { select: { title: true } } } } },
+    });
     if (!material) return { error: "الملف غير موجود" };
 
-    const fileRes = await globalThis.fetch(material.fileUrl);
-    if (!fileRes.ok) return { error: "فشل تحميل الملف من التخزين" };
-
-    const buffer = await fileRes.arrayBuffer();
-    const base64String = Buffer.from(buffer).toString('base64');
-    const ext = material.fileUrl.split('.').pop()?.toLowerCase() || '';
-
-    let payload: any = { numberOfQuestions: 5, totalPoints: 20, language, subjectName, title };
-
-    if (ext === 'pdf') {
-      payload.pdfBase64 = base64String;
-    } else if (ext === 'docx') {
-      payload.docxBase64 = base64String;
-    } else if (['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(ext)) {
-      payload.imageBase64 = base64String;
-    } else {
-      payload.textContent = Buffer.from(buffer).toString('utf-8');
-    }
-
-    const apiRes = await globalThis.fetch('http://127.0.0.1:3000/api/generate-quiz', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+    const files = await loadMaterialFiles([material]);
+    const result = await generateQuizFromSources({
+      files,
+      numberOfQuestions: 20,
+      totalPoints: 20,
+      language,
+      subjectName: subjectName || material.lesson.subjects[0]?.title,
+      title: title || material.lesson.title,
     });
-
-    if (!apiRes.ok) {
-      const errorText = await apiRes.text();
-      return { error: "فشل توليد الكويز بالذكاء الاصطناعي" };
-    }
-
-    const data = await apiRes.json() as any;
-    if (data.questions && Array.isArray(data.questions) && data.questions.length > 0) {
-      const pts = Number((20 / data.questions.length).toFixed(2));
-      const finalQuestions = data.questions.map((q: any) => ({ ...q, points: pts }));
-      return { questions: finalQuestions };
-    } else {
-      return { error: "لم يتم التعرف على أسئلة صالحة" };
-    }
+    return { questions: result.questions, source: result.source };
   } catch (error) {
     console.error("خطأ أثناء توليد الكويز كعرض مسبق", error);
-    return { error: "حدث خطأ غير متوقع" };
+    return { error: error instanceof Error ? error.message : "حدث خطأ غير متوقع" };
+  }
+}
+
+export async function previewQuizFromLesson(input: {
+  lessonId: string;
+  language?: string;
+  subjectName?: string;
+  title?: string;
+  numberOfQuestions?: number;
+  totalPoints?: number;
+}): Promise<{ error?: string; questions?: any[]; source?: "files" | "title" }> {
+  try {
+    const lesson = await prisma.lesson.findUnique({
+      where: { id: input.lessonId },
+      include: {
+        materials: true,
+        subjects: { select: { title: true } },
+      },
+    });
+    if (!lesson) return { error: "الدرس غير موجود" };
+
+    const files = await loadMaterialFiles(lesson.materials);
+    const result = await generateQuizFromSources({
+      files,
+      numberOfQuestions: input.numberOfQuestions ?? 20,
+      totalPoints: input.totalPoints ?? 20,
+      language: input.language,
+      subjectName: input.subjectName || lesson.subjects[0]?.title,
+      title: input.title || lesson.title,
+    });
+    return { questions: result.questions, source: result.source };
+  } catch (error) {
+    console.error("خطأ أثناء توليد كويز الدرس", error);
+    return { error: error instanceof Error ? error.message : "حدث خطأ غير متوقع" };
   }
 }

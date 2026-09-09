@@ -130,6 +130,7 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   lastLoginAt: 'lastLoginAt',
+  loginCount: 'loginCount',
   deviceFingerprints: 'deviceFingerprints'
 };
 
@@ -151,7 +152,9 @@ exports.Prisma.StudentProfileScalarFieldEnum = {
 
 exports.Prisma.ParentProfileScalarFieldEnum = {
   id: 'id',
-  userId: 'userId'
+  userId: 'userId',
+  lastReviewedAt: 'lastReviewedAt',
+  reviewCount: 'reviewCount'
 };
 
 exports.Prisma.TeacherScalarFieldEnum = {
@@ -181,10 +184,18 @@ exports.Prisma.SubjectScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.MonthScalarFieldEnum = {
+  id: 'id',
+  number: 'number',
+  title: 'title',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.LessonScalarFieldEnum = {
   id: 'id',
   title: 'title',
   month: 'month',
+  monthId: 'monthId',
   vimeoVideoId: 'vimeoVideoId',
   image: 'image',
   streams: 'streams',
@@ -200,6 +211,13 @@ exports.Prisma.LessonMaterialScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.LessonCompletionScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  lessonId: 'lessonId',
+  completedAt: 'completedAt'
+};
+
 exports.Prisma.QuizScalarFieldEnum = {
   id: 'id',
   lessonId: 'lessonId',
@@ -211,11 +229,20 @@ exports.Prisma.QuizScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.QuizCompletionScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  quizId: 'quizId',
+  score: 'score',
+  completedAt: 'completedAt'
+};
+
 exports.Prisma.AccessCodeScalarFieldEnum = {
   id: 'id',
   code: 'code',
   accessType: 'accessType',
   validMonths: 'validMonths',
+  monthId: 'monthId',
   isUsed: 'isUsed',
   studentId: 'studentId',
   subjectId: 'subjectId',
@@ -301,6 +328,7 @@ exports.Prisma.DailyExerciseScalarFieldEnum = {
   subjectId: 'subjectId',
   secondarySubjectId: 'secondarySubjectId',
   month: 'month',
+  lessonId: 'lessonId',
   createdAt: 'createdAt'
 };
 
@@ -368,6 +396,7 @@ exports.Prisma.ReviewCardScalarFieldEnum = {
   level: 'level',
   stream: 'stream',
   month: 'month',
+  lessonId: 'lessonId',
   exerciseRef: 'exerciseRef',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -409,6 +438,15 @@ exports.Prisma.FileScalarFieldEnum = {
   mimeType: 'mimeType',
   size: 'size',
   storagePath: 'storagePath',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AdminAiInsightScalarFieldEnum = {
+  id: 'id',
+  scope: 'scope',
+  studentId: 'studentId',
+  summary: 'summary',
+  items: 'items',
   createdAt: 'createdAt'
 };
 
@@ -543,9 +581,12 @@ exports.Prisma.ModelName = {
   ParentProfile: 'ParentProfile',
   Teacher: 'Teacher',
   Subject: 'Subject',
+  Month: 'Month',
   Lesson: 'Lesson',
   LessonMaterial: 'LessonMaterial',
+  LessonCompletion: 'LessonCompletion',
   Quiz: 'Quiz',
+  QuizCompletion: 'QuizCompletion',
   AccessCode: 'AccessCode',
   ParentStudentLink: 'ParentStudentLink',
   StudentFriendLink: 'StudentFriendLink',
@@ -565,7 +606,8 @@ exports.Prisma.ModelName = {
   ClassForum: 'ClassForum',
   ForumMessage: 'ForumMessage',
   ParentTicket: 'ParentTicket',
-  File: 'File'
+  File: 'File',
+  AdminAiInsight: 'AdminAiInsight'
 };
 
 /**

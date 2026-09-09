@@ -50,7 +50,7 @@ export async function getStudentCards(phase: Phase, level: Level, stream: Stream
     const whereClause: any = {
       phase,
       level,
-      stream
+      OR: [{ stream }, { stream: "NONE" }],
     };
 
     if (subjectId) {
@@ -60,7 +60,8 @@ export async function getStudentCards(phase: Phase, level: Level, stream: Stream
     const cards = await prisma.reviewCard.findMany({
       where: whereClause,
       include: {
-        subject: true
+        subject: true,
+        lesson: { select: { id: true, title: true } },
       },
       orderBy: {
         createdAt: "desc"
@@ -94,16 +95,17 @@ export async function fetchMyReviewCards() {
   const enrolledSubjectIds = enrollments.map(e => e.subjectId);
   const enrolledMonths = Array.from(new Set(enrollments.flatMap(e => e.enrolledMonths)));
 
-  const cards = await prisma.reviewCard.findMany({
-    where: {
-      phase: studentProfile.phase,
-      level: studentProfile.level,
-      stream: studentProfile.stream,
-      subjectId: { in: enrolledSubjectIds },
-      month: { in: enrolledMonths }
-    },
+    const cards = await prisma.reviewCard.findMany({
+      where: {
+        phase: studentProfile.phase,
+        level: studentProfile.level,
+        subjectId: { in: enrolledSubjectIds },
+        month: { in: enrolledMonths },
+        OR: [{ stream: studentProfile.stream }, { stream: "NONE" }],
+      },
     include: {
-      subject: true
+      subject: true,
+      lesson: { select: { id: true, title: true } },
     },
     orderBy: {
       createdAt: "desc"

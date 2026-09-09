@@ -1,159 +1,240 @@
 import { prisma } from "@/lib/prisma";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { HeroBanner } from "@/components/shared/HeroBanner";
-import { Presentation, BookOpen, Users, AlertTriangle } from "lucide-react";
-import { getWilayaName, LEVELS, STREAMS } from "@/lib/constants";
+import { Presentation, BookOpen, Users, AlertTriangle, ChevronLeft } from "lucide-react";
+import { getWilayaName } from "@/lib/constants";
+import { labelLevel, labelStream } from "@/lib/education-labels";
+import { formatTeacherName } from "@/lib/education-labels";
+import { getTeacherSession, teacherMistakesWhere } from "@/lib/teacher";
+import { mistakeQuizInclude } from "@/lib/mistake-source";
+import { getStudentWorkFile, workCounts } from "@/lib/student-work";
 
 export default async function TeacherDashboardPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const session = await getTeacherSession();
+  if (!session) redirect("/login");
 
-  if (!sessionId) redirect("/login");
+  const { teacher, subjectIds } = session;
 
-  const user = await prisma.user.findUnique({
-    where: { id: sessionId },
-    include: {
-      teacherProfile: {
-        include: {
-          subjects: true
-        }
-      }
-    }
-  });
-
-  if (!user || !user.teacherProfile) redirect("/login");
-
-  const teacher = user.teacherProfile;
-  const subjectIds = teacher.subjects.map(s => s.id);
-
-  // Fetch all students enrolled in the teacher's subjects
   const enrolledStudents = await prisma.studentProfile.findMany({
     where: {
       user: {
         enrollments: {
-          some: {
-            subjectId: { in: subjectIds }
-          }
-        }
-      }
+          some: { subjectId: { in: subjectIds } },
+        },
+      },
     },
     include: {
       user: {
         include: {
           enrollments: {
             where: { subjectId: { in: subjectIds } },
-            include: { subject: true }
+            include: { subject: true },
           },
           mistakes: {
-            where: {
-              lesson: {
-                subjects: {
-                  some: {
-                    id: { in: subjectIds }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+            where: teacherMistakesWhere(subjectIds),
+            include: {
+              lesson: { include: { subjects: { select: { title: true } } } },
+              quiz: { include: mistakeQuizInclude },
+            },
+            orderBy: { createdAt: "desc" },
+          },
+        },
+      },
+    },
+    orderBy: { user: { fullName: "asc" } },
   });
 
+  const workByStudent = new Map(
+    await Promise.all(
+      enrolledStudents.map(async (student) => {
+        const file = await getStudentWorkFile(student.user.id, subjectIds);
+        return [
+          student.user.id,
+          file
+            ? workCounts(file)
+            : { unwatchedLessons: 0, unsolvedExercises: 0, unsolvedLessonQuizzes: 0 },
+        ] as const;
+      }),
+    ),
+  );
+
+  const totalMistakes = enrolledStudents.reduce(
+    (acc, student) => acc + student.user.mistakes.length,
+    0,
+  );
+
+  const STATS = [
+    { label: "المواد المسندة", value: teacher.subjects.length, icon: BookOpen },
+    { label: "تلاميذك", value: enrolledStudents.length, icon: Users },
+    { label: "أخطاء في موادك", value: totalMistakes, icon: AlertTriangle },
+  ];
+
   return (
-    <div className="space-y-8">
-      <HeroBanner 
-        title={`مرحباً يا أستاذ ${teacher.name}!`}
-        description="هذه لوحة التحكم الخاصة بك يمكنك متابعة تلاميذك و وتحليل مستوياتهم و والاطلاع على الأخطاء الشائعة في موادك"
+    <div className="space-y-8 font-sans pb-12">
+      <HeroBanner
+        variant="hero"
+        title={`مرحباً ${formatTeacherName(teacher.name)}`}
+        description="تابع تلاميذك، أخطاءهم، تقدّمهم، وأولياء أمورهم في موادك."
         icon={Presentation}
-        bgClass="bg-[#3B82F6]"
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-[#FFFFFF] p-6 rounded-2xl border-[4px] border-[#000000] shadow-3d-soft paper-cut flex items-center gap-4 hover:-translate-y-1 hover:shadow-3d-hover transition-transform cursor-default">
-          <div className="w-14 h-14 bg-[#3B82F6] text-[#FFFFFF] rounded-xl border-[3px] border-[#000000] flex items-center justify-center shrink-0 transform -rotate-3 shadow-sm">
-            <BookOpen className="w-7 h-7" />
-          </div>
-          <div>
-            <p className="text-sm font-bold text-[#000000]/60">المواد المسندة</p>
-            <p className="text-3xl font-black text-[#000000]">{teacher.subjects.length}</p>
-          </div>
-        </div>
-        <div className="bg-[#FFFFFF] p-6 rounded-2xl border-[4px] border-[#000000] shadow-3d-soft paper-cut flex items-center gap-4 hover:-translate-y-1 hover:shadow-3d-hover transition-transform cursor-default">
-          <div className="w-14 h-14 bg-[#22C55E] text-[#000000] rounded-xl border-[3px] border-[#000000] flex items-center justify-center shrink-0 transform rotate-3 shadow-sm">
-            <Users className="w-7 h-7" />
-          </div>
-          <div>
-            <p className="text-sm font-bold text-[#000000]/60">إجمالي التلاميذ</p>
-            <p className="text-3xl font-black text-[#000000]">{enrolledStudents.length}</p>
-          </div>
-        </div>
-        <div className="bg-[#FFFFFF] p-6 rounded-2xl border-[4px] border-[#000000] shadow-3d-soft paper-cut flex items-center gap-4 hover:-translate-y-1 hover:shadow-3d-hover transition-transform cursor-default">
-          <div className="w-14 h-14 bg-[#EF4444] text-[#FFFFFF] rounded-xl border-[3px] border-[#000000] flex items-center justify-center shrink-0 transform -rotate-3 shadow-sm">
-            <AlertTriangle className="w-7 h-7" />
-          </div>
-          <div>
-            <p className="text-sm font-bold text-[#000000]/60">أخطاء مسجلة للتلاميذ</p>
-            <p className="text-3xl font-black text-[#000000]">
-              {enrolledStudents.reduce((acc, student) => acc + student.user.mistakes.length, 0)}
-            </p>
-          </div>
-        </div>
-      </div>
+      <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {STATS.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <article key={stat.label} className="surface-card p-5 flex items-center gap-4">
+              <span className="icon-tile">
+                <Icon className="w-5 h-5" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-sm text-muted">{stat.label}</p>
+                <p className="text-2xl font-bold text-ink tabular-nums leading-tight">
+                  {stat.value}
+                </p>
+              </div>
+            </article>
+          );
+        })}
+      </section>
 
-      <div className="overflow-hidden rounded-2xl border-[4px] border-[#000000] bg-[#FFFFFF] shadow-3d-soft paper-cut">
-        <div className="p-6 border-b-[4px] border-[#000000] bg-[#F8F9FA] flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#FFFFFF] border-[3px] border-[#000000] rounded-xl flex items-center justify-center shadow-sm transform rotate-2">
-            <Users className="w-5 h-5 text-[#000000]" />
-          </div>
-          <h2 className="font-black text-xl text-[#000000]">قائمة التلاميذ المسجلين في موادك</h2>
+      {teacher.subjects.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {teacher.subjects.map((subject) => (
+            <span key={subject.id} className="badge-soft">
+              {subject.title}
+            </span>
+          ))}
         </div>
-        <div className="overflow-x-auto custom-scrollbar">
-          <table className="w-full text-right min-w-[700px]">
-            <thead className="bg-[#FFFFFF] border-b-[4px] border-[#000000]">
+      )}
+
+      <section className="surface-panel">
+        <div className="px-4 sm:px-6 py-4 border-b border-line flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <Users className="w-4 h-4 text-primary-mid" />
+            <h2 className="text-base font-bold text-ink">تلاميذك</h2>
+          </div>
+          <Link href="/dashboard/teacher/mistakes" className="text-sm font-semibold text-primary">
+            كل الأخطاء
+          </Link>
+        </div>
+
+        <div className="md:hidden divide-y divide-line">
+          {enrolledStudents.length === 0 ? (
+            <p className="px-4 py-12 text-center text-sm text-muted">
+              لا يوجد تلاميذ مسجّلون في موادك حالياً.
+            </p>
+          ) : (
+            enrolledStudents.map((student) => {
+              const levelStr = labelLevel(student.level);
+              const streamStr = labelStream(student.stream);
+              const work = workByStudent.get(student.user.id);
+              return (
+                <article key={student.id} className="px-4 py-4 space-y-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="font-semibold text-ink">{student.user.fullName}</p>
+                      <p className="text-xs text-muted mt-0.5">
+                        {levelStr} · {streamStr}
+                      </p>
+                      <p className="text-xs text-muted mt-0.5">{getWilayaName(student.wilaya)}</p>
+                    </div>
+                    <Link
+                      href={`/dashboard/teacher/students/${student.user.id}`}
+                      className="shrink-0 inline-flex items-center gap-1 text-sm font-semibold text-primary"
+                    >
+                      الملف
+                      <ChevronLeft className="w-4 h-4" />
+                    </Link>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="rounded-xl bg-surface-muted px-3 py-2">
+                      <p className="text-[11px] text-muted">الأخطاء</p>
+                      <p className="text-sm font-bold tabular-nums text-ink">{student.user.mistakes.length}</p>
+                    </div>
+                    <div className="rounded-xl bg-surface-muted px-3 py-2">
+                      <p className="text-[11px] text-muted">بلا مشاهدة</p>
+                      <p className="text-sm font-bold tabular-nums text-ink">{work?.unwatchedLessons ?? 0}</p>
+                    </div>
+                    <div className="rounded-xl bg-surface-muted px-3 py-2">
+                      <p className="text-[11px] text-muted">تمارين معلّقة</p>
+                      <p className="text-sm font-bold tabular-nums text-ink">{work?.unsolvedExercises ?? 0}</p>
+                    </div>
+                    <div className="rounded-xl bg-surface-muted px-3 py-2">
+                      <p className="text-[11px] text-muted">كويز معلّق</p>
+                      <p className="text-sm font-bold tabular-nums text-ink">{work?.unsolvedLessonQuizzes ?? 0}</p>
+                    </div>
+                  </div>
+                </article>
+              );
+            })
+          )}
+        </div>
+
+        <div className="hidden md:block overflow-x-auto custom-scrollbar">
+            <table className="w-full data-table min-w-[980px]">
+            <thead>
               <tr>
-                <th className="px-6 py-5 text-base font-black text-[#000000]">التلميذ</th>
-                <th className="px-6 py-5 text-base font-black text-[#000000]">المستوى والشعبة</th>
-                <th className="px-6 py-5 text-base font-black text-[#000000]">المواد المشترك بها</th>
-                <th className="px-6 py-5 text-base font-black text-[#000000] text-center">عدد الأخطاء</th>
+                <th>التلميذ</th>
+                <th>المستوى والشعبة</th>
+                <th className="text-center">الأخطاء</th>
+                <th className="text-center">دروس بلا مشاهدة</th>
+                <th className="text-center">تمارين معلّقة</th>
+                <th className="text-center">كويز معلّق</th>
+                <th></th>
               </tr>
             </thead>
-            <tbody className="divide-y-[3px] divide-[#000000]">
+            <tbody>
               {enrolledStudents.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-16 text-center text-[#000000]/50 font-black text-lg border-dashed">
-                    لا يوجد تلاميذ مسجلين في موادك حالياً
+                  <td colSpan={7} className="px-6 py-16 text-center text-sm text-muted">
+                    لا يوجد تلاميذ مسجّلون في موادك حالياً.
                   </td>
                 </tr>
               ) : (
-                enrolledStudents.map(student => {
-                  const levelStr = LEVELS.find(l => l.value === student.level)?.label || student.level;
-                  const streamStr = STREAMS.find(s => s.value === student.stream)?.label || student.stream;
+                enrolledStudents.map((student) => {
+                  const levelStr = labelLevel(student.level);
+                  const streamStr = labelStream(student.stream);
+                  const work = workByStudent.get(student.user.id);
 
                   return (
-                    <tr key={student.id} className="hover:bg-[#F8F9FA] transition-colors">
-                      <td className="px-6 py-5">
-                        <p className="font-black text-lg text-[#3B82F6]">{student.user.fullName}</p>
-                        <p className="text-sm font-bold text-[#000000]/60 mt-1">{getWilayaName(student.wilaya)}</p>
+                    <tr key={student.id}>
+                      <td>
+                        <p className="font-semibold text-ink">{student.user.fullName}</p>
+                        <p className="text-xs text-muted mt-0.5">{getWilayaName(student.wilaya)}</p>
                       </td>
-                      <td className="px-6 py-5">
-                        <p className="text-base font-bold text-[#000000]">{levelStr}</p>
-                        <p className="text-sm font-bold text-[#000000]/60 mt-1">{streamStr}</p>
+                      <td>
+                        <p className="text-sm text-ink">{levelStr}</p>
+                        <p className="text-xs text-muted mt-0.5">{streamStr}</p>
                       </td>
-                      <td className="px-6 py-5">
-                        <div className="flex flex-wrap gap-2">
-                          {student.user.enrollments.map(e => (
-                            <span key={e.id} className="bg-[#FFFFFF] text-[#000000] border-[2px] border-[#000000] shadow-sm text-xs font-black px-3 py-1.5 rounded-lg transform -rotate-1">
-                              {e.subject.title}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
-                      <td className="px-6 py-5 text-center">
-                        <span className={`inline-flex items-center justify-center px-4 py-2 rounded-xl border-[2px] border-[#000000] shadow-sm text-sm font-black transform rotate-2 ${student.user.mistakes.length > 0 ? 'bg-[#EF4444] text-[#FFFFFF]' : 'bg-[#EAE4D9] text-[#000000]'}`}>
-                          {student.user.mistakes.length} خطأ
+                      <td className="text-center">
+                        <span
+                          className={`inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-semibold ${
+                            student.user.mistakes.length > 0
+                              ? "bg-red-50 text-red-700"
+                              : "bg-surface-muted text-muted"
+                          }`}
+                        >
+                          {student.user.mistakes.length}
                         </span>
+                      </td>
+                      <td className="text-center tabular-nums font-semibold">
+                        {work?.unwatchedLessons ?? 0}
+                      </td>
+                      <td className="text-center tabular-nums font-semibold">
+                        {work?.unsolvedExercises ?? 0}
+                      </td>
+                      <td className="text-center tabular-nums font-semibold">
+                        {work?.unsolvedLessonQuizzes ?? 0}
+                      </td>
+                      <td>
+                        <Link
+                          href={`/dashboard/teacher/students/${student.user.id}`}
+                          className="inline-flex items-center gap-1 text-sm font-semibold text-primary"
+                        >
+                          الملف
+                          <ChevronLeft className="w-4 h-4" />
+                        </Link>
                       </td>
                     </tr>
                   );
@@ -162,7 +243,7 @@ export default async function TeacherDashboardPage() {
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

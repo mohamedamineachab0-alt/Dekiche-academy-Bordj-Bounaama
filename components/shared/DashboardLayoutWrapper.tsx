@@ -2,10 +2,17 @@
 
 import { useState } from "react";
 import { Sidebar } from "@/components/shared/Sidebar";
-import { MobileBottomNav } from "@/components/shared/MobileBottomNav";
 import { Role } from "@/generated/prisma";
-import { Menu, ArrowRight } from "lucide-react";
+import { Menu, ArrowRight, Bell } from "lucide-react";
+import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import { useLocalStorage } from "@/lib/hooks/useLocalStorage";
+import { MobileBottomNav } from "@/components/shared/MobileBottomNav";
+
+const NOTIFICATIONS_HREF: Partial<Record<Role, string>> = {
+  STUDENT: "/dashboard/student/notifications",
+  ADMIN: "/dashboard/admin/notifications",
+};
 
 export function DashboardLayoutWrapper({
   children,
@@ -15,70 +22,68 @@ export function DashboardLayoutWrapper({
   role: Role;
 }) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useLocalStorage(
+    `sidebar-collapsed:${role}`,
+    false
+  );
   const router = useRouter();
   const pathname = usePathname();
 
-  // Don't show back button on the root dashboard page of the current role
   const isRootDashboard = pathname === `/dashboard/${role.toLowerCase()}`;
+  const notificationsHref = NOTIFICATIONS_HREF[role];
 
   return (
-    <div className="flex min-h-screen font-sans w-full max-w-full overflow-x-hidden overscroll-x-none touch-pan-y transparent" dir="rtl">
-
+    <div className="flex min-h-[100dvh] font-sans w-full max-w-full overflow-x-hidden overscroll-x-none touch-pan-y bg-background safe-area-px" dir="rtl">
       <Sidebar
         role={role}
         isMobileOpen={isMobileOpen}
         onMobileClose={() => setIsMobileOpen(false)}
         isCollapsed={isCollapsed}
-        onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
+        onToggleCollapse={() => setIsCollapsed((prev) => !prev)}
       />
 
-      <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${isCollapsed ? 'md:mr-20' : 'md:mr-64'}`}>
+      <div className={`flex-1 flex flex-col min-h-[100dvh] min-w-0 transition-all duration-300 ${isCollapsed ? "md:mr-[76px]" : "md:mr-[264px]"}`}>
+        <header className="sticky top-0 z-40 min-h-16 shrink-0 bg-surface/90 backdrop-blur-md border-b border-line flex items-center gap-3 px-3 sm:px-4 md:px-6 safe-area-pt">
+          <button
+            onClick={() => setIsMobileOpen(true)}
+            className="md:hidden w-11 h-11 -mr-1 flex items-center justify-center rounded-xl text-ink hover:bg-surface-muted"
+            aria-label="فتح القائمة"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
 
-        {/* Mobile Top Navigation Bar */}
-        <header className="md:hidden flex items-center justify-between p-4 bg-white border-b-[3px] border-[#000000] shrink-0 shadow-sm">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setIsMobileOpen(true)}
-              className="p-2 -mr-2 rounded-lg text-[#000000] hover:bg-gray-100 border-[2px] border-transparent hover:border-[#000000] transition-colors"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
-            <h1 className="font-black text-lg text-[#000000]">أكاديمية دقيش</h1>
-          </div>
+          <div className="flex-1 min-w-0" />
 
-          {!isRootDashboard && (
-            <button
-              onClick={() => router.back()}
-              className="w-10 h-10 rounded-xl flex items-center justify-center bg-white border-[2px] border-[#000000] text-[#000000] hover:bg-[#7E22CE] hover:text-white transition-colors duration-200 shadow-3d-soft"
-            >
-              <ArrowRight className="w-5 h-5 rtl:rotate-180" />
-            </button>
-          )}
-        </header>
-
-        {/* Main Content Area */}
-        <main className="flex-1 overflow-y-auto w-full max-w-full overflow-x-hidden px-4 py-4 md:p-8">
-
-          {/* Desktop Global Back Button */}
-          {!isRootDashboard && (
-            <div className="hidden md:flex justify-end mb-6 max-w-7xl mx-auto">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            {!isRootDashboard && (
               <button
                 onClick={() => router.back()}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl font-black text-sm bg-white border-[3px] border-[#000000] text-[#000000] hover:bg-[#7E22CE] hover:text-white transition-colors duration-200 shadow-3d-soft shadow-3d-hover"
+                className="inline-flex items-center gap-1.5 h-11 px-3 sm:px-4 rounded-xl text-sm font-semibold text-ink hover:bg-surface-muted transition-colors"
               >
                 رجوع
                 <ArrowRight className="w-4 h-4 rtl:-scale-x-100" />
               </button>
-            </div>
-          )}
+            )}
+            {notificationsHref && (
+              <Link
+                href={notificationsHref}
+                className="w-11 h-11 inline-flex items-center justify-center rounded-xl text-ink hover:bg-surface-muted transition-colors"
+                title="الإشعارات"
+              >
+                <Bell className="w-[18px] h-[18px]" />
+              </Link>
+            )}
+          </div>
+        </header>
 
-          <div className="max-w-7xl mx-auto">
+        <main className="flex-1 w-full max-w-full overflow-x-hidden px-3 py-5 sm:px-4 md:px-8 md:py-8 pb-24 md:pb-8">
+          <div className="max-w-[1200px] mx-auto min-w-0">
             {children}
           </div>
         </main>
       </div>
-      {/* Mobile Bottom Navigation Removed */}
+
+      <MobileBottomNav role={role} />
     </div>
   );
 }

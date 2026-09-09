@@ -1,90 +1,170 @@
 import { prisma } from "@/lib/prisma";
-import { Key, Plus, Hash, Copy, Download } from "lucide-react";
+import { Key, Download } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { CodeGeneratorClient } from "@/components/admin/CodeGeneratorClient";
+import Link from "next/link";
 
-export default async function AdminCodesPage() {
-  const subjects = await prisma.subject.findMany({
-    orderBy: { title: "asc" },
-  });
+export default async function AdminCodesPage(props: {
+  searchParams?: Promise<{ status?: string }>;
+}) {
+  const searchParams = await props.searchParams;
+  const status = searchParams?.status;
 
-  const codes = await prisma.accessCode.findMany({
-    orderBy: { createdAt: "desc" },
-    include: { subject: true, user: true },
-    take: 50, // Display last 50 codes for performance
-  });
+  const [subjects, usedCodes, unusedCodes, usedCount, unusedCount] = await Promise.all([
+    prisma.subject.findMany({ orderBy: { title: "asc" } }),
+    prisma.accessCode.findMany({
+      where: { isUsed: true },
+      orderBy: { createdAt: "desc" },
+      include: { subject: true, user: true },
+    }),
+    prisma.accessCode.findMany({
+      where: { isUsed: false },
+      orderBy: { createdAt: "desc" },
+      include: { subject: true },
+    }),
+    prisma.accessCode.count({ where: { isUsed: true } }),
+    prisma.accessCode.count({ where: { isUsed: false } }),
+  ]);
+
+  const showUsed = status !== "unused";
+  const showUnused = status !== "used";
 
   return (
-    <div className="space-y-6">
-      <HeroBanner 
+    <div className="space-y-8 font-sans pb-12">
+      <HeroBanner
+        variant="hero"
         title="رموز الدخول"
-        description="توليد وتتبع الأكواد الخاصة بتفعيل المواد للطلاب"
+        description="توليد الرموز وتتبع المستعمل منها وغير المستعمل."
         icon={Key}
       />
 
+      <section className="grid grid-cols-2 gap-4">
+        <Link href="/dashboard/admin/codes?status=used" className="surface-card-interactive p-5">
+          <p className="text-sm font-semibold text-muted mb-1">رموز مستعملة</p>
+          <p className="text-3xl font-bold text-ink tabular-nums">{usedCount}</p>
+        </Link>
+        <Link href="/dashboard/admin/codes?status=unused" className="surface-card-interactive p-5">
+          <p className="text-sm font-semibold text-muted mb-1">رموز غير مستخدمة</p>
+          <p className="text-3xl font-bold text-ink tabular-nums">{unusedCount}</p>
+        </Link>
+      </section>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* Generator Form */}
         <div className="lg:col-span-1">
           <CodeGeneratorClient subjects={subjects} />
         </div>
 
-        {/* List */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center justify-between px-2">
-            <h2 className="text-xl font-black text-purple-950 dark:text-purple-950">آخر الرموز</h2>
-            <a href="/api/admin/export-codes" className="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-4 py-2.5 rounded-xl text-sm font-bold transition-colors shadow-sm">
-              <Download className="w-4 h-4" />
-              تصدير الرموز (.txt)
-            </a>
-          </div>
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-            <table className="w-full text-sm text-right">
-              <thead className="bg-white border-b border-slate-100 text-slate-500">
-                <tr>
-                  <th className="px-6 py-4 font-bold">الرمز</th>
-                  <th className="px-6 py-4 font-bold">المادة</th>
-                  <th className="px-6 py-4 font-bold">النوع</th>
-                  <th className="px-6 py-4 font-bold">الشهور</th>
-                  <th className="px-6 py-4 font-bold">الحالة</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {codes.map(code => (
-                  <tr key={code.id} className="hover:bg-white/50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2 font-mono font-bold text-purple-950 bg-slate-100 px-2 py-1 rounded w-fit">
-                        {code.code}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 font-bold text-purple-800">{code.subject.title}</td>
-                    <td className="px-6 py-4 text-slate-500">{code.accessType === "YEARLY" ? "سنوي" : "شهري"}</td>
-                    <td className="px-6 py-4 text-slate-500 dir-ltr">{code.validMonths.join(", ") || "-"}</td>
-                    <td className="px-6 py-4">
-                      {code.isUsed ? (
-                        <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-bold bg-green-50 text-green-700">
-                          مستخدم ({code.user?.fullName})
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-bold bg-purple-50 text-purple-800">
-                          غير مستخدم
-                        </span>
+        <div className="lg:col-span-2 space-y-8">
+          {showUsed && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between gap-3 px-1">
+                <h2 className="text-lg font-bold text-ink">الرموز المستعملة</h2>
+                <Link href="/dashboard/admin/codes" className="text-sm font-semibold text-primary">
+                  عرض الكل
+                </Link>
+              </div>
+              <div className="surface-panel overflow-hidden">
+                <div className="overflow-x-auto custom-scrollbar">
+                  <table className="w-full data-table min-w-[720px]">
+                    <thead>
+                      <tr>
+                        <th>الرمز</th>
+                        <th>المادة</th>
+                        <th>النوع</th>
+                        <th>الشهور</th>
+                        <th>التلميذ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {usedCodes.map((code) => (
+                        <tr key={code.id}>
+                          <td>
+                            <span className="font-mono font-bold text-ink bg-surface-muted px-2 py-1 rounded">
+                              {code.code}
+                            </span>
+                          </td>
+                          <td className="font-semibold text-primary">{code.subject.title}</td>
+                          <td className="text-muted">{code.accessType === "YEARLY" ? "سنوي" : "شهري"}</td>
+                          <td className="text-muted" dir="ltr">
+                            {code.validMonths.join(", ") || "—"}
+                          </td>
+                          <td>
+                            {code.user ? (
+                              <Link
+                                href={`/dashboard/admin/students/${code.user.id}`}
+                                className="font-semibold text-ink hover:text-primary"
+                              >
+                                {code.user.fullName}
+                              </Link>
+                            ) : (
+                              <span className="text-muted">مستعمل</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                      {usedCodes.length === 0 && (
+                        <tr>
+                          <td colSpan={5} className="px-6 py-16 text-center text-muted">
+                            لا توجد رموز مستعملة بعد
+                          </td>
+                        </tr>
                       )}
-                    </td>
-                  </tr>
-                ))}
-                {codes.length === 0 && (
-                  <tr>
-                    <td colSpan={5} className="px-6 py-12 text-center text-slate-400">
-                      لا توجد رموز دخول مولدة بعد
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
 
+          {showUnused && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between gap-3 px-1">
+                <h2 className="text-lg font-bold text-ink">رموز غير مستخدمة</h2>
+                <a href="/api/admin/export-codes" className="btn-ghost">
+                  <Download className="w-4 h-4" />
+                  تصدير غير المستخدمة
+                </a>
+              </div>
+              <div className="surface-panel overflow-hidden">
+                <div className="overflow-x-auto custom-scrollbar">
+                  <table className="w-full data-table min-w-[640px]">
+                    <thead>
+                      <tr>
+                        <th>الرمز</th>
+                        <th>المادة</th>
+                        <th>النوع</th>
+                        <th>الشهور</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {unusedCodes.map((code) => (
+                        <tr key={code.id}>
+                          <td>
+                            <span className="font-mono font-bold text-ink bg-surface-muted px-2 py-1 rounded">
+                              {code.code}
+                            </span>
+                          </td>
+                          <td className="font-semibold text-primary">{code.subject.title}</td>
+                          <td className="text-muted">{code.accessType === "YEARLY" ? "سنوي" : "شهري"}</td>
+                          <td className="text-muted" dir="ltr">
+                            {code.validMonths.join(", ") || "—"}
+                          </td>
+                        </tr>
+                      ))}
+                      {unusedCodes.length === 0 && (
+                        <tr>
+                          <td colSpan={4} className="px-6 py-16 text-center text-muted">
+                            لا توجد رموز غير مستخدمة
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

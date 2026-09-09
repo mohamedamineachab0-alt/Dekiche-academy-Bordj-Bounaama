@@ -1,10 +1,11 @@
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { ChevronLeft, PlayCircle } from "lucide-react";
+import { ChevronLeft, PlayCircle, Lock, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
+import { HeroBanner } from "@/components/shared/HeroBanner";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function SubjectLessonsPage({
   params,
@@ -12,7 +13,7 @@ export default async function SubjectLessonsPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  
+
   const cookieStore = await cookies();
   const sessionId = cookieStore.get("session")?.value;
 
@@ -22,9 +23,9 @@ export default async function SubjectLessonsPage({
     where: { id },
     include: {
       lessons: {
-        orderBy: { createdAt: "asc" }
+        orderBy: [{ month: "asc" }, { createdAt: "asc" }],
       },
-    }
+    },
   });
 
   if (!subject) redirect("/dashboard/student/subjects");
@@ -34,72 +35,133 @@ export default async function SubjectLessonsPage({
       studentId_subjectId: {
         studentId: sessionId,
         subjectId: id,
-      }
-    }
+      },
+    },
   });
 
   if (!enrollment) redirect("/dashboard/student/subjects");
 
   const allLessons = subject.lessons;
+  const completedRows = await prisma.lessonCompletion.findMany({
+    where: {
+      studentId: sessionId,
+      lessonId: { in: allLessons.map((l) => l.id) },
+    },
+    select: { lessonId: true },
+  });
+  const completedIds = new Set(completedRows.map((row) => row.lessonId));
+  const unlockedCount = allLessons.filter((l) =>
+    enrollment.enrolledMonths.includes(l.month)
+  ).length;
+
+  const months = [...new Set(allLessons.map((l) => l.month))].sort((a, b) => a - b);
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 pb-12 font-arabic" dir="rtl">
-      {/* Navigation Breadcrumb */}
-      <div className="flex items-center justify-between">
-        <Link 
-          href={`/dashboard/student/subjects/${subject.id}`} 
-          className="inline-flex items-center gap-2 text-slate-500 hover:text-purple-800 font-bold transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          العودة إلى نظرة عامة على المادة
-        </Link>
-      </div>
+    <div className="space-y-6 sm:space-y-8 font-sans pb-12 min-w-0" dir="rtl">
+      <Link
+        href={`/dashboard/student/subjects/${subject.id}`}
+        className="inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-primary"
+      >
+        <ChevronLeft className="w-4 h-4 rotate-180 shrink-0" />
+        نظرة عامة على المادة
+      </Link>
 
-      <div>
-        <h1 className="text-3xl font-black text-purple-950 mb-3 tracking-tight">الدروس المسجلة - {subject.title}</h1>
-        <p className="text-slate-500 font-medium text-lg max-w-3xl">تصفح جميع الدروس المتاحة ضمن هذا المقرر.</p>
-      </div>
+      <HeroBanner
+        variant="hero"
+        title="الدروس المسجّلة"
+        description={`${subject.title} — ${unlockedCount} من ${allLessons.length} درس مفتوح في اشتراكك.`}
+        icon={PlayCircle}
+      />
 
       {allLessons.length === 0 ? (
-        <div className="flex flex-col items-center justify-center min-h-[40vh] bg-white rounded-3xl border-2 border-dashed border-slate-200 p-8 text-center space-y-4">
-          <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center text-slate-400">
-            <PlayCircle className="w-10 h-10" />
-          </div>
-          <div>
-            <h2 className="text-xl font-black text-slate-700">لا توجد دروس متاحة حالياً</h2>
-            <p className="text-slate-500 mt-2 max-w-md mx-auto">لم يتم نشر أي دروس لهذا المقرر بعد.</p>
-          </div>
+        <div className="surface-card px-5 py-14 sm:px-6 sm:py-16 text-center">
+          <span className="icon-tile mx-auto mb-5">
+            <PlayCircle className="w-5 h-5" />
+          </span>
+          <h2 className="text-lg font-bold text-ink mb-2">لا توجد دروس متاحة</h2>
+          <p className="text-sm text-muted max-w-sm mx-auto leading-relaxed">
+            لم تُنشر أي دروس لهذا المقرّر بعد.
+          </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {allLessons.map((lesson) => {
+        <div className="space-y-8">
+          {months.map((month) => {
+            const monthLessons = allLessons.filter((l) => l.month === month);
+            const monthUnlocked = enrollment.enrolledMonths.includes(month);
+
             return (
-              <Link 
-                href={`/dashboard/student/lessons/${lesson.id}`} 
-                key={lesson.id}
-                className="bg-white rounded-3xl overflow-hidden border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all group flex flex-col"
-              >
-                <div className="aspect-video relative bg-[#FACC15]/20 overflow-hidden border-b-2 border-black flex items-center justify-center group-hover:bg-[#FACC15]/40 transition-colors">
-                  {lesson.image && (
-                    <img src={lesson.image} alt={lesson.title} className="absolute inset-0 w-full h-full object-cover z-0" />
-                  )}
-                  <div className="w-16 h-16 bg-white border-2 border-black rounded-full flex items-center justify-center text-black shadow-sm group-hover:scale-110 transition-transform relative z-10">
-                    <PlayCircle className="w-8 h-8" />
-                  </div>
-                  <div className="absolute top-3 right-3 bg-[#FACC15] text-black border-2 border-black text-xs font-black px-3 py-1 rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-                    الشهر {lesson.month}
-                  </div>
+              <section key={month} className="min-w-0">
+                <div className="flex items-center justify-between gap-3 mb-4">
+                  <h2 className="text-base sm:text-lg font-bold text-ink">الشهر {month}</h2>
+                  <span className={monthUnlocked ? "badge-soft" : "badge-outline"}>
+                    {monthUnlocked ? "مفتوح" : "مغلق"}
+                  </span>
                 </div>
-                <div className="p-5 flex-1 flex flex-col">
-                  <h3 className="font-black text-black text-lg mb-2 line-clamp-2 leading-tight">{lesson.title}</h3>
-                  <div className="mt-auto pt-4 flex items-center justify-between text-sm">
-                    <span className="text-purple-700 font-black flex items-center gap-1">
-                      <PlayCircle className="w-4 h-4" />
-                      شاهد الدرس
-                    </span>
-                  </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3.5 sm:gap-5">
+                  {monthLessons.map((lesson) => {
+                    const unlocked = enrollment.enrolledMonths.includes(lesson.month);
+                    const completed = completedIds.has(lesson.id);
+
+                    return (
+                      <Link
+                        href={`/dashboard/student/lessons/${lesson.id}`}
+                        key={lesson.id}
+                        className="group surface-card-interactive flex flex-col overflow-hidden min-w-0"
+                      >
+                        <div className="relative aspect-video bg-primary-soft flex items-center justify-center overflow-hidden">
+                          {lesson.image ? (
+                            /* eslint-disable-next-line @next/next/no-img-element */
+                            <img
+                              src={lesson.image}
+                              alt=""
+                              className={`absolute inset-0 w-full h-full object-cover ${unlocked ? "" : "opacity-40"}`}
+                            />
+                          ) : null}
+                          {completed ? (
+                            <span className="absolute top-3 start-3 z-10 badge-soft">مكتمل</span>
+                          ) : null}
+                          <span
+                            className={`relative z-10 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center ${
+                              unlocked
+                                ? "bg-white/95 text-primary group-hover:scale-105 transition-transform"
+                                : "bg-white/90 text-muted"
+                            }`}
+                          >
+                            {unlocked ? (
+                              completed ? (
+                                <CheckCircle2 className="w-6 h-6 sm:w-7 sm:h-7" />
+                              ) : (
+                                <PlayCircle className="w-6 h-6 sm:w-7 sm:h-7" />
+                              )
+                            ) : (
+                              <Lock className="w-5 h-5" />
+                            )}
+                          </span>
+                        </div>
+
+                        <div className="p-4 sm:p-5 flex-1 flex flex-col min-w-0">
+                          <h3 className="text-sm sm:text-[0.9375rem] font-semibold text-ink leading-relaxed line-clamp-2 mb-3">
+                            {lesson.title}
+                          </h3>
+                          <span
+                            className={`mt-auto inline-flex items-center gap-1.5 text-sm font-semibold ${
+                              unlocked ? "text-primary" : "text-muted"
+                            }`}
+                          >
+                            {!unlocked
+                              ? "غير مفعّل في اشتراكك"
+                              : completed
+                                ? "مكتمل — إعادة المشاهدة"
+                                : "شاهد الدرس"}
+                            {unlocked && <ChevronLeft className="w-4 h-4 shrink-0" />}
+                          </span>
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
-              </Link>
+              </section>
             );
           })}
         </div>

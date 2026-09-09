@@ -76,35 +76,35 @@ export default function AIGenerationForm({ type }: AIGenerationFormProps) {
   };
 
   return (
-    <div className="space-y-8 p-6 bg-neutral-950 text-purple-950 rounded-xl w-full max-w-4xl mx-auto border border-neutral-900 shadow-2xl font-arabic">
+    <div className="space-y-8 p-6 bg-surface text-ink rounded-xl w-full max-w-4xl mx-auto border border-line shadow-2xl font-arabic">
       
       <form onSubmit={handleSubmit(handleGenerate)} className="space-y-6">
         {/* Metadata configuration */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          <input {...register('metadata.level')} placeholder="Education Level" className="bg-neutral-900 border border-neutral-800 rounded-md p-2.5 text-sm focus:ring-1 focus:ring-purple-500 outline-none" required />
-          <input {...register('metadata.stream')} placeholder="Academic Track" className="bg-neutral-900 border border-neutral-800 rounded-md p-2.5 text-sm focus:ring-1 focus:ring-purple-500 outline-none" />
-          <input {...register('metadata.subject')} placeholder="Subject" className="bg-neutral-900 border border-neutral-800 rounded-md p-2.5 text-sm focus:ring-1 focus:ring-purple-500 outline-none" required />
-          <input {...register('metadata.month')} type="number" placeholder="Month" className="bg-neutral-900 border border-neutral-800 rounded-md p-2.5 text-sm focus:ring-1 focus:ring-purple-500 outline-none" required />
-          <input {...register('metadata.maxScore')} type="number" placeholder="Max Score" className="bg-neutral-900 border border-neutral-800 rounded-md p-2.5 text-sm focus:ring-1 focus:ring-purple-500 outline-none" required />
+          <input {...register('metadata.level')} placeholder="Education Level" className="bg-surface border border-line rounded-md p-2.5 text-sm focus:ring-1 focus:ring-primary-mid outline-none" required />
+          <input {...register('metadata.stream')} placeholder="Academic Track" className="bg-surface border border-line rounded-md p-2.5 text-sm focus:ring-1 focus:ring-primary-mid outline-none" />
+          <input {...register('metadata.subject')} placeholder="Subject" className="bg-surface border border-line rounded-md p-2.5 text-sm focus:ring-1 focus:ring-primary-mid outline-none" required />
+          <input {...register('metadata.month')} type="number" placeholder="Month" className="bg-surface border border-line rounded-md p-2.5 text-sm focus:ring-1 focus:ring-primary-mid outline-none" required />
+          <input {...register('metadata.maxScore')} type="number" placeholder="Max Score" className="bg-surface border border-line rounded-md p-2.5 text-sm focus:ring-1 focus:ring-primary-mid outline-none" required />
         </div>
 
         {/* Dropzone */}
-        <div className="border-2 border-dashed border-neutral-800 rounded-xl p-10 text-center hover:bg-neutral-900/50 transition-colors relative group">
+        <div className="border border-dashed border-line rounded-xl p-10 text-center hover:bg-surface-muted transition-colors relative group">
           <input type="file" accept="image/*" onChange={handleImageUpload} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
-          <UploadCloud className="mx-auto h-12 w-12 text-neutral-500 mb-3 group-hover:text-purple-500 transition-colors" />
-          <p className="text-sm text-neutral-400 font-medium">Drag & drop your file here, or click to select</p>
+          <UploadCloud className="mx-auto h-12 w-12 text-muted mb-3 group-hover:text-muted transition-colors" />
+          <p className="text-sm text-muted font-medium">Drag & drop your file here, or click to select</p>
           {imageBase64 && <p className="text-xs text-emerald-400 mt-2 font-semibold">Image loaded and ready for processing</p>}
         </div>
 
         {statusMsg && (
-          <div className={`p-3 rounded-md text-sm font-semibold text-center ${statusMsg.type === 'error' ? 'bg-purple-600/10 text-purple-600 border border-purple-600/20' : 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'}`}>
+          <div className={`p-3 rounded-md text-sm font-semibold text-center ${statusMsg.type === 'error' ? 'bg-primary/10 text-primary border border-purple-600/20' : 'bg-emerald-500/10 text-emerald-7000 border border-emerald-500/20'}`}>
             {statusMsg.text}
           </div>
         )}
 
         {/* Trigger Button */}
-        <button type="submit" disabled={isGenerating} className="w-full bg-white text-black hover:bg-neutral-200 font-bold py-3 px-4 rounded-lg flex items-center justify-center transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-          {isGenerating ? <Loader2 className="animate-spin mr-2" size={20} /> : <Wand2 className="mr-2 text-purple-600" size={20} />}
+        <button type="submit" disabled={isGenerating} className="w-full bg-white text-ink hover:bg-neutral-200 font-bold py-3 px-4 rounded-lg flex items-center justify-center transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+          {isGenerating ? <Loader2 className="animate-spin mr-2" size={20} /> : <Wand2 className="mr-2 text-primary" size={20} />}
           {isGenerating ? 'جاري التوليد...' : 'توليد بالذكاء الاصطناعي'}
         </button>
       </form>
@@ -112,14 +112,14 @@ export default function AIGenerationForm({ type }: AIGenerationFormProps) {
       {/* Dynamic Form Builder Area */}
       {questions.length > 0 && (
         <div className="space-y-6 mt-8 border-t border-neutral-900 pt-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <h3 className="text-xl font-bold text-purple-950">Generated Form</h3>
+          <h3 className="text-xl font-bold text-ink">Generated Form</h3>
           
           <div className="space-y-4">
             {questions.map((q, index) => (
-              <div key={q.id} className="bg-neutral-900/50 p-6 rounded-lg border border-neutral-800 space-y-5">
+              <div key={q.id} className="bg-surface-muted p-6 rounded-lg border border-line space-y-5">
                 <textarea 
                   {...register(`questions.${index}.question`)} 
-                  className="w-full bg-neutral-950 border border-neutral-800 rounded-md p-3 text-sm focus:ring-1 focus:ring-purple-500 outline-none text-purple-950 placeholder-neutral-500" 
+                  className="w-full bg-surface border border-line rounded-md p-3 text-sm focus:ring-1 focus:ring-primary-mid outline-none text-ink placeholder-muted" 
                   rows={3} 
                   placeholder="Question Text" 
                 />
@@ -127,16 +127,16 @@ export default function AIGenerationForm({ type }: AIGenerationFormProps) {
                 {type === 'daily_exercise' && (
                   <div className="grid grid-cols-2 gap-4">
                     {[0, 1, 2, 3].map((optIndex) => (
-                      <div key={optIndex} className="flex items-center space-x-3 rtl:space-x-reverse bg-neutral-950 p-2 rounded-md border border-neutral-800 focus-within:border-purple-500 transition-colors">
+                      <div key={optIndex} className="flex items-center space-x-3 rtl:space-x-reverse bg-surface p-2 rounded-md border border-line focus-within:border-line transition-colors">
                         <input 
                           type="radio" 
                           {...register(`questions.${index}.correctAnswerIndex`)} 
                           value={optIndex} 
-                          className="text-purple-600 focus:ring-purple-500 bg-neutral-900 border-neutral-700" 
+                          className="text-primary focus:ring-primary-mid bg-surface border-line" 
                         />
                         <input 
                           {...register(`questions.${index}.options.${optIndex}`)} 
-                          className="w-full bg-transparent border-none text-sm focus:ring-0 outline-none text-purple-950 placeholder-neutral-600" 
+                          className="w-full bg-transparent border-none text-sm focus:ring-0 outline-none text-ink placeholder-neutral-600" 
                           placeholder={`Option ${optIndex + 1}`} 
                         />
                       </div>
@@ -148,16 +148,16 @@ export default function AIGenerationForm({ type }: AIGenerationFormProps) {
                   <div className="space-y-4">
                     <textarea 
                       {...register(`questions.${index}.modelAnswer`)} 
-                      className="w-full bg-neutral-950 border border-neutral-800 rounded-md p-3 text-sm focus:ring-1 focus:ring-emerald-500 outline-none text-emerald-50 placeholder-neutral-500" 
+                      className="w-full bg-surface border border-line rounded-md p-3 text-sm focus:ring-1 focus:ring-emerald-500 outline-none text-emerald-700 placeholder-muted" 
                       rows={2} 
                       placeholder="Suggested Model Answer" 
                     />
                     <div className="flex items-center space-x-3 rtl:space-x-reverse">
-                      <span className="text-sm text-neutral-400">Allocated Marks:</span>
+                      <span className="text-sm text-muted">Allocated Marks:</span>
                       <input 
                         type="number" 
                         {...register(`questions.${index}.allocatedMarks`)} 
-                        className="w-24 bg-neutral-950 border border-neutral-800 rounded-md p-2 text-sm focus:ring-1 focus:ring-purple-500 outline-none text-center font-bold" 
+                        className="w-24 bg-surface border border-line rounded-md p-2 text-sm focus:ring-1 focus:ring-primary-mid outline-none text-center font-bold" 
                         placeholder="Marks" 
                       />
                     </div>

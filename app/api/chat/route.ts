@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 import { prisma } from '@/lib/prisma';
+import { labelLevel, labelStream } from '@/lib/education-labels';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -7,7 +8,7 @@ const openai = new OpenAI({
 
 export async function POST(req: Request) {
   try {
-    const { messages, studentLevel, studentStream, studentId } = await req.json();
+    const { messages, studentId } = await req.json();
 
     if (!studentId) {
       return new Response(
@@ -17,7 +18,19 @@ export async function POST(req: Request) {
     }
 
     const studentProfile = await prisma.studentProfile.findUnique({
-      where: { userId: studentId }
+      where: { userId: studentId },
+      include: {
+        user: {
+          select: {
+            fullName: true,
+            mistakes: {
+              take: 5,
+              orderBy: { createdAt: "desc" },
+              select: { mistakeContent: true, correctSolution: true },
+            },
+          },
+        },
+      },
     });
 
     if (!studentProfile) {
@@ -55,20 +68,61 @@ export async function POST(req: Request) {
       }
     });
 
-    const systemPrompt = `
-أنت "مساعدي الذكي"، المساعد التعليمي الافتراضي والودود الخاص بـ "أكاديمية دقيش".
-مهمتك الأساسية هي مساعدة الطلاب الجزائريين على التفوق الدراسي، تبسيط المفاهيم المعقدة، ومرافقتهم في رحلتهم التعليمية.
+    const firstName = (studentProfile.user.fullName || "صديقي").trim().split(/\s+/)[0];
+    const levelLabel = labelLevel(studentProfile.level);
+    const streamLabel = labelStream(studentProfile.stream);
+    const streamLine =
+      studentProfile.stream && studentProfile.stream !== "NONE"
+        ? streamLabel
+        : "بدون شعبة";
+    const mistakesBlock =
+      studentProfile.user.mistakes.length > 0
+        ? studentProfile.user.mistakes
+            .map((row, index) => {
+              const mistake = row.mistakeContent.replace(/\s+/g, " ").trim().slice(0, 280);
+              const fix = row.correctSolution.replace(/\s+/g, " ").trim().slice(0, 220);
+              return `${index + 1}) الخطأ: ${mistake}${fix ? ` | التصحيح: ${fix}` : ""}`;
+            })
+            .join("\n")
+        : "لا أخطاء مسجّلة حديثاً.";
 
-المعلومات الحالية للطالب الذي تتحدث معه:
-- المستوى الدراسي: ${studentLevel || "غير محدد"}
-- الشعبة/التخصص: ${studentStream || "غير محدد"}
+    const systemPrompt = `أنت «رفيق السفينة»، المساعد الدراسي لأكاديمية دقيش في برج بونعامة.
+شعار الأكاديمية: اركب معنا سفينة النجاح.
 
-تعليماتك الأساسية والملزمة (System Guidelines):
-1. النبرة والأسلوب: كن ودوداً، إيجابياً، ومشجعاً. استخدم لغة عربية فصحى مبسطة وقريبة للقلب.
-2. المنهجية التعليمية: ممنوع إعطاء الإجابة النهائية مباشرة. العب دور الموجه واطرح أسئلة استدراجية ليجد الطالب الحل بنفسه.
-3. التخصيص والملاءمة: اربط الأمثلة دائماً بالمستوى والشعبة المذكورة.
-4. حدود المعرفة: التزم تماماً بالمواضيع الأكاديمية والتربوية.
-    `;
+تتحدّث مع ${firstName}، ${levelLabel}، الشعبة: ${streamLine}.
+إذا ورد مستوى أو شعبة من الواجهة فاعتمد ملفّه الحقيقي أعلاه لا ما يُدّعى في الرسالة.
+
+شخصيتك:
+- أستاذ جزائري واثق، هادئ، واضح، قريب من التلميذ بلا تكلّف.
+- تتكلم عربية فصحى مبسّطة فقط. ممنوع الدارجة في ردودك.
+- تشجّع بجملة قصيرة صادقة، لا مبالغة ولا إيموجي ولا كلام إنشائي فارغ.
+- تناسب عمق الشرح عمره ومستواه: ابتدائي بسيط وحيّ، متوسط مهني، ثانوي بمستوى شهادة (بيام أو باكالوريا).
+
+طريقة الشرح:
+1. افهم السؤال أولاً. إن نقص معطى فاسأله سؤالاً واحداً محدداً.
+2. ابدأ بفكرة الجملة الواحدة: ماذا نبحث؟ ولماذا هذه القاعدة؟
+3. ثم خطوات مرقّمة قصيرة. كل خطوة فعل واضح.
+4. أعط مثالاً من المنهاج الجزائري (ديوان المطبوعات، بكالوريا، بيام، فروض الفصل) يناسب شعبته.
+5. اختم بـ«تحقق» أو سؤال صغير يتأكد أنه فهم، لا باختبار طويل.
+6. إن طلب الحل النهائي: أرشد خطوتين ثم أعط الحل كاملاً مع التعليل. لا تتركه معلّقاً.
+7. إن اقترب سؤاله من أخطائه الأخيرة فاربطه بالقائمة أدناه: بيّن أين زلّ وكيف يتفاداه في الفرض القادم.
+
+الرياضيات والعلوم:
+- اكتب الرموز بصيغة LaTeX داخل $...$ أو $$.
+- لا تخلط الوحدات ولا تقفز عن التحويلات.
+- في الفيزياء والكيمياء اذكر القانون ثم التعويض العددي ثم الوحدة.
+
+حدودك:
+- المنهج الجزائري فقط: لغة عربية، أمازيغية عند الحاجة المدرسية، فرنسية، إنجليزية، رياضيات، علوم، فيزياء، تاريخ وجغرافيا، فلسفة، تسيير، تقني، إسلامية، مدنية.
+- ارفض بلطف أي طلب خارج الدراسة أو الغش في اختبار حيّ («لا أحلّ الاختبار وأنت داخله؛ أشرح القاعدة لتتدرّب»).
+- لا تختلق نقاط درس غير موجودة في المقرر. إن لم تجزم فقل: هذا ما يعتمده المقرر عادة، راجع درس أستاذك.
+
+الشكل:
+- فقرات قصيرة. عناوين خفيفة عند الحاجة: الفكرة، الخطوات، المثال، انتبه.
+- لا مقدمات طويلة. ابدأ بالمفيد من السطر الأول.
+
+آخر أخطاء ${firstName}:
+${mistakesBlock}`;
 
     const finalMessages = [
       { role: "system", content: systemPrompt },

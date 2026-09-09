@@ -2,8 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { HeroBanner } from "@/components/shared/HeroBanner";
-import { Trophy, Medal, Award, Star } from "lucide-react";
-import { LEVELS, STREAMS } from "@/lib/constants";
+import { Trophy, Medal, Award } from "lucide-react";
+import { getRankedStudents, rankOf, RANKING_RULES } from "@/lib/ranking";
 
 export default async function StudentLeaderboardPage() {
   const cookieStore = await cookies();
@@ -15,120 +15,136 @@ export default async function StudentLeaderboardPage() {
 
   const currentUser = await prisma.user.findUnique({
     where: { id: sessionId },
-    include: { studentProfile: true }
+    include: { studentProfile: true },
   });
 
   if (!currentUser || !currentUser.studentProfile) redirect("/login");
 
-  // Get Top 3 Students
-  const topStudents = await prisma.user.findMany({
-    where: { role: "STUDENT" },
-    include: { studentProfile: true },
-    orderBy: { studentProfile: { totalPoints: "desc" } },
-    take: 5,
+  const ranked = await getRankedStudents({
+    level: currentUser.studentProfile.level,
+    stream: currentUser.studentProfile.stream,
   });
-
-  // Calculate Rank
-  let myRank = "غير مصنف";
-  if (currentUser.studentProfile.totalPoints > 0) {
-    const higherScoringStudents = await prisma.studentProfile.count({
-      where: {
-        totalPoints: { gt: currentUser.studentProfile.totalPoints }
-      }
-    });
-    myRank = `#${higherScoringStudents + 1}`;
-  }
+  const myRank = rankOf(currentUser.id, ranked);
+  const me = ranked.find((row) => row.id === currentUser.id);
+  const topStudents = ranked.slice(0, 10);
 
   return (
     <div className="space-y-8 font-sans pb-12">
-      <HeroBanner 
+      <HeroBanner
+        variant="hero"
         title="الترتيب والنقاط"
-        description="تنافس مع زملائك و حسن ترتيبك من خلال حل التمارين والاختبارات و وكن في صدارة الأكاديمية!"
+        description="ترتيبك بين زملاء مستواك وشعبتك، ويُحدَّث حسب نشاطك في الاختبارات والإجابات والدخول."
         icon={Trophy}
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* Personal Stats Card */}
-        <div className="lg:col-span-1 space-y-6">
-          <div className="bg-[#FFFFFF] p-8 md:p-10 rounded-3xl border-[3px] border-[#000000] shadow-3d-soft text-center paper-cut relative overflow-hidden">
-            <div className="w-24 h-24 bg-[#FACC15] border-[3px] border-[#000000] rounded-2xl flex items-center justify-center mx-auto mb-8 transform -rotate-6 shadow-sm relative z-10">
-              <Star className="w-12 h-12 text-[#000000]" fill="currentColor" />
-            </div>
-            <h3 className="text-gray-600 font-black text-lg mb-2 relative z-10">مجموع نقاطك</h3>
-            <p className="text-6xl font-black text-[#000000] drop-shadow-sm relative z-10">{currentUser.studentProfile.totalPoints}</p>
-            <div className="mt-8 pt-6 border-t-[3px] border-[#000000]/10 border-dashed flex justify-between items-center relative z-10">
-              <span className="font-black text-gray-500 bg-[#000000]/5 px-3 py-1.5 rounded-lg text-sm">ترتيبك:</span>
-              <span className="font-black text-3xl text-[#7E22CE]">{myRank}</span>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+        <aside className="lg:col-span-4 space-y-4">
+          <div className="feature-card feature-card-solid h-full flex flex-col items-center text-center justify-center min-h-[16rem]">
+            <p className="text-sm font-semibold text-white/75 mb-2">مجموع نقاطك</p>
+            <p className="text-[clamp(2.5rem,5vw,3.5rem)] font-bold text-white tabular-nums leading-none">
+              {me?.score ?? 0}
+            </p>
+            <div className="mt-6 pt-5 border-t border-white/15 w-full flex items-center justify-between px-2">
+              <span className="text-sm font-medium text-white/70">ترتيبك</span>
+              <span className="text-2xl font-bold text-white tabular-nums">
+                {myRank ? `#${myRank}` : "غير مصنّف"}
+              </span>
             </div>
           </div>
-        </div>
+          <div className="surface-card p-4">
+            <p className="text-xs font-bold text-muted mb-2">كيف تُحسب النقاط</p>
+            <ul className="space-y-1.5 text-xs text-muted">
+              {RANKING_RULES.map((rule) => (
+                <li key={rule.key}>{rule.label}</li>
+              ))}
+            </ul>
+          </div>
+        </aside>
 
-        {/* Podium / Top 3 Leaderboard */}
-        <div className="lg:col-span-2">
-          <div className="bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] shadow-3d-soft overflow-hidden paper-cut relative">
-            <div className="p-6 md:p-8 border-b-[3px] border-[#000000] bg-[#F8F9FA] flex items-center gap-4 relative z-10">
-              <div className="w-12 h-12 bg-[#06B6D4] text-[#000000] rounded-xl border-[3px] border-[#000000] flex items-center justify-center shadow-sm transform rotate-3">
-                <Award className="w-6 h-6" strokeWidth={2.5} />
+        <section className="lg:col-span-8 surface-panel overflow-hidden">
+          <div className="px-5 py-4 md:px-6 md:py-5 border-b border-line bg-surface-muted flex items-center gap-3">
+            <span className="icon-tile-solid !w-10 !h-10">
+              <Award className="w-4 h-4" />
+            </span>
+            <h2 className="text-lg font-bold text-ink">لوحة الشرف</h2>
+          </div>
+
+          <div className="p-4 md:p-5 space-y-3">
+            {topStudents.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-sm text-muted">لا يوجد تصنيف بعد</p>
               </div>
-              <h3 className="font-black text-2xl text-[#000000]">لوحة الشرف - الأوائل</h3>
-            </div>
-            
-            <div className="p-6 md:p-8 space-y-4 relative z-10">
-              {topStudents.length === 0 ? (
-                <p className="text-center text-gray-500 font-bold py-12 bg-white rounded-2xl border-[3px] border-[#000000] border-dashed">لا يوجد تصنيف بعد</p>
-              ) : (
-                topStudents.map((student, index) => {
-                  const isCurrentUser = student.id === currentUser.id;
-                  const rank = index + 1;
-                  
-                  // Arabic rank name
-                  const rankLabel = rank === 1 ? "الأول" : rank === 2 ? "الثاني" : rank === 3 ? "الثالث" : `${rank}`;
-                  // Medal colors
-                  const iconColor = rank === 1 ? "text-[#000000]" : rank === 2 ? "text-[#000000]" : rank === 3 ? "text-white" : "text-gray-600";
-                  const bgColor = rank === 1 ? "bg-[#FACC15]" : rank === 2 ? "bg-[#EAE4D9]" : rank === 3 ? "bg-[#F97316]" : "bg-gray-100";
-                  const rowBg = isCurrentUser ? "bg-[#7E22CE] text-white" : "bg-white text-[#000000]";
-                  const rankTextColor = isCurrentUser ? "text-[#FACC15]" : "text-[#7E22CE]";
-                  const subtitleColor = isCurrentUser ? "text-purple-200" : "text-gray-500";
-                  
-                  const levelStr = LEVELS.find(l => l.value === student.studentProfile?.level)?.label || "";
-                  const streamStr = STREAMS.find(s => s.value === student.studentProfile?.stream)?.label || "";
+            ) : (
+              topStudents.map((student, index) => {
+                const isCurrentUser = student.id === currentUser.id;
+                const rank = index + 1;
+                const rankLabel =
+                  rank === 1 ? "الأول" : rank === 2 ? "الثاني" : rank === 3 ? "الثالث" : `${rank}`;
 
-                  return (
-                    <div 
-                      key={student.id} 
-                      className={`flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-5 sm:p-6 rounded-2xl border-[3px] border-[#000000] ${rowBg} shadow-sm transition-transform hover:-translate-y-1 hover:shadow-3d-hover group`}
+                return (
+                  <div
+                    key={student.id}
+                    className={`flex flex-col sm:flex-row items-center gap-4 p-4 sm:p-5 rounded-2xl border ${
+                      isCurrentUser
+                        ? "bg-primary border-primary text-white"
+                        : "bg-surface border-line text-ink"
+                    }`}
+                  >
+                    <div
+                      className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
+                        rank === 1
+                          ? isCurrentUser
+                            ? "bg-white text-primary"
+                            : "bg-primary text-white"
+                          : rank <= 3
+                            ? "bg-primary-soft text-primary"
+                            : isCurrentUser
+                              ? "bg-white/15 text-white"
+                              : "bg-surface-muted text-muted"
+                      }`}
                     >
-                      <div className={`w-14 h-14 ${bgColor} rounded-xl border-[3px] border-[#000000] flex items-center justify-center shrink-0 shadow-sm transform transition-transform group-hover:scale-110 ${rank === 1 ? '-rotate-6' : rank === 2 ? 'rotate-3' : rank === 3 ? '-rotate-3' : 'rotate-0'}`}>
-                        {rank <= 3 ? <Medal className={`w-7 h-7 ${iconColor}`} /> : <span className="font-black text-2xl text-gray-500">{rank}</span>}
-                      </div>
-                      
-                      <div className="flex-1 text-center sm:text-right">
-                        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 justify-center sm:justify-start">
-                          <h4 className="font-black text-xl">{student.fullName}</h4>
-                          {isCurrentUser && (
-                            <span className="text-[10px] font-black bg-[#FACC15] text-[#000000] border-[2px] border-[#000000] px-2 py-0.5 rounded-md transform rotate-3">
-                              أنت
-                            </span>
-                          )}
-                        </div>
-                        <p className={`text-sm font-bold mt-1 ${subtitleColor}`}>{levelStr} • {streamStr}</p>
-                      </div>
-
-                      <div className={`text-center px-5 py-3 rounded-xl border-[3px] border-[#000000] w-full sm:w-auto shadow-sm ${isCurrentUser ? 'bg-[#000000] text-white' : 'bg-[#F8F9FA]'}`}>
-                        <p className={`text-[10px] font-black mb-1 ${isCurrentUser ? 'text-gray-300' : 'text-gray-500'}`}>المركز {rankLabel}</p>
-                        <p className={`font-mono font-black text-2xl ${isCurrentUser ? 'text-[#FACC15]' : 'text-[#7E22CE]'}`}>
-                          {student.studentProfile?.totalPoints} <span className={`text-xs font-black ${isCurrentUser ? 'text-white' : 'text-[#000000]'}`}>نقطة</span>
-                        </p>
-                      </div>
+                      {rank <= 3 ? (
+                        <Medal className="w-5 h-5" />
+                      ) : (
+                        <span className="font-bold tabular-nums">{rank}</span>
+                      )}
                     </div>
-                  );
-                })
-              )}
-            </div>
-          </div>
-        </div>
 
+                    <div className="flex-1 text-center sm:text-start min-w-0">
+                      <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                        <h3 className="font-bold text-base truncate">{student.fullName}</h3>
+                        {isCurrentUser && (
+                          <span className="text-[10px] font-bold bg-white text-primary px-2 py-0.5 rounded-full">
+                            أنت
+                          </span>
+                        )}
+                      </div>
+                      <p className={`text-xs font-medium mt-1 ${isCurrentUser ? "text-white/70" : "text-muted"}`}>
+                        {student.level} · {student.stream}
+                      </p>
+                    </div>
+
+                    <div
+                      className={`text-center px-4 py-2.5 rounded-xl w-full sm:w-auto shrink-0 ${
+                        isCurrentUser ? "bg-white/10 border border-white/15" : "bg-surface-muted border border-line"
+                      }`}
+                    >
+                      <p className={`text-[10px] font-semibold mb-0.5 ${isCurrentUser ? "text-white/60" : "text-muted"}`}>
+                        المركز {rankLabel}
+                      </p>
+                      <p className={`font-bold text-lg tabular-nums ${isCurrentUser ? "text-white" : "text-primary"}`}>
+                        {student.score}{" "}
+                        <span className={`text-xs font-semibold ${isCurrentUser ? "text-white/80" : "text-ink"}`}>
+                          نقطة
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </section>
       </div>
     </div>
   );

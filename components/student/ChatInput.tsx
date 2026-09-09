@@ -16,8 +16,8 @@ export function ChatInput({ forumId, userId, isOpen }: ChatInputProps) {
 
   if (!isOpen) {
     return (
-      <div className="bg-purple-50 border border-purple-100 p-4 rounded-2xl text-center">
-        <p className="text-sm font-black text-purple-800">تم إغلاق هذا المنتدى من قبل الإدارة لا يمكنك إرسال رسائل جديدة</p>
+      <div className="bg-surface-muted border border-line p-4 rounded-2xl text-center">
+        <p className="text-sm font-bold text-primary">تم إغلاق هذا المنتدى من قبل الإدارة لا يمكنك إرسال رسائل جديدة</p>
       </div>
     );
   }
@@ -39,7 +39,7 @@ export function ChatInput({ forumId, userId, isOpen }: ChatInputProps) {
         rows={1}
         placeholder="اكتب رسالتك هنا.."
         required
-        className="w-full min-h-[56px] max-h-[120px] p-4 rounded-2xl border border-slate-200 bg-white text-base font-medium focus:outline-none focus:ring-2 focus:ring-purple-600 resize-y shadow-sm"
+        className="input-field min-h-[56px] max-h-[120px] !rounded-2xl resize-y"
         onKeyDown={(e) => {
           if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -50,7 +50,7 @@ export function ChatInput({ forumId, userId, isOpen }: ChatInputProps) {
       <button
         type="submit"
         disabled={isPending}
-        className="h-[56px] px-6 bg-purple-600 hover:bg-purple-700 text-slate-950 font-black rounded-2xl flex items-center justify-center transition-colors shadow-sm disabled:opacity-50"
+        className="btn-primary h-[56px] !px-6 !rounded-2xl disabled:opacity-50"
       >
         <Send className="w-5 h-5 rtl:rotate-180" />
       </button>

@@ -129,6 +129,7 @@ model User {
   parentLinks        ParentStudentLink[] @relation("ParentLink")
   studentLinks       ParentStudentLink[] @relation("StudentLink")
   lastLoginAt        DateTime            @default(now())
+  loginCount         Int                 @default(0)
   deviceFingerprints String[]            @default([])
   accessCodes        AccessCode[]
   mistakes           StudentMistake[]
@@ -140,6 +141,11 @@ model User {
   forumMessages      ForumMessage[]
   friendLinksSource  StudentFriendLink[] @relation("StudentLinkSource")
   friendLinksTarget  StudentFriendLink[] @relation("StudentLinkTarget")
+  adminAiInsights    AdminAiInsight[]
+  lessonCompletions  LessonCompletion[]
+  quizCompletions    QuizCompletion[]
+
+  @@index([role, lastLoginAt])
 }
 
 model StudentProfile {
@@ -160,9 +166,11 @@ model StudentProfile {
 }
 
 model ParentProfile {
-  id     String @id @default(cuid())
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String    @id @default(cuid())
+  userId         String    @unique
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastReviewedAt DateTime?
+  reviewCount    Int       @default(0)
 }
 
 model Teacher {
@@ -206,19 +214,36 @@ model Subject {
   createdAt   DateTime     @default(now())
 }
 
+/// Academic month catalog (1–12). A month has many lessons; a subscription code grants access to a month.
+model Month {
+  id          String       @id @default(uuid())
+  number      Int          @unique
+  title       String
+  lessons     Lesson[]
+  accessCodes AccessCode[]
+  createdAt   DateTime     @default(now())
+}
+
 model Lesson {
-  id        String           @id @default(uuid())
-  title     String
-  month     Int // e.g., 1, 2, 3
-  vimeoVideoId String // Vimeo video ID
-  image     String? // Square image URL for the lesson from Supabase Storage
-  subjects  Subject[]        @relation("LessonSubjects")
-  streams   Stream[]         @default([])
-  levels    Level[]          @default([])
-  quiz      Quiz? // One-to-one relation with AI Quiz
-  mistakes  StudentMistake[]
-  materials LessonMaterial[]
-  createdAt DateTime         @default(now())
+  id               String           @id @default(uuid())
+  title            String
+  month            Int // denormalized 1–12, kept for existing unlock checks
+  monthId          String?
+  academicMonth    Month?           @relation(fields: [monthId], references: [id], onDelete: Restrict)
+  vimeoVideoId     String // Vimeo video ID
+  image            String? // Square image URL for the lesson from Supabase Storage
+  subjects         Subject[]        @relation("LessonSubjects")
+  streams          Stream[]         @default([])
+  levels           Level[]          @default([])
+  quiz             Quiz? // One-to-one relation with AI Quiz
+  mistakes         StudentMistake[]
+  materials        LessonMaterial[]
+  dailyExercises   DailyExercise[]
+  reviewCards      ReviewCard[]
+  completions      LessonCompletion[]
+  createdAt        DateTime         @default(now())
+
+  @@index([monthId])
 }
 
 model LessonMaterial {
@@ -228,6 +253,19 @@ model LessonMaterial {
   lessonId  String
   lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+}
+
+model LessonCompletion {
+  id          String   @id @default(uuid())
+  studentId   String
+  student     User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  lessonId    String
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  completedAt DateTime @default(now())
+
+  @@unique([studentId, lessonId])
+  @@index([studentId, completedAt])
+  @@index([lessonId])
 }
 
 model Quiz {
@@ -242,20 +280,39 @@ model Quiz {
   aiGenerated     Boolean          @default(true)
   questions       Json             @default("[]")
   mistakes        StudentMistake[]
+  completions     QuizCompletion[]
   createdAt       DateTime         @default(now())
 }
 
+model QuizCompletion {
+  id          String   @id @default(uuid())
+  studentId   String
+  student     User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  quizId      String
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  score       Int      @default(0)
+  completedAt DateTime @default(now())
+
+  @@unique([studentId, quizId])
+  @@index([studentId, completedAt])
+  @@index([quizId])
+}
+
 model AccessCode {
-  id           String   @id @default(uuid())
-  code         String   @unique
-  accessType   String // 'MONTHLY' or 'YEARLY'
-  validMonths  Int[]    @default([]) // Exact months this code unlocks (e.g. [9, 10] for Sept/Oct)
-  isUsed       Boolean  @default(false)
-  studentId    String? // Relation to the User/Student model
-  user         User?    @relation(fields: [studentId], references: [id])
-  subjectId    String
-  subject      Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  createdAt    DateTime @default(now())
+  id            String   @id @default(uuid())
+  code          String   @unique
+  accessType    String // 'MONTHLY' or 'YEARLY'
+  validMonths   Int[]    @default([]) // Exact months this code unlocks (e.g. [9, 10] for Sept/Oct)
+  monthId       String?
+  academicMonth Month?   @relation(fields: [monthId], references: [id], onDelete: Restrict)
+  isUsed        Boolean  @default(false)
+  studentId     String? // Relation to the User/Student model
+  user          User?    @relation(fields: [studentId], references: [id])
+  subjectId     String
+  subject       Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+
+  @@index([monthId])
 }
 
 model ParentStudentLink {
@@ -297,11 +354,15 @@ model StudentMistake {
   user            User     @relation(fields: [studentId], references: [id])
   mistakeContent  String // The wrong answer or mistake description (الخطأ)
   correctSolution String // The correct answer or explanation (الحل)
-  lessonId        String
-  lesson          Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lessonId        String?
+  lesson          Lesson?  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   quizId          String
   quiz            Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
   createdAt       DateTime @default(now())
+
+  @@index([studentId, createdAt])
+  @@index([lessonId])
+  @@index([quizId])
 }
 
 model Enrollment {
@@ -358,9 +419,13 @@ model DailyExercise {
   secondarySubjectId String?
   secondarySubject   Subject? @relation("SecondarySubject", fields: [secondarySubjectId], references: [id], onDelete: SetNull)
   month      Int
+  lessonId   String?
+  lesson     Lesson?  @relation(fields: [lessonId], references: [id], onDelete: SetNull)
   quiz       Quiz?
   materials  ExerciseMaterial[]
   createdAt  DateTime @default(now())
+
+  @@index([lessonId])
 }
 
 model ExerciseMaterial {
@@ -441,9 +506,13 @@ model ReviewCard {
   level       Level
   stream      Stream
   month       Int
+  lessonId    String?
+  lesson      Lesson?  @relation(fields: [lessonId], references: [id], onDelete: SetNull)
   exerciseRef String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([lessonId])
 }
 
 model ClassForum {
@@ -490,4 +559,18 @@ model File {
   createdAt    DateTime @default(now())
 
   @@index([createdAt(sort: Desc)])
+}
+
+/// Cached AI recommendations for the admin analytics hub or a student profile.
+model AdminAiInsight {
+  id        String   @id @default(cuid())
+  scope     String
+  studentId String?
+  student   User?    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  summary   String
+  items     Json     @default("[]")
+  createdAt DateTime @default(now())
+
+  @@index([scope, createdAt])
+  @@index([studentId, createdAt])
 }

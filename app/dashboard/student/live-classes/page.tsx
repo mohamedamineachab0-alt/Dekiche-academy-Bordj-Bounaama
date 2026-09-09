@@ -1,9 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { STREAMS, LEVELS } from "@/lib/constants";
 import { Video, Calendar, Link as LinkIcon, Clock } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
+import { labelLevel } from "@/lib/education-labels";
 
 export default async function StudentLiveClassesPage() {
   const cookieStore = await cookies();
@@ -36,24 +36,27 @@ export default async function StudentLiveClassesPage() {
 
   return (
     <div className="space-y-8 font-sans pb-12">
-      <HeroBanner 
+      <HeroBanner
+        variant="hero"
         title="حصصي المباشرة"
         description="تابع حصص البث المباشر مع أساتذتك و المراجعات والتطبيقات التفاعلية لجميع المواد المسجل بها"
         icon={Video}
       />
 
       {liveClasses.length === 0 ? (
-        <div className="p-8 md:p-12 text-center bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] shadow-3d-soft paper-cut relative overflow-hidden">
-          <div className="w-20 h-20 bg-[#FACC15] border-[3px] border-[#000000] rounded-2xl flex items-center justify-center mx-auto mb-6 transform -rotate-3 shadow-sm relative z-10">
-            <Video className="w-10 h-10 text-[#000000]" />
-          </div>
-          <h3 className="font-black text-2xl text-[#000000] mb-3 relative z-10">لا توجد حصص مبرمجة حالياً</h3>
-          <p className="text-gray-600 font-bold mt-2 relative z-10">ستظهر هنا الحصص الخاصة بالمواد التي سجلت فيها فور برمجتها من طرف أساتذتك</p>
+        <div className="surface-card px-6 py-16 text-center">
+          <span className="icon-tile mx-auto mb-5 !w-16 !h-16">
+            <Video className="w-7 h-7" />
+          </span>
+          <h3 className="text-lg font-bold text-ink mb-2">لا توجد حصص مبرمجة حالياً</h3>
+          <p className="text-sm text-muted max-w-md mx-auto leading-relaxed">
+            ستظهر هنا الحصص الخاصة بالمواد التي سجلت فيها فور برمجتها من طرف أساتذتك
+          </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {liveClasses.map(liveClass => {
-            const levelStr = LEVELS.find(l => l.value === liveClass.subject.levels?.[0])?.label || liveClass.subject.levels?.[0] || '';
+            const levelStr = labelLevel(liveClass.subject.levels?.[0]);
             const formattedDate = new Date(liveClass.date).toLocaleString('ar-DZ', { 
               weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
             });
@@ -73,64 +76,56 @@ export default async function StudentLiveClassesPage() {
             }
 
             return (
-              <div key={liveClass.id} className="bg-[#FFFFFF] rounded-3xl shadow-3d-soft border-[3px] border-[#000000] p-6 flex flex-col relative overflow-hidden paper-cut group transition-transform hover:-translate-y-1 hover:shadow-3d-hover">
-                <div className="flex items-start justify-between mb-6 relative z-10">
-                  <div className="w-14 h-14 rounded-xl bg-[#EC4899] border-[3px] border-[#000000] flex items-center justify-center text-white shrink-0 group-hover:-rotate-6 transition-transform duration-300 shadow-sm transform rotate-3">
-                    <Video className="w-6 h-6" strokeWidth={2.5} />
-                  </div>
+              <article key={liveClass.id} className="surface-card-interactive p-6 flex flex-col">
+                <div className="flex items-start justify-between mb-5">
+                  <span className="icon-tile-solid !w-12 !h-12">
+                    <Video className="w-5 h-5" strokeWidth={2} />
+                  </span>
                   {status === 'upcoming' && (
-                    <span className="bg-[#06B6D4] text-[#000000] text-xs font-black px-3 py-1.5 rounded-lg border-[3px] border-[#000000] shadow-sm transform -rotate-3">
-                      قادمة
-                    </span>
+                    <span className="badge-soft">قادمة</span>
                   )}
                   {status === 'live' && (
-                    <span className="bg-[#22C55E] text-[#000000] text-xs font-black px-3 py-1.5 rounded-lg border-[3px] border-[#000000] animate-pulse shadow-sm transform rotate-3">
-                      جارية الآن
-                    </span>
+                    <span className="badge-accent animate-pulse">جارية الآن</span>
                   )}
                   {status === 'ended' && (
-                    <span className="bg-gray-200 text-gray-500 text-xs font-black px-3 py-1.5 rounded-lg border-[3px] border-gray-300 shadow-sm">
-                      منتهية
-                    </span>
+                    <span className="badge-outline">منتهية</span>
                   )}
                 </div>
 
-                <h3 className="font-black text-[#000000] text-xl mb-3 relative z-10">{liveClass.title}</h3>
-                <div className="bg-[#FACC15] text-[#000000] text-xs font-black px-3 py-1.5 rounded-lg inline-block mb-6 border-[2px] border-[#000000] w-fit shadow-sm relative z-10 transform -rotate-1">
-                  {liveClass.subject.title}
-                </div>
+                <h3 className="font-bold text-ink text-lg mb-2">{liveClass.title}</h3>
+                <span className="badge-soft w-fit mb-5">{liveClass.subject.title}</span>
 
-                <div className="space-y-4 flex-1 bg-white p-5 rounded-2xl border-[3px] border-[#000000] shadow-sm relative z-10 mb-2">
-                  <div className="flex items-center gap-3 text-sm font-bold text-[#000000]">
-                    <div className="w-8 h-8 rounded-lg bg-[#EAE4D9] border-[2px] border-[#000000] flex items-center justify-center shrink-0">
-                      <Calendar className="w-4 h-4 text-[#000000]" />
-                    </div>
+                <div className="space-y-3 flex-1 rounded-xl bg-surface-muted/60 border border-line p-4 mb-2">
+                  <div className="flex items-center gap-3 text-sm font-semibold text-ink">
+                    <span className="icon-tile !w-8 !h-8">
+                      <Calendar className="w-4 h-4" />
+                    </span>
                     {formattedDate}
                   </div>
-                  <div className="flex items-center gap-3 text-sm font-bold text-[#000000]">
-                    <div className="w-8 h-8 rounded-lg bg-[#EAE4D9] border-[2px] border-[#000000] flex items-center justify-center shrink-0">
-                      <Clock className="w-4 h-4 text-[#000000]" />
-                    </div>
+                  <div className="flex items-center gap-3 text-sm font-semibold text-ink">
+                    <span className="icon-tile !w-8 !h-8">
+                      <Clock className="w-4 h-4" />
+                    </span>
                     الساعة {formattedTime}
                   </div>
                 </div>
 
                 {status !== 'ended' ? (
-                  <a 
-                    href={liveClass.zoomLink} 
-                    target="_blank" 
+                  <a
+                    href={liveClass.zoomLink}
+                    target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-6 relative z-10 flex items-center justify-center gap-2 w-full py-4 bg-[#7E22CE] text-white hover:bg-[#FACC15] hover:text-[#000000] shadow-sm border-[3px] border-[#000000] font-black rounded-xl transition-all hover:-translate-y-1 hover:shadow-3d-hover group-hover:rotate-1"
+                    className="btn-primary w-full mt-4"
                   >
-                    <LinkIcon className="w-5 h-5" strokeWidth={3} />
+                    <LinkIcon className="w-5 h-5" strokeWidth={2.5} />
                     دخول الحصة
                   </a>
                 ) : (
-                  <div className="mt-6 relative z-10 flex items-center justify-center gap-2 w-full py-4 bg-gray-100 text-gray-400 font-black rounded-xl border-[3px] border-gray-300">
+                  <div className="mt-4 flex items-center justify-center gap-2 w-full py-3.5 rounded-full bg-surface-muted text-muted font-semibold text-sm border border-line">
                     الحصة منتهية
                   </div>
                 )}
-              </div>
+              </article>
             )
           })}
         </div>

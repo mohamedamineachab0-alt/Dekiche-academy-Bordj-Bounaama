@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { ChevronLeft, Lock } from "lucide-react";
 import Link from "next/link";
 import { LessonTabs } from "@/components/student/LessonTabs";
+import { LessonWatchTracker } from "@/components/student/LessonWatchTracker";
+import { MarkLessonWatchedButton } from "@/components/student/MarkLessonWatchedButton";
 
 export default async function LessonStudyViewPage({
   params,
@@ -11,7 +13,7 @@ export default async function LessonStudyViewPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  
+
   const cookieStore = await cookies();
   const sessionId = cookieStore.get("session")?.value;
 
@@ -22,8 +24,8 @@ export default async function LessonStudyViewPage({
     include: {
       materials: true,
       quiz: true,
-      subjects: true
-    }
+      subjects: true,
+    },
   });
 
   if (!lesson) redirect("/dashboard/student/subjects");
@@ -32,68 +34,80 @@ export default async function LessonStudyViewPage({
     where: {
       studentId: sessionId,
       subjectId: { in: lesson.subjects.map((s) => s.id) },
-    }
+    },
   });
 
   if (enrollments.length === 0) redirect("/dashboard/student/subjects");
 
   const isUnlocked = enrollments.some((e) => e.enrolledMonths.includes(lesson.month));
+  const completion = await prisma.lessonCompletion.findUnique({
+    where: {
+      studentId_lessonId: {
+        studentId: sessionId,
+        lessonId: lesson.id,
+      },
+    },
+    select: { id: true },
+  });
   const primarySubjectId = lesson.subjects[0]?.id;
-  
+  const lessonsHref = primarySubjectId
+    ? `/dashboard/student/subjects/${primarySubjectId}/lessons`
+    : "/dashboard/student/subjects";
+
   if (!isUnlocked) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] text-center space-y-6">
-        <div className="w-24 h-24 bg-slate-100 dark:bg-white rounded-full flex items-center justify-center text-slate-400 dark:text-slate-500">
-          <Lock className="w-10 h-10" />
+      <div className="max-w-md mx-auto py-10 sm:py-16 px-1" dir="rtl">
+        <div className="surface-card px-5 py-12 sm:px-6 text-center">
+          <span className="icon-tile mx-auto mb-5">
+            <Lock className="w-5 h-5" />
+          </span>
+          <h2 className="text-lg font-bold text-ink mb-2">الدرس مغلق</h2>
+          <p className="text-sm text-muted leading-relaxed mb-6">
+            هذا الدرس ينتمي إلى الشهر {lesson.month} وهو غير مُفعّل في اشتراكك الحالي.
+          </p>
+          <Link href={lessonsHref} className="btn-primary w-full sm:w-auto">
+            العودة للدروس المسجّلة
+          </Link>
         </div>
-        <div>
-          <h2 className="text-2xl font-black text-purple-950 dark:text-purple-950">الدرس مغلق</h2>
-          <p className="text-slate-500 font-medium mt-2 max-w-sm mx-auto">هذا الدرس ينتمي إلى الشهر {lesson.month} وهو غير مفعل في اشتراكك الحالي</p>
-        </div>
-        <Link 
-          href={`/dashboard/student/subjects/${primarySubjectId}`}
-          className="bg-purple-600 hover:bg-purple-700 text-slate-950 font-black px-6 py-3 rounded-xl font-bold transition-colors shadow-sm"
-        >
-          العودة للمادة
-        </Link>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 pb-12 font-arabic" dir="rtl">
-      {/* Navigation Breadcrumb */}
-      <div className="flex items-center justify-between">
-        <Link 
-          href={`/dashboard/student/subjects/${primarySubjectId}`} 
-          className="inline-flex items-center gap-2 text-slate-500 hover:text-purple-800 font-bold transition-colors"
+    <div className="space-y-4 sm:space-y-6 font-sans pb-12 min-w-0 overflow-x-hidden" dir="rtl">
+      <LessonWatchTracker userId={sessionId} />
+
+      <div className="flex items-center justify-between gap-3 min-w-0">
+        <Link
+          href={lessonsHref}
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-primary min-w-0"
         >
-          <ChevronLeft className="w-5 h-5" />
-          العودة إلى دروس المادة
+          <ChevronLeft className="w-4 h-4 rotate-180 shrink-0" />
+          <span className="truncate">الدروس المسجّلة</span>
         </Link>
-        <span className="bg-purple-100 text-purple-800 dark:bg-white/30 dark:text-purple-500 px-4 py-1.5 rounded-lg text-sm font-bold">
-          الشهر {lesson.month}
-        </span>
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="badge-soft">الشهر {lesson.month}</span>
+          {completion ? <span className="badge-soft">مكتمل</span> : null}
+        </div>
       </div>
 
-      <div className="flex flex-col space-y-8">
-        
-        {/* 1. Full-Width Video Player */}
-        <div className="relative w-full rounded-[1.5rem] p-[3px] bg-gradient-to-br from-white via-purple-500 to-slate-950 shadow-[0_10px_40px_rgba(14,165,233,0.3)] mb-8">
-          <div className="relative rounded-[1.3rem] overflow-hidden bg-black/5 backdrop-blur-sm w-full aspect-video flex items-center justify-center">
-            <iframe 
-              src={`https://player.vimeo.com/video/${lesson.vimeoVideoId}?title=0&byline=0&portrait=0&badge=0&vimeo_logo=0&share=0&like=0&watch_later=0`}
-              className="w-full h-full absolute top-0 left-0"
-              frameBorder="0"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </div>
-        
-        {/* Interactive Tabs for Lesson Details, Attachments, and Quiz */}
-        <LessonTabs lesson={lesson} />
+      <h1 className="text-lg sm:text-2xl font-bold text-ink tracking-tight leading-snug break-words">
+        {lesson.title}
+      </h1>
+
+      <div className="-mx-3 sm:-mx-4 md:mx-0 rounded-none md:rounded-2xl overflow-hidden border-y md:border border-line bg-ink aspect-video relative">
+        <iframe
+          src={`https://player.vimeo.com/video/${lesson.vimeoVideoId}?title=0&byline=0&portrait=0&badge=0&vimeo_logo=0&share=0&like=0&watch_later=0`}
+          className="absolute inset-0 w-full h-full"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+          title={lesson.title}
+        />
       </div>
+
+      <MarkLessonWatchedButton lessonId={lesson.id} completed={Boolean(completion)} />
+
+      <LessonTabs lesson={lesson} />
     </div>
   );
 }

@@ -5,6 +5,8 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
 import { Level, Stream, Wilaya, Phase } from "@/generated/prisma";
+import { findUserForLogin } from "@/lib/login-user";
+import { phoneVariants } from "@/lib/login-match";
   
 // ─── REGISTER ──────────────────────────────────────────────────────────────
 
@@ -127,19 +129,13 @@ export async function loginUser(
     return { error: "يرجى إدخال اسمك الكامل ورقم الهاتف" };
   }
 
-  let user = await prisma.user.findFirst({
-    where: {
-      phoneNumber: phoneNumber
-    }
-  });
-
-  const isSuperAdmin = phoneNumber === "0562388085";
-
-  if (!user) {
-    return { error: "بيانات الدخول غير صحيحة، أو الحساب غير موجود" };
-  } else if (user.fullName !== fullName) {
-    return { error: "بيانات الدخول غير صحيحة، أو الحساب غير موجود" };
+  const found = await findUserForLogin(fullName, phoneNumber);
+  if ("error" in found) {
+    return { error: found.error };
   }
+  const { user } = found;
+
+  const isSuperAdmin = phoneVariants(phoneNumber).includes("0562388085");
 
   const headersList = await headers();
   const userAgent = headersList.get("user-agent") || "Unknown Device";
@@ -155,6 +151,11 @@ export async function loginUser(
       ...(isSuperAdmin ? { role: "ADMIN" } : {})
     },
   });
+  await prisma.$executeRaw`
+    UPDATE "User"
+    SET "loginCount" = COALESCE("loginCount", 0) + 1
+    WHERE id = ${user.id}
+  `;
 
   const rememberMe = formData.get("rememberMe") === "on";
 

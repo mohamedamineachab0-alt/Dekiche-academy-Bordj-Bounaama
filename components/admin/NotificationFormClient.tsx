@@ -27,67 +27,103 @@ export function NotificationFormClient({
   });
 
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 sticky top-6">
-      <h2 className="text-lg font-black text-purple-950 mb-4 flex items-center gap-2">
-        <Send className="w-5 h-5 text-violet-600" />
-        إرسال إشعار جديد
-      </h2>
+    <div className="surface-card p-6 sticky top-6">
+      <div className="flex items-center gap-3 mb-5 pb-4 border-b border-line">
+        <span className="icon-tile">
+          <Send className="w-4 h-4" />
+        </span>
+        <h2 className="text-lg font-bold text-ink">إرسال إشعار جديد</h2>
+      </div>
 
       <form action={action} className="space-y-4">
-        <div className="space-y-1">
-          <label className="text-sm font-bold text-purple-800">عنوان الإشعار</label>
-          <input type="text" name="title" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="مثال: إضافة ملخص جديد" />
+        <div>
+          <label className="field-label">عنوان الإشعار</label>
+          <input type="text" name="title" required className="input-field" placeholder="مثال: إضافة ملخص جديد" />
         </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-bold text-purple-800">نص الإشعار</label>
-          <textarea name="content" rows={3} required className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none" placeholder="اكتب رسالتك هنا.." />
+        <div>
+          <label className="field-label">نص الإشعار</label>
+          <textarea
+            name="content"
+            rows={3}
+            required
+            className="input-field resize-none"
+            placeholder="اكتب رسالتك هنا.."
+          />
         </div>
 
-        <div className="pt-2 border-t border-slate-100">
-          <p className="text-xs font-bold text-slate-500 mb-3">تحديد الفئة المستهدفة (اتركها فارغة للإرسال للجميع)</p>
+        <div className="pt-2 border-t border-line">
+          <p className="text-xs font-semibold text-muted mb-3">تحديد الفئة المستهدفة (اتركها فارغة للإرسال للجميع)</p>
 
           <div className="space-y-3">
-            <div className="grid grid-cols-1 gap-3">
-              <div className="space-y-1">
-                <label className="text-sm font-bold text-purple-800">الطور (اختياري)</label>
-                <select name="phase" value={phase} onChange={(e) => { setPhase(e.target.value); setLevel(""); setStream(""); }} className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-violet-500">
-                  <option value="">جميع الأطوار</option>
-                  {EDUCATION_STAGES.map((s) => (
-                    <option key={s.value} value={s.value}>{s.label}</option>
+            <div>
+              <label className="field-label">الطور (اختياري)</label>
+              <select
+                name="phase"
+                value={phase}
+                onChange={(e) => {
+                  setPhase(e.target.value);
+                  setLevel("");
+                  setStream("");
+                }}
+                className="input-field"
+              >
+                <option value="">جميع الأطوار</option>
+                {EDUCATION_STAGES.map((s) => (
+                  <option key={s.value} value={s.value}>
+                    {s.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="field-label">المستوى (اختياري)</label>
+              <select
+                name="level"
+                value={level}
+                onChange={(e) => {
+                  setLevel(e.target.value);
+                  setStream("");
+                }}
+                disabled={!phase}
+                className="input-field disabled:opacity-50"
+              >
+                <option value="">جميع المستويات</option>
+                {currentLevels.map((l: any) => (
+                  <option key={l.value} value={l.value}>
+                    {l.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="field-label">الشعبة (اختياري)</label>
+              {shouldShowStreams ? (
+                <select
+                  name="stream"
+                  value={stream}
+                  onChange={(e) => setStream(e.target.value)}
+                  disabled={!level}
+                  className="input-field disabled:opacity-50"
+                >
+                  <option value="">جميع الشعب</option>
+                  {currentStreams.map((s: any) => (
+                    <option key={s.value} value={s.value}>
+                      {s.label}
+                    </option>
                   ))}
                 </select>
-              </div>
-              <div className="space-y-1">
-                <label className="text-sm font-bold text-purple-800">المستوى (اختياري)</label>
-                <select name="level" value={level} onChange={(e) => { setLevel(e.target.value); setStream(""); }} disabled={!phase} className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-violet-500 disabled:opacity-50">
-                  <option value="">جميع المستويات</option>
-                  {currentLevels.map((l: any) => (
-                    <option key={l.value} value={l.value}>{l.label}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="space-y-1">
-                <label className="text-sm font-bold text-purple-800">الشعبة (اختياري)</label>
-                {shouldShowStreams ? (
-                  <select name="stream" value={stream} onChange={(e) => setStream(e.target.value)} disabled={!level} className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-violet-500 disabled:opacity-50">
-                    <option value="">جميع الشعب</option>
-                    {currentStreams.map((s: any) => (
-                      <option key={s.value} value={s.value}>{s.label}</option>
-                    ))}
-                  </select>
-                ) : (
-                  <div className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-400 text-sm text-center">
-                    غير مطبق
-                    <input type="hidden" name="stream" value="NONE" />
-                  </div>
-                )}
-              </div>
+              ) : (
+                <div className="w-full p-2.5 rounded-xl border border-line bg-surface-muted text-muted text-sm text-center">
+                  غير مطبق
+                  <input type="hidden" name="stream" value="NONE" />
+                </div>
+              )}
             </div>
 
-            <div className="space-y-1">
-              <label className="text-sm font-bold text-purple-800">المادة الدراسية (اختياري)</label>
-              <select name="subjectId" className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-violet-500">
+            <div>
+              <label className="field-label">المادة الدراسية (اختياري)</label>
+              <select name="subjectId" className="input-field">
                 <option value="">جميع المواد</option>
                 {filteredSubjects.map((s) => (
                   <option key={s.id} value={s.id}>
@@ -97,14 +133,14 @@ export function NotificationFormClient({
               </select>
             </div>
 
-            <div className="space-y-1">
-              <label className="text-sm font-bold text-purple-800">الشهر (اختياري)</label>
-              <input type="number" min="1" max="12" name="month" className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="رقم الشهر" />
+            <div>
+              <label className="field-label">الشهر (اختياري)</label>
+              <input type="number" min="1" max="12" name="month" className="input-field" placeholder="رقم الشهر" />
             </div>
           </div>
         </div>
 
-        <button type="submit" className="w-full flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-purple-950 font-bold py-3 rounded-xl transition-colors mt-2">
+        <button type="submit" className="btn-primary w-full mt-2">
           <Send className="w-4 h-4" />
           إرسال الإشعار
         </button>

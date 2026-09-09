@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { findUserForLogin } from "@/lib/login-user";
 
 export type LoginState = {
   error?: string;
@@ -15,22 +16,15 @@ export async function universalLoginAction(
   const fullName = (formData.get("fullName") as string)?.trim();
   const phoneNumber = (formData.get("phoneNumber") as string)?.trim();
 
-  // 1. Validate inputs are present
   if (!fullName || !phoneNumber) {
     return { error: "يرجى إدخال الاسم الكامل ورقم الهاتف" };
   }
 
-  // 2. Lookup user by phone number
-  const user = await prisma.user.findFirst({
-    where: {
-      phoneNumber: phoneNumber,
-    },
-  });
-
-  // 3. Reject if the user does not exist or name mismatches (case-insensitive)
-  if (!user || user.fullName.toLowerCase().trim() !== fullName.toLowerCase().trim()) {
-    return { error: "بيانات الدخول غير صحيحة، أو الحساب غير موجود" };
+  const found = await findUserForLogin(fullName, phoneNumber);
+  if ("error" in found) {
+    return { error: found.error };
   }
+  const { user } = found;
 
   // 4. Set the HTTP-only session cookie
   const cookieStore = await cookies();
@@ -42,11 +36,16 @@ export async function universalLoginAction(
     maxAge: 60 * 60 * 24 * 7, // 7 days
   });
 
-  // 5. Update last login safely
-  await prisma.user.update({
-    where: { id: user.id },
-    data: { lastLoginAt: new Date() },
-  });
+  try {
+    await prisma.$executeRaw`
+      UPDATE "User"
+      SET "lastLoginAt" = NOW(),
+          "loginCount" = COALESCE("loginCount", 0) + 1
+      WHERE id = ${user.id}
+    `;
+  } catch {
+    // Login must still succeed if analytics columns are missing.
+  }
 
   // 6. Dynamic Role-based Redirect
   switch (user.role) {

@@ -19,7 +19,8 @@ export default async function ExerciseQuizPage({
     where: { id },
     include: {
       quiz: true,
-      subject: true
+      subject: true,
+      lesson: { select: { title: true } },
     }
   });
 
@@ -30,10 +31,10 @@ export default async function ExerciseQuizPage({
     : (exercise.quiz.questions as any[]);
 
   return (
-    <div className="max-w-4xl mx-auto py-8 font-arabic" dir="rtl">
+    <div className="max-w-4xl mx-auto py-4 sm:py-8 font-sans min-w-0" dir="rtl">
       <QuizClient 
-        lessonId={undefined} 
-        lessonTitle={exercise.title} 
+        lessonId={exercise.lessonId || undefined} 
+        lessonTitle={exercise.lesson?.title ? `تمرين يومي — ${exercise.lesson.title}` : exercise.title} 
         quizId={exercise.quiz.id}
         questions={questions}
         contextType="exercise"

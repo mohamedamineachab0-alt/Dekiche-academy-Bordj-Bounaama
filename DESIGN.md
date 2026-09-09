@@ -1,84 +1,28 @@
-# Design System Documentation: Aetherium Academic
+# Design System: أكاديمية دقيش
 
-## 1. Overview & Creative North Star
-This design system establishes a premium, world-class EdTech experience. It rejects generic templates in favor of a "Linear/Vercel Vibe" characterized by deep, commanding typography, luxurious whitespace, subtle graph-paper textures, and fluid micro-interactions. The aesthetic is clean, minimalist, and deeply trustworthy.
+## 1. Visual Theme & Atmosphere
+White and violet only. Purple brand surfaces, white cards, no yellow, no blue, no gold. Clean academic product UI for daily use.
 
----
+## 2. Color Palette & Roles
+- **White** (`#FFFFFF`) — Canvas, cards, buttons on purple, text on purple
+- **Violet** (`#5B21B6`) — Brand, sidebar, hero, primary CTAs on white
+- **Violet hover** (`#4C1D95`)
+- **Violet mid** (`#6D28D9`)
+- **Violet soft** (`#EDE9FE` / `#F5F3FF`) — muted fills, icon tiles
+- **Ink** (`#2E1065`) — Body text (dark violet, not black)
+- **Muted** (`#6D5B8C`)
+- **Line** (`#DDD6FE`)
 
-## 2. Colors & Surface Architecture
+Hero: `linear-gradient(135deg, #5b21b6 0%, #4c1d95 100%)`.
 
-The palette is strictly controlled, anchored in deep purples and pristine whites, avoiding harsh contrasts or generic default colors.
+## 3. Typography Rules
+- **Primary:** IBM Plex Sans Arabic. IBM Plex Sans for Latin.
+- **Weights:** 700 headings/CTAs, 600 labels, 400–500 body. No 900.
 
-### Base Surfaces
-*   **Primary Background:** Pure White (`#ffffff` / `bg-white`) for cards and main content areas.
-*   **Secondary Background:** Soft Gray (`#f9fafb` / `bg-gray-50/50`) often paired with a subtle graph-paper grid (`bg-notebook-grid`) for underlying canvas depth.
+## 4. Component Stylings
+- **Buttons:** `.btn-primary` purple + white text. On `.bg-hero`, the same class becomes white + purple text. `.btn-hero-outline` white glass. `.btn-secondary` soft violet.
+- **Cards:** white `.surface-card`. Soft tiles: violet wash. Solid tiles: violet + white type.
+- **Banned as brand:** yellow, gold, cyan, action-blue, neon.
 
-### Brand Palette (The Purple Spectrum)
-*   **Primary Action:** Deep Purple (`bg-purple-600` / `text-purple-600`). Used for primary buttons, active states, and key icons.
-*   **Accent/Badge:** Soft Purple (`bg-purple-50` / `text-purple-700`). Used for secondary buttons, badge backgrounds, and icon containers.
-*   **Commanding Text:** Very Deep Purple (`text-purple-950` / `text-purple-900`). Used strictly for high-level headings and titles.
-*   **Body Text:** Clean Dark Gray (`text-gray-500` / `text-gray-600`). Used for subtitles and paragraph text.
-
-### Borders
-*   **Subtle Definition:** Hyper-subtle purple borders (`border-purple-100/50` or `border-purple-100`) define all cards and containers. Never use generic gray borders for primary content.
-
----
-
-## 3. Typography: The Academic Voice
-
-*   **Primary Font:** `IBM Plex Sans Arabic` is strictly enforced universally across all elements.
-*   **Headings (H1/H2):** Must be heavy and commanding. Use `text-3xl font-black text-purple-950 tracking-tight`.
-*   **Subtitles/Body:** Must be clean and readable. Use `text-[0.925rem] text-gray-500 font-medium leading-relaxed`.
-
----
-
-## 4. Elevation, Depth & Shapes
-
-We avoid default browser or generic CSS framework shadows, opting for custom, premium depth.
-
-*   **Border Radius:** Highly rounded corners are mandatory. Use `rounded-3xl` for main cards and `rounded-2xl` for inner elements or smaller cards.
-*   **Resting Shadow:** A custom, premium soft dropshadow: `shadow-[0_8px_30px_rgb(0,0,0,0.04)]`.
-*   **Hover Shadow (Bloom):** On interaction, shadows must "bloom" with a subtle brand tint: `hover:shadow-[0_20px_40px_rgb(168,85,247,0.15)]`.
-
----
-
-## 5. Micro-Interactions (Make it Alive)
-
-Every interactive element must feel fluid and responsive.
-
-*   **Transitions:** All cards, buttons, and inputs must use `transition-all duration-300 ease-out`.
-*   **Hover Lift:** Interactive cards must lift subtly: `hover:-translate-y-1`.
-*   **Icon Playfulness:** Icons within interactive groups should scale and rotate slightly on hover: `group-hover:scale-110 group-hover:rotate-3`.
-
----
-
-## 6. Spatial Tension (Whitespace)
-
-Stop cramming elements. The design must breathe.
-*   **Inner Padding:** Use luxurious padding inside cards, typically `p-8`.
-*   **Structural Gaps:** Grid layouts and flex containers should use wide gaps, such as `gap-8`.
-
----
-
-## 7. Component Examples
-
-### The Premium Card
-```html
-<div class="group block bg-white rounded-3xl p-8 border border-purple-100/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_20px_40px_rgb(168,85,247,0.15)] hover:border-purple-200 relative flex flex-col h-full">
-  <!-- Content -->
-</div>
-```
-
-### The Icon Container
-```html
-<div class="w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-300 ease-out group-hover:scale-110 group-hover:rotate-3 bg-purple-50 text-purple-600 shadow-sm border border-purple-100/30">
-  <!-- Icon -->
-</div>
-```
-
-### The Action Badge
-```html
-<div class="flex items-center gap-2 font-bold text-sm text-purple-600 transition-all duration-300 ease-out group-hover:gap-4 bg-purple-50/50 px-4 py-2 rounded-xl">
-  <span>Action Text</span>
-</div>
-```
+## 5. Anti-Patterns
+No yellow markers, no gold bevels, no Zellige, no emojis, no Inter, no pure black, no extra brand hues.

@@ -1,84 +1,125 @@
 "use client";
 
-import { useState } from "react";
-import { Check, Image as ImageIcon, Save, Loader2 } from "lucide-react";
-import { updateUserAvatar } from "@/actions/user";
+import { useRef, useState } from "react";
+import { Camera, Image as ImageIcon, Loader2 } from "lucide-react";
+import imageCompression from "browser-image-compression";
+import { saveStudentPhotoUrl, uploadStudentPhoto } from "@/actions/user";
+import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 
-const PRESET_AVATARS = [
-  "https://api.dicebear.com/7.x/notionists/svg?seed=Amine",
-  "https://api.dicebear.com/7.x/notionists/svg?seed=Samir",
-  "https://api.dicebear.com/7.x/notionists/svg?seed=Sara",
-  "https://api.dicebear.com/7.x/notionists/svg?seed=Lina",
-  "https://api.dicebear.com/7.x/notionists/svg?seed=Karim",
-  "https://api.dicebear.com/7.x/notionists/svg?seed=Nour",
-  "https://api.dicebear.com/7.x/notionists/svg?seed=Yanis",
-  "https://api.dicebear.com/7.x/notionists/svg?seed=Rania",
-  "https://api.dicebear.com/7.x/notionists/svg?seed=Walid",
-  "https://api.dicebear.com/7.x/notionists/svg?seed=Aya",
-  "https://api.dicebear.com/7.x/notionists/svg?seed=Omar",
-  "https://api.dicebear.com/7.x/notionists/svg?seed=Farah"
-];
+const PHOTO_BUCKETS = ["subject-covers", "lesson-materials"] as const;
+
+async function uploadPhotoToStorage(file: File) {
+  const fileName = `student-avatars/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`;
+  for (const bucket of PHOTO_BUCKETS) {
+    const { error } = await supabase.storage.from(bucket).upload(fileName, file, {
+      contentType: "image/jpeg",
+      upsert: false,
+    });
+    if (!error) {
+      const { data } = supabase.storage.from(bucket).getPublicUrl(fileName);
+      return data.publicUrl;
+    }
+  }
+  return null;
+}
 
 export function AvatarSelector({ currentAvatarUrl }: { currentAvatarUrl?: string | null }) {
-  const [selectedAvatar, setSelectedAvatar] = useState(currentAvatarUrl || "");
-  const [isSaving, setIsSaving] = useState(false);
+  const [preview, setPreview] = useState(currentAvatarUrl || "");
+  const [isUploading, setIsUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
-  const handleSave = async () => {
-    if (!selectedAvatar) return;
-    setIsSaving(true);
-    const result = await updateUserAvatar(selectedAvatar);
-    if (result.success) {
-      router.refresh();
+  const handleUpload = async (file: File | undefined) => {
+    if (!file) return;
+    setIsUploading(true);
+    setError(null);
+    setSuccess(null);
+    const localUrl = URL.createObjectURL(file);
+    setPreview(localUrl);
+
+    try {
+      const compressed = await imageCompression(file, {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 800,
+        useWebWorker: true,
+        fileType: "image/jpeg",
+      });
+      const publicUrl = await uploadPhotoToStorage(compressed);
+      let result: { success?: boolean; url?: string; error?: string };
+      if (publicUrl) {
+        result = await saveStudentPhotoUrl(publicUrl);
+      } else {
+        const formData = new FormData();
+        formData.set("photo", compressed, "avatar.jpg");
+        result = await uploadStudentPhoto(formData);
+      }
+      if (result.success && result.url) {
+        setPreview(result.url);
+        setSuccess("تم حفظ صورتك");
+        router.refresh();
+      } else {
+        setError(result.error || "فشل رفع الصورة");
+        setPreview(currentAvatarUrl || "");
+      }
+    } catch {
+      setError("تعذّر تجهيز الصورة. جرّب صورة أصغر.");
+      setPreview(currentAvatarUrl || "");
     }
-    setIsSaving(false);
+    URL.revokeObjectURL(localUrl);
+    setIsUploading(false);
+    if (inputRef.current) inputRef.current.value = "";
   };
 
   return (
-    <div className="bg-[#FFFFFF] rounded-3xl p-6 md:p-8 border-[3px] border-[#000000] shadow-3d-soft paper-cut flex flex-col justify-between h-full relative overflow-hidden">
-      <div className="relative z-10">
-        <div className="w-14 h-14 bg-[#EC4899] text-white rounded-2xl flex items-center justify-center mb-6 border-[3px] border-[#000000] shadow-sm transform rotate-3">
-          <ImageIcon className="w-6 h-6" />
+    <div className="surface-panel p-6 md:p-8 h-full">
+      <span className="icon-tile-solid mb-5">
+        <ImageIcon className="w-6 h-6" />
+      </span>
+      <h3 className="text-xl font-bold text-ink mb-2">الصورة الشخصية</h3>
+      <p className="text-muted text-sm leading-relaxed mb-6">
+        ارفع صورتك لتظهر في حسابك ودردشة القسم.
+      </p>
+
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        <div className="w-24 h-24 rounded-[1.4rem] overflow-hidden border border-line bg-[#EDE9FE] shrink-0">
+          {preview ? (
+            <img src={preview} alt="صورتك" className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-primary">
+              <ImageIcon className="w-8 h-8" />
+            </div>
+          )}
         </div>
-        <h3 className="text-2xl font-black text-[#000000] mb-3">الصورة الشخصية</h3>
-        <p className="text-gray-600 font-bold text-sm leading-relaxed mb-8">
-          اختر صورة شخصية لملفك لتظهر في لوحة التحكم و دردشة القسم
-        </p>
+        <div className="flex-1 w-full">
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            className="hidden"
+            onChange={(event) => handleUpload(event.target.files?.[0])}
+          />
+          <button
+            type="button"
+            onClick={() => inputRef.current?.click()}
+            disabled={isUploading}
+            className="btn-secondary w-full sm:w-auto"
+          >
+            {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
+            ارفع صورتك
+          </button>
+          <p className="text-xs text-muted mt-2">JPG أو PNG، حتى 3 ميغابايت.</p>
+        </div>
       </div>
 
-      <div className="space-y-6 relative z-10">
-        {/* Presets Grid */}
-        <div className="flex flex-wrap gap-4 justify-center">
-          {PRESET_AVATARS.map((url, idx) => (
-            <button
-              key={idx}
-              onClick={() => {
-                setSelectedAvatar(url);
-              }}
-              className={`relative w-16 h-16 shrink-0 rounded-2xl border-[3px] overflow-hidden transition-all duration-200 group ${
-                selectedAvatar === url ? "border-[#000000] scale-110 shadow-3d-soft rotate-3 z-10" : "border-[#000000]/20 hover:border-[#000000] hover:-rotate-3 hover:shadow-3d-hover bg-white"
-              }`}
-            >
-              <img src={url} alt="صورة رمزية" className="w-full h-full object-cover bg-[#F8F9FA]" />
-              {selectedAvatar === url && (
-                <div className="absolute inset-0 bg-[#7E22CE]/20 flex items-center justify-center backdrop-blur-[1px]">
-                  <Check className="w-6 h-6 text-[#000000] font-black bg-[#FACC15] rounded-xl p-1 border-[2px] border-[#000000]" strokeWidth={3} />
-                </div>
-              )}
-            </button>
-          ))}
-        </div>
-
-        <button
-          onClick={handleSave}
-          disabled={!selectedAvatar || isSaving || selectedAvatar === currentAvatarUrl}
-          className="w-full flex items-center justify-center gap-2 bg-[#7E22CE] text-white py-4 rounded-xl font-black text-lg border-[3px] border-[#000000] hover:-translate-y-1 hover:shadow-3d-hover disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none transition-all"
-        >
-          {isSaving ? <Loader2 className="w-6 h-6 animate-spin" /> : <Save className="w-6 h-6" />}
-          حفظ الصورة
-        </button>
-      </div>
+      {error && (
+        <p className="text-sm text-red-700 bg-red-50 border border-red-100 rounded-xl px-3 py-2 mt-4">{error}</p>
+      )}
+      {success && (
+        <p className="text-sm text-primary bg-primary-soft border border-line rounded-xl px-3 py-2 mt-4">{success}</p>
+      )}
     </div>
   );
 }

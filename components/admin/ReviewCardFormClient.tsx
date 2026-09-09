@@ -28,92 +28,140 @@ export function ReviewCardFormClient({
   });
 
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 sticky top-6">
-      <h2 className="text-lg font-black text-purple-950 mb-4 flex items-center gap-2">
-        <Plus className="w-5 h-5 text-purple-700" />
-        إضافة بطاقة جديدة
-      </h2>
+    <div className="surface-card p-6 sticky top-6">
+      <div className="flex items-center gap-3 mb-5 pb-4 border-b border-line">
+        <span className="icon-tile">
+          <Plus className="w-4 h-4" />
+        </span>
+        <h2 className="text-lg font-bold text-ink">إضافة بطاقة جديدة</h2>
+      </div>
 
       <form action={action} className="space-y-4">
-        <div className="space-y-1">
-          <label className="text-sm font-bold text-purple-800">عنوان البطاقة</label>
-          <input type="text" name="title" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="مثال: تعريف الخلية" />
+        <div>
+          <label className="field-label">عنوان البطاقة</label>
+          <input type="text" name="title" required className="input-field" placeholder="مثال: تعريف الخلية" />
         </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-bold text-purple-800">السؤال (الوجه الأمامي)</label>
-          <textarea name="question" rows={3} required className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-purple-600 resize-none" placeholder="اكتب السؤال هنا.." />
+        <div>
+          <label className="field-label">السؤال (الوجه الأمامي)</label>
+          <textarea
+            name="question"
+            rows={3}
+            required
+            className="input-field resize-none"
+            placeholder="اكتب السؤال هنا.."
+          />
         </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-bold text-purple-800">الجواب (الوجه الخلفي)</label>
-          <textarea name="answer" rows={3} required className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-purple-600 resize-none" placeholder="اكتب الجواب هنا.." />
+        <div>
+          <label className="field-label">الجواب (الوجه الخلفي)</label>
+          <textarea
+            name="answer"
+            rows={3}
+            required
+            className="input-field resize-none"
+            placeholder="اكتب الجواب هنا.."
+          />
         </div>
 
-        <div className="pt-2 border-t border-slate-100">
-          <div className="space-y-3">
-            <div className="grid grid-cols-1 gap-3">
-              <div className="space-y-1">
-                <label className="text-sm font-bold text-purple-800">الطور</label>
-                <select name="phase" value={phase} onChange={(e) => { setPhase(e.target.value); setLevel(""); setStream(""); }} required className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-purple-600">
-                  <option value="">اختر الطور</option>
-                  {EDUCATION_STAGES.map((s) => (
-                    <option key={s.value} value={s.value}>{s.label}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="space-y-1">
-                <label className="text-sm font-bold text-purple-800">المستوى</label>
-                <select name="level" value={level} onChange={(e) => { setLevel(e.target.value); setStream(""); }} required disabled={!phase} className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-purple-600 disabled:opacity-50">
-                  <option value="">اختر المستوى</option>
-                  {currentLevels.map((l: any) => (
-                    <option key={l.value} value={l.value}>{l.label}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="space-y-1">
-                <label className="text-sm font-bold text-purple-800">الشعبة</label>
-                {shouldShowStreams ? (
-                  <select name="stream" value={stream} onChange={(e) => setStream(e.target.value)} required disabled={!level} className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-purple-600 disabled:opacity-50">
-                    <option value="">اختر الشعبة</option>
-                    {currentStreams.map((s: any) => (
-                      <option key={s.value} value={s.value}>{s.label}</option>
-                    ))}
-                  </select>
-                ) : (
-                  <div className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-400 text-sm text-center">
-                    غير مطبق
-                    <input type="hidden" name="stream" value="NONE" />
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="space-y-1">
-              <label className="text-sm font-bold text-purple-800">المادة الدراسية</label>
-              <select name="subjectId" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-purple-600">
-                <option value="">اختر المادة</option>
-                {filteredSubjects.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.title}
+        <div className="pt-2 border-t border-line space-y-3">
+          <div>
+            <label className="field-label">الطور</label>
+            <select
+              name="phase"
+              value={phase}
+              onChange={(e) => {
+                setPhase(e.target.value);
+                setLevel("");
+                setStream("");
+              }}
+              required
+              className="input-field"
+            >
+              <option value="">اختر الطور</option>
+              {EDUCATION_STAGES.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="field-label">المستوى</label>
+            <select
+              name="level"
+              value={level}
+              onChange={(e) => {
+                setLevel(e.target.value);
+                setStream("");
+              }}
+              required
+              disabled={!phase}
+              className="input-field disabled:opacity-50"
+            >
+              <option value="">اختر المستوى</option>
+              {currentLevels.map((l: any) => (
+                <option key={l.value} value={l.value}>
+                  {l.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="field-label">الشعبة</label>
+            {shouldShowStreams ? (
+              <select
+                name="stream"
+                value={stream}
+                onChange={(e) => setStream(e.target.value)}
+                required
+                disabled={!level}
+                className="input-field disabled:opacity-50"
+              >
+                <option value="">اختر الشعبة</option>
+                {currentStreams.map((s: any) => (
+                  <option key={s.value} value={s.value}>
+                    {s.label}
                   </option>
                 ))}
               </select>
-            </div>
+            ) : (
+              <div className="w-full p-2.5 rounded-xl border border-line bg-surface-muted text-muted text-sm text-center">
+                غير مطبق
+                <input type="hidden" name="stream" value="NONE" />
+              </div>
+            )}
+          </div>
 
-            <div className="space-y-1">
-              <label className="text-sm font-bold text-purple-800">الشهر</label>
-              <MonthSelect name="month" required className="!p-2.5 !text-sm" />
-            </div>
+          <div>
+            <label className="field-label">المادة الدراسية</label>
+            <select name="subjectId" required className="input-field">
+              <option value="">اختر المادة</option>
+              {filteredSubjects.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.title}
+                </option>
+              ))}
+            </select>
+          </div>
 
-            <div className="space-y-1">
-              <label className="text-sm font-bold text-purple-800">مرجع التمرين (اختياري)</label>
-              <input type="text" name="exerciseRef" className="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="مثال: الوحدة الأولى - تمرين 4" />
-            </div>
+          <div>
+            <label className="field-label">الشهر</label>
+            <MonthSelect name="month" required />
+          </div>
+
+          <div>
+            <label className="field-label">مرجع التمرين (اختياري)</label>
+            <input
+              type="text"
+              name="exerciseRef"
+              className="input-field"
+              placeholder="مثال: الوحدة الأولى - تمرين 4"
+            />
           </div>
         </div>
 
-        <button type="submit" className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-slate-950 font-black font-bold py-3 rounded-xl transition-colors mt-2">
+        <button type="submit" className="btn-primary w-full mt-2">
           <Plus className="w-4 h-4" />
           إضافة البطاقة
         </button>

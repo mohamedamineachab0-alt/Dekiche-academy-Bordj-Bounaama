@@ -12,7 +12,13 @@ interface ExamSubmissionFormProps {
   previousFeedback?: string | null;
 }
 
-export function ExamSubmissionForm({ examId, studentId, hasSubmitted, previousScore, previousFeedback }: ExamSubmissionFormProps) {
+export function ExamSubmissionForm({
+  examId,
+  studentId,
+  hasSubmitted,
+  previousScore,
+  previousFeedback,
+}: ExamSubmissionFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(hasSubmitted);
@@ -37,29 +43,31 @@ export function ExamSubmissionForm({ examId, studentId, hasSubmitted, previousSc
       setScore(result.score);
       setFeedback(result.feedback);
     }
-    
+
     setIsSubmitting(false);
   };
 
   if (success) {
     return (
-      <div className="p-6 bg-[#F8F9FA] border-[3px] border-[#000000] rounded-2xl space-y-6 shadow-sm paper-cut relative">
-        <div className="flex items-center gap-4 text-[#000000] font-black relative z-10">
-          <div className="w-12 h-12 bg-[#22C55E] border-[3px] border-[#000000] rounded-xl flex items-center justify-center shrink-0 transform -rotate-3 shadow-sm">
-            <CheckCircle className="w-7 h-7 text-[#000000]" strokeWidth={2.5} />
-          </div>
-          <h3 className="text-xl">تم استلام حلك وتصحيحه بنجاح!</h3>
+      <div className="p-5 bg-emerald-50 border border-emerald-100 rounded-2xl space-y-4">
+        <div className="flex items-center gap-3 text-ink font-bold">
+          <span className="w-11 h-11 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
+            <CheckCircle className="w-5 h-5 text-white" />
+          </span>
+          <h3 className="text-base">تم استلام حلك وتصحيحه بنجاح</h3>
         </div>
-        
+
         {score !== undefined && score !== null && (
-          <div className="mt-4 flex items-center justify-between bg-[#FFFFFF] p-5 rounded-xl border-[3px] border-[#000000] shadow-sm relative z-10">
-            <span className="font-black text-[#000000]">العلامة الممنوحة من الذكاء الاصطناعي:</span>
-            <span className="text-3xl font-mono font-black text-[#7E22CE] bg-[#FACC15] px-3 py-1 rounded-lg border-[3px] border-[#000000] transform rotate-2">{score}/20</span>
+          <div className="flex items-center justify-between bg-surface p-4 rounded-xl border border-line">
+            <span className="font-semibold text-sm text-ink">العلامة</span>
+            <span className="text-2xl font-bold text-primary tabular-nums badge-soft">
+              {score}/20
+            </span>
           </div>
         )}
 
         {feedback && (
-          <div className="bg-[#FFFFFF] p-5 rounded-xl border-[3px] border-[#000000] text-sm font-bold text-[#000000] leading-relaxed shadow-sm relative z-10 whitespace-pre-wrap">
+          <div className="bg-surface p-4 rounded-xl border border-line text-sm font-medium text-ink leading-relaxed whitespace-pre-wrap">
             {feedback}
           </div>
         )}
@@ -68,41 +76,42 @@ export function ExamSubmissionForm({ examId, studentId, hasSubmitted, previousSc
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
+    <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <div className="p-4 bg-[#FEE2E2] text-[#EF4444] rounded-xl border-[3px] border-[#000000] font-black text-sm shadow-sm">
+        <div className="p-3.5 bg-red-50 text-red-600 rounded-xl border border-red-100 font-semibold text-sm">
           {error}
         </div>
       )}
 
-      <div className="p-8 bg-[#FFFFFF] border-[3px] border-[#000000] rounded-2xl space-y-6 text-center shadow-sm relative group">
-        <div className="absolute inset-0 bg-notebook-grid opacity-20 pointer-events-none rounded-2xl" />
-        <div className="w-16 h-16 bg-[#EAE4D9] border-[3px] border-[#000000] rounded-2xl flex items-center justify-center mx-auto transform group-hover:rotate-6 transition-transform shadow-sm relative z-10">
-          <Upload className="w-8 h-8 text-[#000000]" strokeWidth={2.5} />
+      <div className="p-6 bg-surface border border-line rounded-2xl space-y-5 text-center">
+        <span className="icon-tile mx-auto">
+          <Upload className="w-5 h-5" />
+        </span>
+        <div>
+          <h4 className="font-bold text-base text-ink mb-1.5">ارفع صورة حلك بخط اليد</h4>
+          <p className="text-sm text-muted leading-relaxed">
+            سيقوم المساعد بقراءة خطك وتصحيح الإجابة آلياً.
+          </p>
         </div>
-        <div className="relative z-10">
-          <h4 className="font-black text-xl text-[#000000] mb-2">ارفع صورة حلك بخط اليد</h4>
-          <p className="text-sm text-gray-600 font-bold">سيقوم المساعد الذكي بقراءة خطك وتصحيح الإجابة آلياً بناءً على الأسئلة</p>
-        </div>
-        
+
         <input
           type="file"
           name="file"
           accept="image/*"
           required
-          className="w-full text-base text-gray-500 font-bold file:mr-4 file:py-3 file:px-5 file:rounded-xl file:border-[3px] file:border-[#000000] file:text-sm file:font-black file:bg-[#FACC15] file:text-[#000000] hover:file:bg-[#FDE047] cursor-pointer shadow-sm relative z-10 file:shadow-sm file:transition-all hover:file:-translate-y-0.5"
+          className="w-full text-sm text-muted file:me-3 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-primary-soft file:text-primary hover:file:bg-indigo-100 cursor-pointer"
         />
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-4 bg-[#7E22CE] hover:bg-[#6B21A8] text-white border-[3px] border-[#000000] rounded-xl font-black text-lg shadow-sm transition-all flex items-center justify-center gap-3 disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-sm hover:-translate-y-1 hover:shadow-3d-hover"
+        className="btn-primary w-full disabled:opacity-70"
       >
         {isSubmitting ? (
           <>
-            <Loader2 className="w-6 h-6 animate-spin" />
-            جاري رفع الحل والتصحيح بالذكاء الاصطناعي..
+            <Loader2 className="w-5 h-5 animate-spin" />
+            جاري التصحيح..
           </>
         ) : (
           "إرسال الحل للتصحيح"

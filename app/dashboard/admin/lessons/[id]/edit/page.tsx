@@ -14,7 +14,7 @@ export default async function EditLessonPage(props: { params: Promise<{ id: stri
       subjects: true,
       materials: true,
       quiz: true,
-    }
+    },
   });
 
   if (!lesson) {
@@ -22,14 +22,15 @@ export default async function EditLessonPage(props: { params: Promise<{ id: stri
   }
 
   const subjects = await prisma.subject.findMany({
-    orderBy: { title: 'asc' }
+    orderBy: { title: "asc" },
   });
 
   return (
-    <div className="space-y-6">
-      <HeroBanner 
+    <div className="space-y-8 font-sans pb-12">
+      <HeroBanner
+        variant="hero"
         title="تعديل الدرس"
-        description="تعديل تفاصيل الدرس الحالي وإعادة توليد الاختبارات"
+        description="عدّل تفاصيل الدرس الحالي وأعد توليد الاختبارات."
         icon={BookOpen}
       />
       <div className="max-w-4xl">

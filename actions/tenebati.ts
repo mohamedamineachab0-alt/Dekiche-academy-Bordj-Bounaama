@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
+import { INACTIVE_DAYS, inactiveSinceDate } from "@/lib/education-labels";
 
 export type AlertType = "SECURITY" | "ACADEMIC" | "ACCOUNT";
 
@@ -64,7 +65,7 @@ export async function getAdminAlerts(): Promise<{ success: boolean; alerts?: Ten
           id: `multi-device-${student.id}`,
           type: "SECURITY",
           message: "فتح حسابه في أكثر من جهاز",
-          color: "bg-purple-50 text-purple-800 dark:bg-purple-950/30 dark:text-purple-500 border-purple-200 dark:border-purple-900"
+          color: "bg-red-50 text-red-700 border-red-200"
         });
       }
 
@@ -74,7 +75,7 @@ export async function getAdminAlerts(): Promise<{ success: boolean; alerts?: Ten
           id: `no-parent-${student.id}`,
           type: "ACCOUNT",
           message: "عدم ربط حسابه لولي",
-          color: "bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800"
+          color: "bg-red-50 text-red-700 border-red-200"
         });
       }
 
@@ -84,7 +85,7 @@ export async function getAdminAlerts(): Promise<{ success: boolean; alerts?: Ten
           id: `many-mistakes-${student.id}`,
           type: "ACADEMIC",
           message: "كثرة أخطاء",
-          color: "bg-purple-50 text-purple-800 dark:bg-purple-950/30 dark:text-purple-500 border-purple-200 dark:border-purple-900"
+          color: "bg-primary-soft text-primary border-line"
         });
       }
 
@@ -95,14 +96,23 @@ export async function getAdminAlerts(): Promise<{ success: boolean; alerts?: Ten
           id: `pending-lessons-${student.id}`,
           type: "ACADEMIC",
           message: "دروس لم تشاهد وما زالت معلقة",
-          color: "bg-purple-50 text-purple-800 dark:bg-purple-950/30 dark:text-purple-500 border-purple-200 dark:border-purple-900"
+          color: "bg-primary-soft text-primary border-line"
         });
         
         flags.push({
           id: `pending-quizzes-${student.id}`,
           type: "ACADEMIC",
           message: "تمارين وكويزز معلقة",
-          color: "bg-purple-50 text-purple-800 dark:bg-purple-950/30 dark:text-purple-500 border-purple-200 dark:border-purple-900"
+          color: "bg-primary-soft text-primary border-line"
+        });
+      }
+
+      if (!student.lastLoginAt || student.lastLoginAt < inactiveSinceDate()) {
+        flags.push({
+          id: `inactive-${student.id}`,
+          type: "ACCOUNT",
+          message: `لم يسجّل دخولاً منذ ${INACTIVE_DAYS} أيام`,
+          color: "bg-red-50 text-red-700 border-red-200"
         });
       }
 

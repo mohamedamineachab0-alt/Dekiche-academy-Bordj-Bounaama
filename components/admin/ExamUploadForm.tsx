@@ -6,7 +6,7 @@ import { createExamAndExtractQuiz } from "@/actions/exams";
 import { EDUCATION_STAGES, EDUCATION_LEVELS, getStreamsForLevel } from "@/lib/constants/education";
 import { useRouter } from "next/navigation";
 import { MonthSelect } from "@/components/shared/MonthSelect";
-import { compressImageForAi } from "@/lib/utils/image-compression";
+import { buildQuizGenerationFormData } from "@/lib/utils/quiz-request";
 import { MathPreview } from "@/components/shared/MathPreview";
 
 type QuizQuestion = {
@@ -83,8 +83,8 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
   };
 
   const handleAiGenerate = async () => {
-    if (!file) {
-      setError("يرجى رفع صورة أولاً");
+    if (!file && !title.trim()) {
+      setError("أدخل عنوان الاختبار أو ارفع ملفاً لتوليد الأسئلة");
       return;
     }
 
@@ -92,70 +92,32 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
     setError("");
 
     try {
-      let imageBase64 = null;
-      let pdfBase64 = null;
-      let docxBase64 = null;
-      let textContent = null;
-      const reader = new FileReader();
-
-      if (file.type === "application/pdf" || file.name.toLowerCase().endsWith('.pdf')) {
-        const pdfPromise = new Promise<string>((resolve, reject) => {
-          reader.onload = () => {
-            const base64String = (reader.result as string).split(',')[1];
-            resolve(base64String);
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-        pdfBase64 = await pdfPromise;
-      } else if (
-        file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-        file.name.toLowerCase().endsWith(".docx")
-      ) {
-        const docxPromise = new Promise<string>((resolve, reject) => {
-          reader.onload = () => {
-            const base64String = (reader.result as string).split(',')[1];
-            resolve(base64String);
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-        docxBase64 = await docxPromise;
-      } else if (file.type.startsWith("image/") || /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name)) {
-        imageBase64 = await compressImageForAi(file);
-      } else {
-        textContent = await file.text();
-      }
-      
       const subjectName = subjects.find(s => s.id === subjectId)?.title;
-
-      const response = await fetch('/api/generate-quiz', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          imageBase64,
-          pdfBase64,
-          docxBase64,
-          textContent,
-          numberOfQuestions,
-          totalPoints: quizMaxScore,
-          language: aiLanguage,
-          subjectName,
-          title
-        })
+      const formData = await buildQuizGenerationFormData({
+        files: file ? [file] : [],
+        numberOfQuestions,
+        totalPoints: quizMaxScore,
+        language: aiLanguage,
+        title,
+        subjectName,
+        level,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "فشل توليد الأسئلة");
-      }
+      const response = await fetch("/api/generate-quiz", {
+        method: "POST",
+        body: formData,
+      });
 
       const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "فشل توليد الأسئلة");
+      }
+
       if (data.questions && Array.isArray(data.questions)) {
         setManualQuestions(data.questions);
         setQuizType("MANUAL");
       } else {
-        setError("لم يتم التعرف على أي أسئلة صالحة في الصورة");
+        setError("لم يتم التعرف على أي أسئلة صالحة");
       }
     } catch (err: any) {
       setError(err.message || "حدث خطأ أثناء الاتصال بالخادم");
@@ -208,23 +170,23 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
   };
 
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8 space-y-6">
-      <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-        <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
-          <BookOpen className="w-5 h-5 text-purple-700" />
+    <div className="surface-card p-6 md:p-8 space-y-6">
+      <div className="flex items-center gap-3 border-b border-line pb-4">
+        <div className="w-10 h-10 rounded-xl bg-primary-soft flex items-center justify-center">
+          <BookOpen className="w-5 h-5 text-primary" />
         </div>
-        <h3 className="font-black text-purple-950 text-lg">إضافة اختبار جديد</h3>
+        <h3 className="font-bold text-ink text-lg">إضافة اختبار جديد</h3>
       </div>
 
       {error && (
-        <div className="p-4 bg-purple-50 text-purple-800 rounded-xl border border-purple-100 font-bold text-sm">
+        <div className="p-4 bg-primary-soft text-primary rounded-xl border border-line font-bold text-sm">
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
-          <label className="text-sm font-bold text-purple-800">عنوان الاختبار</label>
+          <label className="text-sm font-bold text-primary">عنوان الاختبار</label>
           <input
             type="text"
             name="title"
@@ -232,16 +194,16 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
             onChange={e => setTitle(e.target.value)}
             required
             placeholder="مثال: فرض الفصل الأول في الرياضيات"
-            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+            className="input-field"
           />
         </div>
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm font-bold text-purple-800 block mb-2">صورة الاختبار (A4)</label>
-            <label className="block border-2 border-dashed border-slate-200 hover:border-purple-500 rounded-2xl p-6 text-center cursor-pointer transition-colors bg-white hover:bg-purple-50">
-              <Upload className="w-6 h-6 mx-auto text-slate-400 mb-2" />
-              <span className="font-bold text-slate-600 text-sm">
+            <label className="text-sm font-bold text-primary block mb-2">صورة الاختبار (A4)</label>
+            <label className="block border border-dashed border-line hover:border-line rounded-2xl p-6 text-center cursor-pointer transition-colors bg-white hover:bg-primary-soft">
+              <Upload className="w-6 h-6 mx-auto text-muted mb-2" />
+              <span className="font-bold text-muted text-sm">
                 {file ? file.name : "اضغط لرفع صورة أو اسحبها هنا"}
               </span>
               <input 
@@ -254,35 +216,35 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
         </div>
 
         {file && (
-            <div className="bg-purple-50 p-6 rounded-2xl border border-purple-100 space-y-4 mt-4">
+            <div className="bg-primary-soft p-6 rounded-2xl border border-line space-y-4 mt-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                  <label className="text-sm font-bold text-purple-800 block">عدد الأسئلة</label>
+                  <label className="text-sm font-bold text-primary block">عدد الأسئلة</label>
                   <input 
                     type="number" 
                     value={numberOfQuestions}
                     onChange={e => setNumberOfQuestions(Number(e.target.value))}
                     min={1}
                     max={20}
-                    className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-purple-600 outline-none"
+                    className="w-full bg-white border border-line rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-primary-mid outline-none"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-purple-800 block">مجموع النقاط</label>
+                  <label className="text-sm font-bold text-primary block">مجموع النقاط</label>
                   <input 
                   type="number" 
                   value={quizMaxScore}
                   onChange={e => setQuizMaxScore(Number(e.target.value))}
                   min={1}
-                  className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-purple-600 outline-none"
+                  className="w-full bg-white border border-line rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-primary-mid outline-none"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-bold text-purple-800 block">لغة الأسئلة</label>
+                <label className="text-sm font-bold text-primary block">لغة الأسئلة</label>
                 <select
                   value={aiLanguage}
                   onChange={(e) => setAiLanguage(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-purple-600 outline-none"
+                  className="w-full bg-white border border-line rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-primary-mid outline-none"
                 >
                   <option value="العربية">العربية (Arabic)</option>
                   <option value="English">الإنجليزية (English)</option>
@@ -296,7 +258,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
                 type="button"
                 onClick={handleAiGenerate}
                 disabled={isGeneratingAi}
-                className="w-full py-3 bg-white hover:bg-white text-purple-950 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+                className="btn-ghost w-full"
               >
                 {isGeneratingAi ? (
                   <>
@@ -316,13 +278,13 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="space-y-2">
-            <label className="text-sm font-bold text-purple-800">الطور</label>
+            <label className="text-sm font-bold text-primary">الطور</label>
             <select
               name="phase"
               value={phase}
               onChange={e => { setPhase(e.target.value); setLevel(""); setStream(""); }}
               required
-              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              className="input-field"
             >
               <option value="">اختر الطور..</option>
               {EDUCATION_STAGES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
@@ -330,14 +292,14 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-bold text-purple-800">المستوى</label>
+            <label className="text-sm font-bold text-primary">المستوى</label>
             <select
               name="level"
               value={level}
               onChange={e => { setLevel(e.target.value); setStream(""); }}
               required
               disabled={!phase}
-              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none disabled:opacity-50"
+              className="input-field disabled:opacity-50"
             >
               <option value="">اختر المستوى..</option>
               {currentLevels.map((lvl: any) => (
@@ -347,7 +309,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-bold text-purple-800">الشعبة</label>
+            <label className="text-sm font-bold text-primary">الشعبة</label>
             {shouldShowStreams ? (
               <select
                 name="stream"
@@ -355,7 +317,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
                 onChange={e => setStream(e.target.value)}
                 required
                 disabled={!level}
-                className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none disabled:opacity-50"
+                className="input-field disabled:opacity-50"
               >
                 <option value="">اختر الشعبة..</option>
                 {currentStreams.map((str: any) => (
@@ -363,7 +325,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
                 ))}
               </select>
             ) : (
-              <div className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-400 font-medium text-center">
+              <div className="w-full px-4 py-3 bg-surface-muted border border-line rounded-xl text-muted font-medium text-center">
                 غير مطبق
                 <input type="hidden" name="stream" value="NONE" />
               </div>
@@ -373,13 +335,13 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="text-sm font-bold text-purple-800">المادة الأساسية</label>
+            <label className="text-sm font-bold text-primary">المادة الأساسية</label>
             <select
               name="subjectId"
               value={subjectId}
               onChange={(e) => setSubjectId(e.target.value)}
               required
-              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              className="input-field"
             >
               <option value="">اختر المادة..</option>
               {filteredSubjects.map(sub => (
@@ -389,10 +351,10 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-bold text-purple-800">المادة الثانوية (اختياري)</label>
+            <label className="text-sm font-bold text-primary">المادة الثانوية (اختياري)</label>
             <select
               name="secondarySubjectId"
-              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              className="input-field"
             >
               <option value="">بدون مادة ثانوية</option>
               {filteredSubjects.map(sub => (
@@ -402,73 +364,73 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
           </div>
         </div>
 
-        <div className="bg-purple-50 p-6 rounded-2xl border border-purple-100 space-y-4">
-          <h3 className="font-bold text-purple-900 flex items-center gap-2">
+        <div className="bg-primary-soft p-6 rounded-2xl border border-line space-y-4">
+          <h3 className="font-bold text-ink flex items-center gap-2">
             <Plus className="w-4 h-4" /> ملحقات أخرى (اختياري)
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-sm font-bold text-purple-800">عنوان المرفقات</label>
-              <input type="text" name="materialTitle" className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="مثال: ملخص الدرس" />
+              <label className="text-sm font-bold text-primary">عنوان المرفقات</label>
+              <input type="text" name="materialTitle" className="w-full px-4 py-2.5 bg-white border border-line rounded-xl text-ink font-medium focus:ring-2 focus:ring-primary-mid focus:outline-none" placeholder="مثال: ملخص الدرس" />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-bold text-purple-800 block">رفع الملفات</label>
-              <input type="file" name="materials" multiple className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium file:ml-4 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:font-bold file:bg-purple-100 file:text-purple-700 hover:file:bg-purple-200" />
+              <label className="text-sm font-bold text-primary block">رفع الملفات</label>
+              <input type="file" name="materials" multiple className="w-full px-4 py-2 bg-white border border-line rounded-xl text-sm font-medium file:ml-4 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:font-bold file:bg-primary-soft file:text-primary hover:file:bg-primary-soft" />
             </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="text-sm font-bold text-purple-800">الشهر</label>
+            <label className="text-sm font-bold text-primary">الشهر</label>
             <MonthSelect name="month" required />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-bold text-purple-800">العلامة القصوى</label>
+            <label className="text-sm font-bold text-primary">العلامة القصوى</label>
             <input
               type="number"
               name="maxScore"
               defaultValue={20}
               required
-              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-purple-950 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              className="input-field"
             />
           </div>
         </div>
 
-        <div className="space-y-6 bg-white p-6 rounded-2xl border border-slate-200">
-          <div className="flex items-center justify-between border-b border-slate-200 pb-4">
-            <label className="text-sm font-bold text-purple-800">التنقيط الإجمالي للكويز (ثابت)</label>
+        <div className="space-y-6 bg-white p-6 rounded-2xl border border-line">
+          <div className="flex items-center justify-between border-b border-line pb-4">
+            <label className="text-sm font-bold text-primary">التنقيط الإجمالي للكويز (ثابت)</label>
             <input 
               type="number" 
               value={quizMaxScore}
               disabled
-              className="w-24 bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-center font-bold text-slate-500 cursor-not-allowed"
+              className="w-24 bg-surface-muted border border-line rounded-lg px-3 py-1.5 text-center font-bold text-muted cursor-not-allowed"
             />
           </div>
             
             <div className="space-y-6">
               {manualQuestions.map((q, i) => (
-                <div key={i} className="bg-white p-6 rounded-xl border border-slate-200 relative group shadow-sm">
+                <div key={i} className="bg-white p-6 rounded-xl border border-line relative group shadow-sm">
                   <button 
                     type="button" 
                     onClick={() => handleRemoveQuestion(i)}
-                    className="absolute top-4 left-4 text-slate-400 hover:text-purple-700 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute top-4 left-4 text-muted hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <span className="font-bold text-lg leading-none">&times;</span>
                   </button>
 
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-xs font-bold text-purple-700 mb-2">
-                        السؤال {i + 1} <span className="text-slate-400 font-medium mr-2">({(quizMaxScore / manualQuestions.length).toFixed(1).replace(/\.0$/, '')} نقاط)</span>
+                      <label className="block text-xs font-bold text-primary mb-2">
+                        السؤال {i + 1} <span className="text-muted font-medium mr-2">({(quizMaxScore / manualQuestions.length).toFixed(1).replace(/\.0$/, '')} نقاط)</span>
                       </label>
                       <input 
                         type="text" 
                         value={q.question}
                         onChange={e => handleQuestionChange(i, e.target.value)}
                         placeholder="نص السؤال"
-                        className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-purple-600 text-sm font-medium"
+                        className="w-full bg-white border border-line rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary-mid text-sm font-medium"
                       />
                       {q.question.includes('$') && <MathPreview text={q.question} />}
                     </div>
@@ -477,14 +439,14 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
                       {q.options.map((opt, optIndex) => (
                         <div 
                           key={optIndex} 
-                          className={`flex items-center gap-3 border rounded-lg p-2 transition-colors ${q.correctAnswerIndex === optIndex ? 'border-purple-700 bg-purple-50' : 'border-slate-200 bg-white hover:border-purple-300'}`}
+                          className={`flex items-center gap-3 border rounded-lg p-2 transition-colors ${q.correctAnswerIndex === optIndex ? 'border-line bg-primary-soft' : 'border-line bg-white hover:border-line'}`}
                         >
                           <button
                             type="button"
                             onClick={() => handleCorrectAnswerChange(i, optIndex)}
                             className="shrink-0 flex items-center justify-center"
                           >
-                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${q.correctAnswerIndex === optIndex ? 'bg-purple-700 border-purple-700 text-white' : 'border-slate-300'}`}>
+                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${q.correctAnswerIndex === optIndex ? 'bg-primary border-line text-white' : 'border-line'}`}>
                               {q.correctAnswerIndex === optIndex && <span className="text-xs">✓</span>}
                             </div>
                           </button>
@@ -494,7 +456,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
                               value={opt}
                               onChange={e => handleOptionChange(i, optIndex, e.target.value)}
                               placeholder={`الخيار ${optIndex + 1}`}
-                              className="w-full bg-transparent text-sm font-medium focus:outline-none text-purple-800"
+                              className="w-full bg-transparent text-sm font-medium focus:outline-none text-primary"
                             />
                             {opt.includes('$') && <MathPreview text={opt} />}
                           </div>
@@ -509,7 +471,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
           <button 
             type="button"
             onClick={handleAddQuestion}
-            className="flex items-center gap-2 text-purple-700 hover:text-purple-800 font-bold text-sm bg-purple-50 hover:bg-purple-100 px-4 py-2.5 rounded-lg transition-colors mt-4 w-full justify-center border border-purple-100"
+            className="flex items-center gap-2 text-primary hover:text-primary font-bold text-sm bg-primary-soft hover:bg-primary-soft px-4 py-2.5 rounded-lg transition-colors mt-4 w-full justify-center border border-line"
           >
             <Plus className="w-4 h-4" /> إضافة سؤال جديد
           </button>
@@ -518,7 +480,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-4 bg-white hover:bg-white text-purple-950 rounded-xl font-bold text-lg shadow-md transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+          className="btn-primary w-full"
         >
           {isSubmitting ? (
             <>

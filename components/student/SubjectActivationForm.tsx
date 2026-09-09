@@ -38,30 +38,30 @@ export function SubjectActivationForm({ subjectId }: { subjectId: string }) {
     <form onSubmit={handleActivate} className="space-y-3">
       <input type="hidden" name="subjectId" value={subjectId} />
       <div className="relative">
-        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-          <Key className="w-5 h-5" />
+        <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted pointer-events-none">
+          <Key className="w-4 h-4" />
         </span>
         <input 
           type="text" 
           name="code" 
           placeholder="أدخل كود الإشتراك" 
           required
-          className="w-full pr-11 pl-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-center text-gray-800 font-mono text-base focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+          className="input-field pr-10 text-center font-mono bg-surface-muted border-transparent focus:bg-surface"
         />
       </div>
       <button 
         type="submit" 
         disabled={loading}
-        className="w-full flex items-center justify-center gap-2 bg-[#6b21a8] hover:bg-purple-800 disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition-colors"
+        className="btn-primary w-full"
       >
         {loading ? (
           <>
-            <Loader2 className="w-5 h-5 animate-spin" />
+            <Loader2 className="w-4 h-4 animate-spin" />
             جاري التحقق...
           </>
         ) : (
           <>
-            <Unlock className="w-5 h-5" />
+            <Unlock className="w-4 h-4" />
             تفعيل المادة
           </>
         )}

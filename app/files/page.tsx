@@ -6,19 +6,19 @@ export default async function FilesPage() {
   const files = await getFiles()
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-50 p-8 font-sans">
+    <div className="min-h-screen bg-surface text-ink p-8 font-sans">
       <div className="max-w-4xl mx-auto space-y-8">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">File Management</h1>
-          <p className="text-neutral-400 mt-2">Upload and manage system files.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-ink">File Management</h1>
+          <p className="text-muted mt-2">Upload and manage system files.</p>
         </div>
         
-        <div className="p-6 bg-neutral-900 border border-neutral-800 rounded-xl">
+        <div className="p-6 bg-surface border border-line rounded-xl">
           <FileUploadForm uploadAction={uploadFiles} />
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-white">Recent Files</h2>
+          <h2 className="text-xl font-semibold text-ink">Recent Files</h2>
           <FileList files={files} />
         </div>
       </div>

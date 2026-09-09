@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { MessageSquare, Lock, Unlock, ArrowLeft } from "lucide-react";
+import { MessageSquare, Lock, Unlock, ChevronLeft } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { getStudentForums } from "@/actions/forums";
 import { prisma } from "@/lib/prisma";
@@ -20,77 +20,113 @@ export default async function StudentForumsPage() {
 
   const forums = await getStudentForums(studentProfile.phase, studentProfile.level, studentProfile.stream);
 
+  const firstOpenIndex = forums.findIndex((forum) => forum.isOpen);
+  const solidIndex = firstOpenIndex >= 0 ? firstOpenIndex : 0;
+
+  return (
+  const firstOpenIndex = forums.findIndex((forum) => forum.isOpen);
+  const solidIndex = firstOpenIndex >= 0 ? firstOpenIndex : 0;
+
   return (
     <div className="space-y-8 font-sans pb-12">
-      <HeroBanner 
+      <HeroBanner
+        variant="hero"
         title="منتدياتي (دردشة القسم)"
         description="شارك في نقاشات القسم و اطرح أسئلتك و وتفاعل مع زملائك في مساحة آمنة ومخصصة لمستواك"
         icon={MessageSquare}
       />
 
       {forums.length === 0 ? (
-        <div className="p-8 md:p-12 text-center bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] shadow-3d-soft paper-cut relative overflow-hidden">
-          <div className="w-20 h-20 bg-[#EC4899] border-[3px] border-[#000000] rounded-2xl flex items-center justify-center transform -rotate-3 mx-auto mb-6 shadow-sm">
-            <MessageSquare className="w-10 h-10 text-[#000000]" />
-          </div>
-          <h3 className="font-black text-2xl text-[#000000] mb-3">لا توجد منتديات متاحة حالياً</h3>
-          <p className="text-gray-600 font-bold max-w-sm mx-auto leading-relaxed">ستظهر منتديات النقاش الخاصة بمستواك وشعبتك هنا قريباً</p>
+        <div className="surface-card px-6 py-16 text-center">
+          <span className="icon-tile mx-auto mb-5">
+            <MessageSquare className="w-5 h-5" />
+          </span>
+          <h3 className="text-lg font-bold text-ink mb-2">لا توجد منتديات متاحة حالياً</h3>
+          <p className="text-sm text-muted max-w-sm mx-auto leading-relaxed">
+            ستظهر منتديات النقاش الخاصة بمستواك وشعبتك هنا قريباً
+          </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {forums.map((forum, index) => {
-            const colors = ["bg-[#FACC15]", "bg-[#22C55E]", "bg-[#06B6D4]", "bg-[#EC4899]", "bg-[#7E22CE]", "bg-[#F97316]"];
-            const cardBg = colors[index % colors.length];
-            const isDark = cardBg === "bg-[#7E22CE]";
-            const textColor = isDark ? "text-white" : "text-[#000000]";
-            const subtleTextColor = isDark ? "text-white/80" : "text-[#000000]/70";
+            const isSolid = index === solidIndex;
 
             return (
-            <Link href={`/dashboard/student/forums/${forum.id}`} key={forum.id} className="block group">
-              <div className={`${cardBg} rounded-3xl p-6 border-[3px] border-[#000000] shadow-3d-soft transition-all duration-300 shadow-3d-hover paper-cut relative overflow-hidden h-full flex flex-col`}>
-                
-                <div className="flex items-start justify-between mb-6 relative z-10">
-                  <div className="w-14 h-14 rounded-2xl bg-[#000000] flex items-center justify-center text-white border-[3px] border-[#000000] shadow-sm transform group-hover:-rotate-6 transition-transform">
-                    <MessageSquare className="w-6 h-6" />
-                  </div>
+              <Link
+                href={`/dashboard/student/forums/${forum.id}`}
+                key={forum.id}
+                className={`group feature-card flex flex-col min-h-[13rem] ${
+                  isSolid ? "feature-card-solid" : "feature-card-soft"
+                }`}
+              >
+                <div className="flex items-start justify-between gap-3 mb-5">
+                  <span
+                    className={`icon-tile !w-11 !h-11 ${
+                      isSolid ? "!bg-white/20 !text-white" : ""
+                    }`}
+                  >
+                    <MessageSquare className="w-5 h-5" strokeWidth={2} />
+                  </span>
                   {forum.isOpen ? (
-                    <span className="inline-flex items-center gap-1 bg-[#22C55E] text-[#000000] text-xs font-black px-3 py-1.5 rounded-xl border-[2px] border-[#000000] shadow-sm transform rotate-2">
-                      <Unlock className="w-4 h-4" /> مفتوح
+                    <span className={isSolid ? "badge-accent" : "badge-soft"}>
+                      <Unlock className="w-3.5 h-3.5" />
+                      مفتوح
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 bg-[#FFFFFF] text-[#000000] text-xs font-black px-3 py-1.5 rounded-xl border-[2px] border-[#000000] shadow-sm transform -rotate-2">
-                      <Lock className="w-4 h-4" /> مغلق
+                    <span
+                      className={
+                        isSolid
+                          ? "inline-flex items-center gap-1.5 rounded-full border border-white/25 px-3 py-1 text-xs font-semibold text-white/90"
+                          : "badge-outline"
+                      }
+                    >
+                      <Lock className="w-3.5 h-3.5" />
+                      مغلق
                     </span>
                   )}
                 </div>
 
-                <div className="mb-8 flex-1 relative z-10">
-                  <h3 className={`text-xl font-black ${textColor} mb-2 line-clamp-1`}>{forum.title}</h3>
-                  <p className={`text-sm font-bold ${subtleTextColor} bg-[#000000]/5 inline-block px-3 py-1 rounded-lg`}>{forum.subject.title}</p>
+                <div className="flex-1 mb-5">
+                  <h3
+                    className={`text-base font-bold mb-2 line-clamp-2 ${
+                      isSolid ? "text-white" : "text-ink"
+                    }`}
+                  >
+                    {forum.title}
+                  </h3>
+                  <span className={isSolid ? "badge-accent" : "badge-soft"}>
+                    {forum.subject.title}
+                  </span>
                 </div>
 
-                <div className={`flex items-center justify-between pt-5 border-t-[3px] border-[#000000]/10 relative z-10`}>
+                <div
+                  className={`flex items-center justify-between pt-4 border-t ${
+                    isSolid ? "border-white/20" : "border-line"
+                  }`}
+                >
                   <div className="flex items-center gap-5">
-                    <div className="flex flex-col">
-                      <span className={`text-[10px] font-bold ${subtleTextColor}`}>الشهر</span>
-                      <span className={`text-base font-black ${textColor}`}>{forum.month}</span>
+                    <div>
+                      <p className={`text-[0.7rem] font-semibold ${isSolid ? "text-white/70" : "text-muted"}`}>
+                        الشهر
+                      </p>
+                      <p className={`text-sm font-bold ${isSolid ? "text-white" : "text-ink"}`}>
+                        {forum.month}
+                      </p>
                     </div>
-                    <div className="w-1 h-8 bg-[#000000]/10 rounded-full"></div>
-                    <div className="flex flex-col">
-                      <span className={`text-[10px] font-bold ${subtleTextColor}`}>الرسائل</span>
-                      <span className={`text-base font-black ${textColor}`}>{forum._count.messages}</span>
+                    <div className={`w-px h-8 ${isSolid ? "bg-white/20" : "bg-line"}`} />
+                    <div>
+                      <p className={`text-[0.7rem] font-semibold ${isSolid ? "text-white/70" : "text-muted"}`}>
+                        الرسائل
+                      </p>
+                      <p className={`text-sm font-bold tabular-nums ${isSolid ? "text-white" : "text-ink"}`} dir="ltr">
+                        {forum._count.messages}
+                      </p>
                     </div>
                   </div>
-                  <div className="w-10 h-10 rounded-xl bg-[#000000] flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
-                    <ArrowLeft className="w-5 h-5 text-white" />
-                  </div>
-                </div>
-                
-              </div>
-            </Link>
-          )})}
-        </div>
-      )}
-    </div>
-  );
-}
+                  <span
+                    className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-transform group-hover:-translate-x-0.5 ${
+                      isSolid ? "bg-white/15 text-white" : "bg-primary-soft text-primary"
+                    }`}
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </span>

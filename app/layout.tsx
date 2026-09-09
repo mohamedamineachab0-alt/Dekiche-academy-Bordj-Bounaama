@@ -1,6 +1,27 @@
 import type { Metadata, Viewport } from "next";
+import { IBM_Plex_Sans, IBM_Plex_Sans_Arabic } from "next/font/google";
 import "./globals.css";
 import "katex/dist/katex.min.css";
+
+// Latin is variable; Arabic is static. Disable size-adjusted Arial fallbacks —
+// they have no unicode-range and would paint Arabic before IBM Plex Sans Arabic.
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ["latin", "latin-ext"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  adjustFontFallback: false,
+  fallback: ["IBM Plex Sans Arabic", "sans-serif"],
+  variable: "--font-ibm-plex-sans",
+});
+
+const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
+  subsets: ["arabic"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  adjustFontFallback: false,
+  fallback: ["sans-serif"],
+  variable: "--font-ibm-plex-sans-arabic",
+});
 
 export const metadata: Metadata = {
   title: "منصة أكاديمية دقيش التعليمية برج بونعامة",
@@ -10,8 +31,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  viewportFit: "cover",
+  themeColor: "#5b21b6",
 };
 
 export default function RootLayout({
@@ -20,10 +41,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className="h-full" suppressHydrationWarning>
-      <body className="font-sans antialiased min-h-full flex flex-col w-full max-w-full overflow-x-hidden overscroll-x-none touch-pan-y bg-notebook-grid text-[#1C1C1C] selection:bg-[#7E22CE] selection:text-white relative">
-        {/* Global Film/Paper Grain Texture Overlay */}
-        <div className="bg-grain z-0"></div>
+    <html
+      lang="ar"
+      dir="rtl"
+      className={`h-full ${ibmPlexSans.variable} ${ibmPlexSansArabic.variable} ${ibmPlexSans.className} ${ibmPlexSansArabic.className}`}
+      suppressHydrationWarning
+    >
+      <body
+        className="font-sans antialiased min-h-full flex flex-col w-full max-w-full overflow-x-hidden overscroll-x-none touch-pan-y bg-background text-ink selection:bg-primary selection:text-white relative"
+        suppressHydrationWarning
+      >
         <div className="relative z-10 w-full flex-1 flex flex-col">
           {children}
         </div>

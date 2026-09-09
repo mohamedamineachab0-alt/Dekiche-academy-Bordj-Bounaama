@@ -1,8 +1,10 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Level, Stream, Phase } from "@/generated/prisma";
+import { getTeacherSession } from "@/lib/teacher";
 
 export async function createForum(formData: FormData) {
   try {
@@ -33,6 +35,7 @@ export async function createForum(formData: FormData) {
     });
 
     revalidatePath("/dashboard/admin/forums");
+    revalidatePath("/dashboard/teacher/forums");
     revalidatePath("/dashboard/student/forums");
     
     return { success: true };
@@ -40,6 +43,18 @@ export async function createForum(formData: FormData) {
     console.error("createForum error:", error);
     return { error: "حدث خطأ أثناء إنشاء المنتدى" };
   }
+}
+
+export async function createTeacherForum(formData: FormData) {
+  const session = await getTeacherSession();
+  if (!session) return { error: "غير مصرح" };
+
+  const subjectId = formData.get("subjectId") as string;
+  if (!session.subjectIds.includes(subjectId)) {
+    return { error: "هذه المادة ليست مسندة إليك" };
+  }
+
+  return createForum(formData);
 }
 
 export async function toggleForumStatus(forumId: string, isOpen: boolean) {
@@ -50,12 +65,29 @@ export async function toggleForumStatus(forumId: string, isOpen: boolean) {
     });
     
     revalidatePath("/dashboard/admin/forums");
+    revalidatePath("/dashboard/teacher/forums");
+    revalidatePath(`/dashboard/teacher/forums/${forumId}`);
     revalidatePath(`/dashboard/student/forums/${forumId}`);
     return { success: true };
   } catch (error) {
     console.error("toggleForumStatus error:", error);
     return { error: "حدث خطأ أثناء تحديث حالة المنتدى" };
   }
+}
+
+export async function toggleTeacherForumStatus(forumId: string, isOpen: boolean) {
+  const session = await getTeacherSession();
+  if (!session) return { error: "غير مصرح" };
+
+  const forum = await prisma.classForum.findUnique({
+    where: { id: forumId },
+    select: { subjectId: true },
+  });
+  if (!forum || !session.subjectIds.includes(forum.subjectId)) {
+    return { error: "غير مصرح" };
+  }
+
+  return toggleForumStatus(forumId, isOpen);
 }
 
 export async function getAdminForums() {
@@ -104,39 +136,51 @@ export async function sendForumMessage(forumId: string, userId: string, content:
   try {
     if (!content.trim()) return { error: "لا يمكن إرسال رسالة فارغة" };
 
+    const cookieStore = await cookies();
+    const sessionId = cookieStore.get("session")?.value;
+    if (!sessionId || sessionId !== userId) return { error: "غير مصرح" };
+
     const forum = await prisma.classForum.findUnique({
       where: { id: forumId },
       select: { isOpen: true, subjectId: true }
     });
 
     if (!forum) return { error: "المنتدى غير موجود" };
-    if (!forum.isOpen) return { error: "هذا المنتدى مغلق من قبل الإدارة ولا يقبل رسائل جديدة" };
 
-    // Security: Verify user is enrolled in this forum's subject
     const user = await prisma.user.findUnique({
-      where: { id: userId },
+      where: { id: sessionId },
       select: { role: true }
     });
 
-    // Admins and teachers bypass enrollment check
     if (user?.role === "STUDENT") {
+      if (!forum.isOpen) {
+        return { error: "الدردشة مغلقة. يكتب الأستاذ فقط." };
+      }
       const enrollment = await prisma.enrollment.findFirst({
-        where: { studentId: userId, subjectId: forum.subjectId }
+        where: { studentId: sessionId, subjectId: forum.subjectId }
       });
       if (!enrollment) {
         return { error: "ليس لديك اشتراك في هذه المادة" };
       }
+    } else if (user?.role === "TEACHER") {
+      const teacher = await getTeacherSession();
+      if (!teacher || !teacher.subjectIds.includes(forum.subjectId)) {
+        return { error: "غير مصرح" };
+      }
+    } else if (user?.role !== "ADMIN") {
+      return { error: "غير مصرح" };
     }
 
     await prisma.forumMessage.create({
       data: {
         forumId,
-        userId,
+        userId: sessionId,
         content
       }
     });
 
     revalidatePath(`/dashboard/student/forums/${forumId}`);
+    revalidatePath(`/dashboard/teacher/forums/${forumId}`);
     return { success: true };
   } catch (error) {
     console.error("sendForumMessage error:", error);

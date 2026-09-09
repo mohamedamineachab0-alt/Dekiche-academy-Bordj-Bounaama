@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Library } from "lucide-react";
+import { Library, AlertCircle } from "lucide-react";
 import { fetchMyReviewCards } from "@/actions/review-cards";
 import { FlipCard } from "@/components/student/FlipCard";
 import { HeroBanner } from "@/components/shared/HeroBanner";
@@ -16,8 +16,6 @@ export default function StudentReviewCardsPage() {
       try {
         setIsLoading(true);
         setError(null);
-        
-        // Fetch from our Server Action which handles session and Prisma logic internally
         const fetchedCards = await fetchMyReviewCards();
         setCards(fetchedCards || []);
       } catch (err: any) {
@@ -31,59 +29,80 @@ export default function StudentReviewCardsPage() {
     fetchCards();
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className="space-y-8 font-sans pb-12">
-        <HeroBanner 
-          title="بطاقات المراجعة (Flashcards)"
-          description="راجع دروسك بسرعة وفعالية باستخدام بطاقات الذاكرة التفاعلية المصممة لمستواك وشعبتك"
-          icon={Library}
-        />
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-[#000000] flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-[4px] border-[#000000] border-t-[#FACC15] rounded-full animate-spin"></div>
-            <p className="font-black text-lg bg-[#FACC15] px-4 py-2 rounded-xl border-[3px] border-[#000000] shadow-3d-soft transform -rotate-2">جاري تحميل البطاقات...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="space-y-8 font-sans pb-12">
-        <HeroBanner 
-          title="بطاقات المراجعة (Flashcards)"
-          description="راجع دروسك بسرعة وفعالية باستخدام بطاقات الذاكرة التفاعلية المصممة لمستواك وشعبتك"
-          icon={Library}
-        />
-        <div className="p-8 text-center bg-[#EF4444] rounded-3xl border-[3px] border-[#000000] max-w-2xl mx-auto mt-8 shadow-3d-soft paper-cut transform rotate-1" dir="rtl">
-          <h3 className="font-black text-white text-xl">{error}</h3>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-8 font-sans pb-12">
-      <HeroBanner 
-        title="بطاقات المراجعة (Flashcards)"
-        description="راجع دروسك بسرعة وفعالية باستخدام بطاقات الذاكرة التفاعلية المصممة لمستواك وشعبتك"
+      <HeroBanner
+        variant="hero"
+        title="مكتبة المراجعة"
+        description="بطاقات مراجعة مرتبطة بكل درس — اقلب البطاقة لكشف الإجابة."
         icon={Library}
+        action={
+          !isLoading && !error && cards.length > 0 ? (
+            <div className="flex flex-col items-end gap-1">
+              <span className="inline-flex items-center rounded-full glass-pill px-3 py-1.5 text-sm font-bold tabular-nums text-white" dir="ltr">
+                {cards.length}
+              </span>
+              <span className="text-xs text-white/70">بطاقة</span>
+            </div>
+          ) : undefined
+        }
       />
 
-      {cards.length === 0 ? (
-        <div className="p-8 md:p-12 text-center bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] shadow-3d-soft paper-cut relative overflow-hidden" dir="rtl">
-          <div className="w-20 h-20 bg-[#FACC15] border-[3px] border-[#000000] rounded-2xl flex items-center justify-center transform -rotate-3 mx-auto mb-6 shadow-sm">
-            <Library className="w-10 h-10 text-[#000000]" />
-          </div>
-          <h3 className="font-black text-2xl text-[#000000] mb-3">لا توجد بطاقات متاحة حالياً</h3>
-          <p className="text-gray-600 font-bold max-w-sm mx-auto leading-relaxed">ستظهر بطاقات المراجعة الخاصة بمستواك وشعبتك هنا قريباً</p>
+      {isLoading && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="surface-card p-6 animate-pulse">
+              <div className="h-4 w-1/3 rounded bg-surface-muted mb-4" />
+              <div className="h-3 w-full rounded bg-surface-muted mb-2" />
+              <div className="h-3 w-4/5 rounded bg-surface-muted" />
+            </div>
+          ))}
         </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {cards.map(card => (
-            <FlipCard key={card.id} card={card} />
+      )}
+
+      {!isLoading && error && (
+        <div className="surface-card px-6 py-12 text-center" dir="rtl">
+          <span className="icon-tile mx-auto mb-5">
+            <AlertCircle className="w-5 h-5" />
+          </span>
+          <h3 className="text-lg font-bold text-ink mb-2">تعذّر تحميل البطاقات</h3>
+          <p className="text-sm text-muted max-w-sm mx-auto leading-relaxed">{error}</p>
+        </div>
+      )}
+
+      {!isLoading && !error && cards.length === 0 && (
+        <div className="surface-card px-6 py-16 text-center" dir="rtl">
+          <span className="icon-tile mx-auto mb-5">
+            <Library className="w-5 h-5" />
+          </span>
+          <h3 className="text-lg font-bold text-ink mb-2">لا توجد بطاقات بعد</h3>
+          <p className="text-sm text-muted max-w-sm mx-auto leading-relaxed">
+            ستظهر هنا بطاقات المراجعة الخاصة بمستواك وشعبتك فور نشرها.
+          </p>
+        </div>
+      )}
+
+      {!isLoading && !error && cards.length > 0 && (
+        <div className="space-y-8">
+          {Object.entries(
+            cards.reduce((groups: Record<string, typeof cards>, card) => {
+              const key = card.lesson?.title || card.subject.title;
+              if (!groups[key]) groups[key] = [];
+              groups[key].push(card);
+              return groups;
+            }, {})
+          ).map(([lessonTitle, lessonCards]) => (
+            <section key={lessonTitle} className="space-y-4">
+              <div className="flex items-center justify-between gap-3 px-1">
+                <h2 className="text-base font-bold text-ink">{lessonTitle}</h2>
+                <span className="badge-outline tabular-nums">{lessonCards.length} بطاقة</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                {lessonCards.map((card) => (
+                  <FlipCard key={card.id} card={card} />
+                ))}
+              </div>
+            </section>
           ))}
         </div>
       )}

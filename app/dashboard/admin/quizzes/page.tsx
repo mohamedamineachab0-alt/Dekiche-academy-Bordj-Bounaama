@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { HelpCircle, Eye } from "lucide-react";
-import Link from "next/link";
 
 export default async function AdminQuizzesPage() {
   const quizzes = await prisma.quiz.findMany({
@@ -9,48 +8,49 @@ export default async function AdminQuizzesPage() {
       lesson: {
         include: {
           subjects: true,
-        }
+        },
       },
       dailyExercise: {
         include: {
           subject: true,
-        }
+        },
       },
       exam: {
         include: {
           subject: true,
-        }
-      }
+        },
+      },
     },
     orderBy: { createdAt: "desc" },
   });
 
   return (
-    <div className="space-y-6">
-      <HeroBanner 
-        title="إدارة الاختبارات (Quizzes)"
-        description="عرض جميع الاختبارات المرتبطة بالدروس، التمارين اليومية، والامتحانات"
+    <div className="space-y-8 font-sans pb-12">
+      <HeroBanner
+        variant="hero"
+        title="إدارة الاختبارات"
+        description="عرض جميع الاختبارات المرتبطة بالدروس والتمارين اليومية والامتحانات."
         icon={HelpCircle}
       />
 
-      <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-right rtl">
-            <thead className="bg-slate-50 border-b border-slate-100 text-slate-500 font-bold">
+      <div className="surface-panel overflow-hidden">
+        <div className="overflow-x-auto custom-scrollbar">
+          <table className="w-full data-table min-w-[800px]">
+            <thead>
               <tr>
-                <th className="px-6 py-4">النوع</th>
-                <th className="px-6 py-4">العنوان / المادة</th>
-                <th className="px-6 py-4">توليد بالذكاء الاصطناعي</th>
-                <th className="px-6 py-4">عدد الأسئلة</th>
-                <th className="px-6 py-4">العلامة الكاملة</th>
-                <th className="px-6 py-4">تاريخ الإنشاء</th>
-                <th className="px-6 py-4">الإجراءات</th>
+                <th>النوع</th>
+                <th>العنوان / المادة</th>
+                <th>توليد بالذكاء الاصطناعي</th>
+                <th>عدد الأسئلة</th>
+                <th>العلامة الكاملة</th>
+                <th>تاريخ الإنشاء</th>
+                <th>الإجراءات</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
-              {quizzes.map(quiz => {
+            <tbody>
+              {quizzes.map((quiz) => {
                 const questions = Array.isArray(quiz.questions) ? quiz.questions : [];
-                
+
                 let type = "غير محدد";
                 let title = "بدون عنوان";
                 let subject = "بدون مادة";
@@ -70,47 +70,38 @@ export default async function AdminQuizzesPage() {
                 }
 
                 return (
-                  <tr key={quiz.id} className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-6 py-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800">
-                        {type}
-                      </span>
+                  <tr key={quiz.id}>
+                    <td>
+                      <span className="badge-soft">{type}</span>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="font-bold text-slate-900">{title}</div>
-                      <div className="text-xs text-slate-500">{subject}</div>
+                    <td>
+                      <div className="font-semibold text-ink">{title}</div>
+                      <div className="text-xs text-muted">{subject}</div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td>
                       {quiz.aiGenerated ? (
-                        <span className="text-emerald-600 font-bold text-xs bg-emerald-50 px-2 py-1 rounded-md">نعم</span>
+                        <span className="badge-soft">نعم</span>
                       ) : (
-                        <span className="text-slate-500 font-bold text-xs bg-slate-100 px-2 py-1 rounded-md">لا</span>
+                        <span className="badge-outline">لا</span>
                       )}
                     </td>
-                    <td className="px-6 py-4 font-bold text-slate-700">
-                      {questions.length} أسئلة
+                    <td className="font-semibold text-ink tabular-nums">{questions.length} أسئلة</td>
+                    <td className="font-semibold text-ink tabular-nums">{quiz.maxScore}</td>
+                    <td className="text-muted font-mono text-xs">
+                      {new Date(quiz.createdAt).toLocaleDateString("ar-DZ")}
                     </td>
-                    <td className="px-6 py-4 font-bold text-slate-700">
-                      {quiz.maxScore}
-                    </td>
-                    <td className="px-6 py-4 text-slate-500 font-mono text-xs">
-                      {new Date(quiz.createdAt).toLocaleDateString('ar-DZ')}
-                    </td>
-                    <td className="px-6 py-4">
-                      <button 
-                        className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
-                        title="عرض الأسئلة (قريباً)"
-                      >
+                    <td>
+                      <button className="p-2 text-primary hover:bg-primary-soft rounded-xl" title="عرض الأسئلة (قريباً)">
                         <Eye className="w-5 h-5" />
                       </button>
                     </td>
                   </tr>
                 );
               })}
-              
+
               {quizzes.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-slate-400 font-bold">
+                  <td colSpan={7} className="px-6 py-16 text-center text-muted">
                     لا توجد اختبارات حالياً
                   </td>
                 </tr>

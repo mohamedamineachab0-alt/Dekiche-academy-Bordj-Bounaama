@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { ChevronRight, CheckCircle2, XCircle, Trophy, ArrowLeft, RotateCcw } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ArrowLeft, CheckCircle2, RotateCcw, XCircle } from "lucide-react";
 import Link from "next/link";
-import { saveQuizMistakes } from "@/actions/quiz";
+import { saveQuizMistakes, saveQuizResult } from "@/actions/quiz";
 import { MathPreview } from "@/components/shared/MathPreview";
+import { sanitizeQuizField } from "@/lib/math-text";
 
 type Question = {
   question: string;
@@ -20,201 +21,267 @@ type Props = {
   contextType?: "lesson" | "exam" | "exercise";
 };
 
-export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextType = "lesson" }: Props) {
-  const maxScore = 20; // Enforce max score to 20
+const MAX_SCORE = 20;
+
+function backHref(contextType: Props["contextType"], lessonId?: string) {
+  if (contextType === "lesson" && lessonId) return `/dashboard/student/lessons/${lessonId}`;
+  if (contextType === "exam") return "/dashboard/student/exams";
+  if (contextType === "exercise") return "/dashboard/student/exercises";
+  return "/dashboard/student";
+}
+
+export function QuizClient({
+  lessonId,
+  lessonTitle,
+  quizId,
+  questions,
+  contextType = "lesson",
+}: Props) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
   const [isFinished, setIsFinished] = useState(false);
 
+  const normalizedQuestions = useMemo(
+    () =>
+      questions.map((question) => ({
+        ...question,
+        question: sanitizeQuizField(question.question),
+        options: question.options.map((option) => sanitizeQuizField(option)),
+      })),
+    [questions]
+  );
+
   const handleSelectOption = (optionIndex: number) => {
     if (isFinished) return;
-    setSelectedAnswers(prev => ({
+    setSelectedAnswers((prev) => ({
       ...prev,
-      [currentQuestionIndex]: optionIndex
+      [currentQuestionIndex]: optionIndex,
     }));
   };
 
   const handleNext = async () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(prev => prev + 1);
-    } else {
-      setIsFinished(true);
-      
-      // Calculate and save mistakes
-      const mistakesToSave: { mistakeContent: string; correctSolution: string; }[] = [];
-      questions.forEach((q, i) => {
-        const studentChoice = selectedAnswers[i];
-        if (studentChoice !== q.correctAnswerIndex) {
-          mistakesToSave.push({
-            mistakeContent: `السؤال: ${q.question}\nإجابتك: ${q.options[studentChoice] || "لم يتم اختيار إجابة"}`,
-            correctSolution: `الإجابة الصحيحة هي: ${q.options[q.correctAnswerIndex]}`
-          });
-        }
-      });
-      
-      if (mistakesToSave.length > 0 && contextType === "lesson" && lessonId) {
-        try {
-          await saveQuizMistakes(lessonId, quizId, mistakesToSave);
-        } catch (error) {
-          console.error("Failed to save mistakes:", error);
-        }
+    if (currentQuestionIndex < normalizedQuestions.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+      return;
+    }
+
+    setIsFinished(true);
+
+    const mistakesToSave: { mistakeContent: string; correctSolution: string }[] = [];
+    normalizedQuestions.forEach((q, i) => {
+      const studentChoice = selectedAnswers[i];
+      if (studentChoice !== q.correctAnswerIndex) {
+        mistakesToSave.push({
+          mistakeContent: `السؤال: ${q.question}\nإجابتك: ${q.options[studentChoice] || "لم يتم اختيار إجابة"}`,
+          correctSolution: `الإجابة الصحيحة هي: ${q.options[q.correctAnswerIndex]}`,
+        });
       }
+    });
+
+    const correctCount = normalizedQuestions.length - mistakesToSave.length;
+    const score = normalizedQuestions.length
+      ? Math.round((correctCount / normalizedQuestions.length) * MAX_SCORE)
+      : 0;
+
+    try {
+      await saveQuizResult(quizId, score);
+      if (mistakesToSave.length > 0) {
+        await saveQuizMistakes(quizId, mistakesToSave, lessonId);
+      }
+    } catch (error) {
+      console.error("Failed to save quiz result:", error);
     }
   };
 
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(prev => prev - 1);
+      setCurrentQuestionIndex((prev) => prev - 1);
     }
   };
 
-  if (questions.length === 0) {
+  const restart = () => {
+    setCurrentQuestionIndex(0);
+    setSelectedAnswers({});
+    setIsFinished(false);
+  };
+
+  const result = useMemo(() => {
+    const correctCount = normalizedQuestions.filter(
+      (q, i) => selectedAnswers[i] === q.correctAnswerIndex
+    ).length;
+    const unanswered = normalizedQuestions.filter((_, i) => selectedAnswers[i] === undefined).length;
+    const wrongCount = normalizedQuestions.length - correctCount;
+    const finalScore =
+      normalizedQuestions.length > 0
+        ? Math.round((correctCount / normalizedQuestions.length) * MAX_SCORE)
+        : 0;
+    const percentage = (finalScore / MAX_SCORE) * 100;
+    return { correctCount, wrongCount, unanswered, finalScore, percentage };
+  }, [normalizedQuestions, selectedAnswers]);
+
+  if (normalizedQuestions.length === 0) {
     return (
-      <div className="text-center p-8 md:p-12 bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] shadow-3d-soft paper-cut relative font-sans">
-        <h2 className="text-2xl font-black text-[#000000] mb-3 relative z-10">لا توجد أسئلة</h2>
-        <p className="text-gray-600 font-bold mb-8 relative z-10">هذا الكويز لا يحتوي على أي أسئلة حاليا</p>
-        {contextType === "lesson" && lessonId ? (
-          <Link href={`/dashboard/student/lessons/${lessonId}`} className="bg-[#7E22CE] hover:bg-[#6B21A8] text-white px-8 py-4 rounded-xl font-black border-[3px] border-[#000000] shadow-sm transition-transform hover:-translate-y-1 hover:shadow-3d-hover relative z-10 inline-block">العودة للدرس</Link>
-        ) : (
-          <Link href={`/dashboard/student/${contextType === "exam" ? "exams" : "exercises"}`} className="bg-[#7E22CE] hover:bg-[#6B21A8] text-white px-8 py-4 rounded-xl font-black border-[3px] border-[#000000] shadow-sm transition-transform hover:-translate-y-1 hover:shadow-3d-hover relative z-10 inline-block">العودة</Link>
-        )}
+      <div className="surface-card px-5 py-12 text-center font-sans">
+        <h2 className="text-xl font-bold text-ink mb-2">لا توجد أسئلة</h2>
+        <p className="text-sm text-muted mb-6">هذا الاختبار لا يحتوي على أسئلة حالياً.</p>
+        <Link href={backHref(contextType, lessonId)} className="btn-primary">
+          العودة
+        </Link>
       </div>
     );
   }
 
   if (isFinished) {
-    let score = 0;
-    questions.forEach((q, i) => {
-      if (selectedAnswers[i] === q.correctAnswerIndex) {
-        score += 1;
-      }
-    });
-
-    const finalScore = Math.round((score / questions.length) * maxScore);
-    const percentage = (finalScore / maxScore) * 100;
-
-    let uiColor = "";
-    let IconComponent = Trophy;
-    let feedbackMessage = "";
-
-    if (percentage < 50) {
-      uiColor = "red";
-      IconComponent = RotateCcw;
-      feedbackMessage = "عليك التركيز أكثر، راجع الدرس وحاول مجدداً!";
-    } else if (percentage >= 50 && percentage < 75) {
-      uiColor = "orange";
-      IconComponent = Trophy; 
-      feedbackMessage = "جيد، استمر في المراجعة لتحقيق الأفضل";
-    } else {
-      uiColor = "emerald";
-      IconComponent = Trophy;
-      feedbackMessage = "ممتاز يا بطل نحن نفتخر بك";
-    }
-
-    // Map UI color to tailwind classes
-    const colorClasses = {
-      red: {
-        text: "text-[#000000]",
-        bg: "bg-[#FEE2E2]",
-        gradient: "bg-[#EF4444]",
-        scoreText: "text-[#EF4444]"
-      },
-      orange: {
-        text: "text-[#000000]",
-        bg: "bg-[#FFEDD5]",
-        gradient: "bg-[#F97316]",
-        scoreText: "text-[#F97316]"
-      },
-      emerald: {
-        text: "text-[#000000]",
-        bg: "bg-[#DCFCE7]",
-        gradient: "bg-[#22C55E]",
-        scoreText: "text-[#22C55E]"
-      }
-    };
-
-    const currentColors = colorClasses[uiColor as keyof typeof colorClasses];
+    const feedback =
+      result.percentage < 50
+        ? "راجع الدرس ثم أعد المحاولة."
+        : result.percentage < 75
+          ? "نتيجة جيدة. واصل المراجعة للتحسين."
+          : "نتيجة ممتازة. أحسنت.";
 
     return (
-      <div className="bg-[#FFFFFF] rounded-3xl p-10 md:p-16 text-center border-[3px] border-[#000000] shadow-3d-soft max-w-2xl mx-auto paper-cut relative font-sans">
-        <div className={`w-24 h-24 mx-auto rounded-2xl flex items-center justify-center mb-8 border-[3px] border-[#000000] shadow-sm text-[#000000] transform rotate-3 relative z-10 ${currentColors.gradient}`}>
-          <IconComponent className="w-12 h-12" strokeWidth={2.5} />
-        </div>
-        
-        <h2 className="text-3xl font-black text-[#000000] mb-3 relative z-10">النتيجة النهائية</h2>
-        <p className="text-gray-600 font-bold mb-8 relative z-10">لقد أكملت اختبار درس {lessonTitle}</p>
-        
-        <div className={`text-6xl font-mono font-black mb-8 flex justify-center items-baseline gap-3 relative z-10 ${currentColors.scoreText}`}>
-          <span className="bg-[#EAE4D9] px-4 py-2 rounded-xl border-[3px] border-[#000000] shadow-sm transform -rotate-2">{finalScore}</span>
-          <span className="text-3xl text-gray-400">/ {maxScore}</span>
-        </div>
+      <div className="space-y-5 sm:space-y-6 font-sans pb-8 min-w-0" dir="rtl">
+        <header className="relative overflow-hidden rounded-[1.75rem] bg-hero text-white p-5 sm:p-7">
+          <div className="landing-line-grid absolute inset-0 opacity-50" aria-hidden="true" />
+          <div className="relative z-10">
+            <p className="text-xs font-semibold text-white/70 mb-2">النتيجة</p>
+            <h1 className="kufi text-[clamp(1.25rem,3vw,1.75rem)] text-white leading-snug break-words">
+              {lessonTitle}
+            </h1>
+            <p className="mt-3 text-sm text-white/80">{feedback}</p>
+          </div>
+        </header>
 
-        <div className={`text-lg font-black mb-10 px-6 py-4 rounded-xl inline-block border-[3px] border-[#000000] shadow-sm relative z-10 ${currentColors.text} ${currentColors.bg}`}>
-          {feedbackMessage}
-        </div>
+        <section className="surface-card p-5 sm:p-7">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-5">
+            <div>
+              <p className="text-sm text-muted mb-1">العلامة من 20</p>
+              <p className="text-4xl sm:text-5xl font-bold text-primary tabular-nums leading-none">
+                {result.finalScore}
+                <span className="text-xl sm:text-2xl text-muted font-semibold"> / {MAX_SCORE}</span>
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <span className="badge-soft">صحيح {result.correctCount}</span>
+              <span className="inline-flex items-center rounded-full border border-red-200 bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-800">
+                خطأ {result.wrongCount}
+              </span>
+            </div>
+          </div>
+          <div className="progress-track">
+            <div className="progress-bar" style={{ width: `${result.percentage}%` }} />
+          </div>
+        </section>
 
-        <div className="relative z-10">
-          <Link 
-            href="/dashboard/student"
-            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-[#FACC15] hover:bg-[#FDE047] text-[#000000] border-[3px] border-[#000000] px-10 py-4 rounded-xl font-black text-lg transition-transform shadow-sm hover:-translate-y-1 hover:shadow-3d-hover"
-          >
-            العودة إلى الرئيسية
+        <section className="space-y-3">
+          <h2 className="text-base font-bold text-ink px-1">مراجعة الإجابات</h2>
+          {normalizedQuestions.map((q, index) => {
+            const chosen = selectedAnswers[index];
+            const isCorrect = chosen === q.correctAnswerIndex;
+            return (
+              <article key={index} className="surface-card p-4 sm:p-5 min-w-0">
+                <div className="flex items-start gap-3 mb-3">
+                  <span
+                    className={`mt-0.5 w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
+                      isCorrect ? "bg-primary text-white" : "bg-red-50 text-red-700"
+                    }`}
+                  >
+                    {isCorrect ? (
+                      <CheckCircle2 className="w-4 h-4" />
+                    ) : (
+                      <XCircle className="w-4 h-4" />
+                    )}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-semibold text-muted mb-1">السؤال {index + 1}</p>
+                    <MathPreview text={q.question} className="text-sm sm:text-base font-semibold text-ink leading-relaxed" />
+                  </div>
+                </div>
+
+                <ul className="space-y-2">
+                  {q.options.map((opt, optIndex) => {
+                    const isChosen = chosen === optIndex;
+                    const isAnswer = optIndex === q.correctAnswerIndex;
+                    return (
+                      <li
+                        key={optIndex}
+                        className={`rounded-xl border px-3 py-2.5 text-sm leading-relaxed ${
+                          isAnswer
+                            ? "border-primary bg-primary-soft text-ink"
+                            : isChosen
+                              ? "border-red-200 bg-red-50 text-red-900"
+                              : "border-line text-muted"
+                        }`}
+                      >
+                        <MathPreview text={opt} />
+                      </li>
+                    );
+                  })}
+                </ul>
+              </article>
+            );
+          })}
+        </section>
+
+        <div className="flex flex-col sm:flex-row gap-2.5">
+          <button type="button" onClick={restart} className="btn-primary flex-1">
+            <RotateCcw className="w-4 h-4" />
+            إعادة المحاولة
+          </button>
+          <Link href={backHref(contextType, lessonId)} className="btn-secondary flex-1 justify-center">
+            العودة
           </Link>
         </div>
       </div>
     );
   }
 
-  const currentQuestion = questions[currentQuestionIndex];
+  const currentQuestion = normalizedQuestions[currentQuestionIndex];
   const hasSelectedCurrent = selectedAnswers[currentQuestionIndex] !== undefined;
-  const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+  const progress = ((currentQuestionIndex + 1) / normalizedQuestions.length) * 100;
 
   return (
-    <div className="space-y-8 max-w-3xl mx-auto font-sans">
-      {/* Header */}
-      <div className="flex items-center justify-end">
-        <span className="bg-[#22C55E] text-[#000000] border-[3px] border-[#000000] px-4 py-2 rounded-lg text-sm font-black shadow-sm transform rotate-1">
-          السؤال {currentQuestionIndex + 1} من {questions.length}
+    <div className="space-y-6 max-w-3xl mx-auto font-sans min-w-0" dir="rtl">
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="text-base sm:text-lg font-bold text-ink truncate">{lessonTitle}</h1>
+        <span className="badge-soft shrink-0 tabular-nums">
+          {currentQuestionIndex + 1} / {normalizedQuestions.length}
         </span>
       </div>
 
-      {/* Progress Bar */}
-      <div className="h-4 w-full bg-[#EAE4D9] border-[3px] border-[#000000] rounded-full overflow-hidden shadow-inner">
-        <div 
-          className="h-full bg-[#7E22CE] border-r-[3px] border-[#000000] transition-all duration-300" 
-          style={{ width: `${progress}%` }}
-        ></div>
+      <div className="progress-track">
+        <div className="progress-bar" style={{ width: `${progress}%` }} />
       </div>
 
-      {/* Question Card */}
-      <div className="bg-[#FFFFFF] rounded-3xl p-8 md:p-12 shadow-3d-soft border-[3px] border-[#000000] paper-cut relative z-10">
-        <div className="mb-8">
-          <MathPreview text={currentQuestion.question} className="text-2xl font-black text-[#000000] leading-relaxed" />
-        </div>
+      <div className="surface-card p-5 sm:p-8">
+        <MathPreview
+          text={currentQuestion.question}
+          className="text-lg sm:text-xl font-bold text-ink leading-relaxed mb-6"
+        />
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {currentQuestion.options.map((opt, idx) => {
             const isSelected = selectedAnswers[currentQuestionIndex] === idx;
-            
             return (
               <button
                 key={idx}
+                type="button"
                 onClick={() => handleSelectOption(idx)}
-                className={`w-full text-right p-5 rounded-2xl border-[3px] transition-transform flex items-center justify-between group hover:-translate-y-1 hover:shadow-3d-hover ${
-                  isSelected 
-                    ? 'border-[#000000] bg-[#FACC15] shadow-3d-soft' 
-                    : 'border-[#000000] bg-[#F8F9FA] hover:bg-[#EAE4D9] shadow-sm'
+                className={`w-full text-right p-4 rounded-2xl border transition-colors flex items-center justify-between gap-3 ${
+                  isSelected
+                    ? "bg-primary-soft border-primary"
+                    : "bg-surface-muted border-line hover:bg-white"
                 }`}
               >
-                <div className={`font-black text-lg text-[#000000] flex-1 ml-4`}>
-                  <MathPreview text={opt} className="" />
+                <div className="font-semibold text-ink flex-1 min-w-0">
+                  <MathPreview text={opt} />
                 </div>
-                <div className={`w-8 h-8 rounded-xl border-[3px] border-[#000000] flex items-center justify-center shrink-0 transition-colors shadow-sm transform ${
-                  isSelected 
-                    ? 'bg-[#22C55E] text-[#000000] rotate-3' 
-                    : 'bg-white group-hover:bg-[#FFFFFF]'
-                }`}>
-                  {isSelected && <CheckCircle2 className="w-5 h-5" strokeWidth={3} />}
+                <div
+                  className={`w-8 h-8 rounded-xl border flex items-center justify-center shrink-0 ${
+                    isSelected ? "bg-primary border-primary text-white" : "bg-white border-line"
+                  }`}
+                >
+                  {isSelected && <CheckCircle2 className="w-4 h-4" strokeWidth={2.5} />}
                 </div>
               </button>
             );
@@ -222,26 +289,25 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
         </div>
       </div>
 
-      {/* Navigation */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3">
         <button
+          type="button"
           onClick={handlePrevious}
           disabled={currentQuestionIndex === 0}
-          className="px-8 py-4 rounded-xl font-black text-[#000000] border-[3px] border-[#000000] bg-[#EAE4D9] hover:bg-[#D6CEBC] disabled:opacity-50 disabled:hover:translate-y-0 disabled:shadow-none transition-all shadow-sm hover:-translate-y-1 hover:shadow-3d-hover"
+          className="btn-secondary disabled:opacity-50"
         >
           السابق
         </button>
-        
         <button
+          type="button"
           onClick={handleNext}
           disabled={!hasSelectedCurrent}
-          className="flex items-center gap-2 bg-[#7E22CE] hover:bg-[#6B21A8] disabled:bg-gray-200 disabled:text-gray-400 disabled:border-gray-300 text-white border-[3px] border-[#000000] px-10 py-4 rounded-xl font-black transition-all shadow-sm hover:-translate-y-1 hover:shadow-3d-hover disabled:hover:translate-y-0 disabled:shadow-none"
+          className="btn-primary disabled:opacity-50"
         >
-          {currentQuestionIndex === questions.length - 1 ? 'إنهاء الاختبار' : 'التالي'}
-          <ArrowLeft className="w-6 h-6" strokeWidth={3} />
+          {currentQuestionIndex === normalizedQuestions.length - 1 ? "إنهاء الاختبار" : "التالي"}
+          <ArrowLeft className="w-4 h-4" />
         </button>
       </div>
-
     </div>
   );
 }

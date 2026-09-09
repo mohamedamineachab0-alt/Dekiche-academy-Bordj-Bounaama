@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { MessageSquare, User as UserIcon, ArrowRight, Send, Lock } from "lucide-react";
 import { sendForumMessage } from "@/actions/forums";
 import { supabase } from "@/lib/supabase";
+import { isFemaleTeacherName } from "@/lib/education-labels";
 import Link from "next/link";
 
 type UserType = {
@@ -34,13 +35,23 @@ type ForumChatClientProps = {
   studentProfile: {
     user: { fullName: string; role: string; avatarUrl: string | null };
   };
+  backHref?: string;
+  canSend?: boolean;
 };
 
-export function ForumChatClient({ initialMessages, forum, sessionId, studentProfile }: ForumChatClientProps) {
+export function ForumChatClient({
+  initialMessages,
+  forum,
+  sessionId,
+  studentProfile,
+  backHref = "/dashboard/student/forums",
+  canSend,
+}: ForumChatClientProps) {
   const [messages, setMessages] = useState<MessageType[]>(initialMessages);
   const [isPending, setIsPending] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const allowSend = canSend ?? forum.isOpen;
 
   // Auto-scroll to bottom
   const scrollToBottom = () => {
@@ -158,31 +169,37 @@ export function ForumChatClient({ initialMessages, forum, sessionId, studentProf
   }
 
   return (
-    <div className="h-[calc(100vh-8rem)] flex flex-col bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden font-arabic" dir="rtl">
+    <div className="h-[calc(100vh-8rem)] flex flex-col surface-panel overflow-hidden font-arabic" dir="rtl">
       
       {/* Chat Header */}
-      <div className="p-4 bg-white border-b border-slate-100 flex items-center gap-4 shrink-0">
-        <Link href="/dashboard/student/forums" className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-purple-700 transition-colors">
+      <div className="p-4 bg-white border-b border-line flex items-center gap-4 shrink-0">
+        <Link href={backHref} className="w-10 h-10 rounded-full bg-white border border-line flex items-center justify-center text-muted hover:text-primary transition-colors">
           <ArrowRight className="w-5 h-5 rtl:rotate-180" />
         </Link>
         <div className="flex-1">
-          <h2 className="text-lg font-black text-purple-950">{forum.title}</h2>
-          <p className="text-xs font-bold text-slate-500">{forum.subject.title} • الشهر {forum.month}</p>
+          <h2 className="text-lg font-bold text-ink">{forum.title}</h2>
+          <p className="text-xs font-bold text-muted">{forum.subject.title} • الشهر {forum.month}</p>
         </div>
-        <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-700">
+        <div className="icon-tile">
           <MessageSquare className="w-6 h-6" />
         </div>
       </div>
 
       {/* Main Content Area */}
-      {forum.isOpen ? (
-        <>
+      <>
           {/* Chat Area */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#F8F9FA] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
+          <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-surface-muted">
+            {!forum.isOpen && (
+              <div className="rounded-2xl border border-line bg-white px-4 py-3 text-sm text-muted text-center">
+                {allowSend
+                  ? "الدردشة مغلقة للتلاميذ. يمكنك الكتابة وهم يقرأون فقط."
+                  : "الدردشة مغلقة. يكتب الأستاذ فقط."}
+              </div>
+            )}
             {messages.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center opacity-50">
-                <MessageSquare className="w-12 h-12 text-slate-400 mb-3" />
-                <p className="font-bold text-slate-500">لا توجد رسائل بعد كن أول من يشارك!</p>
+                <MessageSquare className="w-12 h-12 text-muted mb-3" />
+                <p className="font-bold text-muted">لا توجد رسائل بعد كن أول من يشارك!</p>
               </div>
             ) : (
               messages.map((msg) => {
@@ -196,29 +213,35 @@ export function ForumChatClient({ initialMessages, forum, sessionId, studentProf
                       {!isMe && (
                         <div className="flex items-center gap-2 mr-2 mb-1">
                           {msg.user.avatarUrl ? (
-                            <img src={msg.user.avatarUrl} alt={msg.user.fullName} className="w-6 h-6 rounded-full object-cover shadow-sm" />
+                            <img src={msg.user.avatarUrl} alt={msg.user.fullName} className="w-6 h-6 rounded-full object-cover" />
                           ) : (
-                            <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 shadow-sm">
-                              {isAdmin ? <UserIcon className="w-3 h-3 text-purple-700" /> : <UserIcon className="w-3 h-3 text-slate-400" />}
+                            <div className="w-6 h-6 rounded-full bg-surface-muted flex items-center justify-center text-muted">
+                              {isAdmin ? <UserIcon className="w-3 h-3 text-primary" /> : <UserIcon className="w-3 h-3 text-muted" />}
                             </div>
                           )}
-                          <span className="text-[10px] font-black text-slate-400 flex items-center gap-1">
-                            {msg.user.fullName} {isAdmin && <span className="text-purple-700">(الإدارة)</span>}
+                          <span className="text-[10px] font-bold text-muted flex items-center gap-1">
+                            {msg.user.fullName}{" "}
+                            {msg.user.role === "TEACHER" && (
+                              <span className="text-primary">
+                                ({isFemaleTeacherName(msg.user.fullName) ? "الأستاذة" : "الأستاذ"})
+                              </span>
+                            )}
+                            {msg.user.role === "ADMIN" && <span className="text-primary">(الإدارة)</span>}
                           </span>
                         </div>
                       )}
                       
-                      <div className={`p-4 rounded-2xl shadow-sm ${
-                        isMe 
-                        ? 'bg-purple-800 text-white rounded-tl-none' 
-                        : isAdmin 
-                          ? 'bg-purple-50 border border-purple-100 text-purple-950 rounded-tr-none'
-                          : 'bg-white border border-slate-100 text-purple-900 rounded-tr-none'
-                      }`}>
+                      <div className={`p-4 rounded-2xl ${
+ isMe 
+ ? 'bg-primary text-white rounded-tl-none' 
+ : isAdmin 
+ ? 'bg-surface-muted border border-line text-ink rounded-tr-none'
+ : 'surface-card text-ink rounded-tr-none'
+ }`}>
                         <p className="text-sm font-medium leading-relaxed whitespace-pre-wrap">{msg.content}</p>
                       </div>
                       
-                      <span className="text-[10px] font-bold text-slate-400 mx-1">
+                      <span className="text-[10px] font-bold text-muted mx-1">
                         {new Date(msg.createdAt).toLocaleTimeString('ar-DZ', { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
@@ -229,46 +252,38 @@ export function ForumChatClient({ initialMessages, forum, sessionId, studentProf
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Chat Input */}
-          <div className="p-4 bg-white border-t border-slate-100 shrink-0">
-            <form ref={formRef} action={handleSend} className="relative flex items-end gap-3">
-              <textarea
-                name="content"
-                rows={1}
-                placeholder="اكتب رسالتك هنا.."
-                required
-                className="w-full min-h-[56px] max-h-[120px] p-4 rounded-2xl border border-slate-200 bg-white text-base font-medium focus:outline-none focus:ring-2 focus:ring-purple-600 resize-y shadow-sm"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    formRef.current?.requestSubmit();
-                  }
-                }}
-              />
-              <button
-                type="submit"
-                disabled={isPending}
-                className="h-[56px] px-6 bg-purple-600 hover:bg-purple-700 text-slate-950 font-black rounded-2xl flex items-center justify-center transition-colors shadow-sm disabled:opacity-50"
-              >
-                <Send className="w-5 h-5 rtl:rotate-180" />
-              </button>
-            </form>
-          </div>
+          {allowSend ? (
+            <div className="p-4 bg-white border-t border-line shrink-0">
+              <form ref={formRef} action={handleSend} className="relative flex items-end gap-3">
+                <textarea
+                  name="content"
+                  rows={1}
+                  placeholder="اكتب رسالتك هنا.."
+                  required
+                  className="input-field min-h-[56px] max-h-[120px] !rounded-2xl resize-y"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      formRef.current?.requestSubmit();
+                    }
+                  }}
+                />
+                <button
+                  type="submit"
+                  disabled={isPending}
+                  className="btn-primary h-[56px] !px-6 !rounded-2xl disabled:opacity-50"
+                >
+                  <Send className="w-5 h-5 rtl:rotate-180" />
+                </button>
+              </form>
+            </div>
+          ) : (
+            <div className="p-4 bg-white border-t border-line shrink-0 text-center text-sm text-muted flex items-center justify-center gap-2">
+              <Lock className="w-4 h-4" />
+              الدردشة مغلقة. يكتب الأستاذ فقط.
+            </div>
+          )}
         </>
-      ) : (
-        <div className="flex-1 flex flex-col items-center justify-center p-4 bg-[#F8F9FA] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col max-w-md mx-auto p-10 text-center space-y-6">
-            <div className="w-20 h-20 rounded-full bg-white border border-slate-100 flex items-center justify-center mx-auto">
-              <span className="text-4xl">🔒</span>
-            </div>
-            <div className="space-y-4">
-              <p className="text-base font-bold leading-relaxed text-purple-800">
-                دردشة القسم مغلقة حالياً. يتم فتح الدردشة حصرياً أيام الاختبارات للمراجعة الجماعية تحت إشراف الإدارة.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
 
     </div>
   );

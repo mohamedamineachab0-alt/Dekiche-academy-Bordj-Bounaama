@@ -1,11 +1,11 @@
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
-import { redeemAccessCode } from "@/actions/subjects";
-import { Key, Unlock, Lock, PlayCircle, BookOpen } from "lucide-react";
+import { Unlock, Lock, PlayCircle, BookOpen } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import Link from "next/link";
 import { SubjectActivationForm } from "@/components/student/SubjectActivationForm";
-import { translateLevel, translateStream } from "@/lib/utils/translations";
+import { translateLevel } from "@/lib/utils/translations";
+import { formatTeacherName } from "@/lib/education-labels";
 
 export default async function StudentSubjectsPage() {
   const cookieStore = await cookies();
@@ -22,100 +22,110 @@ export default async function StudentSubjectsPage() {
 
   const { phase, level, stream } = user.studentProfile;
 
-  // Find subjects for this phase/level/stream
   const subjects = await prisma.subject.findMany({
     where: {
       isPublished: true,
       phase,
       levels: { has: level },
-      OR: [
-        { streams: { has: stream } },
-        { streams: { has: "NONE" } }
-      ]
+      OR: [{ streams: { has: stream } }, { streams: { has: "NONE" } }],
     },
     include: { teacher: true },
-    orderBy: { createdAt: "desc" }
+    orderBy: { createdAt: "desc" },
   });
 
   const enrollments = user.enrollments;
-  const enrolledSubjectIds = new Set(enrollments.map(e => e.subjectId));
+  const enrolledSubjectIds = new Set(enrollments.map((e) => e.subjectId));
+  const enrolledCount = subjects.filter((s) => enrolledSubjectIds.has(s.id)).length;
 
   return (
     <div className="space-y-8 font-sans pb-12">
-      
-      <HeroBanner 
+      <HeroBanner
+        variant="hero"
         title="موادي الدراسية"
-        description="اختر المادة التي تود دراستها و أو قم بتفعيل المواد الجديدة باستخدام رمز الدخول (كود الإشتراك) عبر البطاقات أدناه"
+        description="ادخل إلى المواد المُفعّلة، أو فعّل مادة جديدة برمز الاشتراك الخاص بها."
         icon={BookOpen}
+        action={
+          <span className="inline-flex items-center gap-2 rounded-full glass-pill px-3 py-1.5 text-sm font-semibold text-white">
+            <span className="tabular-nums text-accent font-bold">{enrolledCount}</span>
+            مادة مُفعّلة
+          </span>
+        }
       />
 
-      <div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {subjects.map(subject => {
+      {subjects.length === 0 ? (
+        <div className="surface-card px-6 py-16 text-center">
+          <span className="icon-tile mx-auto mb-5">
+            <BookOpen className="w-5 h-5" />
+          </span>
+          <h3 className="text-lg font-bold text-ink mb-2">لا توجد مواد متاحة</h3>
+          <p className="text-sm text-muted max-w-sm mx-auto leading-relaxed">
+            لم تُضف بعد مواد تناسب مستواك وشعبتك. يرجى مراجعة الإدارة أو المحاولة لاحقاً.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+          {subjects.map((subject) => {
             const isEnrolled = enrolledSubjectIds.has(subject.id);
-            const enrollment = enrollments.find(e => e.subjectId === subject.id);
 
             return (
-              <div key={subject.id} className="bg-white rounded-2xl border border-gray-100 flex flex-col group max-w-sm mx-auto w-full transition-shadow shadow-sm hover:shadow-md relative overflow-hidden">
-                {/* Cover Image & Badge */}
-                <div className="relative w-full aspect-video bg-[#1e1b4b] rounded-t-2xl overflow-hidden flex items-center justify-center">
-                  <img src={subject.image} alt={subject.title} className="w-full h-full object-contain" />
-                  <div className="absolute top-3 left-3">
+              <article key={subject.id} className="surface-panel flex flex-col">
+                <div className="relative aspect-[16/9] bg-primary-soft overflow-hidden">
+                  {subject.image ? (
+                    <img
+                      src={subject.image}
+                      alt={subject.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <BookOpen className="w-10 h-10 text-primary/40" />
+                    </div>
+                  )}
+
+                  <span
+                    className={`absolute top-3 start-3 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold backdrop-blur-sm ${
+                      isEnrolled
+                        ? "bg-white/95 text-emerald-700"
+                        : "bg-white/95 text-muted"
+                    }`}
+                  >
                     {isEnrolled ? (
-                      <div className="bg-white/90 backdrop-blur-sm text-green-600 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-sm border border-green-100">
-                        <Unlock className="w-3.5 h-3.5" /> تم الفتح
-                      </div>
+                      <Unlock className="w-3.5 h-3.5" />
                     ) : (
-                      <div className="bg-white/90 backdrop-blur-sm text-red-600 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-sm border border-red-100">
-                        <Lock className="w-3.5 h-3.5" /> مغلق
-                      </div>
+                      <Lock className="w-3.5 h-3.5" />
                     )}
-                  </div>
+                    {isEnrolled ? "مُفعّلة" : "مغلقة"}
+                  </span>
                 </div>
 
-                {/* Content Section */}
                 <div className="p-5 flex-1 flex flex-col">
-                  {/* Subject Info */}
-                  <h3 className="text-xl font-bold text-gray-800 mb-1 line-clamp-1">{subject.title}</h3>
-                  <p className="text-sm text-gray-500 mb-6 line-clamp-1">
-                    الأستاذ {subject.teacherName} • المستوى {translateLevel(subject.levels?.[0] || "")}
+                  <h3 className="text-base font-bold text-ink mb-1 line-clamp-1">
+                    {subject.title}
+                  </h3>
+                  <p className="text-sm text-muted mb-5 line-clamp-1">
+                    {formatTeacherName(subject.teacherName)} ·{" "}
+                    {translateLevel(subject.levels?.[0] || "")}
                   </p>
-                  
-                  {/* Action Area */}
-                  <div className="mt-auto border-t border-gray-100 pt-5">
+
+                  <div className="mt-auto pt-4 border-t border-line">
                     {isEnrolled ? (
-                      <Link 
+                      <Link
                         href={`/dashboard/student/subjects/${subject.id}`}
-                        className="w-full flex items-center justify-center gap-2 bg-[#6b21a8] hover:bg-purple-800 text-white font-semibold py-3 rounded-xl transition-colors"
+                        className="btn-primary w-full"
                       >
-                        <PlayCircle className="w-5 h-5" />
+                        <PlayCircle className="w-4 h-4" />
                         الدخول للمادة
                       </Link>
                     ) : (
-                      <div className="w-full">
-                        <SubjectActivationForm subjectId={subject.id} />
-                      </div>
+                      <SubjectActivationForm subjectId={subject.id} />
                     )}
                   </div>
                 </div>
-              </div>
+              </article>
             );
           })}
-          
-          {subjects.length === 0 && (
-            <div className="col-span-full py-20 flex flex-col items-center justify-center bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] shadow-3d-soft paper-cut relative overflow-hidden">
-              <div className="w-20 h-20 bg-[#F8F9FA] border-[3px] border-[#000000] rounded-2xl flex items-center justify-center transform -rotate-6 mb-6 shadow-sm">
-                <BookOpen className="w-10 h-10 text-[#000000]" />
-              </div>
-              <h3 className="text-2xl font-black text-[#000000] mb-3">لا توجد مواد متاحة</h3>
-              <p className="text-gray-600 font-bold text-center max-w-sm leading-relaxed">
-                لم يتم إضافة أي مواد دراسية تناسب مستواك الدراسي وشعبتك حتى الآن. يرجى مراجعة الإدارة أو المحاولة لاحقاً.
-              </p>
-            </div>
-          )}
         </div>
-      </div>
-      
+      )}
     </div>
   );
 }

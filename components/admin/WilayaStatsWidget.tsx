@@ -67,7 +67,7 @@ export default function WilayaStatsWidget() {
 
   return (
     <div
-      className="relative w-full rounded-3xl overflow-hidden border-2 border-purple-100 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] p-6 mt-8"
+      className="relative w-full rounded-2xl overflow-hidden border border-line shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] p-6 mt-8"
       style={{
         backgroundColor: "#ffffff",
         backgroundImage: "linear-gradient(#f1f5f9 2px, transparent 2px), linear-gradient(90deg, #f1f5f9 2px, transparent 2px)",
@@ -79,18 +79,18 @@ export default function WilayaStatsWidget() {
       {/* Widget Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 relative z-10 bg-white/70 backdrop-blur-md p-5 rounded-2xl border border-white/60 shadow-sm">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center shadow-inner rotate-3">
+          <div className="w-12 h-12 bg-primary-soft text-primary rounded-2xl flex items-center justify-center shadow-inner">
             <Map className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-xl font-black text-purple-900">إحصائيات الولايات (58)</h3>
-            <p className="text-sm font-bold text-slate-500 mt-1">توزيع الطلاب لتوجيه الإعلانات الممولة</p>
+            <h3 className="text-xl font-bold text-ink">إحصائيات الولايات (58)</h3>
+            <p className="text-sm font-bold text-muted mt-1">توزيع الطلاب لتوجيه الإعلانات الممولة</p>
           </div>
         </div>
 
         <button
           onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
-          className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-purple-600/20 transition-all active:scale-95"
+          className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-xl text-sm font-bold  transition-all active:scale-95"
         >
           <ArrowDownUp className="w-4 h-4" />
           {sortOrder === "asc" ? "الأقل تسجيلاً أولاً" : "الأكثر تسجيلاً أولاً"}
@@ -101,8 +101,8 @@ export default function WilayaStatsWidget() {
       <div className="relative z-10 bg-white/95 backdrop-blur-xl rounded-2xl border border-purple-50 shadow-sm p-3 overflow-y-auto max-h-[400px] custom-scrollbar">
         {loading ? (
           <div className="p-16 flex flex-col items-center justify-center gap-3">
-            <div className="w-8 h-8 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
-            <p className="text-slate-500 font-bold">جاري تحميل إحصائيات الولايات...</p>
+            <div className="w-8 h-8 border-4 border-line border-t-purple-600 rounded-full animate-spin"></div>
+            <p className="text-muted font-bold">جاري تحميل إحصائيات الولايات...</p>
           </div>
         ) : (
           <div className="space-y-4 p-2 pr-4">
@@ -112,31 +112,31 @@ export default function WilayaStatsWidget() {
 
               return (
                 <div key={wilaya.id} className={`flex items-center gap-4 group transition-opacity ${isZero ? 'opacity-75 hover:opacity-100' : ''}`}>
-                  <div className={`w-10 h-10 shrink-0 font-black text-sm rounded-xl flex items-center justify-center border-2 transition-colors ${isZero
-                      ? 'bg-white text-slate-400 border-slate-100'
-                      : 'bg-purple-50 text-purple-600 border-purple-100 group-hover:bg-purple-100'
-                    }`}>
+                  <div className={`w-10 h-10 shrink-0 font-bold text-sm rounded-xl flex items-center justify-center border transition-colors ${isZero
+ ? 'bg-white text-muted border-line'
+ : 'bg-primary-soft text-primary border-line group-hover:bg-primary-soft'
+ }`}>
                     {wilaya.id.toString().padStart(2, '0')}
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-end mb-1.5">
-                      <span className={`text-sm font-bold truncate ${isZero ? 'text-slate-500' : 'text-purple-900'}`}>
+                      <span className={`text-sm font-bold truncate ${isZero ? 'text-muted' : 'text-ink'}`}>
                         {wilaya.name}
                       </span>
-                      <span className={`text-xs font-black px-2.5 py-0.5 rounded-md border ${isZero
-                          ? 'text-purple-600 bg-purple-50 border-purple-100'
-                          : 'text-emerald-600 bg-emerald-50 border-emerald-100'
-                        }`}>
+                      <span className={`text-xs font-bold px-2.5 py-0.5 rounded-md border ${isZero
+ ? 'text-primary bg-primary-soft border-line'
+ : 'text-emerald-600 bg-emerald-50 border-emerald-100'
+ }`}>
                         {wilaya.count} طالب
                       </span>
                     </div>
 
                     {/* Progress Bar */}
-                    <div className="h-2.5 w-full bg-slate-100/80 rounded-full overflow-hidden shadow-inner">
+                    <div className="h-2.5 w-full bg-surface-muted/80 rounded-full overflow-hidden shadow-inner">
                       <div
-                        className={`h-full rounded-full transition-all duration-1000 ease-out ${isZero ? 'bg-slate-300' : 'bg-gradient-to-l from-purple-600 to-purple-400'
-                          }`}
+                        className={`h-full rounded-full transition-all duration-1000 ease-out ${isZero ? 'bg-slate-300' : 'bg-gradient-to-l from-primary to-purple-400'
+ }`}
                         style={{ width: `${isZero ? 0 : Math.max(percentage, 2)}%` }} // Minimum 2% width if > 0 just to show it exists
                       />
                     </div>

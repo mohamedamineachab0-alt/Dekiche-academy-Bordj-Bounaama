@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { updateLesson, previewQuizForMaterial } from "@/actions/lessons";
+import { updateLesson, previewQuizFromLesson } from "@/actions/lessons";
 import { Upload, X, Loader2, Save, BrainCircuit, Image as ImageIcon, Plus, CheckCircle2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -46,7 +46,8 @@ const LEVEL_ARABIC: Record<string, string> = {
 export function EditLessonForm({ subjects, initialData }: { subjects: any[], initialData: any }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [quizLoadingId, setQuizLoadingId] = useState<string | null>(null);
+  const [quizLoading, setQuizLoading] = useState(false);
+  const [aiSourceNote, setAiSourceNote] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const [title, setTitle] = useState(initialData.title);
@@ -187,32 +188,43 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
     }
   }
 
-  async function handleGenerateQuiz(materialId: string, materialTitle: string) {
-    setQuizLoadingId(materialId);
+  async function handleGenerateQuiz() {
+    setQuizLoading(true);
     setError(null);
+    setAiSourceNote(null);
     try {
-      // Auto determine language based on first subject title (very basic logic)
       const firstSubject = subjects.find(s => s.id === subjectIds[0])?.title || "";
       const isMath = firstSubject.includes("رياضيات");
       const language = isMath ? "LATEX" : "arabic";
-      
-      const fullTitle = `${title} - ${materialTitle}`;
-      const result = await previewQuizForMaterial(materialId, language, firstSubject, fullTitle);
+
+      const result = await previewQuizFromLesson({
+        lessonId: initialData.id,
+        language,
+        subjectName: firstSubject,
+        title,
+        numberOfQuestions: 20,
+        totalPoints: 20,
+      });
       if (result.error) throw new Error(result.error);
-      
+
       if (result.questions && result.questions.length > 0) {
         setManualQuestions(result.questions);
         setShowQuizEditor(true);
+        setAiSourceNote(
+          result.source === "title"
+            ? "تعذّر الاعتماد على الملحقات، فوُلِّد الاختبار من عنوان الدرس."
+            : "تم استخراج الأسئلة وتصحيحها من الملحقات."
+        );
       }
     } catch (err: any) {
       setError(err.message || "فشل توليد الكويز");
     } finally {
-      setQuizLoadingId(null);
+      setQuizLoading(false);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white dark:bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+    <form onSubmit={handleSubmit} className="space-y-6 surface-card p-6">
       
       {error && (
         <div className="bg-red-50 text-red-700 p-4 rounded-xl text-sm font-bold border border-red-200">
@@ -223,12 +235,12 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
       {/* Basic Info */}
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-bold text-purple-950 mb-2">عنوان الدرس *</label>
+          <label className="block text-sm font-bold text-ink mb-2">عنوان الدرس *</label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-600 font-bold"
+            className="w-full p-3 rounded-xl border border-line focus:outline-none focus:ring-2 focus:ring-primary-mid font-bold"
             placeholder="مثال: الحصة 01 - مقدمة في الدوال"
             required
           />
@@ -236,18 +248,18 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-bold text-purple-950 mb-2">رابط فيديو Vimeo *</label>
+            <label className="block text-sm font-bold text-ink mb-2">رابط فيديو Vimeo *</label>
             <input
               type="text"
               value={vimeoVideoId}
               onChange={(e) => setVimeoVideoId(e.target.value)}
-              className="w-full p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-600 font-mono"
+              className="w-full p-3 rounded-xl border border-line focus:outline-none focus:ring-2 focus:ring-primary-mid font-mono"
               placeholder="مثال: 123456789"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-bold text-purple-950 mb-2">الشهر *</label>
+            <label className="block text-sm font-bold text-ink mb-2">الشهر *</label>
             <MonthSelect value={month} onChange={setMonth} />
           </div>
         </div>
@@ -255,15 +267,15 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
 
       {/* Image Upload */}
       <div className="space-y-2">
-        <label className="block text-sm font-bold text-purple-950 mb-2">صورة الغلاف (اختياري)</label>
+        <label className="block text-sm font-bold text-ink mb-2">صورة الغلاف (اختياري)</label>
         <div className="flex items-center gap-4">
-          <label className="flex-1 border-2 border-dashed border-purple-200 rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:bg-purple-50 transition-colors">
+          <label className="flex-1 border border-dashed border-line rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:bg-primary-soft transition-colors">
             <ImageIcon className="w-8 h-8 text-purple-400 mb-2" />
-            <span className="text-sm font-bold text-purple-700">تغيير صورة الغلاف</span>
+            <span className="text-sm font-bold text-primary">تغيير صورة الغلاف</span>
             <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
           </label>
           {imagePreview && (
-            <div className="relative w-32 h-24 rounded-lg overflow-hidden border border-slate-200 shrink-0">
+            <div className="relative w-32 h-24 rounded-lg overflow-hidden border border-line shrink-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
               <button
@@ -281,17 +293,17 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
       {/* Associations */}
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-bold text-purple-950 mb-2">المواد *</label>
+          <label className="block text-sm font-bold text-ink mb-2">المواد *</label>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
             {subjects.map(subject => (
-              <label key={subject.id} className="flex items-center gap-2 bg-slate-50 p-2 rounded-lg cursor-pointer hover:bg-slate-100">
+              <label key={subject.id} className="flex items-center gap-2 bg-surface-muted p-2 rounded-lg cursor-pointer hover:bg-surface-muted">
                 <input
                   type="checkbox"
                   checked={subjectIds.includes(subject.id)}
                   onChange={(e) => handleSubjectChange(subject.id, e.target.checked)}
-                  className="rounded text-purple-600 focus:ring-purple-600"
+                  className="rounded text-primary focus:ring-primary-mid"
                 />
-                <span className="text-sm font-bold text-slate-700">{subject.title}</span>
+                <span className="text-sm font-bold text-ink">{subject.title}</span>
               </label>
             ))}
           </div>
@@ -299,17 +311,17 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
 
         {availableStreams.length > 0 && (
           <div>
-            <label className="block text-sm font-bold text-purple-950 mb-2">الشعب المستهدفة</label>
+            <label className="block text-sm font-bold text-ink mb-2">الشعب المستهدفة</label>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
               {STREAMS.filter(s => availableStreams.includes(s) || s === 'NONE').map(stream => (
-                <label key={stream} className="flex items-center gap-2 bg-slate-50 p-2 rounded-lg cursor-pointer hover:bg-slate-100">
+                <label key={stream} className="flex items-center gap-2 bg-surface-muted p-2 rounded-lg cursor-pointer hover:bg-surface-muted">
                   <input
                     type="checkbox"
                     checked={streams.includes(stream)}
                     onChange={(e) => handleStreamChange(stream, e.target.checked)}
-                    className="rounded text-purple-600 focus:ring-purple-600"
+                    className="rounded text-primary focus:ring-primary-mid"
                   />
-                  <span className="text-sm font-bold text-slate-700">{STREAM_ARABIC[stream] || stream}</span>
+                  <span className="text-sm font-bold text-ink">{STREAM_ARABIC[stream] || stream}</span>
                 </label>
               ))}
             </div>
@@ -318,17 +330,17 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
 
         {availableLevels.length > 0 && (
           <div>
-            <label className="block text-sm font-bold text-purple-950 mb-2">المستويات المستهدفة</label>
+            <label className="block text-sm font-bold text-ink mb-2">المستويات المستهدفة</label>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
               {availableLevels.map(level => (
-                <label key={level as string} className="flex items-center gap-2 bg-slate-50 p-2 rounded-lg cursor-pointer hover:bg-slate-100">
+                <label key={level as string} className="flex items-center gap-2 bg-surface-muted p-2 rounded-lg cursor-pointer hover:bg-surface-muted">
                   <input
                     type="checkbox"
                     checked={levels.includes(level as string)}
                     onChange={(e) => handleLevelChange(level as string, e.target.checked)}
-                    className="rounded text-purple-600 focus:ring-purple-600"
+                    className="rounded text-primary focus:ring-primary-mid"
                   />
-                  <span className="text-sm font-bold text-slate-700">{LEVEL_ARABIC[level as string] || level}</span>
+                  <span className="text-sm font-bold text-ink">{LEVEL_ARABIC[level as string] || level}</span>
                 </label>
               ))}
             </div>
@@ -337,64 +349,73 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
       </div>
 
       {/* Materials and Quiz */}
-      <div className="border-t border-slate-200 pt-6 space-y-4">
-        <h3 className="font-black text-purple-950">ملحقات الدرس والكويز</h3>
+      <div className="border-t border-line pt-6 space-y-4">
+        <h3 className="font-bold text-ink">ملحقات الدرس والكويز</h3>
         
         {initialData.materials.length === 0 ? (
-          <p className="text-slate-500 text-sm font-bold">لا يوجد ملحقات مرفقة مع هذا الدرس.</p>
+          <p className="text-muted text-sm font-bold">لا يوجد ملحقات مرفقة مع هذا الدرس. يمكن توليد الاختبار من عنوان الدرس.</p>
         ) : (
-          <div className="space-y-3">
+          <ul className="space-y-2">
             {initialData.materials.map((mat: any) => (
-              <div key={mat.id} className="flex items-center justify-between p-3 bg-purple-50 rounded-xl border border-purple-100">
-                <span className="font-bold text-purple-900 text-sm">{mat.title}</span>
-                <button
-                  type="button"
-                  onClick={() => handleGenerateQuiz(mat.id, mat.title)}
-                  disabled={quizLoadingId === mat.id}
-                  className="flex items-center gap-1.5 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
-                >
-                  {quizLoadingId === mat.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <BrainCircuit className="w-3.5 h-3.5" />}
-                  توليد واستخراج كويز جديد
-                </button>
-              </div>
+              <li key={mat.id} className="flex items-center justify-between p-3 bg-primary-soft rounded-xl border border-line">
+                <span className="font-bold text-ink text-sm">{mat.title}</span>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
 
+        <p className="text-sm text-muted leading-6">
+          يقرأ الذكاء الاصطناعي كل الملحقات ويصحّح الأسئلة الموجودة. إن تعذّر ذلك يُنشئ الاختبار من عنوان الدرس.
+        </p>
+
+        {aiSourceNote && (
+          <p className="text-sm font-bold text-primary">{aiSourceNote}</p>
+        )}
+
+        <button
+          type="button"
+          onClick={handleGenerateQuiz}
+          disabled={quizLoading}
+          className="flex items-center justify-center gap-1.5 bg-primary hover:bg-primary-hover disabled:opacity-50 text-white px-4 py-2.5 rounded-lg text-sm font-bold transition-colors w-full"
+        >
+          {quizLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <BrainCircuit className="w-4 h-4" />}
+          توليد الاختبار من كل الملحقات
+        </button>
+
         {showQuizEditor && (
-          <div className="space-y-6 bg-white p-6 rounded-2xl border border-slate-200 mt-6">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-4">
-              <label className="text-sm font-bold text-purple-800">التنقيط الإجمالي للكويز (ثابت)</label>
+          <div className="space-y-6 bg-white p-6 rounded-2xl border border-line mt-6">
+            <div className="flex items-center justify-between border-b border-line pb-4">
+              <label className="text-sm font-bold text-primary">التنقيط الإجمالي للكويز (ثابت)</label>
               <input 
                 type="number" 
                 value={20}
                 disabled
-                className="w-24 bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-center font-bold text-slate-500 cursor-not-allowed"
+                className="w-24 bg-surface-muted border border-line rounded-lg px-3 py-1.5 text-center font-bold text-muted cursor-not-allowed"
               />
             </div>
             
             <div className="space-y-6">
               {manualQuestions.map((q, i) => (
-                <div key={i} className="bg-white p-6 rounded-xl border border-slate-200 relative group shadow-sm">
+                <div key={i} className="bg-white p-6 rounded-xl border border-line relative group shadow-sm">
                   <button 
                     type="button" 
                     onClick={() => handleRemoveQuestion(i)}
-                    className="absolute top-4 left-4 text-slate-400 hover:text-purple-700 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute top-4 left-4 text-muted hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <X className="w-5 h-5" />
                   </button>
 
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-xs font-bold text-purple-700 mb-2">
-                        السؤال {i + 1} <span className="text-slate-400 font-medium mr-2">({(20 / manualQuestions.length).toFixed(1).replace(/\.0$/, '')} نقاط)</span>
+                      <label className="block text-xs font-bold text-primary mb-2">
+                        السؤال {i + 1} <span className="text-muted font-medium mr-2">({(20 / manualQuestions.length).toFixed(1).replace(/\.0$/, '')} نقاط)</span>
                       </label>
                       <input 
                         type="text" 
                         value={q.question}
                         onChange={e => handleQuestionChange(i, e.target.value)}
                         placeholder="نص السؤال"
-                        className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-purple-600 text-sm font-medium"
+                        className="w-full bg-white border border-line rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary-mid text-sm font-medium"
                       />
                       {q.question.includes('$') && <MathPreview text={q.question} />}
                     </div>
@@ -403,14 +424,14 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
                       {q.options.map((opt: string, optIndex: number) => (
                         <div 
                           key={optIndex} 
-                          className={`flex items-center gap-3 border rounded-lg p-2 transition-colors ${q.correctAnswerIndex === optIndex ? 'border-purple-700 bg-purple-50' : 'border-slate-200 bg-white hover:border-purple-300'}`}
+                          className={`flex items-center gap-3 border rounded-lg p-2 transition-colors ${q.correctAnswerIndex === optIndex ? 'border-line bg-primary-soft' : 'border-line bg-white hover:border-line'}`}
                         >
                           <button
                             type="button"
                             onClick={() => handleCorrectAnswerChange(i, optIndex)}
                             className="shrink-0 flex items-center justify-center"
                           >
-                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${q.correctAnswerIndex === optIndex ? 'bg-purple-700 border-purple-700 text-white' : 'border-slate-300'}`}>
+                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${q.correctAnswerIndex === optIndex ? 'bg-primary border-line text-white' : 'border-line'}`}>
                               {q.correctAnswerIndex === optIndex && <CheckCircle2 className="w-3.5 h-3.5" />}
                             </div>
                           </button>
@@ -420,7 +441,7 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
                               value={opt}
                               onChange={e => handleOptionChange(i, optIndex, e.target.value)}
                               placeholder={`الخيار ${optIndex + 1}`}
-                              className="w-full bg-transparent text-sm font-medium focus:outline-none text-purple-800"
+                              className="w-full bg-transparent text-sm font-medium focus:outline-none text-primary"
                             />
                             {opt.includes('$') && <MathPreview text={opt} />}
                           </div>
@@ -435,7 +456,7 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
             <button 
               type="button"
               onClick={handleAddQuestion}
-              className="flex items-center gap-2 text-purple-700 hover:text-purple-800 font-bold text-sm bg-purple-50 hover:bg-purple-100 px-4 py-2.5 rounded-lg transition-colors mt-4 w-full justify-center border border-purple-100"
+              className="flex items-center gap-2 text-primary hover:text-primary font-bold text-sm bg-primary-soft hover:bg-primary-soft px-4 py-2.5 rounded-lg transition-colors mt-4 w-full justify-center border border-line"
             >
               <Plus className="w-4 h-4" /> إضافة سؤال جديد
             </button>
@@ -443,11 +464,11 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
         )}
       </div>
 
-      <div className="pt-4 border-t border-slate-100">
+      <div className="pt-4 border-t border-line">
         <button
           type="submit"
-          disabled={loading || quizLoadingId !== null}
-          className="w-full flex items-center justify-center gap-2 bg-purple-950 hover:bg-purple-900 text-white font-bold py-4 rounded-xl transition-colors shadow-sm disabled:opacity-50"
+          disabled={loading || quizLoading}
+          className="btn-primary w-full"
         >
           {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
           {loading ? "جاري الحفظ..." : "حفظ التعديلات"}

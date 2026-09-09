@@ -7,8 +7,8 @@ export type AdminStudentMetrics = {
   id: string;
   fullName: string;
   phone: string;
-  level: Level;
-  stream: Stream;
+  level: string;
+  stream: string;
   wilaya: string;
   totalPoints: number;
   lastLoginAt: Date | null;
@@ -16,6 +16,7 @@ export type AdminStudentMetrics = {
   mistakesCount: number;
   isParentLinked: boolean;
   enrolledSubjects: string[];
+  filesCount: number;
 };
 
 export async function getStudentMonitoringMetrics(filters?: {
@@ -24,62 +25,52 @@ export async function getStudentMonitoringMetrics(filters?: {
   subjectId?: string;
 }): Promise<AdminStudentMetrics[]> {
   try {
-    const whereClause: any = {
-      role: "STUDENT",
-      studentProfile: {
-        isNot: null,
-      }
-    };
-
-    if (filters?.level) {
-      whereClause.studentProfile.level = filters.level;
-    }
-    if (filters?.stream) {
-      whereClause.studentProfile.stream = filters.stream;
-    }
-    if (filters?.subjectId) {
-      whereClause.enrollments = {
-        some: { subjectId: filters.subjectId }
-      };
-    }
-
     const students = await prisma.user.findMany({
-      where: whereClause,
-      include: {
-        studentProfile: true,
-        studentLinks: true, // Parent links
-        mistakes: true,
-        enrollments: {
-          include: { subject: true }
-        }
+      where: {
+        role: "STUDENT",
+        ...(filters?.level || filters?.stream
+          ? {
+              studentProfile: {
+                ...(filters.level ? { level: filters.level } : {}),
+                ...(filters.stream ? { stream: filters.stream } : {}),
+              },
+            }
+          : {}),
+        ...(filters?.subjectId
+          ? { enrollments: { some: { subjectId: filters.subjectId } } }
+          : {}),
       },
-      orderBy: {
+      select: {
+        id: true,
+        fullName: true,
+        phoneNumber: true,
+        lastLoginAt: true,
+        deviceFingerprints: true,
         studentProfile: {
-          totalPoints: 'desc'
-        }
-      }
+          select: { level: true, stream: true, wilaya: true, totalPoints: true },
+        },
+        studentLinks: { select: { id: true } },
+        enrollments: { select: { subject: { select: { title: true } } } },
+        _count: { select: { mistakes: true, submissions: true } },
+      },
+      orderBy: { fullName: "asc" },
     });
 
-    const metrics: AdminStudentMetrics[] = students.map(user => {
-      const profile = user.studentProfile!;
-      
-      return {
-        id: user.id,
-        fullName: user.fullName,
-        phone: user.phoneNumber,
-        level: profile.level,
-        stream: profile.stream,
-        wilaya: profile.wilaya,
-        totalPoints: profile.totalPoints,
-        lastLoginAt: user.lastLoginAt,
-        deviceFingerprints: user.deviceFingerprints,
-        mistakesCount: user.mistakes.length,
-        isParentLinked: user.studentLinks.length > 0,
-        enrolledSubjects: user.enrollments.map(e => e.subject.title)
-      };
-    });
-
-    return metrics;
+    return students.map((user) => ({
+      id: user.id,
+      fullName: user.fullName,
+      phone: user.phoneNumber,
+      level: user.studentProfile?.level || "",
+      stream: user.studentProfile?.stream || "",
+      wilaya: user.studentProfile?.wilaya || "",
+      totalPoints: user.studentProfile?.totalPoints ?? 0,
+      lastLoginAt: user.lastLoginAt,
+      deviceFingerprints: user.deviceFingerprints,
+      mistakesCount: user._count.mistakes,
+      isParentLinked: user.studentLinks.length > 0,
+      enrolledSubjects: user.enrollments.map((e) => e.subject.title),
+      filesCount: user._count.submissions,
+    }));
   } catch (error) {
     console.error("getStudentMonitoringMetrics error:", error);
     return [];

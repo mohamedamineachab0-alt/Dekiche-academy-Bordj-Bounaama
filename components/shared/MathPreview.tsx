@@ -1,20 +1,22 @@
-import React from 'react';
-import { MathRenderer } from '@/components/MathRenderer';
+import React from "react";
+import { MathRenderer } from "@/components/MathRenderer";
+import { splitMathSegments } from "@/lib/math-text";
 
-export const MathPreview: React.FC<{ text: string; className?: string }> = ({ text, className }) => {
+export const MathPreview: React.FC<{ text: string; className?: string }> = ({
+  text,
+  className,
+}) => {
   if (!text) return null;
 
-  // Simple parser to separate text and math blocks
-  const parts = text.split(/(\$[^$]+\$)/g);
+  const segments = splitMathSegments(text);
 
   return (
-    <div className={className || "text-sm text-slate-600 leading-relaxed min-h-[1.5rem] mt-1"} dir="rtl">
-      {parts.map((part, i) => {
-        if (part.startsWith('$') && part.endsWith('$')) {
-          const math = part.slice(1, -1);
-          return <MathRenderer key={i} math={math} />;
+    <div className={className || "text-sm text-muted leading-relaxed min-h-[1.5rem] mt-1"} dir="rtl">
+      {segments.map((segment, index) => {
+        if (segment.type === "math") {
+          return <MathRenderer key={index} math={segment.value} block={segment.block} />;
         }
-        return <span key={i}>{part}</span>;
+        return <span key={index}>{segment.value}</span>;
       })}
     </div>
   );

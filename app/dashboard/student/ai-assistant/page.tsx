@@ -40,12 +40,11 @@ export default async function AiAssistantPage() {
   const streamStr = streamsForLevel.find((s: any) => s.value === rawStream)?.label || rawStream;
 
   const studentName = user.fullName;
-  
-  // If there's no stream (e.g. PRIMARY or MIDDLE), don't show the stream part
-  const studentLevelStr = rawStream !== "NONE" && streamStr !== "بدون شعبة" 
-    ? `${levelStr} - ${streamStr}` 
+
+  const studentLevelStr = rawStream !== "NONE" && streamStr !== "بدون شعبة"
+    ? `${levelStr} - ${streamStr}`
     : levelStr;
-    
+
   const greetingText = rawStream !== "NONE" && streamStr !== "بدون شعبة"
     ? `أنت طالب في ${levelStr} في شعبة ${streamStr}`
     : `أنت طالب في ${levelStr}`;
@@ -55,13 +54,14 @@ export default async function AiAssistantPage() {
     : 'لا توجد اخطاء مسجلة حتى الان';
 
   return (
-    <div className="flex flex-col h-full gap-4 md:gap-6 pt-2 font-sans pb-4">
+    <div className="flex flex-col space-y-8 font-sans pb-12">
       <HeroBanner
-        title="dekiche academy"
-        description="متصل بمعرفتك ومستواك وأخطائك"
+        variant="hero"
+        title="مساعدي الذكي"
+        description="رفيق السفينة: يشرح درسك، يراجع خطأك، ويرافقك خطوة بخطوة حتى تفهم."
         icon={Bot}
       />
-      <div className="flex-1 min-h-0 bg-[#FFFFFF] rounded-3xl shadow-3d-soft border-[3px] border-[#000000] overflow-hidden flex flex-col paper-cut relative z-10">
+      <div className="flex-1 min-h-[32rem] surface-panel overflow-hidden flex flex-col">
         <AiChatClient
           studentId={sessionId}
           greetingText={greetingText}

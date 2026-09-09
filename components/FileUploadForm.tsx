@@ -20,10 +20,10 @@ export function FileUploadForm({ uploadAction }: { uploadAction: (formData: Form
 
   return (
     <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <div className="relative border-2 border-dashed border-neutral-700 rounded-lg p-10 hover:border-purple-500 transition-colors flex flex-col items-center justify-center bg-neutral-950/50">
-        <Upload className="w-10 h-10 text-neutral-400 mb-4" />
+      <div className="relative border border-dashed border-line rounded-lg p-10 hover:border-line transition-colors flex flex-col items-center justify-center bg-surface-muted">
+        <Upload className="w-10 h-10 text-muted mb-4" />
         <p className="text-sm text-neutral-300 font-medium">Click or drag files to upload</p>
-        <p className="text-xs text-neutral-500 mt-1">Accepts all file types</p>
+        <p className="text-xs text-muted mt-1">Accepts all file types</p>
         <input 
           type="file" 
           name="files" 
@@ -36,7 +36,7 @@ export function FileUploadForm({ uploadAction }: { uploadAction: (formData: Form
       <button 
         type="submit" 
         disabled={isUploading}
-        className="self-end px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors flex items-center disabled:opacity-50"
+        className="self-end px-6 py-2.5 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors flex items-center disabled:opacity-50"
       >
         {isUploading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
         {isUploading ? 'Uploading...' : 'Upload Files'}

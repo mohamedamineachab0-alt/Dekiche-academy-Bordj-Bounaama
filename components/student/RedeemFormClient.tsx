@@ -24,7 +24,7 @@ export function RedeemFormClient({ subjectId }: { subjectId: string }) {
           name="code" 
           placeholder="أدخل كود الإشتراك" 
           required
-          className="w-full bg-gray-50 border border-purple-100 rounded-lg p-3 pr-4 pl-4 outline-none focus:ring-2 focus:ring-purple-600 transition-all text-sm"
+          className="w-full bg-surface-muted border border-line rounded-lg p-3 pr-4 pl-4 outline-none focus:ring-2 focus:ring-primary-mid transition-all text-sm"
         />
       </div>
       {state?.error && (
@@ -33,7 +33,7 @@ export function RedeemFormClient({ subjectId }: { subjectId: string }) {
       <button 
         type="submit" 
         disabled={isPending}
-        className="w-full bg-purple-600 text-white rounded-lg p-3 font-medium flex items-center justify-center gap-2 hover:bg-purple-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+        className="w-full bg-primary text-white rounded-lg p-3 font-medium flex items-center justify-center gap-2 hover:bg-primary-hover transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
       >
         {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Lock className="w-4 h-4" />}
         تفعيل المادة

@@ -1,31 +1,19 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
 import { DashboardLayoutWrapper } from "@/components/shared/DashboardLayoutWrapper";
+import { getTeacherSession } from "@/lib/teacher";
 
 export default async function TeacherLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-
-  if (!sessionId) {
-    redirect("/login");
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { id: sessionId },
-    select: { id: true, role: true },
-  });
-
-  if (!user || user.role !== "TEACHER") {
+  const session = await getTeacherSession();
+  if (!session) {
     redirect("/login");
   }
 
   return (
-    <DashboardLayoutWrapper role={user.role}>
+    <DashboardLayoutWrapper role={session.user.role}>
       {children}
     </DashboardLayoutWrapper>
   );

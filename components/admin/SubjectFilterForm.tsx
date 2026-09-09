@@ -15,7 +15,7 @@ export function SubjectFilterForm({
   return (
     <div className="relative inline-block w-64">
       <select 
-        className="w-full p-2.5 pr-4 pl-10 rounded-xl border border-slate-200 bg-white text-base font-bold focus:outline-none focus:ring-2 focus:ring-purple-600 appearance-none cursor-pointer"
+        className="input-field appearance-none cursor-pointer pl-10"
         value={selectedSubjectId || ""}
         onChange={(e) => {
           const params = new URLSearchParams(searchParams.toString());
@@ -33,7 +33,7 @@ export function SubjectFilterForm({
         ))}
       </select>
       <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-        <span className="text-slate-400">▼</span>
+        <span className="text-muted">▼</span>
       </div>
     </div>
   );

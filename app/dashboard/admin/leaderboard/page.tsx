@@ -1,87 +1,121 @@
-import { prisma } from "@/lib/prisma";
 import { HeroBanner } from "@/components/shared/HeroBanner";
-import { Trophy, Medal, MapPin, Award, Search, ChevronLeft, Phone } from "lucide-react";
-import { getWilayaName, LEVELS, STREAMS } from "@/lib/constants";
+import { Trophy, Medal, MapPin, Phone } from "lucide-react";
+import { getWilayaName } from "@/lib/constants";
+import { EDUCATION_LEVELS } from "@/lib/constants/education";
+import { STREAM_ARABIC } from "@/lib/education-labels";
+import { getRankedStudents, RANKING_RULES } from "@/lib/ranking";
+import { Level, Stream } from "@/generated/prisma";
+import Link from "next/link";
 
-export default async function AdminLeaderboardPage() {
-  // Fetch top students (we can show top 10 for admins)
-  const topStudents = await prisma.user.findMany({
-    where: { role: "STUDENT" },
-    include: { studentProfile: true },
-    orderBy: { studentProfile: { totalPoints: "desc" } },
-    take: 10,
-  });
+export default async function AdminLeaderboardPage(props: {
+  searchParams?: Promise<{ level?: string; stream?: string }>;
+}) {
+  const searchParams = await props.searchParams;
+  const level = searchParams?.level as Level | undefined;
+  const stream = searchParams?.stream as Stream | undefined;
+
+  const ranked = await getRankedStudents({ level, stream });
 
   return (
-    <div className="space-y-8">
-      <HeroBanner 
-        title="ترتيب الأوائل"
-        description="استعرض قائمة التلاميذ المتفوقين والأكثر نشاطاً في الأكاديمية بناءً على مجموع النقاط"
+    <div className="space-y-8 font-sans pb-12">
+      <HeroBanner
+        variant="hero"
+        title="الترتيب والنقاط"
+        description="الترتيب يُعاد حسابه من النشاط الفعلي: الاختبارات، الإجابات، الدخول، المواد، والأخطاء."
         icon={Trophy}
-        gradientClass="bg-gradient-to-r from-purple-600 to-orange-600"
       />
 
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-right">
-            <thead className="bg-white border-b border-slate-100">
+      <section className="surface-card p-5 md:p-6">
+        <h2 className="text-lg font-bold text-ink mb-3">معايير النقاط</h2>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+          {RANKING_RULES.map((rule) => (
+            <li key={rule.key} className="text-sm text-muted border border-line rounded-xl px-3 py-2">
+              {rule.label}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <form action="/dashboard/admin/leaderboard" className="flex flex-wrap gap-3">
+        <select name="level" defaultValue={level || ""} className="input-field w-auto min-w-[10rem]">
+          <option value="">جميع المستويات</option>
+          {Object.values(EDUCATION_LEVELS).flat().map((l) => (
+            <option key={l.value} value={l.value}>
+              {l.label}
+            </option>
+          ))}
+        </select>
+        <select name="stream" defaultValue={stream || ""} className="input-field w-auto min-w-[10rem]">
+          <option value="">جميع الشعب</option>
+          {Object.entries(STREAM_ARABIC).map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
+        <button type="submit" className="btn-primary">تطبيق</button>
+        <Link href="/dashboard/admin/leaderboard" className="btn-ghost">إلغاء</Link>
+      </form>
+
+      <div className="surface-panel overflow-hidden">
+        <div className="overflow-x-auto custom-scrollbar">
+          <table className="w-full data-table min-w-[880px]">
+            <thead>
               <tr>
-                <th className="px-6 py-4 text-sm font-black text-purple-800">الترتيب</th>
-                <th className="px-6 py-4 text-sm font-black text-purple-800">التلميذ</th>
-                <th className="px-6 py-4 text-sm font-black text-purple-800">النقاط</th>
-                <th className="px-6 py-4 text-sm font-black text-purple-800">المستوى والشعبة</th>
-                <th className="px-6 py-4 text-sm font-black text-purple-800">معلومات الاتصال</th>
+                <th>الترتيب</th>
+                <th>التلميذ</th>
+                <th>المجموع</th>
+                <th>تفصيل النقاط</th>
+                <th>معلومات الاتصال</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
-              {topStudents.length === 0 ? (
+            <tbody>
+              {ranked.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-slate-500 font-bold">
-                    لا يوجد تلاميذ مسجلين بعد
+                  <td colSpan={5} className="px-6 py-16 text-center text-muted">
+                    لا يوجد تلاميذ مسجّلون بعد
                   </td>
                 </tr>
               ) : (
-                topStudents.map((student, index) => {
+                ranked.map((student, index) => {
                   const rank = index + 1;
-                  const isTop3 = rank <= 3;
-                  const iconColor = rank === 1 ? "text-purple-700" : rank === 2 ? "text-slate-400" : rank === 3 ? "text-purple-800" : "text-purple-800";
-                  
-                  const levelStr = LEVELS.find(l => l.value === student.studentProfile?.level)?.label || "";
-                  const streamStr = STREAMS.find(s => s.value === student.studentProfile?.stream)?.label || "";
-
                   return (
-                    <tr key={student.id} className="hover:bg-white transition-colors">
-                      <td className="px-6 py-4">
+                    <tr key={student.id}>
+                      <td>
                         <div className="flex items-center gap-2">
-                          {isTop3 ? (
-                            <Medal className={`w-6 h-6 ${iconColor}`} />
+                          {rank <= 3 ? (
+                            <Medal className="w-6 h-6 text-primary" />
                           ) : (
-                            <div className="w-6 h-6 flex items-center justify-center font-bold text-slate-400 text-sm">
+                            <div className="w-6 h-6 flex items-center justify-center font-bold text-muted text-sm tabular-nums">
                               #{rank}
                             </div>
                           )}
                         </div>
                       </td>
-                      <td className="px-6 py-4">
-                        <p className="font-black text-purple-950">{student.fullName}</p>
+                      <td>
+                        <Link href={`/dashboard/admin/students/${student.id}`} className="font-semibold text-ink hover:text-primary">
+                          {student.fullName}
+                        </Link>
+                        <p className="text-xs text-muted">
+                          {student.level} · {student.stream}
+                        </p>
                       </td>
-                      <td className="px-6 py-4">
-                        <span className="bg-purple-100 text-purple-800 font-black px-3 py-1 rounded-full text-sm">
-                          {student.studentProfile?.totalPoints} نقطة
-                        </span>
+                      <td>
+                        <span className="badge-soft tabular-nums">{student.score} نقطة</span>
                       </td>
-                      <td className="px-6 py-4">
-                        <p className="text-sm font-bold text-purple-900">{levelStr}</p>
-                        <p className="text-xs font-medium text-slate-500">{streamStr}</p>
+                      <td>
+                        <p className="text-xs text-muted leading-6">
+                          اختبارات {student.parts.exams} · إجابات {student.parts.submissions} · تمارين {student.parts.stored} · نشاط {student.parts.activity} · مواد {student.parts.enrollments} · أخطاء −{student.parts.mistakes}
+                        </p>
                       </td>
-                      <td className="px-6 py-4 space-y-1">
-                        <div className="flex items-center gap-2 text-sm text-slate-600">
-                          <Phone className="w-4 h-4 text-slate-400" />
-                          <span dir="ltr" className="font-medium text-right">{student.phoneNumber}</span>
+                      <td className="space-y-1">
+                        <div className="flex items-center gap-2 text-sm text-muted">
+                          <Phone className="w-4 h-4 text-primary" />
+                          <span dir="ltr">{student.phone}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-sm text-slate-600">
-                          <MapPin className="w-4 h-4 text-slate-400" />
-                          <span className="font-medium">{getWilayaName(student.studentProfile?.wilaya)}</span>
+                        <div className="flex items-center gap-2 text-sm text-muted">
+                          <MapPin className="w-4 h-4 text-primary" />
+                          <span>{getWilayaName(student.wilaya)}</span>
                         </div>
                       </td>
                     </tr>

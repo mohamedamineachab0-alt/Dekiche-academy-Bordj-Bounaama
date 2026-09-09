@@ -16,6 +16,7 @@ export type RoadmapNode = {
 export type SubjectRoadmap = {
   subjectId: string;
   subjectTitle: string;
+  enrolledMonths: number[];
   months: {
     month: number;
     nodes: RoadmapNode[];
@@ -61,6 +62,12 @@ export async function getStudentRoadmap(studentId: string): Promise<SubjectRoadm
       }
     });
 
+    const completions = await prisma.lessonCompletion.findMany({
+      where: { studentId },
+      select: { lessonId: true },
+    });
+    const completedLessonIds = new Set(completions.map((row) => row.lessonId));
+
     const roadmaps: SubjectRoadmap[] = enrollments.map(enrollment => {
       const subject = enrollment.subject;
       const allNodes: RoadmapNode[] = [];
@@ -68,7 +75,9 @@ export async function getStudentRoadmap(studentId: string): Promise<SubjectRoadm
       // 1. Process Lessons
       subject.lessons.forEach(lesson => {
         let status: "COMPLETED" | "PENDING" | "NEEDS_REVIEW" = "PENDING";
-        if (lesson.mistakes.length > 0) {
+        if (completedLessonIds.has(lesson.id)) {
+          status = "COMPLETED";
+        } else if (lesson.mistakes.length > 0) {
           status = "NEEDS_REVIEW";
         }
         
@@ -76,7 +85,7 @@ export async function getStudentRoadmap(studentId: string): Promise<SubjectRoadm
           id: `lesson-${lesson.id}`,
           type: "LESSON",
           title: `درس: ${lesson.title}`,
-          href: `/dashboard/student/subjects/${subject.id}`,
+          href: `/dashboard/student/lessons/${lesson.id}`,
           month: lesson.month,
           status,
           createdAt: lesson.createdAt
@@ -100,8 +109,8 @@ export async function getStudentRoadmap(studentId: string): Promise<SubjectRoadm
           id: `exam-${exam.id}`,
           type: "EXAM",
           title: `اختبار: ${exam.title}`,
-          href: `/dashboard/student/exams`,
-          month: 1, // Fallback
+          href: `/dashboard/student/exams/${exam.id}`,
+          month: exam.month,
           status,
           score,
           createdAt: exam.createdAt
@@ -119,8 +128,8 @@ export async function getStudentRoadmap(studentId: string): Promise<SubjectRoadm
           id: `exercise-${exercise.id}`,
           type: "DAILY_EXERCISE",
           title: `تمرين: ${exercise.title}`,
-          href: `/dashboard/student/exercises`,
-          month: 1, // Fallback
+          href: `/dashboard/student/exercises/${exercise.id}`,
+          month: exercise.month,
           status,
           createdAt: exercise.createdAt
         });
@@ -161,6 +170,7 @@ export async function getStudentRoadmap(studentId: string): Promise<SubjectRoadm
       return {
         subjectId: subject.id,
         subjectTitle: subject.title,
+        enrolledMonths: enrollment.enrolledMonths,
         months
       };
     });

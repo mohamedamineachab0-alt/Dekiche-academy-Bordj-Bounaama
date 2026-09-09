@@ -4,11 +4,12 @@ import { useState } from "react";
 import { registerUser } from "@/actions/auth";
 import { EDUCATION_STAGES, EDUCATION_LEVELS, getStreamsForLevel } from "@/lib/constants/education";
 import {
-  User, Phone, Lock, GraduationCap, BookOpen,
-  Users, UserPlus, ChevronDown, Loader2, AlertCircle,
+  User, GraduationCap, BookOpen,
+  UserPlus, ChevronDown, Loader2, AlertCircle,
   Layers, Mail
 } from "lucide-react";
 import Link from "next/link";
+import { AuthPageShell } from "@/components/auth/AuthPageShell";
 
 function InputField({
   id, label, name, type = "text", placeholder, icon: Icon, dir,
@@ -22,16 +23,16 @@ function InputField({
   const isLtr = dir === "ltr";
 
   return (
-    <div className="flex flex-col gap-2 w-full">
-      <label htmlFor={id} className="block text-sm font-bold text-[#000000]">
-        {label} {required && <span className="text-[#7E22CE]">*</span>}
+    <div className="w-full">
+      <label htmlFor={id} className="field-label">
+        {label}
       </label>
-      
+
       <div className="relative flex items-center w-full" dir={dir || "rtl"}>
-        <div className={`absolute ${isLtr ? 'left-4' : 'right-4'} flex items-center justify-center text-[#000000] pointer-events-none`}>
-          <Icon className="w-5 h-5" />
-        </div>
-        
+        <span className={`absolute ${isLtr ? "left-3.5" : "right-3.5"} text-muted pointer-events-none`}>
+          <Icon className="w-4 h-4" />
+        </span>
+
         <input
           id={id}
           name={name}
@@ -42,7 +43,7 @@ function InputField({
           dir={dir}
           value={value}
           onChange={onChange}
-          className={`w-full ${isLtr ? 'pl-12 pr-4 text-left' : 'pr-12 pl-4 text-right'} py-3.5 rounded-xl border-[3px] border-[#000000] bg-white text-[#000000] font-bold text-base placeholder:text-gray-400 focus:outline-none focus:ring-4 focus:ring-[#7E22CE]/20 transition-all shadow-sm`}
+          className={`input-field ${isLtr ? "pl-10 text-left" : "pr-10 text-right"}`}
         />
       </div>
     </div>
@@ -58,15 +59,15 @@ function SelectField({
   value: string; onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }) {
   return (
-    <div className="flex flex-col gap-2 w-full">
-      <label htmlFor={id} className="block text-sm font-bold text-[#000000]">
-        {label} <span className="text-[#7E22CE]">*</span>
+    <div className="w-full">
+      <label htmlFor={id} className="field-label">
+        {label}
       </label>
 
       <div className="relative flex items-center w-full" dir="rtl">
-        <div className="absolute right-4 flex items-center justify-center text-[#000000] pointer-events-none">
-          <Icon className="w-5 h-5" />
-        </div>
+        <span className="absolute right-3.5 text-muted pointer-events-none">
+          <Icon className="w-4 h-4" />
+        </span>
 
         <select
           id={id}
@@ -74,15 +75,15 @@ function SelectField({
           required
           value={value}
           onChange={onChange}
-          className="w-full pr-12 pl-10 py-3.5 rounded-xl border-[3px] border-[#000000] bg-white text-[#000000] font-bold text-base appearance-none cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#7E22CE]/20 transition-all shadow-sm"
+          className="input-field pr-10 pl-10 appearance-none cursor-pointer"
         >
           <option value="" disabled>{placeholder}</option>
           {options.map(o => (
             <option key={o.value} value={o.value}>{o.label}</option>
           ))}
         </select>
-        
-        <ChevronDown className="absolute left-4 w-5 h-5 text-[#000000] pointer-events-none" />
+
+        <ChevronDown className="absolute left-3.5 w-4 h-4 text-muted pointer-events-none" />
       </div>
     </div>
   );
@@ -91,8 +92,8 @@ function SelectField({
 function ErrorBanner({ message }: { message?: string }) {
   if (!message) return null;
   return (
-    <div className="flex items-start gap-2 bg-red-50 border-[3px] border-red-200 text-red-800 rounded-xl px-4 py-3 text-sm font-bold mb-6 shadow-3d-soft animate-in fade-in zoom-in duration-300">
-      <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+    <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
+      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
       <span>{message}</span>
     </div>
   );
@@ -102,7 +103,7 @@ export default function RegisterPage() {
   const [role, setRole] = useState<"STUDENT" | "PARENT">("STUDENT");
   const [error, setError] = useState<string | undefined>();
   const [isPending, setIsPending] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
@@ -114,10 +115,10 @@ export default function RegisterPage() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setError(undefined);
     const { name, value } = e.target;
-    
+
     setFormData(prev => {
       const next = { ...prev, [name]: value };
-      
+
       if (name === "phase") {
         next.level = "";
         next.stream = "";
@@ -125,7 +126,7 @@ export default function RegisterPage() {
       if (name === "level") {
         next.stream = "";
       }
-      
+
       return next;
     });
   };
@@ -135,7 +136,7 @@ export default function RegisterPage() {
 
     setIsPending(true);
     setError(undefined);
-    
+
     try {
       const data = new FormData(e.currentTarget);
       const res = await registerUser(data);
@@ -165,77 +166,69 @@ export default function RegisterPage() {
   const shouldShowStreams = formData.phase === "SECONDARY" && currentStreams.length > 1;
 
   return (
-    <div className="relative min-h-screen font-sans flex items-center justify-center p-4 py-12" dir="rtl">
-      
-      <div className="relative z-10 w-full max-w-2xl">
-        
-        {/* Decorative Background Card */}
-        <div className="absolute inset-0 bg-[#4C1D95] rounded-3xl transform -rotate-1 border-[3px] border-[#000000] shadow-3d-deep"></div>
-
-        <div className="relative bg-[#FFFFFF] rounded-3xl border-[3px] border-[#000000] overflow-hidden p-8 md:p-10 shadow-3d-deep paper-cut">
-          
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-[#000000] rounded-2xl border-[3px] border-[#000000] shadow-3d-soft mb-6 transform rotate-3">
-              <UserPlus className="w-8 h-8 text-white" />
-            </div>
-            <h1 className="text-3xl font-black text-[#000000] leading-tight mb-2">إنشاء حساب جديد</h1>
-            <h2 className="text-xl font-bold text-[#7E22CE]">أكاديمية دقيش</h2>
+    <AuthPageShell maxWidthClass="max-w-2xl">
+        <div className="auth-glass-card p-7 md:p-9">
+          <div className="mb-7">
+            <h1 className="text-xl font-bold text-ink mb-1.5">إنشاء حساب جديد</h1>
+            <p className="text-sm text-muted">اختر نوع الحساب ثم أكمل بياناتك.</p>
           </div>
 
-          {/* Role Toggle */}
-          <div className="flex bg-[#EAE4D9] p-1.5 rounded-2xl mb-8 border-[3px] border-[#000000]">
+          {/* Role toggle */}
+          <div className="flex gap-1 p-1 rounded-xl bg-surface-muted mb-7">
             <button
               type="button"
               onClick={() => { setRole("STUDENT"); setError(undefined); }}
-              className={`flex-1 py-3 text-sm font-black rounded-xl transition-all duration-300 ${role === "STUDENT" ? "bg-[#FFFFFF] text-[#000000] border-[3px] border-[#000000] shadow-3d-soft" : "text-gray-500 hover:text-[#7E22CE]"}`}
+              className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-colors ${
+ role === "STUDENT" ? "bg-surface text-primary shadow-3d-soft" : "text-muted hover:text-ink"
+ }`}
             >
               حساب تلميذ
             </button>
             <button
               type="button"
               onClick={() => { setRole("PARENT"); setError(undefined); }}
-              className={`flex-1 py-3 text-sm font-black rounded-xl transition-all duration-300 ${role === "PARENT" ? "bg-[#FFFFFF] text-[#000000] border-[3px] border-[#000000] shadow-3d-soft" : "text-gray-500 hover:text-[#7E22CE]"}`}
+              className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-colors ${
+ role === "PARENT" ? "bg-surface text-primary shadow-3d-soft" : "text-muted hover:text-ink"
+ }`}
             >
-              حساب ولي
+              حساب وليّ أمر
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <input type="hidden" name="role" value={role} />
             <input type="hidden" name="stream" value={shouldShowStreams ? formData.stream : "NONE"} />
-            
+
             <ErrorBanner message={error} />
 
             <div className="space-y-5">
               <InputField id="reg-name" label="الاسم الكامل" name="fullName"
-                placeholder="أدخل الاسم الكامل" icon={User} autoComplete="name" 
+                placeholder="أدخل الاسم الكامل" icon={User} autoComplete="name"
                 value={formData.fullName} onChange={handleInputChange} />
-                
+
               <InputField id="reg-phone" label="البريد الإلكتروني أو رقم الهاتف" name="phoneNumber" type="text"
-                placeholder="أدخل بريدك أو رقم هاتفك" icon={Mail} dir="rtl" autoComplete="email" 
+                placeholder="أدخل بريدك أو رقم هاتفك" icon={Mail} dir="rtl" autoComplete="email"
                 value={formData.phoneNumber} onChange={handleInputChange} />
             </div>
 
             {role === "STUDENT" && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4 border-t-[3px] border-[#000000]/10 border-dashed">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-5 border-t border-line">
                 <SelectField
                   id="reg-phase" label="الطور التعليمي" name="phase" icon={Layers}
                   placeholder="اختر الطور"
                   options={EDUCATION_STAGES as any}
                   value={formData.phase} onChange={handleInputChange}
                 />
-                
-                <div className="animate-fade-in-up">
-                  <SelectField
-                    id="reg-level" label="المستوى الدراسي" name="level" icon={GraduationCap}
-                    placeholder="اختر المستوى"
-                    options={currentLevels as any}
-                    value={formData.level} onChange={handleInputChange}
-                  />
-                </div>
-                
+
+                <SelectField
+                  id="reg-level" label="المستوى الدراسي" name="level" icon={GraduationCap}
+                  placeholder="اختر المستوى"
+                  options={currentLevels as any}
+                  value={formData.level} onChange={handleInputChange}
+                />
+
                 {shouldShowStreams && (
-                  <div className="md:col-span-2 animate-fade-in-up">
+                  <div className="md:col-span-2">
                     <SelectField
                       id="reg-stream" label="الشعبة" name="stream" icon={BookOpen}
                       placeholder="اختر الشعبة"
@@ -247,27 +240,19 @@ export default function RegisterPage() {
               </div>
             )}
 
-            <button
-              type="submit"
-              disabled={isPending}
-              className="w-full flex items-center justify-center gap-2 bg-[#7E22CE] hover:bg-[#6B21A8] text-white font-black py-4 rounded-xl shadow-3d-soft shadow-3d-hover mt-6 disabled:opacity-70 disabled:cursor-not-allowed border-[3px] border-[#000000]"
-            >
-              {isPending ? <Loader2 className="w-6 h-6 animate-spin" /> : <UserPlus className="w-6 h-6" />}
+            <button type="submit" disabled={isPending} className="btn-primary w-full">
+              {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <UserPlus className="w-4 h-4" />}
               {isPending ? "جاري إنشاء الحساب..." : "إنشاء حساب"}
             </button>
           </form>
 
-          <div className="mt-8 text-center pt-6 border-t-[3px] border-[#000000]/10">
-            <p className="text-[#000000] text-sm font-bold">
-              لديك حساب بالفعل؟{" "}
-              <Link href="/login" className="text-[#7E22CE] hover:text-[#4C1D95] font-black underline underline-offset-4 transition-colors">
-                تسجيل الدخول
-              </Link>
-            </p>
-          </div>
+          <p className="mt-7 pt-6 border-t border-line text-center text-sm text-muted">
+            لديك حساب بالفعل؟{" "}
+            <Link href="/login" className="font-semibold text-primary hover:text-primary-hover transition-colors">
+              تسجيل الدخول
+            </Link>
+          </p>
         </div>
-
-      </div>
-    </div>
+    </AuthPageShell>
   );
 }

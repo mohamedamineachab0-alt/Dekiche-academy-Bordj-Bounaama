@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { STREAMS, LEVELS } from "@/lib/constants";
+import { labelLevel, labelStream } from "@/lib/education-labels";
 import { Video, Calendar, Plus, Link as LinkIcon, Trash2 } from "lucide-react";
 import { createLiveClass, deleteLiveClass } from "@/actions/live";
 import { HeroBanner } from "@/components/shared/HeroBanner";
@@ -16,147 +16,184 @@ export default async function TeacherLiveClassesPage() {
     where: { id: sessionId },
     include: {
       teacherProfile: {
-        include: { subjects: true }
-      }
-    }
+        include: { subjects: true },
+      },
+    },
   });
 
   if (!user || !user.teacherProfile) redirect("/login");
 
   const teacher = user.teacherProfile;
-  const subjectIds = teacher.subjects.map(s => s.id);
+  const subjectIds = teacher.subjects.map((s) => s.id);
 
   const liveClasses = await prisma.liveClass.findMany({
     where: {
-      subjectId: { in: subjectIds }
+      subjectId: { in: subjectIds },
     },
     orderBy: { date: "asc" },
     include: {
       subject: true,
-    }
+    },
   });
 
   return (
-    <div className="space-y-6">
-      <HeroBanner 
+    <div className="space-y-8 font-sans pb-12">
+      <HeroBanner
+        variant="hero"
         title="حصصي المباشرة"
-        description="قم ببرمجة حصص البث المباشر لتلاميذك وتوفير روابط الزوم الخاصة بالدروس"
+        description="برمّج حصص البث وشارك روابط الزوم مع تلاميذك."
         icon={Video}
-        bgClass="bg-[#EC4899]"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* Creation Form */}
         <div className="lg:col-span-1">
-          <div className="bg-[#FFFFFF] rounded-2xl shadow-3d-soft border-[4px] border-[#000000] paper-cut p-6 sticky top-6 border-dashed">
-            <h2 className="text-xl font-black text-[#000000] mb-6 flex items-center gap-2 border-b-[3px] border-[#000000] pb-4 border-dashed">
-              <div className="w-8 h-8 rounded-lg bg-[#22C55E] border-[2px] border-[#000000] flex items-center justify-center transform -rotate-3">
-                <Plus className="w-5 h-5 text-[#000000]" />
-              </div>
-              برمجة حصة جديدة
-            </h2>
-            
-            <form action={async (formData) => { "use server"; await createLiveClass(formData); }} className="space-y-5">
-              <div className="space-y-2">
-                <label className="text-sm font-black text-[#000000]">عنوان الحصة <span className="text-[#EF4444]">*</span></label>
-                <input type="text" name="title" required className="w-full p-3.5 rounded-xl border-[3px] border-[#000000] bg-[#FFFFFF] text-base font-bold focus:outline-none focus:ring-4 focus:ring-[#000000]/10 shadow-sm" placeholder="مثال: مراجعة شاملة" />
+          <div className="surface-card p-6 sticky top-6">
+            <div className="flex items-center gap-3 mb-5 pb-4 border-b border-line">
+              <span className="icon-tile">
+                <Plus className="w-4 h-4" />
+              </span>
+              <h2 className="text-lg font-bold text-ink">برمجة حصة جديدة</h2>
+            </div>
+
+            <form
+              action={async (formData) => {
+                "use server";
+                await createLiveClass(formData);
+              }}
+              className="space-y-4"
+            >
+              <div>
+                <label className="field-label">عنوان الحصة</label>
+                <input
+                  type="text"
+                  name="title"
+                  required
+                  className="input-field"
+                  placeholder="مثال: مراجعة شاملة"
+                />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-black text-[#000000]">المادة الدراسية <span className="text-[#EF4444]">*</span></label>
-                <select name="subjectId" required className="w-full p-3.5 rounded-xl border-[3px] border-[#000000] bg-[#FFFFFF] text-base font-bold focus:outline-none focus:ring-4 focus:ring-[#000000]/10 shadow-sm cursor-pointer appearance-none">
+              <div>
+                <label className="field-label">المادة الدراسية</label>
+                <select name="subjectId" required className="input-field">
                   <option value="">اختر المادة</option>
-                  {teacher.subjects.map(s => {
-                    const levelStr = LEVELS.find(l => l.value === s.levels?.[0])?.label || s.levels?.[0] || '';
-                    const streamStr = STREAMS.find(st => st.value === s.streams?.[0])?.label || s.streams?.[0] || '';
+                  {teacher.subjects.map((s) => {
+                    const levelStr = labelLevel(s.levels?.[0]);
+                    const streamStr = labelStream(s.streams?.[0]);
                     return (
                       <option key={s.id} value={s.id}>
                         {s.title} ({levelStr} - {streamStr})
                       </option>
-                    )
+                    );
                   })}
                 </select>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-black text-[#000000]">رابط الزوم <span className="text-[#EF4444]">*</span></label>
-                <input type="url" name="zoomLink" required dir="ltr" className="w-full p-3.5 rounded-xl border-[3px] border-[#000000] bg-[#FFFFFF] text-base font-bold focus:outline-none focus:ring-4 focus:ring-[#000000]/10 shadow-sm text-left" placeholder="https://zoom.us/j/..." />
+              <div>
+                <label className="field-label">رابط الزوم</label>
+                <input
+                  type="url"
+                  name="zoomLink"
+                  required
+                  dir="ltr"
+                  className="input-field text-left"
+                  placeholder="https://zoom.us/j/..."
+                />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-black text-[#000000]">التاريخ والوقت <span className="text-[#EF4444]">*</span></label>
-                  <input type="datetime-local" name="date" required className="w-full p-3.5 rounded-xl border-[3px] border-[#000000] bg-[#FFFFFF] text-base font-bold focus:outline-none focus:ring-4 focus:ring-[#000000]/10 shadow-sm" />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="field-label">التاريخ والوقت</label>
+                  <input type="datetime-local" name="date" required className="input-field" />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-black text-[#000000]">الشهر <span className="text-[#EF4444]">*</span></label>
-                  <input type="number" min="1" max="12" name="month" required className="w-full p-3.5 rounded-xl border-[3px] border-[#000000] bg-[#FFFFFF] text-base font-bold focus:outline-none focus:ring-4 focus:ring-[#000000]/10 shadow-sm" placeholder="9" />
+                <div>
+                  <label className="field-label">الشهر</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="12"
+                    name="month"
+                    required
+                    className="input-field"
+                    placeholder="9"
+                  />
                 </div>
               </div>
 
-              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#000000] text-[#FFFFFF] font-black py-4 rounded-xl border-[3px] border-[#000000] shadow-3d-soft hover:shadow-3d-hover hover:-translate-y-1 transition-transform mt-4">
-                <Calendar className="w-5 h-5" />
+              <button type="submit" className="btn-primary w-full mt-2">
+                <Calendar className="w-4 h-4" />
                 برمجة الحصة
               </button>
             </form>
           </div>
         </div>
 
-        {/* List */}
         <div className="lg:col-span-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {liveClasses.map(liveClass => {
-              const levelStr = LEVELS.find(l => l.value === liveClass.subject.levels?.[0])?.label || liveClass.subject.levels?.[0] || '';
-              const formattedDate = new Date(liveClass.date).toLocaleString('ar-DZ', { 
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+            {liveClasses.map((liveClass) => {
+              const levelStr = labelLevel(liveClass.subject.levels?.[0]);
+              const formattedDate = new Date(liveClass.date).toLocaleString("ar-DZ", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
               });
 
               return (
-                <div key={liveClass.id} className="bg-[#FFFFFF] rounded-2xl shadow-3d-soft border-[4px] border-[#000000] paper-cut p-6 flex flex-col hover:-translate-y-1 hover:shadow-3d-hover transition-transform">
-                  <div className="flex items-start justify-between mb-6">
-                    <div className="w-14 h-14 rounded-xl bg-[#EC4899] border-[3px] border-[#000000] shadow-sm flex items-center justify-center text-[#FFFFFF] shrink-0 transform -rotate-3">
-                      <Video className="w-7 h-7" />
-                    </div>
-                    <form action={async () => { "use server"; await deleteLiveClass(liveClass.id); }}>
-                      <button type="submit" className="p-2.5 text-[#EF4444] border-[3px] border-[#EF4444] bg-[#FFFFFF] hover:bg-[#EF4444] hover:text-[#FFFFFF] rounded-xl transition-colors shadow-sm transform rotate-2">
-                        <Trash2 className="w-5 h-5" />
+                <article key={liveClass.id} className="surface-card p-5 flex flex-col">
+                  <div className="flex items-start justify-between mb-4">
+                    <span className="icon-tile-solid">
+                      <Video className="w-5 h-5" />
+                    </span>
+                    <form
+                      action={async () => {
+                        "use server";
+                        await deleteLiveClass(liveClass.id);
+                      }}
+                    >
+                      <button
+                        type="submit"
+                        className="p-2 text-red-600 border border-red-200 rounded-xl hover:bg-red-50"
+                      >
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </form>
                   </div>
 
-                  <h3 className="font-black text-[#000000] text-2xl mb-3 leading-tight">{liveClass.title}</h3>
-                  <div className="bg-[#FFFFFF] border-[3px] border-[#000000] text-[#000000] text-sm font-black px-4 py-2 rounded-xl inline-block mb-6 shadow-sm transform -rotate-1 self-start">
-                    {liveClass.subject.title} • {levelStr}
-                  </div>
+                  <h3 className="font-bold text-ink text-lg mb-2 leading-snug">{liveClass.title}</h3>
+                  <span className="badge-outline w-fit mb-4">
+                    {liveClass.subject.title} · {levelStr}
+                  </span>
 
-                  <div className="space-y-4 flex-1">
-                    <div className="flex items-center gap-3 text-base font-bold text-[#000000]/70">
-                      <Calendar className="w-5 h-5 text-[#000000]" />
-                      {formattedDate}
-                    </div>
-                  </div>
+                  <p className="flex items-center gap-2 text-sm text-muted flex-1 mb-4">
+                    <Calendar className="w-4 h-4 text-primary shrink-0" />
+                    {formattedDate}
+                  </p>
 
-                  <a 
-                    href={liveClass.zoomLink} 
-                    target="_blank" 
+                  <a
+                    href={liveClass.zoomLink}
+                    target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-8 flex items-center justify-center gap-2 w-full py-4 bg-[#7E22CE] text-[#FFFFFF] font-black rounded-xl border-[3px] border-[#000000] shadow-3d-soft hover:shadow-3d-hover hover:-translate-y-1 transition-transform"
+                    className="btn-primary w-full"
                   >
-                    <LinkIcon className="w-5 h-5" />
-                    دخول الحصة (الزوم)
+                    <LinkIcon className="w-4 h-4" />
+                    دخول الحصة
                   </a>
-                </div>
-              )
+                </article>
+              );
             })}
             {liveClasses.length === 0 && (
-              <div className="col-span-full py-16 text-center text-[#000000]/50 font-black text-xl border-[4px] border-[#000000] border-dashed rounded-2xl bg-[#FFFFFF] paper-cut">
-                لم تقم ببرمجة أي حصة مباشرة بعد
+              <div className="col-span-full surface-card px-6 py-16 text-center">
+                <span className="icon-tile mx-auto mb-4">
+                  <Video className="w-5 h-5" />
+                </span>
+                <p className="text-sm text-muted">لم تبرمج أي حصة مباشرة بعد.</p>
               </div>
             )}
           </div>
         </div>
-
       </div>
     </div>
   );

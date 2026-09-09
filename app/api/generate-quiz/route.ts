@@ -1,90 +1,77 @@
-import { NextResponse } from 'next/server';
-import OpenAI from 'openai';
-import { prisma } from '@/lib/prisma';
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import {
+  generateQuizFromSources,
+  type GenerateQuizInput,
+  type QuizSourceFile,
+} from "@/lib/ai/generate-quiz";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+export const runtime = "nodejs";
+export const maxDuration = 60;
+
+async function parseBody(req: Request): Promise<GenerateQuizInput & { persist?: boolean; lessonId?: string }> {
+  const contentType = req.headers.get("content-type") || "";
+
+  if (contentType.includes("multipart/form-data")) {
+    const form = await req.formData();
+    const uploaded = form.getAll("files").filter((value): value is File => value instanceof File && value.size > 0);
+    const files: QuizSourceFile[] = [];
+
+    for (const file of uploaded) {
+      files.push({
+        name: file.name,
+        mimeType: file.type,
+        buffer: Buffer.from(await file.arrayBuffer()),
+      });
+    }
+
+    return {
+      files,
+      numberOfQuestions: Number(form.get("numberOfQuestions") || 5),
+      totalPoints: Number(form.get("totalPoints") || 20),
+      language: String(form.get("language") || form.get("forcedLanguage") || ""),
+      title: String(form.get("title") || form.get("lessonTitle") || ""),
+      lessonTitle: String(form.get("lessonTitle") || ""),
+      subjectName: String(form.get("subjectName") || form.get("subjectTitle") || ""),
+      subjectTitle: String(form.get("subjectTitle") || ""),
+      level: String(form.get("level") || ""),
+      persist: form.get("persist") === "true",
+      lessonId: String(form.get("lessonId") || "") || undefined,
+    };
+  }
+
+  return (await req.json()) as GenerateQuizInput & { persist?: boolean; lessonId?: string };
+}
 
 export async function POST(req: Request) {
   try {
-    const { lessonId, imageBase64, pdfText, lessonTitle, subjectTitle, level, numberOfQuestions, totalPoints, forcedLanguage } = await req.json();
+    const body = await parseBody(req);
+    const { persist, lessonId, ...input } = body;
 
-    if (!lessonId || !numberOfQuestions || !totalPoints) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
-    }
+    const result = await generateQuizFromSources(input);
 
-    const isSTEM = ["Math", "Physics", "Science", "رياضيات", "فيزياء", "علوم"].some(s => subjectTitle?.includes(s));
-    let language = forcedLanguage;
-    
-    if (!language) {
-      if (["English", "إنجليزية"].some(s => subjectTitle?.includes(s))) language = "English";
-      else if (["French", "فرنسية"].some(s => subjectTitle?.includes(s))) language = "French";
-      else language = "Arabic";
-    }
-
-    const systemPrompt = `You are an expert AI quiz generator for the Algerian curriculum.
-Task: Generate exactly ${numberOfQuestions} QCM questions.
-Language: ${language}. Subject: ${subjectTitle} (${level}). Lesson: ${lessonTitle}.
-
-RULES:
-1. Return exactly ${numberOfQuestions} questions.
-2. Each question MUST have exactly 4 options.
-3. Provide the correct answer index (0-3).
-4. ${isSTEM ? "This is a STEM subject. ALL math formulas, numbers, and variables MUST be wrapped in LaTeX `$` (e.g., $f(x) = x^2$). Double-escape backslashes." : "This is a literary subject. DO NOT use LaTeX or math symbols."}
-
-Return ONLY a JSON object in this format:
-{
-  "questions": [
-    {
-      "id": "uuid",
-      "question": "Question text",
-      "options": ["Opt1", "Opt2", "Opt3", "Opt4"],
-      "correctAnswerIndex": 0,
-      "points": ${totalPoints / numberOfQuestions}
-    }
-  ]
-}`;
-
-    const messages: any[] = [{ role: 'system', content: systemPrompt }];
-
-    if (imageBase64) {
-      messages.push({
-        role: 'user',
-        content: [
-          { type: 'text', text: 'Generate questions from this image.' },
-          { type: 'image_url', image_url: { url: imageBase64.startsWith('data:') ? imageBase64 : `data:image/jpeg;base64,${imageBase64}` } }
-        ]
+    if (persist && lessonId) {
+      const quiz = await prisma.quiz.upsert({
+        where: { lessonId },
+        update: {
+          questions: result.questions,
+          maxScore: Number(input.totalPoints) || 20,
+          aiGenerated: true,
+        },
+        create: {
+          lessonId,
+          questions: result.questions,
+          maxScore: Number(input.totalPoints) || 20,
+          aiGenerated: true,
+        },
       });
-    } else {
-      messages.push({ role: 'user', content: `Context: ${pdfText || lessonTitle}` });
+      return NextResponse.json({ success: true, questions: result.questions, source: result.source, quiz });
     }
 
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages,
-      response_format: { type: 'json_object' },
-    });
-
-    const parsed = JSON.parse(response.choices[0].message.content || "{}");
-    if (!parsed.questions || parsed.questions.length !== numberOfQuestions) {
-      throw new Error('AI returned an invalid question count.');
-    }
-
-    const sanitizedQuestions = parsed.questions.map((q: any) => ({
-      id: crypto.randomUUID(),
-      question: q.question,
-      options: Array.isArray(q.options) && q.options.length === 4 ? q.options : ["A", "B", "C", "D"],
-      correctAnswerIndex: q.correctAnswerIndex ?? 0,
-      points: Number((totalPoints / numberOfQuestions).toFixed(2))
-    }));
-
-    const quiz = await prisma.quiz.upsert({
-      where: { lessonId },
-      update: { questions: sanitizedQuestions, maxScore: totalPoints, aiGenerated: true },
-      create: { lessonId, questions: sanitizedQuestions, maxScore: totalPoints, aiGenerated: true },
-    });
-
-    return NextResponse.json({ success: true, quiz });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ success: true, questions: result.questions, source: result.source });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "فشل توليد الاختبار";
+    console.error("generate-quiz failed", error);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

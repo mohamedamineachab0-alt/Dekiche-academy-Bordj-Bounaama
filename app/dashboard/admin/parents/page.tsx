@@ -26,12 +26,12 @@ export default async function AdminParentsPage() {
   const students = await getStudentsWithParents();
 
   return (
-    <div className="space-y-8">
-      <HeroBanner 
+    <div className="space-y-8 font-sans pb-12">
+      <HeroBanner
+        variant="hero"
         title="مراسلة الأولياء"
-        description="استعرض قائمة التلاميذ المسجلين وتواصل مباشرة مع أوليائهم عبر إرسال إشعارات وتنبيهات بخصوص الغيابات أو التقدم"
+        description="استعرض قائمة التلاميذ وتواصل مع أوليائهم بخصوص الغياب أو التقدّم."
         icon={Users}
-        bgClass="bg-[#7E22CE]"
       />
 
       <ParentsTableClient students={students} />

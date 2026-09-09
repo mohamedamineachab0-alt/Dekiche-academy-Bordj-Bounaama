@@ -67,15 +67,28 @@ export const getWilayaName = (code?: string | null) => {
 };
 
 export const LEVELS = [
-  { value: "AS2", label: "السنة الثانية ثانوي" },
-  { value: "AS3", label: "السنة الثالثة ثانوي (شهادة الباكالوريا)" },
+  { value: "PRIMARY_1", label: "السنة الأولى ابتدائي" },
+  { value: "PRIMARY_2", label: "السنة الثانية ابتدائي" },
+  { value: "PRIMARY_3", label: "السنة الثالثة ابتدائي" },
+  { value: "PRIMARY_4", label: "السنة الرابعة ابتدائي" },
+  { value: "PRIMARY_5", label: "السنة الخامسة ابتدائي" },
+  { value: "MIDDLE_1", label: "السنة الأولى متوسط" },
+  { value: "MIDDLE_2", label: "السنة الثانية متوسط" },
+  { value: "MIDDLE_3", label: "السنة الثالثة متوسط" },
+  { value: "MIDDLE_4", label: "السنة الرابعة متوسط" },
+  { value: "SECONDARY_1", label: "السنة الأولى ثانوي" },
+  { value: "SECONDARY_2", label: "السنة الثانية ثانوي" },
+  { value: "SECONDARY_3", label: "السنة الثالثة ثانوي" },
 ];
 
 export const STREAMS = [
-  { value: "SCIENCES",    label: "شعبة علوم تجريبية" },
-  { value: "MATH",        label: "شعبة رياضيات" },
-  { value: "TECH_MATH",   label: "شعبة تقني رياضي" },
-  { value: "GESTION",     label: "شعبة تسيير واقتصاد" },
-  { value: "LETTRES",     label: "شعبة آداب وفلسفة" },
-  { value: "LANGUAGES",   label: "شعبة لغات أجنبية" },
+  { value: "NONE", label: "بدون شعبة" },
+  { value: "COMMON_SCIENCE", label: "جذع مشترك علوم وتكنولوجيا" },
+  { value: "COMMON_LETTERS", label: "جذع مشترك آداب" },
+  { value: "EXPERIMENTAL_SCIENCES", label: "علوم تجريبية" },
+  { value: "MATHEMATICS", label: "رياضيات" },
+  { value: "TECHNICAL_MATH", label: "تقني رياضي" },
+  { value: "MANAGEMENT_ECONOMY", label: "تسيير واقتصاد" },
+  { value: "LITERATURE_PHILOSOPHY", label: "آداب وفلسفة" },
+  { value: "FOREIGN_LANGUAGES", label: "لغات أجنبية" },
 ];

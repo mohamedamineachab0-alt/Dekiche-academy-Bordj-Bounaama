@@ -27,7 +27,7 @@ export function ExportTableButton({ targetId }: { targetId: string }) {
   return (
     <button
       onClick={handleExport}
-      className="flex items-center justify-center gap-2 bg-purple-800 hover:bg-purple-800 text-white font-bold py-2.5 px-4 rounded-xl transition-colors shadow-sm"
+      className="btn-primary"
     >
       <Download className="w-4 h-4" />
       تصدير كصورة

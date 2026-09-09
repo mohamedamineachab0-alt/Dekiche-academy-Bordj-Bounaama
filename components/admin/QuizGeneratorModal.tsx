@@ -3,9 +3,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2, Wand2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 
 export default function QuizGeneratorModal({ lessonId, lessonTitle, subjectTitle, level }: any) {
   const [loading, setLoading] = useState(false);
@@ -38,29 +35,29 @@ export default function QuizGeneratorModal({ lessonId, lessonTitle, subjectTitle
         AI Quiz Generator
       </h2>
       <div className="space-y-4">
-        <div>
-          <Label className="text-neutral-400">Questions Count</Label>
-          <Input 
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-neutral-400">Questions Count</label>
+          <input 
             type="number" 
-            className="bg-neutral-900 border-neutral-800 text-white" 
+            className="w-full px-3 py-2 rounded-md bg-neutral-900 border border-neutral-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" 
             value={params.numberOfQuestions} 
             onChange={e => setParams({...params, numberOfQuestions: Number(e.target.value)})} 
           />
         </div>
-        <div>
-          <Label className="text-neutral-400">Total Points</Label>
-          <Input 
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-neutral-400">Total Points</label>
+          <input 
             type="number" 
-            className="bg-neutral-900 border-neutral-800 text-white" 
+            className="w-full px-3 py-2 rounded-md bg-neutral-900 border border-neutral-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" 
             value={params.totalPoints} 
             onChange={e => setParams({...params, totalPoints: Number(e.target.value)})} 
           />
         </div>
-        <div>
-          <Label className="text-neutral-400">Language (Optional)</Label>
-          <Input 
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-neutral-400">Language (Optional)</label>
+          <input 
             placeholder="e.g. Arabic, French"
-            className="bg-neutral-900 border-neutral-800 text-white" 
+            className="w-full px-3 py-2 rounded-md bg-neutral-900 border border-neutral-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" 
             value={params.forcedLanguage} 
             onChange={e => setParams({...params, forcedLanguage: e.target.value})} 
           />
@@ -68,10 +65,10 @@ export default function QuizGeneratorModal({ lessonId, lessonTitle, subjectTitle
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
 
-        <Button 
+        <button 
           onClick={handleGenerate} 
           disabled={loading}
-          className="w-full bg-purple-600 hover:bg-purple-700 text-white relative overflow-hidden transition-all"
+          className="w-full py-2 px-4 rounded-md bg-purple-600 hover:bg-purple-700 text-white font-medium relative overflow-hidden transition-colors disabled:opacity-50"
         >
           <AnimatePresence mode="wait">
             {loading ? (
@@ -84,7 +81,7 @@ export default function QuizGeneratorModal({ lessonId, lessonTitle, subjectTitle
               </motion.span>
             )}
           </AnimatePresence>
-        </Button>
+        </button>
       </div>
     </div>
   );

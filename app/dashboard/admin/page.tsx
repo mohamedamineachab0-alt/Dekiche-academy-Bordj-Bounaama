@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { HeroBanner } from "@/components/shared/HeroBanner";
-import { Calendar, LayoutDashboard, Sparkles } from "lucide-react";
+import { Calendar, LayoutDashboard, Users } from "lucide-react";
 import Link from "next/link";
 import { getAdminAnalyticsHub } from "@/lib/admin-analytics";
 import { getCachedAdminInsights } from "@/actions/admin-insights";
@@ -27,7 +27,7 @@ export default async function AdminDashboardPage() {
         icon={LayoutDashboard}
         action={
           <Link href="/dashboard/admin/students/monitoring" className="btn-primary w-full md:w-auto">
-            <Sparkles className="w-4 h-4" />
+            <Users className="w-4 h-4" />
             ملفات التلاميذ
           </Link>
         }

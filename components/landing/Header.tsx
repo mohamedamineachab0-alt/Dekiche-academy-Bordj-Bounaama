@@ -8,6 +8,7 @@ import { SocialLinks, PhoneLink } from "@/components/landing/art/FacebookIcon";
 const NAV_LINKS = [
   { href: "#why-us", label: "لماذا نحن" },
   { href: "#how", label: "طريقة العمل" },
+  { href: "#prayer", label: "مواقيت الصلاة" },
   { href: "#faq", label: "الأسئلة" },
 ];
 

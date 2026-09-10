@@ -8,7 +8,6 @@ import {
   BookOpen,
   BrainCircuit,
   Key,
-  Sparkles,
   UserMinus,
   Users,
 } from "lucide-react";
@@ -276,7 +275,7 @@ export function AdminAnalyticsHub({
           <div className="flex items-start justify-between gap-3 mb-4">
             <div>
               <h2 className="text-lg font-bold text-ink flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-primary" />
+                <BrainCircuit className="w-5 h-5 text-primary" />
                 رؤى الإدارة
               </h2>
               <p className="text-sm text-muted mt-1">توصيات عملية من مؤشرات المنصة{ai?.source === "ai" ? " والذكاء الاصطناعي" : ""}.</p>

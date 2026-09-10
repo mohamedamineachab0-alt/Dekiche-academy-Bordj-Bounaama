@@ -6,11 +6,14 @@ import { HowItWorksSection } from "@/components/landing/HowItWorksSection";
 import { TipsSection } from "@/components/landing/TipsSection";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { Footer } from "@/components/landing/Footer";
+import { PrayerDuaSection } from "@/components/landing/PrayerDuaSection";
+import { getBordjBounaamaPrayerTimes } from "@/lib/prayer-times";
 
 export default async function Home() {
   const cookieStore = await cookies();
   const sessionId = cookieStore.get("session")?.value;
   const isAuthenticated = !!sessionId;
+  const prayerTimes = await getBordjBounaamaPrayerTimes();
 
   return (
     <div dir="rtl" className="relative min-h-[100dvh] overflow-x-clip bg-background font-sans">
@@ -27,6 +30,7 @@ export default async function Home() {
         <HeroSection isAuthenticated={isAuthenticated} />
         <WhyChooseUs />
         <HowItWorksSection />
+        <PrayerDuaSection times={prayerTimes} />
         <TipsSection />
         <FaqSection />
       </main>

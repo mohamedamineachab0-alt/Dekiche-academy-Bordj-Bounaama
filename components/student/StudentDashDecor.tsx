@@ -29,12 +29,6 @@ export function StudentDashDecor() {
       <GeoAccents variant="light" />
 
       <svg
-        className="landing-float-c absolute top-[10%] end-[20%] w-6 h-6 fill-accent/50"
-        viewBox="0 0 40 40"
-      >
-        <path d="M20 4 L36 20 L20 36 L4 20 Z" />
-      </svg>
-      <svg
         className="landing-float-a absolute bottom-[14%] start-[24%] w-12 h-12 stroke-primary/15"
         viewBox="0 0 96 96"
         fill="none"

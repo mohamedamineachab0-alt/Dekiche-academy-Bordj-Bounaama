@@ -9,7 +9,6 @@ import {
   Download,
   Eye,
   Phone,
-  Sparkles,
   Trophy,
   UserCheck,
   UserMinus,
@@ -289,7 +288,7 @@ export function Student360Profile({
           <article className="surface-card p-5 md:p-6">
             <div className="flex items-start justify-between gap-3 mb-4">
               <h2 className="text-lg font-bold text-ink flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-primary" />
+                <BrainCircuit className="w-5 h-5 text-primary" />
                 {showAi ? "توصية الإدارة" : "ملاحظات للمتابعة"}
               </h2>
               {showAi ? (

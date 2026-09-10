@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans, IBM_Plex_Sans_Arabic } from "next/font/google";
+import { PwaRegister } from "@/components/pwa/PwaRegister";
 import "./globals.css";
 import "katex/dist/katex.min.css";
 
@@ -26,6 +27,12 @@ const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
 export const metadata: Metadata = {
   title: "منصة أكاديمية دقيش التعليمية برج بونعامة",
   description: "منصة وطنية للتعليم الجزائري - اصنع مستقبلك بثبات نحو القمة",
+  applicationName: "أكاديمية دقيش",
+  appleWebApp: {
+    capable: true,
+    title: "أكاديمية دقيش",
+    statusBarStyle: "black-translucent",
+  },
 };
 
 export const viewport: Viewport = {
@@ -54,6 +61,7 @@ export default function RootLayout({
         <div className="relative z-10 w-full flex-1 flex flex-col">
           {children}
         </div>
+        <PwaRegister />
       </body>
     </html>
   );

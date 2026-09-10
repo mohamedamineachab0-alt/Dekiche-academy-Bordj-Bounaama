@@ -106,14 +106,6 @@ export function GeoAccents({ variant = "light" }: { variant?: "light" | "hero" |
         <rect x="8" y="8" width="48" height="48" rx="10" strokeWidth="1.5" />
       </svg>
 
-      {/* Diamond accent */}
-      <svg
-        className={`landing-float-c absolute top-[40%] end-[4%] w-8 h-8 md:w-10 md:h-10 ${fill}`}
-        viewBox="0 0 40 40"
-      >
-        <path d="M20 4 L36 20 L20 36 L4 20 Z" />
-      </svg>
-
       {/* Small dots cluster */}
       <svg
         className="absolute bottom-[28%] start-[10%] w-20 h-10 opacity-40"

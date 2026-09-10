@@ -4,6 +4,7 @@ import { Library, Trash2 } from "lucide-react";
 import { createReviewCard } from "@/actions/review-cards";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { ReviewCardFormClient } from "@/components/admin/ReviewCardFormClient";
+import { MathPreview } from "@/components/shared/MathPreview";
 
 export default async function AdminReviewCardsPage() {
   const cards = await prisma.reviewCard.findMany({
@@ -71,17 +72,17 @@ export default async function AdminReviewCardsPage() {
                       <span className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-1 block">
                         السؤال
                       </span>
-                      <p className="text-sm font-semibold text-primary bg-surface p-3 rounded-xl border border-line">
-                        {card.question}
-                      </p>
+                      <div className="text-sm font-semibold text-primary bg-surface p-3 rounded-xl border border-line">
+                        <MathPreview text={card.question} className="text-sm font-semibold text-primary leading-relaxed" />
+                      </div>
                     </div>
                     <div>
                       <span className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-1 block">
                         الجواب
                       </span>
-                      <p className="text-sm text-ink bg-primary-soft p-3 rounded-xl border border-line">
-                        {card.answer}
-                      </p>
+                      <div className="text-sm text-ink bg-primary-soft p-3 rounded-xl border border-line">
+                        <MathPreview text={card.answer} className="text-sm text-ink leading-relaxed" />
+                      </div>
                     </div>
                   </div>
 

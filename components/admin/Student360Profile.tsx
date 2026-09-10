@@ -269,14 +269,14 @@ export function Student360Profile({
                   </p>
                   <p className="text-sm font-bold text-ink mb-1">الخطأ</p>
                   <div className="text-sm text-muted leading-relaxed">
-                    {m.mistakeContent.includes("$") ? <MathPreview text={m.mistakeContent} /> : m.mistakeContent}
+                    <MathPreview text={m.mistakeContent} />
                   </div>
                   <p className="text-sm font-bold text-primary mt-3 mb-1 flex items-center gap-1.5">
                     <CheckCircle2 className="w-4 h-4" />
                     التصحيح
                   </p>
                   <div className="text-sm text-ink leading-relaxed">
-                    {m.correctSolution.includes("$") ? <MathPreview text={m.correctSolution} /> : m.correctSolution}
+                    <MathPreview text={m.correctSolution} />
                   </div>
                 </div>
               ))}

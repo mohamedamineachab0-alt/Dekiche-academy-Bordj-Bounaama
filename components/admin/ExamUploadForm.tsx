@@ -432,7 +432,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
                         placeholder="نص السؤال"
                         className="w-full bg-white border border-line rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary-mid text-sm font-medium"
                       />
-                      {q.question.includes('$') && <MathPreview text={q.question} />}
+                      <MathPreview text={q.question} />
                     </div>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -458,7 +458,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
                               placeholder={`الخيار ${optIndex + 1}`}
                               className="w-full bg-transparent text-sm font-medium focus:outline-none text-primary"
                             />
-                            {opt.includes('$') && <MathPreview text={opt} />}
+                            <MathPreview text={opt} />
                           </div>
                         </div>
                       ))}

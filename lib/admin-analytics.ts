@@ -165,8 +165,11 @@ export async function getAdminAnalyticsHub(): Promise<AdminAnalyticsHubData> {
   recentMistakes.forEach((row) => bump(row.createdAt, "mistakes"));
   recentSubmissions.forEach((row) => bump(row.createdAt, "submissions"));
 
+  const lessonIds = mistakeLessons
+    .map((row) => row.lessonId)
+    .filter((id): id is string => Boolean(id));
   const lessonsMeta = await prisma.lesson.findMany({
-    where: { id: { in: mistakeLessons.map((row) => row.lessonId) } },
+    where: { id: { in: lessonIds } },
     select: { id: true, subjects: { select: { title: true } } },
   });
   const subjectCounts = new Map<string, number>();

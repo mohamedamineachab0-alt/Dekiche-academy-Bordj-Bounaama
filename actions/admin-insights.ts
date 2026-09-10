@@ -23,7 +23,8 @@ function parseItems(raw: unknown): InsightItem[] {
   return raw
     .map((item) => {
       const row = item as Partial<InsightItem>;
-      const severity = row.severity === "high" || row.severity === "medium" ? row.severity : "info";
+      const severity: InsightItem["severity"] =
+        row.severity === "high" || row.severity === "medium" ? row.severity : "info";
       return {
         title: String(row.title || "").trim(),
         detail: String(row.detail || "").trim(),

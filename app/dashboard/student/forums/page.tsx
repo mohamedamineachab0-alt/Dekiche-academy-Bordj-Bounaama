@@ -24,10 +24,6 @@ export default async function StudentForumsPage() {
   const solidIndex = firstOpenIndex >= 0 ? firstOpenIndex : 0;
 
   return (
-  const firstOpenIndex = forums.findIndex((forum) => forum.isOpen);
-  const solidIndex = firstOpenIndex >= 0 ? firstOpenIndex : 0;
-
-  return (
     <div className="space-y-8 font-sans pb-12">
       <HeroBanner
         variant="hero"
@@ -130,3 +126,12 @@ export default async function StudentForumsPage() {
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}

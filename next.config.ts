@@ -23,6 +23,7 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: '100mb',
     },
+    optimizePackageImports: ["lucide-react"],
   },
   // Allow network access from external local devices (e.g., phones testing on the same Wi-Fi)
   allowedDevOrigins: ['172.20.10.3', '10.125.237.128'],

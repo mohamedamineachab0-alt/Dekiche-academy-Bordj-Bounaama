@@ -1,6 +1,3 @@
-"use client";
-
-import { motion, Variants } from "framer-motion";
 import {
   WhyClockIcon,
   WhyCompleteIcon,
@@ -44,20 +41,6 @@ const reasons = [
   },
 ];
 
-const container: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1 } },
-};
-
-const itemVariant: Variants = {
-  hidden: { opacity: 0, y: 26 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", damping: 20, stiffness: 100 },
-  },
-};
-
 export function WhyChooseUs() {
   return (
     <section id="why-us" dir="rtl" className="py-20 md:py-28 band-soft-grid relative overflow-hidden">
@@ -79,20 +62,13 @@ export function WhyChooseUs() {
             </p>
           </div>
 
-          <motion.div
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4"
-          >
+          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {reasons.map((reason, idx) => {
               const Icon = reason.icon;
               const featured = idx === 1;
               return (
-                <motion.div
+                <div
                   key={reason.title}
-                  variants={itemVariant}
                   className={`feature-card ${featured ? "feature-card-solid sm:row-span-1" : "feature-card-soft"}`}
                 >
                   <div
@@ -108,10 +84,10 @@ export function WhyChooseUs() {
                   <p className={`naskh text-[0.95rem] leading-[1.85] ${featured ? "text-white/85" : "text-muted"}`}>
                     {reason.desc}
                   </p>
-                </motion.div>
+                </div>
               );
             })}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

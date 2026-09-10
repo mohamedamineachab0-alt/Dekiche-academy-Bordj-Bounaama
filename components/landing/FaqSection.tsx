@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { SoftOrb, SectionDivider } from "@/components/landing/LandingDecor";
 
@@ -50,10 +49,10 @@ export function FaqSection() {
             return (
               <div
                 key={idx}
-                className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+                className={`rounded-2xl border overflow-hidden ${
                   isOpen
                     ? "border-primary bg-primary-soft shadow-md"
-                    : "border-line bg-white hover:border-primary/40"
+                    : "border-line bg-white"
                 }`}
               >
                 <button
@@ -64,7 +63,7 @@ export function FaqSection() {
                     {faq.q}
                   </span>
                   <span
-                    className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-all ${
+                    className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${
                       isOpen ? "bg-primary text-white rotate-180" : "bg-primary-soft text-primary"
                     }`}
                   >
@@ -72,18 +71,9 @@ export function FaqSection() {
                   </span>
                 </button>
 
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: "easeInOut" }}
-                    >
-                      <p className="px-5 pb-5 naskh text-muted leading-[1.85]">{faq.a}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {isOpen ? (
+                  <p className="px-5 pb-5 naskh text-muted leading-[1.85]">{faq.a}</p>
+                ) : null}
               </div>
             );
           })}

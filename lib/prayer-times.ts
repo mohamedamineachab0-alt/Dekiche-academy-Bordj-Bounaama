@@ -60,7 +60,10 @@ export async function getBordjBounaamaPrayerTimes(): Promise<PrayerTimesPayload 
     url.searchParams.set("longitude", String(BORDJ_LNG));
     url.searchParams.set("method", String(ALGERIA_METHOD));
 
-    const res = await fetch(url.toString(), { next: { revalidate: 1800 } });
+    const res = await fetch(url.toString(), {
+      next: { revalidate: 1800 },
+      signal: AbortSignal.timeout(4000),
+    });
     if (!res.ok) return null;
 
     const json = (await res.json()) as {

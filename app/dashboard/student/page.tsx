@@ -45,9 +45,9 @@ export default async function StudentDashboardPage() {
     where: { id: sessionId },
     include: {
       studentProfile: true,
-      enrollments: true,
-      mistakes: true,
-      studentLinks: true,
+      enrollments: { select: { subjectId: true } },
+      studentLinks: { select: { id: true }, take: 1 },
+      _count: { select: { mistakes: true } },
     },
   });
 
@@ -146,8 +146,8 @@ export default async function StudentDashboardPage() {
 
   const { level, stream } = user.studentProfile;
   const enrolledCount = enrolledSubjectIds.length;
-  const mistakesCount = user.mistakes.length;
-  const isParentLinked = user.studentLinks && user.studentLinks.length > 0;
+  const mistakesCount = user._count.mistakes;
+  const isParentLinked = user.studentLinks.length > 0;
 
   const levelLabel = translateLevel(level);
   const streamLabel = translateStream(stream);

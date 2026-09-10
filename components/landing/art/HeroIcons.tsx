@@ -1,5 +1,3 @@
-"use client";
-
 type IconProps = { className?: string; size?: number };
 
 const stroke = "currentColor";

@@ -17,9 +17,9 @@ export default async function StudentSettingsPage() {
     where: { id: sessionId },
     include: {
       studentProfile: true,
-      studentLinks: true,
-      mistakes: true,
-      enrollments: true,
+      studentLinks: { select: { id: true }, take: 1 },
+      enrollments: { select: { id: true }, take: 1 },
+      _count: { select: { mistakes: true } },
     }
   });
 
@@ -49,7 +49,7 @@ export default async function StudentSettingsPage() {
     });
   }
 
-  if (user.mistakes && user.mistakes.length > 10) {
+  if (user._count.mistakes > 10) {
     alerts.push({
       id: "many-mistakes",
       type: "ACADEMIC",

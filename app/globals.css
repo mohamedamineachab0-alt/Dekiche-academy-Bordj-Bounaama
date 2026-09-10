@@ -1069,6 +1069,37 @@ textarea,
     }
   }
 
+  @media (max-width: 768px) {
+    .landing-orb,
+    .hero-glow,
+    .landing-float-a,
+    .landing-float-b,
+    .landing-float-c {
+      display: none;
+    }
+
+    .landing-float-a,
+    .landing-float-b,
+    .landing-float-c,
+    .hero-3d-spin-slow,
+    .hero-3d-tilt,
+    .hero-3d-tilt-rev,
+    .hero-3d-bob,
+    .hero-3d-bob-alt,
+    .hero-3d-wiggle,
+    .hero-3d-wiggle-rev {
+      animation: none;
+    }
+
+    .glass,
+    .glass-pill,
+    .glass-dark,
+    .glass-pill-soft {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+
   .glass-pill-soft {
     background: rgba(255, 255, 255, 0.55);
     backdrop-filter: blur(18px);

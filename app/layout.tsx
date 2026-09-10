@@ -2,13 +2,12 @@ import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { PwaRegister } from "@/components/pwa/PwaRegister";
 import "./globals.css";
-import "katex/dist/katex.min.css";
 
 // Latin is variable; Arabic is static. Disable size-adjusted Arial fallbacks —
 // they have no unicode-range and would paint Arabic before IBM Plex Sans Arabic.
 const ibmPlexSans = IBM_Plex_Sans({
-  subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
   adjustFontFallback: false,
   fallback: ["IBM Plex Sans Arabic", "sans-serif"],
@@ -17,7 +16,7 @@ const ibmPlexSans = IBM_Plex_Sans({
 
 const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
   subsets: ["arabic"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
   adjustFontFallback: false,
   fallback: ["sans-serif"],
@@ -51,7 +50,7 @@ export default function RootLayout({
     <html
       lang="ar"
       dir="rtl"
-      className={`h-full ${ibmPlexSans.variable} ${ibmPlexSansArabic.variable} ${ibmPlexSans.className} ${ibmPlexSansArabic.className}`}
+      className={`h-full ${ibmPlexSans.variable} ${ibmPlexSansArabic.variable} font-sans`}
       suppressHydrationWarning
     >
       <body

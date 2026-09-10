@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import katex from "katex";
 import { normalizeLatex } from "@/lib/math-text";
+import "katex/dist/katex.min.css";
 
 interface MathRendererProps {
   math: string;

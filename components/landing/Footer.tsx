@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { GraduationCap } from "lucide-react";
 import { SoftOrb } from "@/components/landing/LandingDecor";
@@ -10,8 +8,7 @@ export function Footer({ isAuthenticated }: { isAuthenticated: boolean }) {
     <footer dir="rtl" className="bg-hero text-white pt-20 pb-10 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="landing-line-grid absolute inset-0" />
-        <div className="hero-orb w-[500px] h-[500px] bg-white/10 top-[-80px] left-1/4" />
-        <div className="hero-orb w-[400px] h-[400px] bg-white/5 bottom-[-60px] right-1/4" />
+        <div className="hero-orb hidden md:block w-[400px] h-[400px] bg-white/10 top-[-80px] left-1/4" />
         <SoftOrb tone="white" className="w-36 h-36 top-[30%] end-[15%] opacity-50" />
       </div>
 

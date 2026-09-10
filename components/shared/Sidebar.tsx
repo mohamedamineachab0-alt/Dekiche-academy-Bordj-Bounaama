@@ -169,17 +169,14 @@ export function Sidebar({
 `}
       >
         {/* Brand */}
-        <div className={`h-16 shrink-0 flex items-center gap-2 border-b border-white/10 ${isCollapsed ? "md:justify-center md:px-0" : "px-3"}`}>
-          {isCollapsed ? (
-            <span className="text-xl font-bold text-white shrink-0 leading-none">د</span>
-          ) : (
-            <div className="min-w-0 flex-1">
-              <p className="text-[0.95rem] font-bold text-white leading-snug">أكاديمية دقيش</p>
-              <p className="text-xs font-semibold text-white/85 leading-snug mt-0.5">
-                برج بونعامة
-              </p>
-            </div>
-          )}
+        <div className={`h-16 shrink-0 flex items-center gap-2 border-b border-white/10 px-3 ${isCollapsed ? "md:justify-center md:px-0" : ""}`}>
+          <span className={`text-xl font-bold text-white shrink-0 leading-none ${isCollapsed ? "hidden md:inline" : "hidden"}`}>د</span>
+          <div className={`min-w-0 flex-1 ${isCollapsed ? "md:hidden" : ""}`}>
+            <p className="text-[0.95rem] font-bold text-white leading-snug">أكاديمية دقيش</p>
+            <p className="text-xs font-semibold text-white/85 leading-snug mt-0.5">
+              برج بونعامة
+            </p>
+          </div>
 
           <button
             onClick={onToggleCollapse}
@@ -201,11 +198,9 @@ export function Sidebar({
         <nav className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3 space-y-6 custom-scrollbar">
           {groups.map((group) => (
             <div key={group.label}>
-              {!isCollapsed && (
-                <p className="px-3 mb-2 text-[11px] font-semibold uppercase tracking-wider text-white/45">
-                  {group.label}
-                </p>
-              )}
+              <p className={`px-3 mb-2 text-[11px] font-semibold uppercase tracking-wider text-white/45 ${isCollapsed ? "md:hidden" : ""}`}>
+                {group.label}
+              </p>
               <div className="space-y-1">
                 {group.links.map((link) => {
                   const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
@@ -216,16 +211,16 @@ export function Sidebar({
                       href={link.href}
                       title={isCollapsed ? link.name : ""}
                       onClick={onMobileClose}
-                      className={`flex items-center gap-3 rounded-xl text-sm font-medium transition-colors ${
- isCollapsed ? "justify-center h-10 w-10 mx-auto" : "px-3 h-10"
- } ${
+                      className={`flex items-center gap-3 rounded-xl text-sm font-medium transition-colors px-3 h-10 ${
+                        isCollapsed ? "md:justify-center md:h-10 md:w-10 md:mx-auto md:px-0" : ""
+                      } ${
                         isActive
                           ? "bg-accent text-accent-text font-bold"
                           : "text-white/75 hover:bg-white/10 hover:text-white"
- }`}
+                      }`}
                     >
                       <Icon className="w-[18px] h-[18px] shrink-0" />
-                      {!isCollapsed && <span className="truncate">{link.name}</span>}
+                      <span className={`truncate ${isCollapsed ? "md:hidden" : ""}`}>{link.name}</span>
                     </Link>
                   );
                 })}
@@ -237,17 +232,15 @@ export function Sidebar({
         {/* Account */}
         <div className="shrink-0 border-t border-white/10 p-3">
           {isLoadingProfile ? (
-            <div className={`flex items-center gap-3 mb-2 ${isCollapsed ? "justify-center" : "px-1"}`}>
+            <div className={`flex items-center gap-3 mb-2 px-1 ${isCollapsed ? "md:justify-center md:px-0" : ""}`}>
               <div className="w-9 h-9 rounded-full bg-white/15 animate-pulse shrink-0" />
-              {!isCollapsed && (
-                <div className="flex-1 space-y-1.5">
-                  <div className="h-3 rounded bg-white/15 animate-pulse w-3/4" />
-                  <div className="h-2.5 rounded bg-white/10 animate-pulse w-1/2" />
-                </div>
-              )}
+              <div className={`flex-1 space-y-1.5 ${isCollapsed ? "md:hidden" : ""}`}>
+                <div className="h-3 rounded bg-white/15 animate-pulse w-3/4" />
+                <div className="h-2.5 rounded bg-white/10 animate-pulse w-1/2" />
+              </div>
             </div>
           ) : userData ? (
-            <div className={`flex items-center gap-3 mb-2 ${isCollapsed ? "justify-center" : "px-1"}`}>
+            <div className={`flex items-center gap-3 mb-2 px-1 ${isCollapsed ? "md:justify-center md:px-0" : ""}`}>
               {userData.avatarUrl ? (
                 <img
                   src={userData.avatarUrl}
@@ -263,24 +256,22 @@ export function Sidebar({
                   {userData.fullName.charAt(0)}
                 </div>
               )}
-              {!isCollapsed && (
-                <div className="min-w-0 flex-1 text-right">
+              <div className={`min-w-0 flex-1 text-right ${isCollapsed ? "md:hidden" : ""}`}>
                   <p className="text-sm font-semibold truncate">{userData.fullName}</p>
                   <p className="text-[11px] text-white/60 truncate">{getRoleLabel(userData.role)}</p>
                 </div>
-              )}
             </div>
           ) : null}
 
           <form action={logoutUser}>
             <button
               title={isCollapsed ? "تسجيل الخروج" : ""}
-              className={`w-full flex items-center gap-3 h-10 rounded-xl text-sm font-medium text-white/75 hover:bg-white/10 hover:text-white transition-colors ${
- isCollapsed ? "justify-center" : "px-3"
- }`}
+              className={`w-full flex items-center gap-3 h-10 rounded-xl text-sm font-medium text-white/75 hover:bg-white/10 hover:text-white transition-colors px-3 ${
+                isCollapsed ? "md:justify-center md:px-0" : ""
+              }`}
             >
               <LogOut className="w-[18px] h-[18px] shrink-0" />
-              {!isCollapsed && <span>تسجيل الخروج</span>}
+              <span className={isCollapsed ? "md:hidden" : ""}>تسجيل الخروج</span>
             </button>
           </form>
         </div>

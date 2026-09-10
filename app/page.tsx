@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { Header } from "@/components/landing/Header";
 import { HeroSection } from "@/components/landing/HeroSection";
@@ -9,11 +10,15 @@ import { Footer } from "@/components/landing/Footer";
 import { PrayerDuaSection } from "@/components/landing/PrayerDuaSection";
 import { getBordjBounaamaPrayerTimes } from "@/lib/prayer-times";
 
+async function PrayerTimesBlock() {
+  const times = await getBordjBounaamaPrayerTimes();
+  return <PrayerDuaSection times={times} />;
+}
+
 export default async function Home() {
   const cookieStore = await cookies();
   const sessionId = cookieStore.get("session")?.value;
   const isAuthenticated = !!sessionId;
-  const prayerTimes = await getBordjBounaamaPrayerTimes();
 
   return (
     <div dir="rtl" className="relative min-h-[100dvh] overflow-x-clip bg-background font-sans">
@@ -30,7 +35,9 @@ export default async function Home() {
         <HeroSection isAuthenticated={isAuthenticated} />
         <WhyChooseUs />
         <HowItWorksSection />
-        <PrayerDuaSection times={prayerTimes} />
+        <Suspense fallback={<PrayerDuaSection times={null} />}>
+          <PrayerTimesBlock />
+        </Suspense>
         <TipsSection />
         <FaqSection />
       </main>

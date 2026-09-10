@@ -65,7 +65,7 @@ export function MobileBottomNav({ role }: { role: Role }) {
               >
                 <Icon className="w-5 h-5" />
               </span>
-              <span className={`text-[10px] font-medium truncate ${isActive ? "text-primary" : "text-muted"}`}>
+              <span className={`text-[11px] font-semibold text-center leading-tight max-w-full ${isActive ? "text-primary" : "text-muted"}`}>
                 {link.name}
               </span>
             </Link>

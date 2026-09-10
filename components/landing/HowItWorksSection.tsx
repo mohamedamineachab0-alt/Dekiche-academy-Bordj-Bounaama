@@ -1,6 +1,3 @@
-"use client";
-
-import { motion, Variants } from "framer-motion";
 import { UserPlus, BookOpen, Award } from "lucide-react";
 import { DotGrid, SoftOrb, SectionDivider } from "@/components/landing/LandingDecor";
 
@@ -25,20 +22,6 @@ const steps = [
   },
 ];
 
-const container: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.15 } },
-};
-
-const itemVariant: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", damping: 20, stiffness: 100 },
-  },
-};
-
 export function HowItWorksSection() {
   return (
     <section id="how" dir="rtl" className="py-20 md:py-28 band-indigo-glow relative overflow-hidden">
@@ -59,21 +42,11 @@ export function HowItWorksSection() {
           <SectionDivider />
         </div>
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-5"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {steps.map((step) => {
             const Icon = step.icon;
             return (
-              <motion.div
-                key={step.num}
-                variants={itemVariant}
-                className="relative surface-card p-7 text-center"
-              >
+              <div key={step.num} className="relative surface-card p-7 text-center">
                 <span className="absolute -top-4 right-1/2 translate-x-1/2 w-10 h-10 rounded-full bg-primary text-white text-sm kufi flex items-center justify-center shadow-lg">
                   {step.num}
                 </span>
@@ -82,10 +55,10 @@ export function HowItWorksSection() {
                 </span>
                 <h3 className="kufi text-lg mb-3 text-ink">{step.title}</h3>
                 <p className="naskh text-[0.92rem] text-muted leading-[1.85]">{step.desc}</p>
-              </motion.div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

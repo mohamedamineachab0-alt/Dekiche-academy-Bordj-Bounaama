@@ -10,27 +10,11 @@ import {
   User as UserIcon,
 } from "lucide-react";
 import { submitParentTicket } from "@/actions/parents";
-import { labelLevel, labelStream } from "@/lib/education-labels";
-
-type StudentData = {
-  id: string;
-  fullName: string;
-  avatarUrl: string | null;
-  lastLoginAt: Date;
-  studentProfile: {
-    level: string;
-    stream: string;
-  } | null;
-  enrollments: {
-    subject: {
-      id: string;
-      title: string;
-    };
-  }[];
-};
+import { INACTIVE_DAYS, labelLevel, labelStream } from "@/lib/education-labels";
+import type { ParentChildStats } from "@/lib/parent-children";
 
 type ParentDashboardClientProps = {
-  students: StudentData[];
+  students: ParentChildStats[];
   parentId: string;
 };
 
@@ -118,8 +102,7 @@ export function ParentDashboardClient({ students, parentId }: ParentDashboardCli
                       <div>
                         <h3 className="font-bold text-ink">{student.fullName}</h3>
                         <p className="text-xs text-muted mt-0.5">
-                          {labelLevel(student.studentProfile?.level)} ·{" "}
-                          {labelStream(student.studentProfile?.stream)}
+                          {labelLevel(student.level)} · {labelStream(student.stream)}
                         </p>
                       </div>
                     </div>
@@ -128,25 +111,24 @@ export function ParentDashboardClient({ students, parentId }: ParentDashboardCli
                       <BookOpen className="w-4 h-4 text-primary" />
                       التقدم في المواد
                     </h4>
-                    {student.enrollments.length === 0 ? (
+                    {student.subjects.length === 0 ? (
                       <p className="text-xs text-muted border border-dashed border-line p-3 rounded-xl text-center">
                         غير مسجّل في أي مادة حالياً
                       </p>
                     ) : (
-                      student.enrollments.map((enrollment) => {
-                        const progress = Math.floor(Math.random() * 60) + 20;
-                        return (
-                          <div key={enrollment.subject.id} className="space-y-2 mb-3">
-                            <div className="flex justify-between text-xs font-semibold">
-                              <span className="text-ink">{enrollment.subject.title}</span>
-                              <span className="text-primary tabular-nums">{progress}%</span>
-                            </div>
-                            <div className="progress-track">
-                              <div className="progress-bar" style={{ width: `${progress}%` }} />
-                            </div>
+                      student.subjects.map((subject) => (
+                        <div key={subject.subjectId} className="space-y-2 mb-3">
+                          <div className="flex justify-between text-xs font-semibold">
+                            <span className="text-ink">{subject.title}</span>
+                            <span className="text-primary tabular-nums">
+                              {subject.total > 0 ? `${subject.percent}%` : "لا دروس"}
+                            </span>
                           </div>
-                        );
-                      })
+                          <div className="progress-track">
+                            <div className="progress-bar" style={{ width: `${subject.percent}%` }} />
+                          </div>
+                        </div>
+                      ))
                     )}
                   </article>
                 ))}
@@ -167,19 +149,13 @@ export function ParentDashboardClient({ students, parentId }: ParentDashboardCli
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {students.map((student) => {
-                  const daysInactive = Math.floor(
-                    (new Date().getTime() - new Date(student.lastLoginAt).getTime()) /
-                      (1000 * 3600 * 24)
-                  );
-                  const absencesCount = Math.max(0, Math.floor(daysInactive / 5));
+                  const inactive = student.daysInactive >= INACTIVE_DAYS;
 
                   return (
                     <article
                       key={student.id}
                       className={`rounded-2xl border p-5 ${
-                        absencesCount > 0
-                          ? "border-red-200 bg-red-50"
-                          : "border-line bg-surface"
+                        inactive ? "border-red-200 bg-red-50" : "border-line bg-surface"
                       }`}
                     >
                       <div className="flex items-center gap-3 mb-4">
@@ -197,18 +173,18 @@ export function ParentDashboardClient({ students, parentId }: ParentDashboardCli
                       <div className="text-center py-4 rounded-xl bg-white border border-line mb-4">
                         <p
                           className={`text-4xl font-bold tabular-nums ${
-                            absencesCount > 0 ? "text-red-600" : "text-primary"
+                            inactive ? "text-red-600" : "text-primary"
                           }`}
                         >
-                          {absencesCount}
+                          {Number.isFinite(student.daysInactive) ? student.daysInactive : "—"}
                         </p>
-                        <p className="text-sm font-semibold text-muted mt-1">غيابات محتسبة</p>
+                        <p className="text-sm font-semibold text-muted mt-1">أيام دون دخول</p>
                       </div>
 
                       <p className="text-sm text-muted leading-relaxed">
-                        {absencesCount > 0
-                          ? "يُحتسب غياب لكل 5 أيام دون دخول للمنصة. يرجى متابعة الابن."
-                          : "لا توجد غيابات مسجّلة حالياً."}
+                        {inactive
+                          ? `لم يدخل للمنصة منذ ${INACTIVE_DAYS} أيام أو أكثر. يرجى متابعة الابن.`
+                          : "ظهر على المنصة مؤخراً."}
                       </p>
                     </article>
                   );

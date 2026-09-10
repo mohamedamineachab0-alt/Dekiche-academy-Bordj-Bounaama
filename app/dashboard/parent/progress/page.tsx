@@ -1,13 +1,33 @@
-"use client";
-
+import { getUserSessionProfile } from "@/actions/user";
+import Link from "next/link";
+import { Activity, TrendingUp, Target, Award, UserMinus } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
-import { Activity, TrendingUp, Target, Award } from "lucide-react";
+import { labelLevel, labelStream } from "@/lib/education-labels";
+import { getLinkedParentChildren } from "@/lib/parent-children";
 
-export default function ParentProgressPage() {
-  const students = [
-    { name: "أحمد كمال", level: "الثالثة ثانوي", stream: "علوم تجريبية", completion: 85, rank: 3, points: 1240 },
-    { name: "سارة كمال", level: "الأولى ثانوي", stream: "جذع مشترك علوم", completion: 65, rank: 12, points: 850 },
-  ];
+export default async function ParentProgressPage() {
+  const profile = await getUserSessionProfile();
+  if (!profile) {
+    return <div className="p-8 text-center text-muted">يرجى تسجيل الدخول</div>;
+  }
+
+  const students = await getLinkedParentChildren(profile.id);
+
+  if (students.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 px-4">
+        <div className="surface-card px-6 py-14 text-center max-w-lg w-full">
+          <span className="icon-tile mx-auto mb-5">
+            <UserMinus className="w-5 h-5" />
+          </span>
+          <p className="text-ink font-bold mb-5">لم يتم ربط أي تلاميذ بحسابك.</p>
+          <Link href="/dashboard/parent" className="btn-primary">
+            ربط حسابات أبنائي
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 font-sans pb-12">
@@ -20,16 +40,16 @@ export default function ParentProgressPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {students.map((student) => (
-          <article key={student.name} className="surface-card p-6">
+          <article key={student.id} className="surface-card p-6">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-14 h-14 rounded-full bg-primary-soft text-primary flex items-center justify-center font-bold text-xl">
-                {student.name.charAt(0)}
+                {student.fullName.charAt(0)}
               </div>
               <div>
-                <h2 className="font-bold text-lg text-ink">{student.name}</h2>
+                <h2 className="font-bold text-lg text-ink">{student.fullName}</h2>
                 <div className="flex flex-wrap items-center gap-2 mt-1">
-                  <span className="badge-soft">{student.level}</span>
-                  <span className="badge-outline">{student.stream}</span>
+                  <span className="badge-soft">{labelLevel(student.level)}</span>
+                  <span className="badge-outline">{labelStream(student.stream)}</span>
                 </div>
               </div>
             </div>
@@ -47,7 +67,9 @@ export default function ParentProgressPage() {
                   <Target className="w-4 h-4 text-primary" />
                   الترتيب
                 </div>
-                <p className="font-bold text-2xl text-ink tabular-nums">#{student.rank}</p>
+                <p className="font-bold text-2xl text-ink tabular-nums">
+                  {student.rank ? `#${student.rank}` : "—"}
+                </p>
               </div>
             </div>
 
@@ -65,11 +87,13 @@ export default function ParentProgressPage() {
             <div className="pt-5 border-t border-line grid grid-cols-2 gap-4">
               <div className="text-center">
                 <p className="text-xs font-semibold text-muted mb-1">التمارين المحلولة</p>
-                <p className="font-bold text-lg text-ink tabular-nums">45</p>
+                <p className="font-bold text-lg text-ink tabular-nums">{student.exercisesSolved}</p>
               </div>
               <div className="text-center border-r border-line">
                 <p className="text-xs font-semibold text-muted mb-1">المعدل العام</p>
-                <p className="font-bold text-lg text-ink tabular-nums">16.5</p>
+                <p className="font-bold text-lg text-ink tabular-nums">
+                  {student.averageScore != null ? student.averageScore : "—"}
+                </p>
               </div>
             </div>
           </article>

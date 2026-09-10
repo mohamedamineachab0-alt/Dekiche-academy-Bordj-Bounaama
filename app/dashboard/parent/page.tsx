@@ -5,6 +5,7 @@ import { Users, Link as LinkIcon } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { linkStudentToParent } from "@/actions/parents";
 import { ParentDashboardClient } from "@/components/parent/ParentDashboardClient";
+import { getLinkedParentChildren } from "@/lib/parent-children";
 
 export default async function ParentDashboardPage() {
   const cookieStore = await cookies();
@@ -20,24 +21,7 @@ export default async function ParentDashboardPage() {
     },
   });
 
-  const links = await prisma.parentStudentLink.findMany({
-    where: { parentId: sessionId },
-    include: {
-      student: {
-        include: {
-          studentProfile: true,
-          enrollments: {
-            include: { subject: true },
-          },
-          mistakes: {
-            orderBy: { createdAt: "desc" },
-            take: 3,
-            include: { lesson: { include: { subjects: true } } },
-          },
-        },
-      },
-    },
-  });
+  const students = await getLinkedParentChildren(sessionId);
 
   return (
     <div className="space-y-8 font-sans pb-12">
@@ -84,7 +68,7 @@ export default async function ParentDashboardPage() {
         </div>
 
         <div className="lg:col-span-2">
-          {links.length === 0 ? (
+          {students.length === 0 ? (
             <div className="surface-card px-6 py-16 text-center">
               <span className="icon-tile mx-auto mb-5">
                 <Users className="w-5 h-5" />
@@ -95,10 +79,7 @@ export default async function ParentDashboardPage() {
               </p>
             </div>
           ) : (
-            <ParentDashboardClient
-              students={links.map((l) => l.student as any)}
-              parentId={sessionId}
-            />
+            <ParentDashboardClient students={students} parentId={sessionId} />
           )}
         </div>
       </div>

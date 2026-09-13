@@ -20,15 +20,21 @@ export async function registerUser(
 ): Promise<any> {
   const role        = (formData.get("role")        as string)?.trim() || "STUDENT";
   const fullName    = (formData.get("fullName")    as string)?.trim();
-  const phoneNumber = (formData.get("phoneNumber") as string)?.trim();
+  let phoneNumber = (formData.get("phoneNumber") as string)?.trim();
   
   if (!fullName || !phoneNumber) {
     return { error: "جميع الحقول مطلوبة" };
   }
 
-  const isSuperAdmin = phoneNumber === "0562388085";
+  const phones = phoneVariants(phoneNumber);
+  if (phones.length === 0) {
+    return { error: "يرجى إدخال رقم هاتف صحيح" };
+  }
+  phoneNumber = phones.find(p => p.startsWith("0") && p.length >= 9) || phones[0];
 
-  const existing = await prisma.user.findUnique({ where: { phoneNumber } });
+  const isSuperAdmin = phones.includes("0562388085");
+
+  const existing = await prisma.user.findFirst({ where: { phoneNumber: { in: phones } } });
   if (existing) return { error: "رقم الهاتف مسجل مسبقا جرب تسجيل الدخول" };
 
   const passwordHash = "";

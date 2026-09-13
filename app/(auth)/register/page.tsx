@@ -6,7 +6,7 @@ import { EDUCATION_STAGES, EDUCATION_LEVELS, getStreamsForLevel } from "@/lib/co
 import {
   User, GraduationCap, BookOpen,
   UserPlus, ChevronDown, Loader2, AlertCircle,
-  Layers, Mail
+  Layers, Phone
 } from "lucide-react";
 import Link from "next/link";
 import { AuthPageShell } from "@/components/auth/AuthPageShell";
@@ -174,22 +174,26 @@ export default function RegisterPage() {
           </div>
 
           {/* Role toggle */}
-          <div className="flex gap-1 p-1 rounded-xl bg-surface-muted mb-7">
+          <div className="grid grid-cols-2 gap-2 mb-7">
             <button
               type="button"
               onClick={() => { setRole("STUDENT"); setError(undefined); }}
-              className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-colors ${
- role === "STUDENT" ? "bg-surface text-primary shadow-3d-soft" : "text-muted hover:text-ink"
- }`}
+              className={`py-2.5 text-sm font-semibold rounded-lg ${
+                role === "STUDENT"
+                  ? "bg-primary text-white"
+                  : "bg-primary-soft text-primary"
+              }`}
             >
               حساب تلميذ
             </button>
             <button
               type="button"
               onClick={() => { setRole("PARENT"); setError(undefined); }}
-              className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-colors ${
- role === "PARENT" ? "bg-surface text-primary shadow-3d-soft" : "text-muted hover:text-ink"
- }`}
+              className={`py-2.5 text-sm font-semibold rounded-lg ${
+                role === "PARENT"
+                  ? "bg-primary text-white"
+                  : "bg-primary-soft text-primary"
+              }`}
             >
               حساب وليّ أمر
             </button>
@@ -206,8 +210,8 @@ export default function RegisterPage() {
                 placeholder="أدخل الاسم الكامل" icon={User} autoComplete="name"
                 value={formData.fullName} onChange={handleInputChange} />
 
-              <InputField id="reg-phone" label="البريد الإلكتروني أو رقم الهاتف" name="phoneNumber" type="text"
-                placeholder="أدخل بريدك أو رقم هاتفك" icon={Mail} dir="rtl" autoComplete="email"
+              <InputField id="reg-phone" label="رقم الهاتف" name="phoneNumber" type="tel"
+                placeholder="05xxxxxxxx" icon={Phone} dir="ltr" autoComplete="tel"
                 value={formData.phoneNumber} onChange={handleInputChange} />
             </div>
 

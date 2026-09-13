@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { Stream } from "@/generated/prisma";
 import { ensureAcademicMonth } from "@/lib/academic-month";
@@ -169,6 +170,60 @@ export async function updateLesson(payload: UpdateLessonPayload): Promise<Action
   } catch (error) {
     console.error("خطا اثناء تحديث الدرس", error);
     return { error: "حدث خطا اثناء الحفظ يرجى المحاولة" };
+  }
+}
+
+async function requireAdmin() {
+  const cookieStore = await cookies();
+  const sessionId = cookieStore.get("session")?.value;
+  if (!sessionId) return null;
+
+  const user = await prisma.user.findUnique({
+    where: { id: sessionId },
+    select: { role: true },
+  });
+
+  return user?.role === "ADMIN" ? user : null;
+}
+
+export async function deleteLesson(lessonId: string): Promise<ActionState> {
+  if (!lessonId) {
+    return { error: "الدرس غير محدد" };
+  }
+
+  const admin = await requireAdmin();
+  if (!admin) {
+    return { error: "غير مصرح" };
+  }
+
+  try {
+    const lesson = await prisma.lesson.findUnique({
+      where: { id: lessonId },
+      select: {
+        id: true,
+        subjects: { select: { id: true } },
+      },
+    });
+
+    if (!lesson) {
+      return { error: "الدرس غير موجود" };
+    }
+
+    await prisma.lesson.delete({
+      where: { id: lessonId },
+    });
+
+    revalidatePath("/dashboard/admin/lessons");
+    revalidatePath("/dashboard/student/subjects");
+    lesson.subjects.forEach((subject) => {
+      revalidatePath(`/dashboard/student/subjects/${subject.id}`);
+      revalidatePath(`/dashboard/student/subjects/${subject.id}/lessons`);
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("خطأ أثناء حذف الدرس", error);
+    return { error: "حدث خطأ أثناء الحذف، يرجى المحاولة" };
   }
 }
 

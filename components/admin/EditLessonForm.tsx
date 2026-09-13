@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { updateLesson, previewQuizFromLesson } from "@/actions/lessons";
+import { DeleteLessonButton } from "@/components/admin/DeleteLessonButton";
 import { Upload, X, Loader2, Save, BrainCircuit, Image as ImageIcon, Plus, CheckCircle2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -464,7 +465,7 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
         )}
       </div>
 
-      <div className="pt-4 border-t border-line">
+      <div className="pt-4 border-t border-line space-y-3">
         <button
           type="submit"
           disabled={loading || quizLoading}
@@ -473,6 +474,12 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
           {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
           {loading ? "جاري الحفظ..." : "حفظ التعديلات"}
         </button>
+        <DeleteLessonButton
+          lessonId={initialData.id}
+          lessonTitle={initialData.title}
+          redirectTo="/dashboard/admin/lessons"
+          variant="button"
+        />
       </div>
 
     </form>

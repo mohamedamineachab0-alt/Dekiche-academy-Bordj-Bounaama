@@ -199,29 +199,11 @@ textarea,
   }
 
   .auth-glass-card {
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    border-radius: 1.5rem;
-    box-shadow: 0 18px 50px rgba(15, 15, 46, 0.22);
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 24px rgba(46, 16, 101, 0.12);
     position: relative;
-    overflow: hidden;
-  }
-
-  .auth-glass-card::before {
-    content: "";
-    position: absolute;
-    inset-inline: 0;
-    top: 0;
-    height: 3px;
-    background: linear-gradient(
-      to left,
-      #ffffff 0%,
-      rgba(255, 255, 255, 0.55) 55%,
-      transparent 100%
-    );
-    pointer-events: none;
   }
 
   /* ---------- Surfaces ---------- */
@@ -307,6 +289,19 @@ textarea,
   .bg-hero .btn-primary:hover,
   header.bg-hero .btn-primary:hover {
     background: #f5f3ff;
+  }
+
+  .bg-hero .auth-glass-card .btn-primary,
+  .auth-glass-card .btn-primary {
+    background: var(--primary);
+    color: #ffffff;
+    border-radius: 0.65rem;
+  }
+
+  .bg-hero .auth-glass-card .btn-primary:hover,
+  .auth-glass-card .btn-primary:hover {
+    background: var(--primary-hover);
+    color: #ffffff;
   }
 
   .btn-primary:active {
@@ -660,11 +655,11 @@ textarea,
   .marker::before {
     content: "";
     position: absolute;
-    inset-inline: -0.12em;
-    bottom: 0.08em;
-    height: 0.38em;
-    background: #fce022;
-    border-radius: 0.2em;
+    inset-inline: -0.06em;
+    bottom: 0.06em;
+    height: 0.12em;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 0;
     z-index: 0;
   }
 
@@ -719,6 +714,35 @@ textarea,
       linear-gradient(to bottom, rgba(91, 33, 182, 0.05) 1px, transparent 1px);
     background-size: 44px 44px;
     mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 25%, transparent 85%);
+  }
+
+  .landing-plus-field {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.28) 1.15px, transparent 1.25px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 55% 50% at 72% 42%, #000 8%, transparent 72%);
+  }
+
+  .landing-plus-field-ink {
+    background-image: radial-gradient(circle, rgba(91, 33, 182, 0.16) 1.15px, transparent 1.25px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 70% 60% at 80% 20%, #000 10%, transparent 75%);
+  }
+
+  .how-steps-rail {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .how-steps-rail {
+      display: block;
+      position: absolute;
+      top: 1.35rem;
+      right: 16%;
+      left: 16%;
+      height: 2px;
+      background: linear-gradient(to left, transparent, rgba(91, 33, 182, 0.35), transparent);
+      pointer-events: none;
+    }
   }
 
   .landing-divider {
@@ -787,10 +811,25 @@ textarea,
     animation: landing-float-c 7s ease-in-out infinite;
   }
 
+  .hero-3d-scene {
+    position: relative;
+    width: 100%;
+    min-height: 280px;
+    perspective: 920px;
+    transform-style: preserve-3d;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-3d-scene {
+      min-height: 420px;
+    }
+  }
+
   .hero-3d-stage {
     position: absolute;
     inset: 0;
     perspective: 920px;
+    transform-style: preserve-3d;
     pointer-events: none;
     z-index: 2;
   }
@@ -1070,12 +1109,12 @@ textarea,
   }
 
   @media (max-width: 768px) {
-    .landing-orb,
-    .hero-glow,
-    .landing-float-a,
-    .landing-float-b,
-    .landing-float-c {
-      display: none;
+    .landing-orb {
+      filter: blur(28px);
+    }
+
+    .hero-glow {
+      filter: blur(36px);
     }
 
     .landing-float-a,

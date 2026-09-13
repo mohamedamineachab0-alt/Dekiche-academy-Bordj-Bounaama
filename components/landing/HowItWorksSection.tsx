@@ -1,5 +1,5 @@
 import { UserPlus, BookOpen, Award } from "lucide-react";
-import { DotGrid, SoftOrb, SectionDivider } from "@/components/landing/LandingDecor";
+import { DotGrid, GeoAccents, SoftOrb, SectionDivider } from "@/components/landing/LandingDecor";
 
 const steps = [
   {
@@ -28,6 +28,7 @@ export function HowItWorksSection() {
       <SoftOrb tone="white" className="w-72 h-72 top-[-40px] start-1/3 opacity-80" />
       <SoftOrb tone="indigo" className="w-56 h-56 bottom-[-30px] end-10 opacity-60" />
       <DotGrid className="opacity-30" />
+      <GeoAccents variant="light" />
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
         <div className="text-center max-w-[640px] mx-auto mb-10">
           <p className="rule-label justify-center mb-5">
@@ -42,7 +43,8 @@ export function HowItWorksSection() {
           <SectionDivider />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-5">
+          <span className="how-steps-rail" aria-hidden="true" />
           {steps.map((step) => {
             const Icon = step.icon;
             return (

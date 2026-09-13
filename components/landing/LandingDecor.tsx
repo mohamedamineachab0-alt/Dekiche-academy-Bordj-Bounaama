@@ -7,6 +7,27 @@ import type { ReactNode } from "react";
 
 type Tone = "indigo" | "yellow" | "white" | "soft";
 
+/** Concentric purple rings + solid circles — sits behind content on hero/auth. */
+export function PurpleCircles() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div className="absolute -top-20 -start-16 h-[280px] w-[280px] rounded-full border-[1.5px] border-[#c4b5fd]/45 sm:h-[380px] sm:w-[380px]" />
+      <div className="absolute -top-8 start-8 h-[180px] w-[180px] rounded-full border border-[#ede9fe]/30 sm:h-[240px] sm:w-[240px]" />
+      <div className="absolute top-[6%] -end-24 h-[320px] w-[320px] rounded-full border-2 border-white/20 sm:h-[420px] sm:w-[420px]" />
+      <div className="absolute top-[14%] end-[8%] h-[160px] w-[160px] rounded-full border border-[#a78bfa]/50 sm:h-[200px] sm:w-[200px]" />
+      <div className="absolute bottom-[-70px] start-[-40px] h-[240px] w-[240px] rounded-full border-[1.5px] border-[#ede9fe]/25 sm:h-[340px] sm:w-[340px]" />
+      <div className="absolute bottom-[10%] start-[12%] h-[110px] w-[110px] rounded-full border border-white/35" />
+      <div className="absolute bottom-[-40px] end-[8%] h-[200px] w-[200px] rounded-full border border-[#c4b5fd]/40 sm:h-[280px] sm:w-[280px]" />
+
+      <div className="absolute top-[22%] start-[10%] h-16 w-16 rounded-full bg-[#2e1065]/55 sm:h-24 sm:w-24" />
+      <div className="absolute top-[38%] end-[6%] h-12 w-12 rounded-full bg-[#7c3aed]/45 sm:h-16 sm:w-16" />
+      <div className="absolute bottom-[22%] end-[18%] h-20 w-20 rounded-full bg-[#4c1d95]/70" />
+      <div className="absolute bottom-[16%] start-[28%] h-8 w-8 rounded-full bg-[#ede9fe]/25" />
+      <div className="absolute top-[58%] start-[4%] h-10 w-10 rounded-full bg-[#a78bfa]/30" />
+    </div>
+  );
+}
+
 export function SoftOrb({
   className = "",
   tone = "indigo",
@@ -117,6 +138,22 @@ export function GeoAccents({ variant = "light" }: { variant?: "light" | "hero" |
         <circle cx="40" cy="24" r="2.5" className={fill} />
         <circle cx="56" cy="10" r="1.5" className={fill} />
         <circle cx="70" cy="22" r="2" className={fill} />
+      </svg>
+
+      <svg
+        className={`landing-float-c absolute top-[38%] end-[12%] w-10 h-10 md:w-14 md:h-14 ${stroke}`}
+        viewBox="0 0 56 56"
+        fill="none"
+      >
+        <path d="M28 6 L50 28 L28 50 L6 28 Z" strokeWidth="1.5" />
+      </svg>
+
+      <svg
+        className={`absolute top-[22%] end-[22%] w-8 h-8 opacity-50 ${stroke}`}
+        viewBox="0 0 32 32"
+        fill="none"
+      >
+        <path d="M16 4v24M4 16h24" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     </div>
   );

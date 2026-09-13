@@ -3,6 +3,7 @@ import { Plus, Video, Download, PlayCircle } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import Link from "next/link";
 import { SubjectFilterForm } from "@/components/admin/SubjectFilterForm";
+import { DeleteLessonButton } from "@/components/admin/DeleteLessonButton";
 
 export default async function AdminLessonsPage({
   searchParams,
@@ -102,12 +103,15 @@ export default async function AdminLessonsPage({
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-2">
                               <h4 className="font-bold text-ink truncate">{lesson.title}</h4>
-                              <Link
-                                href={`/dashboard/admin/lessons/${lesson.id}/edit`}
-                                className="text-xs badge-soft shrink-0"
-                              >
-                                تعديل
-                              </Link>
+                              <div className="flex items-center gap-1 shrink-0">
+                                <Link
+                                  href={`/dashboard/admin/lessons/${lesson.id}/edit`}
+                                  className="text-xs badge-soft"
+                                >
+                                  تعديل
+                                </Link>
+                                <DeleteLessonButton lessonId={lesson.id} lessonTitle={lesson.title} />
+                              </div>
                             </div>
                             <p className="text-xs text-muted font-mono mt-1">Vimeo: {lesson.vimeoVideoId}</p>
                           </div>

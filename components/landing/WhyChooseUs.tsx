@@ -47,6 +47,7 @@ export function WhyChooseUs() {
       <SoftOrb tone="indigo" className="w-64 h-64 -top-16 -start-10 opacity-70" />
       <SoftOrb tone="white" className="w-48 h-48 bottom-0 end-0 opacity-50" />
       <DotGrid />
+      <div className="landing-plus-field-ink absolute inset-0 pointer-events-none" aria-hidden="true" />
       <GeoAccents variant="light" />
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">

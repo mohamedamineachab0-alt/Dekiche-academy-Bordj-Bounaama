@@ -67,20 +67,15 @@ export default async function SubjectDetailsPage({
       }),
       prisma.dailyExercise.findMany({
         where: {
-          AND: [
-            { OR: [{ subjectId: id }, { secondarySubjectId: id }] },
-            streamFilter.OR ? { OR: streamFilter.OR } : {},
-          ],
+          OR: [{ subjectId: id }, { secondarySubjectId: id }],
           month: { in: enrolledMonths },
+          ...streamFilter,
         },
         orderBy: { createdAt: "desc" },
       }),
       prisma.exam.findMany({
         where: {
-          AND: [
-            { OR: [{ subjectId: id }, { secondarySubjectId: id }] },
-            streamFilter.OR ? { OR: streamFilter.OR } : {},
-          ],
+          OR: [{ subjectId: id }, { secondarySubjectId: id }],
           month: { in: enrolledMonths },
         },
         orderBy: { createdAt: "desc" },

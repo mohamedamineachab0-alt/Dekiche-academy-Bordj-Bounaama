@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { CheckCircle } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { DailyExerciseForm } from "@/components/admin/DailyExerciseForm";
+import { SubjectName } from "@/components/shared/SubjectName";
 
 export default async function AdminExercisesPage() {
   const subjects = await prisma.subject.findMany({
@@ -41,7 +42,7 @@ export default async function AdminExercisesPage() {
                 <div className="p-5 flex-1 flex flex-col">
                   <h3 className="font-bold text-ink line-clamp-1">{ex.title}</h3>
                   <div className="mt-3 space-y-1">
-                    <p className="text-xs font-semibold text-muted badge-outline w-fit">المادة: {ex.subject.title}</p>
+                    <div className="text-xs font-semibold text-muted badge-outline w-fit flex gap-1">المادة: <SubjectName subject={ex.subject} /></div>
                     {ex.secondarySubject && (
                       <p className="text-xs font-semibold text-muted badge-outline w-fit">
                         ثانوي: {ex.secondarySubject.title}

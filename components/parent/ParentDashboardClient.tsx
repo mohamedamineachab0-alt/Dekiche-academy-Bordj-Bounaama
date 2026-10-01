@@ -12,6 +12,7 @@ import {
 import { submitParentTicket } from "@/actions/parents";
 import { INACTIVE_DAYS, labelLevel, labelStream } from "@/lib/education-labels";
 import type { ParentChildStats } from "@/lib/parent-children";
+import { EditStudentProfileClient } from "@/components/student/EditStudentProfileClient";
 
 type ParentDashboardClientProps = {
   students: ParentChildStats[];
@@ -130,6 +131,15 @@ export function ParentDashboardClient({ students, parentId }: ParentDashboardCli
                         </div>
                       ))
                     )}
+                    <EditStudentProfileClient 
+                      student={{
+                        id: student.id,
+                        fullName: student.fullName,
+                        phase: student.phase || "",
+                        level: student.level || "",
+                        stream: student.stream || ""
+                      }} 
+                    />
                   </article>
                 ))}
               </div>

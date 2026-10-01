@@ -4,6 +4,8 @@ import { Video, Calendar, Plus, Link as LinkIcon, Trash2 } from "lucide-react";
 import { createLiveClass, deleteLiveClass } from "@/actions/live";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { MonthSelect } from "@/components/shared/MonthSelect";
+import { SubjectSelector } from "@/components/shared/SubjectSelector";
+import { SubjectName } from "@/components/shared/SubjectName";
 
 export default async function AdminLiveClassesPage() {
   const liveClasses = await prisma.liveClass.findMany({
@@ -16,7 +18,7 @@ export default async function AdminLiveClassesPage() {
   });
 
   const subjects = await prisma.subject.findMany({
-    select: { id: true, title: true, levels: true, streams: true },
+    select: { id: true, title: true, phase: true, levels: true, streams: true },
   });
 
   return (
@@ -57,19 +59,8 @@ export default async function AdminLiveClassesPage() {
               </div>
 
               <div>
-                <label className="field-label">المادة الدراسية</label>
-                <select name="subjectId" required className="input-field">
-                  <option value="">اختر المادة</option>
-                  {subjects.map((s) => {
-                    const levelStr = labelLevel(s.levels?.[0]);
-                    const streamStr = labelStream(s.streams?.[0]);
-                    return (
-                      <option key={s.id} value={s.id}>
-                        {s.title} ({levelStr} - {streamStr})
-                      </option>
-                    );
-                  })}
-                </select>
+                <label className="field-label mb-2">المادة الدراسية</label>
+                <SubjectSelector subjects={subjects as any[]} />
               </div>
 
               <div>
@@ -139,7 +130,7 @@ export default async function AdminLiveClassesPage() {
 
                   <h3 className="font-bold text-ink text-lg mb-2 leading-snug">{liveClass.title}</h3>
                   <span className="badge-outline w-fit mb-4">
-                    {liveClass.subject.title} · {levelStr}
+                    <SubjectName subject={liveClass.subject} />
                   </span>
 
                   <p className="flex items-center gap-2 text-sm text-muted flex-1 mb-4">

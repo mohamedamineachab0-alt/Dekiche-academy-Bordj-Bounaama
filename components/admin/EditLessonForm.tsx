@@ -66,7 +66,8 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
   const [streams, setStreams] = useState<Stream[]>(initialData.streams);
   const [levels, setLevels] = useState<string[]>(initialData.levels);
   const [month, setMonth] = useState(initialData.month.toString());
-  const [vimeoVideoId, setVimeoVideoId] = useState(initialData.vimeoVideoId);
+  const [vimeoVideoId, setVimeoVideoId] = useState(initialData.vimeoVideoId || "");
+  const [youtubeVideoId, setYoutubeVideoId] = useState(initialData.youtubeVideoId || "");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(initialData.image || null);
 
@@ -135,8 +136,8 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (subjectIds.length === 0 || !title || !vimeoVideoId || !month) {
-      setError("الرجاء ملء جميع الحقول المطلوبة (المادة، العنوان، فيديو فيميو، والشهر)");
+    if (subjectIds.length === 0 || !title || (!vimeoVideoId && !youtubeVideoId) || !month) {
+      setError("الرجاء ملء جميع الحقول المطلوبة (المادة، العنوان، رابط فيديو واحد على الأقل، والشهر)");
       return;
     }
     setLoading(true);
@@ -167,6 +168,7 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
         levels,
         month: parseInt(month),
         vimeoVideoId,
+        youtubeVideoId,
         image: imageUrl,
         quiz: manualQuestions.length > 0 ? {
           maxScore: 20,
@@ -249,14 +251,23 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-bold text-ink mb-2">رابط فيديو Vimeo *</label>
+            <label className="block text-sm font-bold text-ink mb-2">رابط فيديو Vimeo (اختياري إذا وجد يوتيوب)</label>
             <input
               type="text"
               value={vimeoVideoId}
               onChange={(e) => setVimeoVideoId(e.target.value)}
               className="w-full p-3 rounded-xl border border-line focus:outline-none focus:ring-2 focus:ring-primary-mid font-mono"
               placeholder="مثال: 123456789"
-              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-bold text-ink mb-2">رابط فيديو YouTube (اختياري إذا وجد فيميو)</label>
+            <input
+              type="text"
+              value={youtubeVideoId}
+              onChange={(e) => setYoutubeVideoId(e.target.value)}
+              className="w-full p-3 rounded-xl border border-line focus:outline-none focus:ring-2 focus:ring-primary-mid font-mono"
+              placeholder="مثال: dQw4w9WgXcQ"
             />
           </div>
           <div>
@@ -304,7 +315,10 @@ export function EditLessonForm({ subjects, initialData }: { subjects: any[], ini
                   onChange={(e) => handleSubjectChange(subject.id, e.target.checked)}
                   className="rounded text-primary focus:ring-primary-mid"
                 />
-                <span className="text-sm font-bold text-ink">{subject.title}</span>
+                <span className="text-sm font-bold text-ink">
+                  {subject.title} ({subject.levels?.map((l: string) => LEVEL_ARABIC[l] || l).join(', ')}
+                  {subject.streams?.length && !subject.streams.includes('NONE') ? ` - ${subject.streams.map((st: string) => STREAM_ARABIC[st] || st).join(', ')}` : ''})
+                </span>
               </label>
             ))}
           </div>

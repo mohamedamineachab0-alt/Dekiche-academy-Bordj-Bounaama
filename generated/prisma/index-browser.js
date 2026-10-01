@@ -194,12 +194,15 @@ exports.Prisma.MonthScalarFieldEnum = {
 exports.Prisma.LessonScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  description: 'description',
   month: 'month',
   monthId: 'monthId',
   vimeoVideoId: 'vimeoVideoId',
+  youtubeVideoId: 'youtubeVideoId',
   image: 'image',
   streams: 'streams',
   levels: 'levels',
+  order: 'order',
   createdAt: 'createdAt'
 };
 
@@ -209,6 +212,24 @@ exports.Prisma.LessonMaterialScalarFieldEnum = {
   fileUrl: 'fileUrl',
   lessonId: 'lessonId',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.PendingLessonScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  subjectId: 'subjectId',
+  stream: 'stream',
+  level: 'level',
+  month: 'month',
+  editingNotes: 'editingNotes',
+  vimeoVideoId: 'vimeoVideoId',
+  vimeoUrl: 'vimeoUrl',
+  pdfUrl: 'pdfUrl',
+  status: 'status',
+  teacherId: 'teacherId',
+  publishedLessonId: 'publishedLessonId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.LessonCompletionScalarFieldEnum = {
@@ -288,6 +309,7 @@ exports.Prisma.EnrollmentScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
   subjectId: 'subjectId',
+  groupId: 'groupId',
   enrolledMonths: 'enrolledMonths',
   createdAt: 'createdAt'
 };
@@ -450,6 +472,24 @@ exports.Prisma.AdminAiInsightScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PlatformSettingScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  value: 'value',
+  description: 'description',
+  updatedAt: 'updatedAt',
+  updatedByAdminId: 'updatedByAdminId'
+};
+
+exports.Prisma.GroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  level: 'level',
+  subjectId: 'subjectId',
+  teacherId: 'teacherId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -478,7 +518,8 @@ exports.Role = exports.$Enums.Role = {
   STUDENT: 'STUDENT',
   PARENT: 'PARENT',
   TEACHER: 'TEACHER',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
+  EMPLOYEE: 'EMPLOYEE'
 };
 
 exports.Phase = exports.$Enums.Phase = {
@@ -584,6 +625,7 @@ exports.Prisma.ModelName = {
   Month: 'Month',
   Lesson: 'Lesson',
   LessonMaterial: 'LessonMaterial',
+  PendingLesson: 'PendingLesson',
   LessonCompletion: 'LessonCompletion',
   Quiz: 'Quiz',
   QuizCompletion: 'QuizCompletion',
@@ -607,7 +649,9 @@ exports.Prisma.ModelName = {
   ForumMessage: 'ForumMessage',
   ParentTicket: 'ParentTicket',
   File: 'File',
-  AdminAiInsight: 'AdminAiInsight'
+  AdminAiInsight: 'AdminAiInsight',
+  PlatformSetting: 'PlatformSetting',
+  Group: 'Group'
 };
 
 /**

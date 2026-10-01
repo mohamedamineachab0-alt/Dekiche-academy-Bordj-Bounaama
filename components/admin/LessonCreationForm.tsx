@@ -29,7 +29,8 @@ export function LessonCreationForm({ subjects }: { subjects: { id: string, title
         
         <div className="grid grid-cols-2 gap-4">
           <input name="month" type="number" placeholder="Month (e.g. 1)" required className="w-full bg-primary-soft border border-line p-3 rounded-xl text-ink font-bold placeholder-muted focus:outline-none focus:ring-4 focus:ring-primary-mid/20" />
-          <input name="vimeoVideoId" placeholder="Vimeo Video ID" required className="w-full bg-primary-soft border border-line p-3 rounded-xl text-ink font-bold placeholder-muted focus:outline-none focus:ring-4 focus:ring-primary-mid/20" />
+          <input name="vimeoVideoId" placeholder="Vimeo Video ID" className="w-full bg-primary-soft border border-line p-3 rounded-xl text-ink font-bold placeholder-muted focus:outline-none focus:ring-4 focus:ring-primary-mid/20" />
+          <input name="youtubeVideoId" placeholder="YouTube Video ID" className="w-full bg-primary-soft border border-line p-3 rounded-xl text-ink font-bold placeholder-muted focus:outline-none focus:ring-4 focus:ring-primary-mid/20" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

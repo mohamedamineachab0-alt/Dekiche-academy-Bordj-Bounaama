@@ -54,6 +54,11 @@ export type Lesson = $Result.DefaultSelection<Prisma.$LessonPayload>
  */
 export type LessonMaterial = $Result.DefaultSelection<Prisma.$LessonMaterialPayload>
 /**
+ * Model PendingLesson
+ * 
+ */
+export type PendingLesson = $Result.DefaultSelection<Prisma.$PendingLessonPayload>
+/**
  * Model LessonCompletion
  * 
  */
@@ -173,6 +178,16 @@ export type File = $Result.DefaultSelection<Prisma.$FilePayload>
  * Cached AI recommendations for the admin analytics hub or a student profile.
  */
 export type AdminAiInsight = $Result.DefaultSelection<Prisma.$AdminAiInsightPayload>
+/**
+ * Model PlatformSetting
+ * 
+ */
+export type PlatformSetting = $Result.DefaultSelection<Prisma.$PlatformSettingPayload>
+/**
+ * Model Group
+ * 
+ */
+export type Group = $Result.DefaultSelection<Prisma.$GroupPayload>
 
 /**
  * Enums
@@ -182,7 +197,8 @@ export namespace $Enums {
   STUDENT: 'STUDENT',
   PARENT: 'PARENT',
   TEACHER: 'TEACHER',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
+  EMPLOYEE: 'EMPLOYEE'
 };
 
 export type Role = (typeof Role)[keyof typeof Role]
@@ -530,6 +546,16 @@ export class PrismaClient<
   get lessonMaterial(): Prisma.LessonMaterialDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.pendingLesson`: Exposes CRUD operations for the **PendingLesson** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PendingLessons
+    * const pendingLessons = await prisma.pendingLesson.findMany()
+    * ```
+    */
+  get pendingLesson(): Prisma.PendingLessonDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.lessonCompletion`: Exposes CRUD operations for the **LessonCompletion** model.
     * Example usage:
     * ```ts
@@ -768,6 +794,26 @@ export class PrismaClient<
     * ```
     */
   get adminAiInsight(): Prisma.AdminAiInsightDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.platformSetting`: Exposes CRUD operations for the **PlatformSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PlatformSettings
+    * const platformSettings = await prisma.platformSetting.findMany()
+    * ```
+    */
+  get platformSetting(): Prisma.PlatformSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.group`: Exposes CRUD operations for the **Group** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Groups
+    * const groups = await prisma.group.findMany()
+    * ```
+    */
+  get group(): Prisma.GroupDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1223,6 +1269,7 @@ export namespace Prisma {
     Month: 'Month',
     Lesson: 'Lesson',
     LessonMaterial: 'LessonMaterial',
+    PendingLesson: 'PendingLesson',
     LessonCompletion: 'LessonCompletion',
     Quiz: 'Quiz',
     QuizCompletion: 'QuizCompletion',
@@ -1246,7 +1293,9 @@ export namespace Prisma {
     ForumMessage: 'ForumMessage',
     ParentTicket: 'ParentTicket',
     File: 'File',
-    AdminAiInsight: 'AdminAiInsight'
+    AdminAiInsight: 'AdminAiInsight',
+    PlatformSetting: 'PlatformSetting',
+    Group: 'Group'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1262,7 +1311,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "month" | "lesson" | "lessonMaterial" | "lessonCompletion" | "quiz" | "quizCompletion" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exerciseMaterial" | "exam" | "examMaterial" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket" | "file" | "adminAiInsight"
+      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "month" | "lesson" | "lessonMaterial" | "pendingLesson" | "lessonCompletion" | "quiz" | "quizCompletion" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exerciseMaterial" | "exam" | "examMaterial" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket" | "file" | "adminAiInsight" | "platformSetting" | "group"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1855,6 +1904,80 @@ export namespace Prisma {
           count: {
             args: Prisma.LessonMaterialCountArgs<ExtArgs>
             result: $Utils.Optional<LessonMaterialCountAggregateOutputType> | number
+          }
+        }
+      }
+      PendingLesson: {
+        payload: Prisma.$PendingLessonPayload<ExtArgs>
+        fields: Prisma.PendingLessonFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PendingLessonFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PendingLessonPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PendingLessonFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PendingLessonPayload>
+          }
+          findFirst: {
+            args: Prisma.PendingLessonFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PendingLessonPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PendingLessonFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PendingLessonPayload>
+          }
+          findMany: {
+            args: Prisma.PendingLessonFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PendingLessonPayload>[]
+          }
+          create: {
+            args: Prisma.PendingLessonCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PendingLessonPayload>
+          }
+          createMany: {
+            args: Prisma.PendingLessonCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PendingLessonCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PendingLessonPayload>[]
+          }
+          delete: {
+            args: Prisma.PendingLessonDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PendingLessonPayload>
+          }
+          update: {
+            args: Prisma.PendingLessonUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PendingLessonPayload>
+          }
+          deleteMany: {
+            args: Prisma.PendingLessonDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PendingLessonUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PendingLessonUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PendingLessonPayload>[]
+          }
+          upsert: {
+            args: Prisma.PendingLessonUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PendingLessonPayload>
+          }
+          aggregate: {
+            args: Prisma.PendingLessonAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePendingLesson>
+          }
+          groupBy: {
+            args: Prisma.PendingLessonGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PendingLessonGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PendingLessonCountArgs<ExtArgs>
+            result: $Utils.Optional<PendingLessonCountAggregateOutputType> | number
           }
         }
       }
@@ -3634,6 +3757,154 @@ export namespace Prisma {
           }
         }
       }
+      PlatformSetting: {
+        payload: Prisma.$PlatformSettingPayload<ExtArgs>
+        fields: Prisma.PlatformSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PlatformSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PlatformSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.PlatformSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PlatformSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>
+          }
+          findMany: {
+            args: Prisma.PlatformSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>[]
+          }
+          create: {
+            args: Prisma.PlatformSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>
+          }
+          createMany: {
+            args: Prisma.PlatformSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PlatformSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.PlatformSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>
+          }
+          update: {
+            args: Prisma.PlatformSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.PlatformSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PlatformSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PlatformSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.PlatformSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.PlatformSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePlatformSetting>
+          }
+          groupBy: {
+            args: Prisma.PlatformSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PlatformSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PlatformSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<PlatformSettingCountAggregateOutputType> | number
+          }
+        }
+      }
+      Group: {
+        payload: Prisma.$GroupPayload<ExtArgs>
+        fields: Prisma.GroupFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GroupFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GroupFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>
+          }
+          findFirst: {
+            args: Prisma.GroupFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GroupFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>
+          }
+          findMany: {
+            args: Prisma.GroupFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>[]
+          }
+          create: {
+            args: Prisma.GroupCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>
+          }
+          createMany: {
+            args: Prisma.GroupCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GroupCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>[]
+          }
+          delete: {
+            args: Prisma.GroupDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>
+          }
+          update: {
+            args: Prisma.GroupUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>
+          }
+          deleteMany: {
+            args: Prisma.GroupDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GroupUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GroupUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>[]
+          }
+          upsert: {
+            args: Prisma.GroupUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>
+          }
+          aggregate: {
+            args: Prisma.GroupAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGroup>
+          }
+          groupBy: {
+            args: Prisma.GroupGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GroupGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GroupCountArgs<ExtArgs>
+            result: $Utils.Optional<GroupCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3765,6 +4036,7 @@ export namespace Prisma {
     month?: MonthOmit
     lesson?: LessonOmit
     lessonMaterial?: LessonMaterialOmit
+    pendingLesson?: PendingLessonOmit
     lessonCompletion?: LessonCompletionOmit
     quiz?: QuizOmit
     quizCompletion?: QuizCompletionOmit
@@ -3789,6 +4061,8 @@ export namespace Prisma {
     parentTicket?: ParentTicketOmit
     file?: FileOmit
     adminAiInsight?: AdminAiInsightOmit
+    platformSetting?: PlatformSettingOmit
+    group?: GroupOmit
   }
 
   /* Types for Logging */
@@ -3884,6 +4158,8 @@ export namespace Prisma {
     adminAiInsights: number
     lessonCompletions: number
     quizCompletions: number
+    platformSettings: number
+    pendingLessons: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3902,6 +4178,8 @@ export namespace Prisma {
     adminAiInsights?: boolean | UserCountOutputTypeCountAdminAiInsightsArgs
     lessonCompletions?: boolean | UserCountOutputTypeCountLessonCompletionsArgs
     quizCompletions?: boolean | UserCountOutputTypeCountQuizCompletionsArgs
+    platformSettings?: boolean | UserCountOutputTypeCountPlatformSettingsArgs
+    pendingLessons?: boolean | UserCountOutputTypeCountPendingLessonsArgs
   }
 
   // Custom InputTypes
@@ -4020,6 +4298,20 @@ export namespace Prisma {
     where?: QuizCompletionWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPlatformSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformSettingWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPendingLessonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PendingLessonWhereInput
+  }
+
 
   /**
    * Count Type TeacherCountOutputType
@@ -4027,10 +4319,12 @@ export namespace Prisma {
 
   export type TeacherCountOutputType = {
     subjects: number
+    groups: number
   }
 
   export type TeacherCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subjects?: boolean | TeacherCountOutputTypeCountSubjectsArgs
+    groups?: boolean | TeacherCountOutputTypeCountGroupsArgs
   }
 
   // Custom InputTypes
@@ -4051,6 +4345,13 @@ export namespace Prisma {
     where?: SubjectWhereInput
   }
 
+  /**
+   * TeacherCountOutputType without action
+   */
+  export type TeacherCountOutputTypeCountGroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GroupWhereInput
+  }
+
 
   /**
    * Count Type SubjectCountOutputType
@@ -4068,6 +4369,8 @@ export namespace Prisma {
     reviewCards: number
     classForums: number
     lessons: number
+    pendingLessons: number
+    groups: number
   }
 
   export type SubjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4082,6 +4385,8 @@ export namespace Prisma {
     reviewCards?: boolean | SubjectCountOutputTypeCountReviewCardsArgs
     classForums?: boolean | SubjectCountOutputTypeCountClassForumsArgs
     lessons?: boolean | SubjectCountOutputTypeCountLessonsArgs
+    pendingLessons?: boolean | SubjectCountOutputTypeCountPendingLessonsArgs
+    groups?: boolean | SubjectCountOutputTypeCountGroupsArgs
   }
 
   // Custom InputTypes
@@ -4172,6 +4477,20 @@ export namespace Prisma {
     where?: LessonWhereInput
   }
 
+  /**
+   * SubjectCountOutputType without action
+   */
+  export type SubjectCountOutputTypeCountPendingLessonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PendingLessonWhereInput
+  }
+
+  /**
+   * SubjectCountOutputType without action
+   */
+  export type SubjectCountOutputTypeCountGroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GroupWhereInput
+  }
+
 
   /**
    * Count Type MonthCountOutputType
@@ -4224,6 +4543,7 @@ export namespace Prisma {
     dailyExercises: number
     reviewCards: number
     completions: number
+    pendingLessons: number
   }
 
   export type LessonCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4233,6 +4553,7 @@ export namespace Prisma {
     dailyExercises?: boolean | LessonCountOutputTypeCountDailyExercisesArgs
     reviewCards?: boolean | LessonCountOutputTypeCountReviewCardsArgs
     completions?: boolean | LessonCountOutputTypeCountCompletionsArgs
+    pendingLessons?: boolean | LessonCountOutputTypeCountPendingLessonsArgs
   }
 
   // Custom InputTypes
@@ -4286,6 +4607,13 @@ export namespace Prisma {
    */
   export type LessonCountOutputTypeCountCompletionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LessonCompletionWhereInput
+  }
+
+  /**
+   * LessonCountOutputType without action
+   */
+  export type LessonCountOutputTypeCountPendingLessonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PendingLessonWhereInput
   }
 
 
@@ -4459,6 +4787,37 @@ export namespace Prisma {
    */
   export type ClassForumCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ForumMessageWhereInput
+  }
+
+
+  /**
+   * Count Type GroupCountOutputType
+   */
+
+  export type GroupCountOutputType = {
+    enrollments: number
+  }
+
+  export type GroupCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    enrollments?: boolean | GroupCountOutputTypeCountEnrollmentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * GroupCountOutputType without action
+   */
+  export type GroupCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupCountOutputType
+     */
+    select?: GroupCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * GroupCountOutputType without action
+   */
+  export type GroupCountOutputTypeCountEnrollmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EnrollmentWhereInput
   }
 
 
@@ -4726,6 +5085,8 @@ export namespace Prisma {
     adminAiInsights?: boolean | User$adminAiInsightsArgs<ExtArgs>
     lessonCompletions?: boolean | User$lessonCompletionsArgs<ExtArgs>
     quizCompletions?: boolean | User$quizCompletionsArgs<ExtArgs>
+    platformSettings?: boolean | User$platformSettingsArgs<ExtArgs>
+    pendingLessons?: boolean | User$pendingLessonsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4791,6 +5152,8 @@ export namespace Prisma {
     adminAiInsights?: boolean | User$adminAiInsightsArgs<ExtArgs>
     lessonCompletions?: boolean | User$lessonCompletionsArgs<ExtArgs>
     quizCompletions?: boolean | User$quizCompletionsArgs<ExtArgs>
+    platformSettings?: boolean | User$platformSettingsArgs<ExtArgs>
+    pendingLessons?: boolean | User$pendingLessonsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4817,6 +5180,8 @@ export namespace Prisma {
       adminAiInsights: Prisma.$AdminAiInsightPayload<ExtArgs>[]
       lessonCompletions: Prisma.$LessonCompletionPayload<ExtArgs>[]
       quizCompletions: Prisma.$QuizCompletionPayload<ExtArgs>[]
+      platformSettings: Prisma.$PlatformSettingPayload<ExtArgs>[]
+      pendingLessons: Prisma.$PendingLessonPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5242,6 +5607,8 @@ export namespace Prisma {
     adminAiInsights<T extends User$adminAiInsightsArgs<ExtArgs> = {}>(args?: Subset<T, User$adminAiInsightsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminAiInsightPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     lessonCompletions<T extends User$lessonCompletionsArgs<ExtArgs> = {}>(args?: Subset<T, User$lessonCompletionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LessonCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     quizCompletions<T extends User$quizCompletionsArgs<ExtArgs> = {}>(args?: Subset<T, User$quizCompletionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    platformSettings<T extends User$platformSettingsArgs<ExtArgs> = {}>(args?: Subset<T, User$platformSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    pendingLessons<T extends User$pendingLessonsArgs<ExtArgs> = {}>(args?: Subset<T, User$pendingLessonsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6089,6 +6456,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: QuizCompletionScalarFieldEnum | QuizCompletionScalarFieldEnum[]
+  }
+
+  /**
+   * User.platformSettings
+   */
+  export type User$platformSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSettingInclude<ExtArgs> | null
+    where?: PlatformSettingWhereInput
+    orderBy?: PlatformSettingOrderByWithRelationInput | PlatformSettingOrderByWithRelationInput[]
+    cursor?: PlatformSettingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlatformSettingScalarFieldEnum | PlatformSettingScalarFieldEnum[]
+  }
+
+  /**
+   * User.pendingLessons
+   */
+  export type User$pendingLessonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonInclude<ExtArgs> | null
+    where?: PendingLessonWhereInput
+    orderBy?: PendingLessonOrderByWithRelationInput | PendingLessonOrderByWithRelationInput[]
+    cursor?: PendingLessonWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PendingLessonScalarFieldEnum | PendingLessonScalarFieldEnum[]
   }
 
   /**
@@ -8577,6 +8992,7 @@ export namespace Prisma {
     createdAt?: boolean
     user?: boolean | Teacher$userArgs<ExtArgs>
     subjects?: boolean | Teacher$subjectsArgs<ExtArgs>
+    groups?: boolean | Teacher$groupsArgs<ExtArgs>
     _count?: boolean | TeacherCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["teacher"]>
 
@@ -8619,6 +9035,7 @@ export namespace Prisma {
   export type TeacherInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Teacher$userArgs<ExtArgs>
     subjects?: boolean | Teacher$subjectsArgs<ExtArgs>
+    groups?: boolean | Teacher$groupsArgs<ExtArgs>
     _count?: boolean | TeacherCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TeacherIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8633,6 +9050,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs> | null
       subjects: Prisma.$SubjectPayload<ExtArgs>[]
+      groups: Prisma.$GroupPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9039,6 +9457,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends Teacher$userArgs<ExtArgs> = {}>(args?: Subset<T, Teacher$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     subjects<T extends Teacher$subjectsArgs<ExtArgs> = {}>(args?: Subset<T, Teacher$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    groups<T extends Teacher$groupsArgs<ExtArgs> = {}>(args?: Subset<T, Teacher$groupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9520,6 +9939,30 @@ export namespace Prisma {
   }
 
   /**
+   * Teacher.groups
+   */
+  export type Teacher$groupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    where?: GroupWhereInput
+    orderBy?: GroupOrderByWithRelationInput | GroupOrderByWithRelationInput[]
+    cursor?: GroupWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GroupScalarFieldEnum | GroupScalarFieldEnum[]
+  }
+
+  /**
    * Teacher without action
    */
   export type TeacherDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9804,6 +10247,8 @@ export namespace Prisma {
     reviewCards?: boolean | Subject$reviewCardsArgs<ExtArgs>
     classForums?: boolean | Subject$classForumsArgs<ExtArgs>
     lessons?: boolean | Subject$lessonsArgs<ExtArgs>
+    pendingLessons?: boolean | Subject$pendingLessonsArgs<ExtArgs>
+    groups?: boolean | Subject$groupsArgs<ExtArgs>
     _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subject"]>
 
@@ -9871,6 +10316,8 @@ export namespace Prisma {
     reviewCards?: boolean | Subject$reviewCardsArgs<ExtArgs>
     classForums?: boolean | Subject$classForumsArgs<ExtArgs>
     lessons?: boolean | Subject$lessonsArgs<ExtArgs>
+    pendingLessons?: boolean | Subject$pendingLessonsArgs<ExtArgs>
+    groups?: boolean | Subject$groupsArgs<ExtArgs>
     _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SubjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9895,6 +10342,8 @@ export namespace Prisma {
       reviewCards: Prisma.$ReviewCardPayload<ExtArgs>[]
       classForums: Prisma.$ClassForumPayload<ExtArgs>[]
       lessons: Prisma.$LessonPayload<ExtArgs>[]
+      pendingLessons: Prisma.$PendingLessonPayload<ExtArgs>[]
+      groups: Prisma.$GroupPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10316,6 +10765,8 @@ export namespace Prisma {
     reviewCards<T extends Subject$reviewCardsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$reviewCardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewCardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     classForums<T extends Subject$classForumsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$classForumsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassForumPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     lessons<T extends Subject$lessonsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$lessonsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    pendingLessons<T extends Subject$pendingLessonsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$pendingLessonsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    groups<T extends Subject$groupsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$groupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11039,6 +11490,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LessonScalarFieldEnum | LessonScalarFieldEnum[]
+  }
+
+  /**
+   * Subject.pendingLessons
+   */
+  export type Subject$pendingLessonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonInclude<ExtArgs> | null
+    where?: PendingLessonWhereInput
+    orderBy?: PendingLessonOrderByWithRelationInput | PendingLessonOrderByWithRelationInput[]
+    cursor?: PendingLessonWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PendingLessonScalarFieldEnum | PendingLessonScalarFieldEnum[]
+  }
+
+  /**
+   * Subject.groups
+   */
+  export type Subject$groupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    where?: GroupWhereInput
+    orderBy?: GroupOrderByWithRelationInput | GroupOrderByWithRelationInput[]
+    cursor?: GroupWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GroupScalarFieldEnum | GroupScalarFieldEnum[]
   }
 
   /**
@@ -12198,41 +12697,52 @@ export namespace Prisma {
 
   export type LessonAvgAggregateOutputType = {
     month: number | null
+    order: number | null
   }
 
   export type LessonSumAggregateOutputType = {
     month: number | null
+    order: number | null
   }
 
   export type LessonMinAggregateOutputType = {
     id: string | null
     title: string | null
+    description: string | null
     month: number | null
     monthId: string | null
     vimeoVideoId: string | null
+    youtubeVideoId: string | null
     image: string | null
+    order: number | null
     createdAt: Date | null
   }
 
   export type LessonMaxAggregateOutputType = {
     id: string | null
     title: string | null
+    description: string | null
     month: number | null
     monthId: string | null
     vimeoVideoId: string | null
+    youtubeVideoId: string | null
     image: string | null
+    order: number | null
     createdAt: Date | null
   }
 
   export type LessonCountAggregateOutputType = {
     id: number
     title: number
+    description: number
     month: number
     monthId: number
     vimeoVideoId: number
+    youtubeVideoId: number
     image: number
     streams: number
     levels: number
+    order: number
     createdAt: number
     _all: number
   }
@@ -12240,41 +12750,52 @@ export namespace Prisma {
 
   export type LessonAvgAggregateInputType = {
     month?: true
+    order?: true
   }
 
   export type LessonSumAggregateInputType = {
     month?: true
+    order?: true
   }
 
   export type LessonMinAggregateInputType = {
     id?: true
     title?: true
+    description?: true
     month?: true
     monthId?: true
     vimeoVideoId?: true
+    youtubeVideoId?: true
     image?: true
+    order?: true
     createdAt?: true
   }
 
   export type LessonMaxAggregateInputType = {
     id?: true
     title?: true
+    description?: true
     month?: true
     monthId?: true
     vimeoVideoId?: true
+    youtubeVideoId?: true
     image?: true
+    order?: true
     createdAt?: true
   }
 
   export type LessonCountAggregateInputType = {
     id?: true
     title?: true
+    description?: true
     month?: true
     monthId?: true
     vimeoVideoId?: true
+    youtubeVideoId?: true
     image?: true
     streams?: true
     levels?: true
+    order?: true
     createdAt?: true
     _all?: true
   }
@@ -12368,12 +12889,15 @@ export namespace Prisma {
   export type LessonGroupByOutputType = {
     id: string
     title: string
+    description: string | null
     month: number
     monthId: string | null
     vimeoVideoId: string
+    youtubeVideoId: string | null
     image: string | null
     streams: $Enums.Stream[]
     levels: $Enums.Level[]
+    order: number
     createdAt: Date
     _count: LessonCountAggregateOutputType | null
     _avg: LessonAvgAggregateOutputType | null
@@ -12399,12 +12923,15 @@ export namespace Prisma {
   export type LessonSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    description?: boolean
     month?: boolean
     monthId?: boolean
     vimeoVideoId?: boolean
+    youtubeVideoId?: boolean
     image?: boolean
     streams?: boolean
     levels?: boolean
+    order?: boolean
     createdAt?: boolean
     academicMonth?: boolean | Lesson$academicMonthArgs<ExtArgs>
     subjects?: boolean | Lesson$subjectsArgs<ExtArgs>
@@ -12414,18 +12941,22 @@ export namespace Prisma {
     dailyExercises?: boolean | Lesson$dailyExercisesArgs<ExtArgs>
     reviewCards?: boolean | Lesson$reviewCardsArgs<ExtArgs>
     completions?: boolean | Lesson$completionsArgs<ExtArgs>
+    pendingLessons?: boolean | Lesson$pendingLessonsArgs<ExtArgs>
     _count?: boolean | LessonCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lesson"]>
 
   export type LessonSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    description?: boolean
     month?: boolean
     monthId?: boolean
     vimeoVideoId?: boolean
+    youtubeVideoId?: boolean
     image?: boolean
     streams?: boolean
     levels?: boolean
+    order?: boolean
     createdAt?: boolean
     academicMonth?: boolean | Lesson$academicMonthArgs<ExtArgs>
   }, ExtArgs["result"]["lesson"]>
@@ -12433,12 +12964,15 @@ export namespace Prisma {
   export type LessonSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    description?: boolean
     month?: boolean
     monthId?: boolean
     vimeoVideoId?: boolean
+    youtubeVideoId?: boolean
     image?: boolean
     streams?: boolean
     levels?: boolean
+    order?: boolean
     createdAt?: boolean
     academicMonth?: boolean | Lesson$academicMonthArgs<ExtArgs>
   }, ExtArgs["result"]["lesson"]>
@@ -12446,16 +12980,19 @@ export namespace Prisma {
   export type LessonSelectScalar = {
     id?: boolean
     title?: boolean
+    description?: boolean
     month?: boolean
     monthId?: boolean
     vimeoVideoId?: boolean
+    youtubeVideoId?: boolean
     image?: boolean
     streams?: boolean
     levels?: boolean
+    order?: boolean
     createdAt?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "month" | "monthId" | "vimeoVideoId" | "image" | "streams" | "levels" | "createdAt", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "month" | "monthId" | "vimeoVideoId" | "youtubeVideoId" | "image" | "streams" | "levels" | "order" | "createdAt", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     academicMonth?: boolean | Lesson$academicMonthArgs<ExtArgs>
     subjects?: boolean | Lesson$subjectsArgs<ExtArgs>
@@ -12465,6 +13002,7 @@ export namespace Prisma {
     dailyExercises?: boolean | Lesson$dailyExercisesArgs<ExtArgs>
     reviewCards?: boolean | Lesson$reviewCardsArgs<ExtArgs>
     completions?: boolean | Lesson$completionsArgs<ExtArgs>
+    pendingLessons?: boolean | Lesson$pendingLessonsArgs<ExtArgs>
     _count?: boolean | LessonCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LessonIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12485,16 +13023,20 @@ export namespace Prisma {
       dailyExercises: Prisma.$DailyExercisePayload<ExtArgs>[]
       reviewCards: Prisma.$ReviewCardPayload<ExtArgs>[]
       completions: Prisma.$LessonCompletionPayload<ExtArgs>[]
+      pendingLessons: Prisma.$PendingLessonPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
+      description: string | null
       month: number
       monthId: string | null
       vimeoVideoId: string
+      youtubeVideoId: string | null
       image: string | null
       streams: $Enums.Stream[]
       levels: $Enums.Level[]
+      order: number
       createdAt: Date
     }, ExtArgs["result"]["lesson"]>
     composites: {}
@@ -12898,6 +13440,7 @@ export namespace Prisma {
     dailyExercises<T extends Lesson$dailyExercisesArgs<ExtArgs> = {}>(args?: Subset<T, Lesson$dailyExercisesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyExercisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviewCards<T extends Lesson$reviewCardsArgs<ExtArgs> = {}>(args?: Subset<T, Lesson$reviewCardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewCardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     completions<T extends Lesson$completionsArgs<ExtArgs> = {}>(args?: Subset<T, Lesson$completionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LessonCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    pendingLessons<T extends Lesson$pendingLessonsArgs<ExtArgs> = {}>(args?: Subset<T, Lesson$pendingLessonsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12929,12 +13472,15 @@ export namespace Prisma {
   interface LessonFieldRefs {
     readonly id: FieldRef<"Lesson", 'String'>
     readonly title: FieldRef<"Lesson", 'String'>
+    readonly description: FieldRef<"Lesson", 'String'>
     readonly month: FieldRef<"Lesson", 'Int'>
     readonly monthId: FieldRef<"Lesson", 'String'>
     readonly vimeoVideoId: FieldRef<"Lesson", 'String'>
+    readonly youtubeVideoId: FieldRef<"Lesson", 'String'>
     readonly image: FieldRef<"Lesson", 'String'>
     readonly streams: FieldRef<"Lesson", 'Stream[]'>
     readonly levels: FieldRef<"Lesson", 'Level[]'>
+    readonly order: FieldRef<"Lesson", 'Int'>
     readonly createdAt: FieldRef<"Lesson", 'DateTime'>
   }
     
@@ -13516,6 +14062,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LessonCompletionScalarFieldEnum | LessonCompletionScalarFieldEnum[]
+  }
+
+  /**
+   * Lesson.pendingLessons
+   */
+  export type Lesson$pendingLessonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonInclude<ExtArgs> | null
+    where?: PendingLessonWhereInput
+    orderBy?: PendingLessonOrderByWithRelationInput | PendingLessonOrderByWithRelationInput[]
+    cursor?: PendingLessonWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PendingLessonScalarFieldEnum | PendingLessonScalarFieldEnum[]
   }
 
   /**
@@ -14597,6 +15167,1287 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: LessonMaterialInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PendingLesson
+   */
+
+  export type AggregatePendingLesson = {
+    _count: PendingLessonCountAggregateOutputType | null
+    _avg: PendingLessonAvgAggregateOutputType | null
+    _sum: PendingLessonSumAggregateOutputType | null
+    _min: PendingLessonMinAggregateOutputType | null
+    _max: PendingLessonMaxAggregateOutputType | null
+  }
+
+  export type PendingLessonAvgAggregateOutputType = {
+    month: number | null
+  }
+
+  export type PendingLessonSumAggregateOutputType = {
+    month: number | null
+  }
+
+  export type PendingLessonMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    subjectId: string | null
+    stream: $Enums.Stream | null
+    level: $Enums.Level | null
+    month: number | null
+    editingNotes: string | null
+    vimeoVideoId: string | null
+    vimeoUrl: string | null
+    pdfUrl: string | null
+    status: string | null
+    teacherId: string | null
+    publishedLessonId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PendingLessonMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    subjectId: string | null
+    stream: $Enums.Stream | null
+    level: $Enums.Level | null
+    month: number | null
+    editingNotes: string | null
+    vimeoVideoId: string | null
+    vimeoUrl: string | null
+    pdfUrl: string | null
+    status: string | null
+    teacherId: string | null
+    publishedLessonId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PendingLessonCountAggregateOutputType = {
+    id: number
+    title: number
+    subjectId: number
+    stream: number
+    level: number
+    month: number
+    editingNotes: number
+    vimeoVideoId: number
+    vimeoUrl: number
+    pdfUrl: number
+    status: number
+    teacherId: number
+    publishedLessonId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PendingLessonAvgAggregateInputType = {
+    month?: true
+  }
+
+  export type PendingLessonSumAggregateInputType = {
+    month?: true
+  }
+
+  export type PendingLessonMinAggregateInputType = {
+    id?: true
+    title?: true
+    subjectId?: true
+    stream?: true
+    level?: true
+    month?: true
+    editingNotes?: true
+    vimeoVideoId?: true
+    vimeoUrl?: true
+    pdfUrl?: true
+    status?: true
+    teacherId?: true
+    publishedLessonId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PendingLessonMaxAggregateInputType = {
+    id?: true
+    title?: true
+    subjectId?: true
+    stream?: true
+    level?: true
+    month?: true
+    editingNotes?: true
+    vimeoVideoId?: true
+    vimeoUrl?: true
+    pdfUrl?: true
+    status?: true
+    teacherId?: true
+    publishedLessonId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PendingLessonCountAggregateInputType = {
+    id?: true
+    title?: true
+    subjectId?: true
+    stream?: true
+    level?: true
+    month?: true
+    editingNotes?: true
+    vimeoVideoId?: true
+    vimeoUrl?: true
+    pdfUrl?: true
+    status?: true
+    teacherId?: true
+    publishedLessonId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PendingLessonAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PendingLesson to aggregate.
+     */
+    where?: PendingLessonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PendingLessons to fetch.
+     */
+    orderBy?: PendingLessonOrderByWithRelationInput | PendingLessonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PendingLessonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PendingLessons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PendingLessons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PendingLessons
+    **/
+    _count?: true | PendingLessonCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PendingLessonAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PendingLessonSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PendingLessonMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PendingLessonMaxAggregateInputType
+  }
+
+  export type GetPendingLessonAggregateType<T extends PendingLessonAggregateArgs> = {
+        [P in keyof T & keyof AggregatePendingLesson]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePendingLesson[P]>
+      : GetScalarType<T[P], AggregatePendingLesson[P]>
+  }
+
+
+
+
+  export type PendingLessonGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PendingLessonWhereInput
+    orderBy?: PendingLessonOrderByWithAggregationInput | PendingLessonOrderByWithAggregationInput[]
+    by: PendingLessonScalarFieldEnum[] | PendingLessonScalarFieldEnum
+    having?: PendingLessonScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PendingLessonCountAggregateInputType | true
+    _avg?: PendingLessonAvgAggregateInputType
+    _sum?: PendingLessonSumAggregateInputType
+    _min?: PendingLessonMinAggregateInputType
+    _max?: PendingLessonMaxAggregateInputType
+  }
+
+  export type PendingLessonGroupByOutputType = {
+    id: string
+    title: string
+    subjectId: string
+    stream: $Enums.Stream
+    level: $Enums.Level
+    month: number
+    editingNotes: string
+    vimeoVideoId: string
+    vimeoUrl: string | null
+    pdfUrl: string | null
+    status: string
+    teacherId: string | null
+    publishedLessonId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PendingLessonCountAggregateOutputType | null
+    _avg: PendingLessonAvgAggregateOutputType | null
+    _sum: PendingLessonSumAggregateOutputType | null
+    _min: PendingLessonMinAggregateOutputType | null
+    _max: PendingLessonMaxAggregateOutputType | null
+  }
+
+  type GetPendingLessonGroupByPayload<T extends PendingLessonGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PendingLessonGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PendingLessonGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PendingLessonGroupByOutputType[P]>
+            : GetScalarType<T[P], PendingLessonGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PendingLessonSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    subjectId?: boolean
+    stream?: boolean
+    level?: boolean
+    month?: boolean
+    editingNotes?: boolean
+    vimeoVideoId?: boolean
+    vimeoUrl?: boolean
+    pdfUrl?: boolean
+    status?: boolean
+    teacherId?: boolean
+    publishedLessonId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    teacher?: boolean | PendingLesson$teacherArgs<ExtArgs>
+    publishedLesson?: boolean | PendingLesson$publishedLessonArgs<ExtArgs>
+  }, ExtArgs["result"]["pendingLesson"]>
+
+  export type PendingLessonSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    subjectId?: boolean
+    stream?: boolean
+    level?: boolean
+    month?: boolean
+    editingNotes?: boolean
+    vimeoVideoId?: boolean
+    vimeoUrl?: boolean
+    pdfUrl?: boolean
+    status?: boolean
+    teacherId?: boolean
+    publishedLessonId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    teacher?: boolean | PendingLesson$teacherArgs<ExtArgs>
+    publishedLesson?: boolean | PendingLesson$publishedLessonArgs<ExtArgs>
+  }, ExtArgs["result"]["pendingLesson"]>
+
+  export type PendingLessonSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    subjectId?: boolean
+    stream?: boolean
+    level?: boolean
+    month?: boolean
+    editingNotes?: boolean
+    vimeoVideoId?: boolean
+    vimeoUrl?: boolean
+    pdfUrl?: boolean
+    status?: boolean
+    teacherId?: boolean
+    publishedLessonId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    teacher?: boolean | PendingLesson$teacherArgs<ExtArgs>
+    publishedLesson?: boolean | PendingLesson$publishedLessonArgs<ExtArgs>
+  }, ExtArgs["result"]["pendingLesson"]>
+
+  export type PendingLessonSelectScalar = {
+    id?: boolean
+    title?: boolean
+    subjectId?: boolean
+    stream?: boolean
+    level?: boolean
+    month?: boolean
+    editingNotes?: boolean
+    vimeoVideoId?: boolean
+    vimeoUrl?: boolean
+    pdfUrl?: boolean
+    status?: boolean
+    teacherId?: boolean
+    publishedLessonId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PendingLessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subjectId" | "stream" | "level" | "month" | "editingNotes" | "vimeoVideoId" | "vimeoUrl" | "pdfUrl" | "status" | "teacherId" | "publishedLessonId" | "createdAt" | "updatedAt", ExtArgs["result"]["pendingLesson"]>
+  export type PendingLessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    teacher?: boolean | PendingLesson$teacherArgs<ExtArgs>
+    publishedLesson?: boolean | PendingLesson$publishedLessonArgs<ExtArgs>
+  }
+  export type PendingLessonIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    teacher?: boolean | PendingLesson$teacherArgs<ExtArgs>
+    publishedLesson?: boolean | PendingLesson$publishedLessonArgs<ExtArgs>
+  }
+  export type PendingLessonIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    teacher?: boolean | PendingLesson$teacherArgs<ExtArgs>
+    publishedLesson?: boolean | PendingLesson$publishedLessonArgs<ExtArgs>
+  }
+
+  export type $PendingLessonPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PendingLesson"
+    objects: {
+      subject: Prisma.$SubjectPayload<ExtArgs>
+      teacher: Prisma.$UserPayload<ExtArgs> | null
+      publishedLesson: Prisma.$LessonPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      subjectId: string
+      stream: $Enums.Stream
+      level: $Enums.Level
+      month: number
+      editingNotes: string
+      vimeoVideoId: string
+      vimeoUrl: string | null
+      pdfUrl: string | null
+      status: string
+      teacherId: string | null
+      publishedLessonId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["pendingLesson"]>
+    composites: {}
+  }
+
+  type PendingLessonGetPayload<S extends boolean | null | undefined | PendingLessonDefaultArgs> = $Result.GetResult<Prisma.$PendingLessonPayload, S>
+
+  type PendingLessonCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PendingLessonFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PendingLessonCountAggregateInputType | true
+    }
+
+  export interface PendingLessonDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PendingLesson'], meta: { name: 'PendingLesson' } }
+    /**
+     * Find zero or one PendingLesson that matches the filter.
+     * @param {PendingLessonFindUniqueArgs} args - Arguments to find a PendingLesson
+     * @example
+     * // Get one PendingLesson
+     * const pendingLesson = await prisma.pendingLesson.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PendingLessonFindUniqueArgs>(args: SelectSubset<T, PendingLessonFindUniqueArgs<ExtArgs>>): Prisma__PendingLessonClient<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PendingLesson that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PendingLessonFindUniqueOrThrowArgs} args - Arguments to find a PendingLesson
+     * @example
+     * // Get one PendingLesson
+     * const pendingLesson = await prisma.pendingLesson.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PendingLessonFindUniqueOrThrowArgs>(args: SelectSubset<T, PendingLessonFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PendingLessonClient<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PendingLesson that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PendingLessonFindFirstArgs} args - Arguments to find a PendingLesson
+     * @example
+     * // Get one PendingLesson
+     * const pendingLesson = await prisma.pendingLesson.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PendingLessonFindFirstArgs>(args?: SelectSubset<T, PendingLessonFindFirstArgs<ExtArgs>>): Prisma__PendingLessonClient<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PendingLesson that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PendingLessonFindFirstOrThrowArgs} args - Arguments to find a PendingLesson
+     * @example
+     * // Get one PendingLesson
+     * const pendingLesson = await prisma.pendingLesson.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PendingLessonFindFirstOrThrowArgs>(args?: SelectSubset<T, PendingLessonFindFirstOrThrowArgs<ExtArgs>>): Prisma__PendingLessonClient<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PendingLessons that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PendingLessonFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PendingLessons
+     * const pendingLessons = await prisma.pendingLesson.findMany()
+     * 
+     * // Get first 10 PendingLessons
+     * const pendingLessons = await prisma.pendingLesson.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pendingLessonWithIdOnly = await prisma.pendingLesson.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PendingLessonFindManyArgs>(args?: SelectSubset<T, PendingLessonFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PendingLesson.
+     * @param {PendingLessonCreateArgs} args - Arguments to create a PendingLesson.
+     * @example
+     * // Create one PendingLesson
+     * const PendingLesson = await prisma.pendingLesson.create({
+     *   data: {
+     *     // ... data to create a PendingLesson
+     *   }
+     * })
+     * 
+     */
+    create<T extends PendingLessonCreateArgs>(args: SelectSubset<T, PendingLessonCreateArgs<ExtArgs>>): Prisma__PendingLessonClient<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PendingLessons.
+     * @param {PendingLessonCreateManyArgs} args - Arguments to create many PendingLessons.
+     * @example
+     * // Create many PendingLessons
+     * const pendingLesson = await prisma.pendingLesson.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PendingLessonCreateManyArgs>(args?: SelectSubset<T, PendingLessonCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PendingLessons and returns the data saved in the database.
+     * @param {PendingLessonCreateManyAndReturnArgs} args - Arguments to create many PendingLessons.
+     * @example
+     * // Create many PendingLessons
+     * const pendingLesson = await prisma.pendingLesson.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PendingLessons and only return the `id`
+     * const pendingLessonWithIdOnly = await prisma.pendingLesson.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PendingLessonCreateManyAndReturnArgs>(args?: SelectSubset<T, PendingLessonCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PendingLesson.
+     * @param {PendingLessonDeleteArgs} args - Arguments to delete one PendingLesson.
+     * @example
+     * // Delete one PendingLesson
+     * const PendingLesson = await prisma.pendingLesson.delete({
+     *   where: {
+     *     // ... filter to delete one PendingLesson
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PendingLessonDeleteArgs>(args: SelectSubset<T, PendingLessonDeleteArgs<ExtArgs>>): Prisma__PendingLessonClient<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PendingLesson.
+     * @param {PendingLessonUpdateArgs} args - Arguments to update one PendingLesson.
+     * @example
+     * // Update one PendingLesson
+     * const pendingLesson = await prisma.pendingLesson.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PendingLessonUpdateArgs>(args: SelectSubset<T, PendingLessonUpdateArgs<ExtArgs>>): Prisma__PendingLessonClient<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PendingLessons.
+     * @param {PendingLessonDeleteManyArgs} args - Arguments to filter PendingLessons to delete.
+     * @example
+     * // Delete a few PendingLessons
+     * const { count } = await prisma.pendingLesson.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PendingLessonDeleteManyArgs>(args?: SelectSubset<T, PendingLessonDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PendingLessons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PendingLessonUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PendingLessons
+     * const pendingLesson = await prisma.pendingLesson.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PendingLessonUpdateManyArgs>(args: SelectSubset<T, PendingLessonUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PendingLessons and returns the data updated in the database.
+     * @param {PendingLessonUpdateManyAndReturnArgs} args - Arguments to update many PendingLessons.
+     * @example
+     * // Update many PendingLessons
+     * const pendingLesson = await prisma.pendingLesson.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PendingLessons and only return the `id`
+     * const pendingLessonWithIdOnly = await prisma.pendingLesson.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PendingLessonUpdateManyAndReturnArgs>(args: SelectSubset<T, PendingLessonUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PendingLesson.
+     * @param {PendingLessonUpsertArgs} args - Arguments to update or create a PendingLesson.
+     * @example
+     * // Update or create a PendingLesson
+     * const pendingLesson = await prisma.pendingLesson.upsert({
+     *   create: {
+     *     // ... data to create a PendingLesson
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PendingLesson we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PendingLessonUpsertArgs>(args: SelectSubset<T, PendingLessonUpsertArgs<ExtArgs>>): Prisma__PendingLessonClient<$Result.GetResult<Prisma.$PendingLessonPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PendingLessons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PendingLessonCountArgs} args - Arguments to filter PendingLessons to count.
+     * @example
+     * // Count the number of PendingLessons
+     * const count = await prisma.pendingLesson.count({
+     *   where: {
+     *     // ... the filter for the PendingLessons we want to count
+     *   }
+     * })
+    **/
+    count<T extends PendingLessonCountArgs>(
+      args?: Subset<T, PendingLessonCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PendingLessonCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PendingLesson.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PendingLessonAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PendingLessonAggregateArgs>(args: Subset<T, PendingLessonAggregateArgs>): Prisma.PrismaPromise<GetPendingLessonAggregateType<T>>
+
+    /**
+     * Group by PendingLesson.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PendingLessonGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PendingLessonGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PendingLessonGroupByArgs['orderBy'] }
+        : { orderBy?: PendingLessonGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PendingLessonGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPendingLessonGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PendingLesson model
+   */
+  readonly fields: PendingLessonFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PendingLesson.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PendingLessonClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    subject<T extends SubjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubjectDefaultArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    teacher<T extends PendingLesson$teacherArgs<ExtArgs> = {}>(args?: Subset<T, PendingLesson$teacherArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    publishedLesson<T extends PendingLesson$publishedLessonArgs<ExtArgs> = {}>(args?: Subset<T, PendingLesson$publishedLessonArgs<ExtArgs>>): Prisma__LessonClient<$Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PendingLesson model
+   */
+  interface PendingLessonFieldRefs {
+    readonly id: FieldRef<"PendingLesson", 'String'>
+    readonly title: FieldRef<"PendingLesson", 'String'>
+    readonly subjectId: FieldRef<"PendingLesson", 'String'>
+    readonly stream: FieldRef<"PendingLesson", 'Stream'>
+    readonly level: FieldRef<"PendingLesson", 'Level'>
+    readonly month: FieldRef<"PendingLesson", 'Int'>
+    readonly editingNotes: FieldRef<"PendingLesson", 'String'>
+    readonly vimeoVideoId: FieldRef<"PendingLesson", 'String'>
+    readonly vimeoUrl: FieldRef<"PendingLesson", 'String'>
+    readonly pdfUrl: FieldRef<"PendingLesson", 'String'>
+    readonly status: FieldRef<"PendingLesson", 'String'>
+    readonly teacherId: FieldRef<"PendingLesson", 'String'>
+    readonly publishedLessonId: FieldRef<"PendingLesson", 'String'>
+    readonly createdAt: FieldRef<"PendingLesson", 'DateTime'>
+    readonly updatedAt: FieldRef<"PendingLesson", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PendingLesson findUnique
+   */
+  export type PendingLessonFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonInclude<ExtArgs> | null
+    /**
+     * Filter, which PendingLesson to fetch.
+     */
+    where: PendingLessonWhereUniqueInput
+  }
+
+  /**
+   * PendingLesson findUniqueOrThrow
+   */
+  export type PendingLessonFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonInclude<ExtArgs> | null
+    /**
+     * Filter, which PendingLesson to fetch.
+     */
+    where: PendingLessonWhereUniqueInput
+  }
+
+  /**
+   * PendingLesson findFirst
+   */
+  export type PendingLessonFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonInclude<ExtArgs> | null
+    /**
+     * Filter, which PendingLesson to fetch.
+     */
+    where?: PendingLessonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PendingLessons to fetch.
+     */
+    orderBy?: PendingLessonOrderByWithRelationInput | PendingLessonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PendingLessons.
+     */
+    cursor?: PendingLessonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PendingLessons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PendingLessons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PendingLessons.
+     */
+    distinct?: PendingLessonScalarFieldEnum | PendingLessonScalarFieldEnum[]
+  }
+
+  /**
+   * PendingLesson findFirstOrThrow
+   */
+  export type PendingLessonFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonInclude<ExtArgs> | null
+    /**
+     * Filter, which PendingLesson to fetch.
+     */
+    where?: PendingLessonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PendingLessons to fetch.
+     */
+    orderBy?: PendingLessonOrderByWithRelationInput | PendingLessonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PendingLessons.
+     */
+    cursor?: PendingLessonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PendingLessons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PendingLessons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PendingLessons.
+     */
+    distinct?: PendingLessonScalarFieldEnum | PendingLessonScalarFieldEnum[]
+  }
+
+  /**
+   * PendingLesson findMany
+   */
+  export type PendingLessonFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonInclude<ExtArgs> | null
+    /**
+     * Filter, which PendingLessons to fetch.
+     */
+    where?: PendingLessonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PendingLessons to fetch.
+     */
+    orderBy?: PendingLessonOrderByWithRelationInput | PendingLessonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PendingLessons.
+     */
+    cursor?: PendingLessonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PendingLessons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PendingLessons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PendingLessons.
+     */
+    distinct?: PendingLessonScalarFieldEnum | PendingLessonScalarFieldEnum[]
+  }
+
+  /**
+   * PendingLesson create
+   */
+  export type PendingLessonCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PendingLesson.
+     */
+    data: XOR<PendingLessonCreateInput, PendingLessonUncheckedCreateInput>
+  }
+
+  /**
+   * PendingLesson createMany
+   */
+  export type PendingLessonCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PendingLessons.
+     */
+    data: PendingLessonCreateManyInput | PendingLessonCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PendingLesson createManyAndReturn
+   */
+  export type PendingLessonCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * The data used to create many PendingLessons.
+     */
+    data: PendingLessonCreateManyInput | PendingLessonCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PendingLesson update
+   */
+  export type PendingLessonUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PendingLesson.
+     */
+    data: XOR<PendingLessonUpdateInput, PendingLessonUncheckedUpdateInput>
+    /**
+     * Choose, which PendingLesson to update.
+     */
+    where: PendingLessonWhereUniqueInput
+  }
+
+  /**
+   * PendingLesson updateMany
+   */
+  export type PendingLessonUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PendingLessons.
+     */
+    data: XOR<PendingLessonUpdateManyMutationInput, PendingLessonUncheckedUpdateManyInput>
+    /**
+     * Filter which PendingLessons to update
+     */
+    where?: PendingLessonWhereInput
+    /**
+     * Limit how many PendingLessons to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PendingLesson updateManyAndReturn
+   */
+  export type PendingLessonUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * The data used to update PendingLessons.
+     */
+    data: XOR<PendingLessonUpdateManyMutationInput, PendingLessonUncheckedUpdateManyInput>
+    /**
+     * Filter which PendingLessons to update
+     */
+    where?: PendingLessonWhereInput
+    /**
+     * Limit how many PendingLessons to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PendingLesson upsert
+   */
+  export type PendingLessonUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PendingLesson to update in case it exists.
+     */
+    where: PendingLessonWhereUniqueInput
+    /**
+     * In case the PendingLesson found by the `where` argument doesn't exist, create a new PendingLesson with this data.
+     */
+    create: XOR<PendingLessonCreateInput, PendingLessonUncheckedCreateInput>
+    /**
+     * In case the PendingLesson was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PendingLessonUpdateInput, PendingLessonUncheckedUpdateInput>
+  }
+
+  /**
+   * PendingLesson delete
+   */
+  export type PendingLessonDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonInclude<ExtArgs> | null
+    /**
+     * Filter which PendingLesson to delete.
+     */
+    where: PendingLessonWhereUniqueInput
+  }
+
+  /**
+   * PendingLesson deleteMany
+   */
+  export type PendingLessonDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PendingLessons to delete
+     */
+    where?: PendingLessonWhereInput
+    /**
+     * Limit how many PendingLessons to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PendingLesson.teacher
+   */
+  export type PendingLesson$teacherArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * PendingLesson.publishedLesson
+   */
+  export type PendingLesson$publishedLessonArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Lesson
+     */
+    select?: LessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Lesson
+     */
+    omit?: LessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LessonInclude<ExtArgs> | null
+    where?: LessonWhereInput
+  }
+
+  /**
+   * PendingLesson without action
+   */
+  export type PendingLessonDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PendingLesson
+     */
+    select?: PendingLessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PendingLesson
+     */
+    omit?: PendingLessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PendingLessonInclude<ExtArgs> | null
   }
 
 
@@ -23562,6 +25413,7 @@ export namespace Prisma {
     id: string | null
     studentId: string | null
     subjectId: string | null
+    groupId: string | null
     createdAt: Date | null
   }
 
@@ -23569,6 +25421,7 @@ export namespace Prisma {
     id: string | null
     studentId: string | null
     subjectId: string | null
+    groupId: string | null
     createdAt: Date | null
   }
 
@@ -23576,6 +25429,7 @@ export namespace Prisma {
     id: number
     studentId: number
     subjectId: number
+    groupId: number
     enrolledMonths: number
     createdAt: number
     _all: number
@@ -23594,6 +25448,7 @@ export namespace Prisma {
     id?: true
     studentId?: true
     subjectId?: true
+    groupId?: true
     createdAt?: true
   }
 
@@ -23601,6 +25456,7 @@ export namespace Prisma {
     id?: true
     studentId?: true
     subjectId?: true
+    groupId?: true
     createdAt?: true
   }
 
@@ -23608,6 +25464,7 @@ export namespace Prisma {
     id?: true
     studentId?: true
     subjectId?: true
+    groupId?: true
     enrolledMonths?: true
     createdAt?: true
     _all?: true
@@ -23703,6 +25560,7 @@ export namespace Prisma {
     id: string
     studentId: string
     subjectId: string
+    groupId: string | null
     enrolledMonths: number[]
     createdAt: Date
     _count: EnrollmentCountAggregateOutputType | null
@@ -23730,52 +25588,62 @@ export namespace Prisma {
     id?: boolean
     studentId?: boolean
     subjectId?: boolean
+    groupId?: boolean
     enrolledMonths?: boolean
     createdAt?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    group?: boolean | Enrollment$groupArgs<ExtArgs>
   }, ExtArgs["result"]["enrollment"]>
 
   export type EnrollmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     studentId?: boolean
     subjectId?: boolean
+    groupId?: boolean
     enrolledMonths?: boolean
     createdAt?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    group?: boolean | Enrollment$groupArgs<ExtArgs>
   }, ExtArgs["result"]["enrollment"]>
 
   export type EnrollmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     studentId?: boolean
     subjectId?: boolean
+    groupId?: boolean
     enrolledMonths?: boolean
     createdAt?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    group?: boolean | Enrollment$groupArgs<ExtArgs>
   }, ExtArgs["result"]["enrollment"]>
 
   export type EnrollmentSelectScalar = {
     id?: boolean
     studentId?: boolean
     subjectId?: boolean
+    groupId?: boolean
     enrolledMonths?: boolean
     createdAt?: boolean
   }
 
-  export type EnrollmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "subjectId" | "enrolledMonths" | "createdAt", ExtArgs["result"]["enrollment"]>
+  export type EnrollmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "subjectId" | "groupId" | "enrolledMonths" | "createdAt", ExtArgs["result"]["enrollment"]>
   export type EnrollmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | UserDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    group?: boolean | Enrollment$groupArgs<ExtArgs>
   }
   export type EnrollmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | UserDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    group?: boolean | Enrollment$groupArgs<ExtArgs>
   }
   export type EnrollmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | UserDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    group?: boolean | Enrollment$groupArgs<ExtArgs>
   }
 
   export type $EnrollmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -23783,11 +25651,13 @@ export namespace Prisma {
     objects: {
       student: Prisma.$UserPayload<ExtArgs>
       subject: Prisma.$SubjectPayload<ExtArgs>
+      group: Prisma.$GroupPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       studentId: string
       subjectId: string
+      groupId: string | null
       enrolledMonths: number[]
       createdAt: Date
     }, ExtArgs["result"]["enrollment"]>
@@ -24186,6 +26056,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     student<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     subject<T extends SubjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubjectDefaultArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    group<T extends Enrollment$groupArgs<ExtArgs> = {}>(args?: Subset<T, Enrollment$groupArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -24218,6 +26089,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Enrollment", 'String'>
     readonly studentId: FieldRef<"Enrollment", 'String'>
     readonly subjectId: FieldRef<"Enrollment", 'String'>
+    readonly groupId: FieldRef<"Enrollment", 'String'>
     readonly enrolledMonths: FieldRef<"Enrollment", 'Int[]'>
     readonly createdAt: FieldRef<"Enrollment", 'DateTime'>
   }
@@ -24618,6 +26490,25 @@ export namespace Prisma {
      * Limit how many Enrollments to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Enrollment.group
+   */
+  export type Enrollment$groupArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    where?: GroupWhereInput
   }
 
   /**
@@ -41675,6 +43566,2234 @@ export namespace Prisma {
 
 
   /**
+   * Model PlatformSetting
+   */
+
+  export type AggregatePlatformSetting = {
+    _count: PlatformSettingCountAggregateOutputType | null
+    _min: PlatformSettingMinAggregateOutputType | null
+    _max: PlatformSettingMaxAggregateOutputType | null
+  }
+
+  export type PlatformSettingMinAggregateOutputType = {
+    id: string | null
+    key: string | null
+    value: string | null
+    description: string | null
+    updatedAt: Date | null
+    updatedByAdminId: string | null
+  }
+
+  export type PlatformSettingMaxAggregateOutputType = {
+    id: string | null
+    key: string | null
+    value: string | null
+    description: string | null
+    updatedAt: Date | null
+    updatedByAdminId: string | null
+  }
+
+  export type PlatformSettingCountAggregateOutputType = {
+    id: number
+    key: number
+    value: number
+    description: number
+    updatedAt: number
+    updatedByAdminId: number
+    _all: number
+  }
+
+
+  export type PlatformSettingMinAggregateInputType = {
+    id?: true
+    key?: true
+    value?: true
+    description?: true
+    updatedAt?: true
+    updatedByAdminId?: true
+  }
+
+  export type PlatformSettingMaxAggregateInputType = {
+    id?: true
+    key?: true
+    value?: true
+    description?: true
+    updatedAt?: true
+    updatedByAdminId?: true
+  }
+
+  export type PlatformSettingCountAggregateInputType = {
+    id?: true
+    key?: true
+    value?: true
+    description?: true
+    updatedAt?: true
+    updatedByAdminId?: true
+    _all?: true
+  }
+
+  export type PlatformSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformSetting to aggregate.
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformSettings to fetch.
+     */
+    orderBy?: PlatformSettingOrderByWithRelationInput | PlatformSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PlatformSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PlatformSettings
+    **/
+    _count?: true | PlatformSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PlatformSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PlatformSettingMaxAggregateInputType
+  }
+
+  export type GetPlatformSettingAggregateType<T extends PlatformSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlatformSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlatformSetting[P]>
+      : GetScalarType<T[P], AggregatePlatformSetting[P]>
+  }
+
+
+
+
+  export type PlatformSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformSettingWhereInput
+    orderBy?: PlatformSettingOrderByWithAggregationInput | PlatformSettingOrderByWithAggregationInput[]
+    by: PlatformSettingScalarFieldEnum[] | PlatformSettingScalarFieldEnum
+    having?: PlatformSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PlatformSettingCountAggregateInputType | true
+    _min?: PlatformSettingMinAggregateInputType
+    _max?: PlatformSettingMaxAggregateInputType
+  }
+
+  export type PlatformSettingGroupByOutputType = {
+    id: string
+    key: string
+    value: string
+    description: string | null
+    updatedAt: Date
+    updatedByAdminId: string | null
+    _count: PlatformSettingCountAggregateOutputType | null
+    _min: PlatformSettingMinAggregateOutputType | null
+    _max: PlatformSettingMaxAggregateOutputType | null
+  }
+
+  type GetPlatformSettingGroupByPayload<T extends PlatformSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PlatformSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PlatformSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PlatformSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], PlatformSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PlatformSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    value?: boolean
+    description?: boolean
+    updatedAt?: boolean
+    updatedByAdminId?: boolean
+    admin?: boolean | PlatformSetting$adminArgs<ExtArgs>
+  }, ExtArgs["result"]["platformSetting"]>
+
+  export type PlatformSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    value?: boolean
+    description?: boolean
+    updatedAt?: boolean
+    updatedByAdminId?: boolean
+    admin?: boolean | PlatformSetting$adminArgs<ExtArgs>
+  }, ExtArgs["result"]["platformSetting"]>
+
+  export type PlatformSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    value?: boolean
+    description?: boolean
+    updatedAt?: boolean
+    updatedByAdminId?: boolean
+    admin?: boolean | PlatformSetting$adminArgs<ExtArgs>
+  }, ExtArgs["result"]["platformSetting"]>
+
+  export type PlatformSettingSelectScalar = {
+    id?: boolean
+    key?: boolean
+    value?: boolean
+    description?: boolean
+    updatedAt?: boolean
+    updatedByAdminId?: boolean
+  }
+
+  export type PlatformSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "key" | "value" | "description" | "updatedAt" | "updatedByAdminId", ExtArgs["result"]["platformSetting"]>
+  export type PlatformSettingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    admin?: boolean | PlatformSetting$adminArgs<ExtArgs>
+  }
+  export type PlatformSettingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    admin?: boolean | PlatformSetting$adminArgs<ExtArgs>
+  }
+  export type PlatformSettingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    admin?: boolean | PlatformSetting$adminArgs<ExtArgs>
+  }
+
+  export type $PlatformSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PlatformSetting"
+    objects: {
+      admin: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      key: string
+      value: string
+      description: string | null
+      updatedAt: Date
+      updatedByAdminId: string | null
+    }, ExtArgs["result"]["platformSetting"]>
+    composites: {}
+  }
+
+  type PlatformSettingGetPayload<S extends boolean | null | undefined | PlatformSettingDefaultArgs> = $Result.GetResult<Prisma.$PlatformSettingPayload, S>
+
+  type PlatformSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PlatformSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PlatformSettingCountAggregateInputType | true
+    }
+
+  export interface PlatformSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PlatformSetting'], meta: { name: 'PlatformSetting' } }
+    /**
+     * Find zero or one PlatformSetting that matches the filter.
+     * @param {PlatformSettingFindUniqueArgs} args - Arguments to find a PlatformSetting
+     * @example
+     * // Get one PlatformSetting
+     * const platformSetting = await prisma.platformSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PlatformSettingFindUniqueArgs>(args: SelectSubset<T, PlatformSettingFindUniqueArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PlatformSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PlatformSettingFindUniqueOrThrowArgs} args - Arguments to find a PlatformSetting
+     * @example
+     * // Get one PlatformSetting
+     * const platformSetting = await prisma.platformSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PlatformSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, PlatformSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingFindFirstArgs} args - Arguments to find a PlatformSetting
+     * @example
+     * // Get one PlatformSetting
+     * const platformSetting = await prisma.platformSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PlatformSettingFindFirstArgs>(args?: SelectSubset<T, PlatformSettingFindFirstArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingFindFirstOrThrowArgs} args - Arguments to find a PlatformSetting
+     * @example
+     * // Get one PlatformSetting
+     * const platformSetting = await prisma.platformSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PlatformSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, PlatformSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PlatformSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PlatformSettings
+     * const platformSettings = await prisma.platformSetting.findMany()
+     * 
+     * // Get first 10 PlatformSettings
+     * const platformSettings = await prisma.platformSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const platformSettingWithIdOnly = await prisma.platformSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PlatformSettingFindManyArgs>(args?: SelectSubset<T, PlatformSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PlatformSetting.
+     * @param {PlatformSettingCreateArgs} args - Arguments to create a PlatformSetting.
+     * @example
+     * // Create one PlatformSetting
+     * const PlatformSetting = await prisma.platformSetting.create({
+     *   data: {
+     *     // ... data to create a PlatformSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends PlatformSettingCreateArgs>(args: SelectSubset<T, PlatformSettingCreateArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PlatformSettings.
+     * @param {PlatformSettingCreateManyArgs} args - Arguments to create many PlatformSettings.
+     * @example
+     * // Create many PlatformSettings
+     * const platformSetting = await prisma.platformSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PlatformSettingCreateManyArgs>(args?: SelectSubset<T, PlatformSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PlatformSettings and returns the data saved in the database.
+     * @param {PlatformSettingCreateManyAndReturnArgs} args - Arguments to create many PlatformSettings.
+     * @example
+     * // Create many PlatformSettings
+     * const platformSetting = await prisma.platformSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PlatformSettings and only return the `id`
+     * const platformSettingWithIdOnly = await prisma.platformSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PlatformSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, PlatformSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PlatformSetting.
+     * @param {PlatformSettingDeleteArgs} args - Arguments to delete one PlatformSetting.
+     * @example
+     * // Delete one PlatformSetting
+     * const PlatformSetting = await prisma.platformSetting.delete({
+     *   where: {
+     *     // ... filter to delete one PlatformSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PlatformSettingDeleteArgs>(args: SelectSubset<T, PlatformSettingDeleteArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PlatformSetting.
+     * @param {PlatformSettingUpdateArgs} args - Arguments to update one PlatformSetting.
+     * @example
+     * // Update one PlatformSetting
+     * const platformSetting = await prisma.platformSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PlatformSettingUpdateArgs>(args: SelectSubset<T, PlatformSettingUpdateArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PlatformSettings.
+     * @param {PlatformSettingDeleteManyArgs} args - Arguments to filter PlatformSettings to delete.
+     * @example
+     * // Delete a few PlatformSettings
+     * const { count } = await prisma.platformSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PlatformSettingDeleteManyArgs>(args?: SelectSubset<T, PlatformSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlatformSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PlatformSettings
+     * const platformSetting = await prisma.platformSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PlatformSettingUpdateManyArgs>(args: SelectSubset<T, PlatformSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlatformSettings and returns the data updated in the database.
+     * @param {PlatformSettingUpdateManyAndReturnArgs} args - Arguments to update many PlatformSettings.
+     * @example
+     * // Update many PlatformSettings
+     * const platformSetting = await prisma.platformSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PlatformSettings and only return the `id`
+     * const platformSettingWithIdOnly = await prisma.platformSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PlatformSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, PlatformSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PlatformSetting.
+     * @param {PlatformSettingUpsertArgs} args - Arguments to update or create a PlatformSetting.
+     * @example
+     * // Update or create a PlatformSetting
+     * const platformSetting = await prisma.platformSetting.upsert({
+     *   create: {
+     *     // ... data to create a PlatformSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PlatformSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PlatformSettingUpsertArgs>(args: SelectSubset<T, PlatformSettingUpsertArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PlatformSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingCountArgs} args - Arguments to filter PlatformSettings to count.
+     * @example
+     * // Count the number of PlatformSettings
+     * const count = await prisma.platformSetting.count({
+     *   where: {
+     *     // ... the filter for the PlatformSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends PlatformSettingCountArgs>(
+      args?: Subset<T, PlatformSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PlatformSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PlatformSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PlatformSettingAggregateArgs>(args: Subset<T, PlatformSettingAggregateArgs>): Prisma.PrismaPromise<GetPlatformSettingAggregateType<T>>
+
+    /**
+     * Group by PlatformSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PlatformSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PlatformSettingGroupByArgs['orderBy'] }
+        : { orderBy?: PlatformSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PlatformSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlatformSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PlatformSetting model
+   */
+  readonly fields: PlatformSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PlatformSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PlatformSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    admin<T extends PlatformSetting$adminArgs<ExtArgs> = {}>(args?: Subset<T, PlatformSetting$adminArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PlatformSetting model
+   */
+  interface PlatformSettingFieldRefs {
+    readonly id: FieldRef<"PlatformSetting", 'String'>
+    readonly key: FieldRef<"PlatformSetting", 'String'>
+    readonly value: FieldRef<"PlatformSetting", 'String'>
+    readonly description: FieldRef<"PlatformSetting", 'String'>
+    readonly updatedAt: FieldRef<"PlatformSetting", 'DateTime'>
+    readonly updatedByAdminId: FieldRef<"PlatformSetting", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PlatformSetting findUnique
+   */
+  export type PlatformSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformSetting to fetch.
+     */
+    where: PlatformSettingWhereUniqueInput
+  }
+
+  /**
+   * PlatformSetting findUniqueOrThrow
+   */
+  export type PlatformSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformSetting to fetch.
+     */
+    where: PlatformSettingWhereUniqueInput
+  }
+
+  /**
+   * PlatformSetting findFirst
+   */
+  export type PlatformSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformSetting to fetch.
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformSettings to fetch.
+     */
+    orderBy?: PlatformSettingOrderByWithRelationInput | PlatformSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformSettings.
+     */
+    cursor?: PlatformSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformSettings.
+     */
+    distinct?: PlatformSettingScalarFieldEnum | PlatformSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformSetting findFirstOrThrow
+   */
+  export type PlatformSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformSetting to fetch.
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformSettings to fetch.
+     */
+    orderBy?: PlatformSettingOrderByWithRelationInput | PlatformSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformSettings.
+     */
+    cursor?: PlatformSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformSettings.
+     */
+    distinct?: PlatformSettingScalarFieldEnum | PlatformSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformSetting findMany
+   */
+  export type PlatformSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformSettings to fetch.
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformSettings to fetch.
+     */
+    orderBy?: PlatformSettingOrderByWithRelationInput | PlatformSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PlatformSettings.
+     */
+    cursor?: PlatformSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformSettings.
+     */
+    distinct?: PlatformSettingScalarFieldEnum | PlatformSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformSetting create
+   */
+  export type PlatformSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSettingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PlatformSetting.
+     */
+    data: XOR<PlatformSettingCreateInput, PlatformSettingUncheckedCreateInput>
+  }
+
+  /**
+   * PlatformSetting createMany
+   */
+  export type PlatformSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PlatformSettings.
+     */
+    data: PlatformSettingCreateManyInput | PlatformSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PlatformSetting createManyAndReturn
+   */
+  export type PlatformSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many PlatformSettings.
+     */
+    data: PlatformSettingCreateManyInput | PlatformSettingCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSettingIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlatformSetting update
+   */
+  export type PlatformSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSettingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PlatformSetting.
+     */
+    data: XOR<PlatformSettingUpdateInput, PlatformSettingUncheckedUpdateInput>
+    /**
+     * Choose, which PlatformSetting to update.
+     */
+    where: PlatformSettingWhereUniqueInput
+  }
+
+  /**
+   * PlatformSetting updateMany
+   */
+  export type PlatformSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PlatformSettings.
+     */
+    data: XOR<PlatformSettingUpdateManyMutationInput, PlatformSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which PlatformSettings to update
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * Limit how many PlatformSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformSetting updateManyAndReturn
+   */
+  export type PlatformSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update PlatformSettings.
+     */
+    data: XOR<PlatformSettingUpdateManyMutationInput, PlatformSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which PlatformSettings to update
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * Limit how many PlatformSettings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSettingIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlatformSetting upsert
+   */
+  export type PlatformSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSettingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PlatformSetting to update in case it exists.
+     */
+    where: PlatformSettingWhereUniqueInput
+    /**
+     * In case the PlatformSetting found by the `where` argument doesn't exist, create a new PlatformSetting with this data.
+     */
+    create: XOR<PlatformSettingCreateInput, PlatformSettingUncheckedCreateInput>
+    /**
+     * In case the PlatformSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PlatformSettingUpdateInput, PlatformSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * PlatformSetting delete
+   */
+  export type PlatformSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSettingInclude<ExtArgs> | null
+    /**
+     * Filter which PlatformSetting to delete.
+     */
+    where: PlatformSettingWhereUniqueInput
+  }
+
+  /**
+   * PlatformSetting deleteMany
+   */
+  export type PlatformSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformSettings to delete
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * Limit how many PlatformSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformSetting.admin
+   */
+  export type PlatformSetting$adminArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * PlatformSetting without action
+   */
+  export type PlatformSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSettingInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Group
+   */
+
+  export type AggregateGroup = {
+    _count: GroupCountAggregateOutputType | null
+    _min: GroupMinAggregateOutputType | null
+    _max: GroupMaxAggregateOutputType | null
+  }
+
+  export type GroupMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    level: $Enums.Level | null
+    subjectId: string | null
+    teacherId: string | null
+    createdAt: Date | null
+  }
+
+  export type GroupMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    level: $Enums.Level | null
+    subjectId: string | null
+    teacherId: string | null
+    createdAt: Date | null
+  }
+
+  export type GroupCountAggregateOutputType = {
+    id: number
+    name: number
+    level: number
+    subjectId: number
+    teacherId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type GroupMinAggregateInputType = {
+    id?: true
+    name?: true
+    level?: true
+    subjectId?: true
+    teacherId?: true
+    createdAt?: true
+  }
+
+  export type GroupMaxAggregateInputType = {
+    id?: true
+    name?: true
+    level?: true
+    subjectId?: true
+    teacherId?: true
+    createdAt?: true
+  }
+
+  export type GroupCountAggregateInputType = {
+    id?: true
+    name?: true
+    level?: true
+    subjectId?: true
+    teacherId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type GroupAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Group to aggregate.
+     */
+    where?: GroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Groups to fetch.
+     */
+    orderBy?: GroupOrderByWithRelationInput | GroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Groups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Groups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Groups
+    **/
+    _count?: true | GroupCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GroupMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GroupMaxAggregateInputType
+  }
+
+  export type GetGroupAggregateType<T extends GroupAggregateArgs> = {
+        [P in keyof T & keyof AggregateGroup]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGroup[P]>
+      : GetScalarType<T[P], AggregateGroup[P]>
+  }
+
+
+
+
+  export type GroupGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GroupWhereInput
+    orderBy?: GroupOrderByWithAggregationInput | GroupOrderByWithAggregationInput[]
+    by: GroupScalarFieldEnum[] | GroupScalarFieldEnum
+    having?: GroupScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GroupCountAggregateInputType | true
+    _min?: GroupMinAggregateInputType
+    _max?: GroupMaxAggregateInputType
+  }
+
+  export type GroupGroupByOutputType = {
+    id: string
+    name: string
+    level: $Enums.Level
+    subjectId: string
+    teacherId: string | null
+    createdAt: Date
+    _count: GroupCountAggregateOutputType | null
+    _min: GroupMinAggregateOutputType | null
+    _max: GroupMaxAggregateOutputType | null
+  }
+
+  type GetGroupGroupByPayload<T extends GroupGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GroupGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GroupGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GroupGroupByOutputType[P]>
+            : GetScalarType<T[P], GroupGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GroupSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    level?: boolean
+    subjectId?: boolean
+    teacherId?: boolean
+    createdAt?: boolean
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    teacher?: boolean | Group$teacherArgs<ExtArgs>
+    enrollments?: boolean | Group$enrollmentsArgs<ExtArgs>
+    _count?: boolean | GroupCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["group"]>
+
+  export type GroupSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    level?: boolean
+    subjectId?: boolean
+    teacherId?: boolean
+    createdAt?: boolean
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    teacher?: boolean | Group$teacherArgs<ExtArgs>
+  }, ExtArgs["result"]["group"]>
+
+  export type GroupSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    level?: boolean
+    subjectId?: boolean
+    teacherId?: boolean
+    createdAt?: boolean
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    teacher?: boolean | Group$teacherArgs<ExtArgs>
+  }, ExtArgs["result"]["group"]>
+
+  export type GroupSelectScalar = {
+    id?: boolean
+    name?: boolean
+    level?: boolean
+    subjectId?: boolean
+    teacherId?: boolean
+    createdAt?: boolean
+  }
+
+  export type GroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "level" | "subjectId" | "teacherId" | "createdAt", ExtArgs["result"]["group"]>
+  export type GroupInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    teacher?: boolean | Group$teacherArgs<ExtArgs>
+    enrollments?: boolean | Group$enrollmentsArgs<ExtArgs>
+    _count?: boolean | GroupCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type GroupIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    teacher?: boolean | Group$teacherArgs<ExtArgs>
+  }
+  export type GroupIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    teacher?: boolean | Group$teacherArgs<ExtArgs>
+  }
+
+  export type $GroupPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Group"
+    objects: {
+      subject: Prisma.$SubjectPayload<ExtArgs>
+      teacher: Prisma.$TeacherPayload<ExtArgs> | null
+      enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      level: $Enums.Level
+      subjectId: string
+      teacherId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["group"]>
+    composites: {}
+  }
+
+  type GroupGetPayload<S extends boolean | null | undefined | GroupDefaultArgs> = $Result.GetResult<Prisma.$GroupPayload, S>
+
+  type GroupCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GroupFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GroupCountAggregateInputType | true
+    }
+
+  export interface GroupDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Group'], meta: { name: 'Group' } }
+    /**
+     * Find zero or one Group that matches the filter.
+     * @param {GroupFindUniqueArgs} args - Arguments to find a Group
+     * @example
+     * // Get one Group
+     * const group = await prisma.group.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GroupFindUniqueArgs>(args: SelectSubset<T, GroupFindUniqueArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Group that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GroupFindUniqueOrThrowArgs} args - Arguments to find a Group
+     * @example
+     * // Get one Group
+     * const group = await prisma.group.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GroupFindUniqueOrThrowArgs>(args: SelectSubset<T, GroupFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Group that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupFindFirstArgs} args - Arguments to find a Group
+     * @example
+     * // Get one Group
+     * const group = await prisma.group.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GroupFindFirstArgs>(args?: SelectSubset<T, GroupFindFirstArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Group that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupFindFirstOrThrowArgs} args - Arguments to find a Group
+     * @example
+     * // Get one Group
+     * const group = await prisma.group.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GroupFindFirstOrThrowArgs>(args?: SelectSubset<T, GroupFindFirstOrThrowArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Groups that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Groups
+     * const groups = await prisma.group.findMany()
+     * 
+     * // Get first 10 Groups
+     * const groups = await prisma.group.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const groupWithIdOnly = await prisma.group.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GroupFindManyArgs>(args?: SelectSubset<T, GroupFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Group.
+     * @param {GroupCreateArgs} args - Arguments to create a Group.
+     * @example
+     * // Create one Group
+     * const Group = await prisma.group.create({
+     *   data: {
+     *     // ... data to create a Group
+     *   }
+     * })
+     * 
+     */
+    create<T extends GroupCreateArgs>(args: SelectSubset<T, GroupCreateArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Groups.
+     * @param {GroupCreateManyArgs} args - Arguments to create many Groups.
+     * @example
+     * // Create many Groups
+     * const group = await prisma.group.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GroupCreateManyArgs>(args?: SelectSubset<T, GroupCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Groups and returns the data saved in the database.
+     * @param {GroupCreateManyAndReturnArgs} args - Arguments to create many Groups.
+     * @example
+     * // Create many Groups
+     * const group = await prisma.group.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Groups and only return the `id`
+     * const groupWithIdOnly = await prisma.group.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GroupCreateManyAndReturnArgs>(args?: SelectSubset<T, GroupCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Group.
+     * @param {GroupDeleteArgs} args - Arguments to delete one Group.
+     * @example
+     * // Delete one Group
+     * const Group = await prisma.group.delete({
+     *   where: {
+     *     // ... filter to delete one Group
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GroupDeleteArgs>(args: SelectSubset<T, GroupDeleteArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Group.
+     * @param {GroupUpdateArgs} args - Arguments to update one Group.
+     * @example
+     * // Update one Group
+     * const group = await prisma.group.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GroupUpdateArgs>(args: SelectSubset<T, GroupUpdateArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Groups.
+     * @param {GroupDeleteManyArgs} args - Arguments to filter Groups to delete.
+     * @example
+     * // Delete a few Groups
+     * const { count } = await prisma.group.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GroupDeleteManyArgs>(args?: SelectSubset<T, GroupDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Groups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Groups
+     * const group = await prisma.group.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GroupUpdateManyArgs>(args: SelectSubset<T, GroupUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Groups and returns the data updated in the database.
+     * @param {GroupUpdateManyAndReturnArgs} args - Arguments to update many Groups.
+     * @example
+     * // Update many Groups
+     * const group = await prisma.group.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Groups and only return the `id`
+     * const groupWithIdOnly = await prisma.group.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GroupUpdateManyAndReturnArgs>(args: SelectSubset<T, GroupUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Group.
+     * @param {GroupUpsertArgs} args - Arguments to update or create a Group.
+     * @example
+     * // Update or create a Group
+     * const group = await prisma.group.upsert({
+     *   create: {
+     *     // ... data to create a Group
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Group we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GroupUpsertArgs>(args: SelectSubset<T, GroupUpsertArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Groups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupCountArgs} args - Arguments to filter Groups to count.
+     * @example
+     * // Count the number of Groups
+     * const count = await prisma.group.count({
+     *   where: {
+     *     // ... the filter for the Groups we want to count
+     *   }
+     * })
+    **/
+    count<T extends GroupCountArgs>(
+      args?: Subset<T, GroupCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GroupCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Group.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GroupAggregateArgs>(args: Subset<T, GroupAggregateArgs>): Prisma.PrismaPromise<GetGroupAggregateType<T>>
+
+    /**
+     * Group by Group.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GroupGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GroupGroupByArgs['orderBy'] }
+        : { orderBy?: GroupGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GroupGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGroupGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Group model
+   */
+  readonly fields: GroupFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Group.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GroupClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    subject<T extends SubjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubjectDefaultArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    teacher<T extends Group$teacherArgs<ExtArgs> = {}>(args?: Subset<T, Group$teacherArgs<ExtArgs>>): Prisma__TeacherClient<$Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    enrollments<T extends Group$enrollmentsArgs<ExtArgs> = {}>(args?: Subset<T, Group$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Group model
+   */
+  interface GroupFieldRefs {
+    readonly id: FieldRef<"Group", 'String'>
+    readonly name: FieldRef<"Group", 'String'>
+    readonly level: FieldRef<"Group", 'Level'>
+    readonly subjectId: FieldRef<"Group", 'String'>
+    readonly teacherId: FieldRef<"Group", 'String'>
+    readonly createdAt: FieldRef<"Group", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Group findUnique
+   */
+  export type GroupFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * Filter, which Group to fetch.
+     */
+    where: GroupWhereUniqueInput
+  }
+
+  /**
+   * Group findUniqueOrThrow
+   */
+  export type GroupFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * Filter, which Group to fetch.
+     */
+    where: GroupWhereUniqueInput
+  }
+
+  /**
+   * Group findFirst
+   */
+  export type GroupFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * Filter, which Group to fetch.
+     */
+    where?: GroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Groups to fetch.
+     */
+    orderBy?: GroupOrderByWithRelationInput | GroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Groups.
+     */
+    cursor?: GroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Groups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Groups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Groups.
+     */
+    distinct?: GroupScalarFieldEnum | GroupScalarFieldEnum[]
+  }
+
+  /**
+   * Group findFirstOrThrow
+   */
+  export type GroupFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * Filter, which Group to fetch.
+     */
+    where?: GroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Groups to fetch.
+     */
+    orderBy?: GroupOrderByWithRelationInput | GroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Groups.
+     */
+    cursor?: GroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Groups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Groups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Groups.
+     */
+    distinct?: GroupScalarFieldEnum | GroupScalarFieldEnum[]
+  }
+
+  /**
+   * Group findMany
+   */
+  export type GroupFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * Filter, which Groups to fetch.
+     */
+    where?: GroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Groups to fetch.
+     */
+    orderBy?: GroupOrderByWithRelationInput | GroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Groups.
+     */
+    cursor?: GroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Groups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Groups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Groups.
+     */
+    distinct?: GroupScalarFieldEnum | GroupScalarFieldEnum[]
+  }
+
+  /**
+   * Group create
+   */
+  export type GroupCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Group.
+     */
+    data: XOR<GroupCreateInput, GroupUncheckedCreateInput>
+  }
+
+  /**
+   * Group createMany
+   */
+  export type GroupCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Groups.
+     */
+    data: GroupCreateManyInput | GroupCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Group createManyAndReturn
+   */
+  export type GroupCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * The data used to create many Groups.
+     */
+    data: GroupCreateManyInput | GroupCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Group update
+   */
+  export type GroupUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Group.
+     */
+    data: XOR<GroupUpdateInput, GroupUncheckedUpdateInput>
+    /**
+     * Choose, which Group to update.
+     */
+    where: GroupWhereUniqueInput
+  }
+
+  /**
+   * Group updateMany
+   */
+  export type GroupUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Groups.
+     */
+    data: XOR<GroupUpdateManyMutationInput, GroupUncheckedUpdateManyInput>
+    /**
+     * Filter which Groups to update
+     */
+    where?: GroupWhereInput
+    /**
+     * Limit how many Groups to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Group updateManyAndReturn
+   */
+  export type GroupUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * The data used to update Groups.
+     */
+    data: XOR<GroupUpdateManyMutationInput, GroupUncheckedUpdateManyInput>
+    /**
+     * Filter which Groups to update
+     */
+    where?: GroupWhereInput
+    /**
+     * Limit how many Groups to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Group upsert
+   */
+  export type GroupUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Group to update in case it exists.
+     */
+    where: GroupWhereUniqueInput
+    /**
+     * In case the Group found by the `where` argument doesn't exist, create a new Group with this data.
+     */
+    create: XOR<GroupCreateInput, GroupUncheckedCreateInput>
+    /**
+     * In case the Group was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GroupUpdateInput, GroupUncheckedUpdateInput>
+  }
+
+  /**
+   * Group delete
+   */
+  export type GroupDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * Filter which Group to delete.
+     */
+    where: GroupWhereUniqueInput
+  }
+
+  /**
+   * Group deleteMany
+   */
+  export type GroupDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Groups to delete
+     */
+    where?: GroupWhereInput
+    /**
+     * Limit how many Groups to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Group.teacher
+   */
+  export type Group$teacherArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Teacher
+     */
+    select?: TeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Teacher
+     */
+    omit?: TeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherInclude<ExtArgs> | null
+    where?: TeacherWhereInput
+  }
+
+  /**
+   * Group.enrollments
+   */
+  export type Group$enrollmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Enrollment
+     */
+    select?: EnrollmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Enrollment
+     */
+    omit?: EnrollmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentInclude<ExtArgs> | null
+    where?: EnrollmentWhereInput
+    orderBy?: EnrollmentOrderByWithRelationInput | EnrollmentOrderByWithRelationInput[]
+    cursor?: EnrollmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EnrollmentScalarFieldEnum | EnrollmentScalarFieldEnum[]
+  }
+
+  /**
+   * Group without action
+   */
+  export type GroupDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -41780,12 +45899,15 @@ export namespace Prisma {
   export const LessonScalarFieldEnum: {
     id: 'id',
     title: 'title',
+    description: 'description',
     month: 'month',
     monthId: 'monthId',
     vimeoVideoId: 'vimeoVideoId',
+    youtubeVideoId: 'youtubeVideoId',
     image: 'image',
     streams: 'streams',
     levels: 'levels',
+    order: 'order',
     createdAt: 'createdAt'
   };
 
@@ -41801,6 +45923,27 @@ export namespace Prisma {
   };
 
   export type LessonMaterialScalarFieldEnum = (typeof LessonMaterialScalarFieldEnum)[keyof typeof LessonMaterialScalarFieldEnum]
+
+
+  export const PendingLessonScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    subjectId: 'subjectId',
+    stream: 'stream',
+    level: 'level',
+    month: 'month',
+    editingNotes: 'editingNotes',
+    vimeoVideoId: 'vimeoVideoId',
+    vimeoUrl: 'vimeoUrl',
+    pdfUrl: 'pdfUrl',
+    status: 'status',
+    teacherId: 'teacherId',
+    publishedLessonId: 'publishedLessonId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PendingLessonScalarFieldEnum = (typeof PendingLessonScalarFieldEnum)[keyof typeof PendingLessonScalarFieldEnum]
 
 
   export const LessonCompletionScalarFieldEnum: {
@@ -41904,6 +46047,7 @@ export namespace Prisma {
     id: 'id',
     studentId: 'studentId',
     subjectId: 'subjectId',
+    groupId: 'groupId',
     enrolledMonths: 'enrolledMonths',
     createdAt: 'createdAt'
   };
@@ -42112,6 +46256,30 @@ export namespace Prisma {
   };
 
   export type AdminAiInsightScalarFieldEnum = (typeof AdminAiInsightScalarFieldEnum)[keyof typeof AdminAiInsightScalarFieldEnum]
+
+
+  export const PlatformSettingScalarFieldEnum: {
+    id: 'id',
+    key: 'key',
+    value: 'value',
+    description: 'description',
+    updatedAt: 'updatedAt',
+    updatedByAdminId: 'updatedByAdminId'
+  };
+
+  export type PlatformSettingScalarFieldEnum = (typeof PlatformSettingScalarFieldEnum)[keyof typeof PlatformSettingScalarFieldEnum]
+
+
+  export const GroupScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    level: 'level',
+    subjectId: 'subjectId',
+    teacherId: 'teacherId',
+    createdAt: 'createdAt'
+  };
+
+  export type GroupScalarFieldEnum = (typeof GroupScalarFieldEnum)[keyof typeof GroupScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -42342,6 +46510,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightListRelationFilter
     lessonCompletions?: LessonCompletionListRelationFilter
     quizCompletions?: QuizCompletionListRelationFilter
+    platformSettings?: PlatformSettingListRelationFilter
+    pendingLessons?: PendingLessonListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -42374,6 +46544,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightOrderByRelationAggregateInput
     lessonCompletions?: LessonCompletionOrderByRelationAggregateInput
     quizCompletions?: QuizCompletionOrderByRelationAggregateInput
+    platformSettings?: PlatformSettingOrderByRelationAggregateInput
+    pendingLessons?: PendingLessonOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -42409,6 +46581,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightListRelationFilter
     lessonCompletions?: LessonCompletionListRelationFilter
     quizCompletions?: QuizCompletionListRelationFilter
+    platformSettings?: PlatformSettingListRelationFilter
+    pendingLessons?: PendingLessonListRelationFilter
   }, "id" | "phoneNumber">
 
   export type UserOrderByWithAggregationInput = {
@@ -42610,6 +46784,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Teacher"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     subjects?: SubjectListRelationFilter
+    groups?: GroupListRelationFilter
   }
 
   export type TeacherOrderByWithRelationInput = {
@@ -42623,6 +46798,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
     subjects?: SubjectOrderByRelationAggregateInput
+    groups?: GroupOrderByRelationAggregateInput
   }
 
   export type TeacherWhereUniqueInput = Prisma.AtLeast<{
@@ -42639,6 +46815,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Teacher"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     subjects?: SubjectListRelationFilter
+    groups?: GroupListRelationFilter
   }, "id" | "userId" | "phone">
 
   export type TeacherOrderByWithAggregationInput = {
@@ -42698,6 +46875,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardListRelationFilter
     classForums?: ClassForumListRelationFilter
     lessons?: LessonListRelationFilter
+    pendingLessons?: PendingLessonListRelationFilter
+    groups?: GroupListRelationFilter
   }
 
   export type SubjectOrderByWithRelationInput = {
@@ -42726,6 +46905,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardOrderByRelationAggregateInput
     classForums?: ClassForumOrderByRelationAggregateInput
     lessons?: LessonOrderByRelationAggregateInput
+    pendingLessons?: PendingLessonOrderByRelationAggregateInput
+    groups?: GroupOrderByRelationAggregateInput
   }
 
   export type SubjectWhereUniqueInput = Prisma.AtLeast<{
@@ -42757,6 +46938,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardListRelationFilter
     classForums?: ClassForumListRelationFilter
     lessons?: LessonListRelationFilter
+    pendingLessons?: PendingLessonListRelationFilter
+    groups?: GroupListRelationFilter
   }, "id">
 
   export type SubjectOrderByWithAggregationInput = {
@@ -42860,12 +47043,15 @@ export namespace Prisma {
     NOT?: LessonWhereInput | LessonWhereInput[]
     id?: StringFilter<"Lesson"> | string
     title?: StringFilter<"Lesson"> | string
+    description?: StringNullableFilter<"Lesson"> | string | null
     month?: IntFilter<"Lesson"> | number
     monthId?: StringNullableFilter<"Lesson"> | string | null
     vimeoVideoId?: StringFilter<"Lesson"> | string
+    youtubeVideoId?: StringNullableFilter<"Lesson"> | string | null
     image?: StringNullableFilter<"Lesson"> | string | null
     streams?: EnumStreamNullableListFilter<"Lesson">
     levels?: EnumLevelNullableListFilter<"Lesson">
+    order?: IntFilter<"Lesson"> | number
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     academicMonth?: XOR<MonthNullableScalarRelationFilter, MonthWhereInput> | null
     subjects?: SubjectListRelationFilter
@@ -42875,17 +47061,21 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseListRelationFilter
     reviewCards?: ReviewCardListRelationFilter
     completions?: LessonCompletionListRelationFilter
+    pendingLessons?: PendingLessonListRelationFilter
   }
 
   export type LessonOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrderInput | SortOrder
     month?: SortOrder
     monthId?: SortOrderInput | SortOrder
     vimeoVideoId?: SortOrder
+    youtubeVideoId?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     streams?: SortOrder
     levels?: SortOrder
+    order?: SortOrder
     createdAt?: SortOrder
     academicMonth?: MonthOrderByWithRelationInput
     subjects?: SubjectOrderByRelationAggregateInput
@@ -42895,6 +47085,7 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseOrderByRelationAggregateInput
     reviewCards?: ReviewCardOrderByRelationAggregateInput
     completions?: LessonCompletionOrderByRelationAggregateInput
+    pendingLessons?: PendingLessonOrderByRelationAggregateInput
   }
 
   export type LessonWhereUniqueInput = Prisma.AtLeast<{
@@ -42903,12 +47094,15 @@ export namespace Prisma {
     OR?: LessonWhereInput[]
     NOT?: LessonWhereInput | LessonWhereInput[]
     title?: StringFilter<"Lesson"> | string
+    description?: StringNullableFilter<"Lesson"> | string | null
     month?: IntFilter<"Lesson"> | number
     monthId?: StringNullableFilter<"Lesson"> | string | null
     vimeoVideoId?: StringFilter<"Lesson"> | string
+    youtubeVideoId?: StringNullableFilter<"Lesson"> | string | null
     image?: StringNullableFilter<"Lesson"> | string | null
     streams?: EnumStreamNullableListFilter<"Lesson">
     levels?: EnumLevelNullableListFilter<"Lesson">
+    order?: IntFilter<"Lesson"> | number
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     academicMonth?: XOR<MonthNullableScalarRelationFilter, MonthWhereInput> | null
     subjects?: SubjectListRelationFilter
@@ -42918,17 +47112,21 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseListRelationFilter
     reviewCards?: ReviewCardListRelationFilter
     completions?: LessonCompletionListRelationFilter
+    pendingLessons?: PendingLessonListRelationFilter
   }, "id">
 
   export type LessonOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrderInput | SortOrder
     month?: SortOrder
     monthId?: SortOrderInput | SortOrder
     vimeoVideoId?: SortOrder
+    youtubeVideoId?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     streams?: SortOrder
     levels?: SortOrder
+    order?: SortOrder
     createdAt?: SortOrder
     _count?: LessonCountOrderByAggregateInput
     _avg?: LessonAvgOrderByAggregateInput
@@ -42943,12 +47141,15 @@ export namespace Prisma {
     NOT?: LessonScalarWhereWithAggregatesInput | LessonScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Lesson"> | string
     title?: StringWithAggregatesFilter<"Lesson"> | string
+    description?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     month?: IntWithAggregatesFilter<"Lesson"> | number
     monthId?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     vimeoVideoId?: StringWithAggregatesFilter<"Lesson"> | string
+    youtubeVideoId?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     image?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     streams?: EnumStreamNullableListFilter<"Lesson">
     levels?: EnumLevelNullableListFilter<"Lesson">
+    order?: IntWithAggregatesFilter<"Lesson"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
   }
 
@@ -43005,6 +47206,119 @@ export namespace Prisma {
     fileUrl?: StringWithAggregatesFilter<"LessonMaterial"> | string
     lessonId?: StringWithAggregatesFilter<"LessonMaterial"> | string
     createdAt?: DateTimeWithAggregatesFilter<"LessonMaterial"> | Date | string
+  }
+
+  export type PendingLessonWhereInput = {
+    AND?: PendingLessonWhereInput | PendingLessonWhereInput[]
+    OR?: PendingLessonWhereInput[]
+    NOT?: PendingLessonWhereInput | PendingLessonWhereInput[]
+    id?: StringFilter<"PendingLesson"> | string
+    title?: StringFilter<"PendingLesson"> | string
+    subjectId?: StringFilter<"PendingLesson"> | string
+    stream?: EnumStreamFilter<"PendingLesson"> | $Enums.Stream
+    level?: EnumLevelFilter<"PendingLesson"> | $Enums.Level
+    month?: IntFilter<"PendingLesson"> | number
+    editingNotes?: StringFilter<"PendingLesson"> | string
+    vimeoVideoId?: StringFilter<"PendingLesson"> | string
+    vimeoUrl?: StringNullableFilter<"PendingLesson"> | string | null
+    pdfUrl?: StringNullableFilter<"PendingLesson"> | string | null
+    status?: StringFilter<"PendingLesson"> | string
+    teacherId?: StringNullableFilter<"PendingLesson"> | string | null
+    publishedLessonId?: StringNullableFilter<"PendingLesson"> | string | null
+    createdAt?: DateTimeFilter<"PendingLesson"> | Date | string
+    updatedAt?: DateTimeFilter<"PendingLesson"> | Date | string
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+    teacher?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    publishedLesson?: XOR<LessonNullableScalarRelationFilter, LessonWhereInput> | null
+  }
+
+  export type PendingLessonOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    subjectId?: SortOrder
+    stream?: SortOrder
+    level?: SortOrder
+    month?: SortOrder
+    editingNotes?: SortOrder
+    vimeoVideoId?: SortOrder
+    vimeoUrl?: SortOrderInput | SortOrder
+    pdfUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    teacherId?: SortOrderInput | SortOrder
+    publishedLessonId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    subject?: SubjectOrderByWithRelationInput
+    teacher?: UserOrderByWithRelationInput
+    publishedLesson?: LessonOrderByWithRelationInput
+  }
+
+  export type PendingLessonWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PendingLessonWhereInput | PendingLessonWhereInput[]
+    OR?: PendingLessonWhereInput[]
+    NOT?: PendingLessonWhereInput | PendingLessonWhereInput[]
+    title?: StringFilter<"PendingLesson"> | string
+    subjectId?: StringFilter<"PendingLesson"> | string
+    stream?: EnumStreamFilter<"PendingLesson"> | $Enums.Stream
+    level?: EnumLevelFilter<"PendingLesson"> | $Enums.Level
+    month?: IntFilter<"PendingLesson"> | number
+    editingNotes?: StringFilter<"PendingLesson"> | string
+    vimeoVideoId?: StringFilter<"PendingLesson"> | string
+    vimeoUrl?: StringNullableFilter<"PendingLesson"> | string | null
+    pdfUrl?: StringNullableFilter<"PendingLesson"> | string | null
+    status?: StringFilter<"PendingLesson"> | string
+    teacherId?: StringNullableFilter<"PendingLesson"> | string | null
+    publishedLessonId?: StringNullableFilter<"PendingLesson"> | string | null
+    createdAt?: DateTimeFilter<"PendingLesson"> | Date | string
+    updatedAt?: DateTimeFilter<"PendingLesson"> | Date | string
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+    teacher?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    publishedLesson?: XOR<LessonNullableScalarRelationFilter, LessonWhereInput> | null
+  }, "id">
+
+  export type PendingLessonOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    subjectId?: SortOrder
+    stream?: SortOrder
+    level?: SortOrder
+    month?: SortOrder
+    editingNotes?: SortOrder
+    vimeoVideoId?: SortOrder
+    vimeoUrl?: SortOrderInput | SortOrder
+    pdfUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    teacherId?: SortOrderInput | SortOrder
+    publishedLessonId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PendingLessonCountOrderByAggregateInput
+    _avg?: PendingLessonAvgOrderByAggregateInput
+    _max?: PendingLessonMaxOrderByAggregateInput
+    _min?: PendingLessonMinOrderByAggregateInput
+    _sum?: PendingLessonSumOrderByAggregateInput
+  }
+
+  export type PendingLessonScalarWhereWithAggregatesInput = {
+    AND?: PendingLessonScalarWhereWithAggregatesInput | PendingLessonScalarWhereWithAggregatesInput[]
+    OR?: PendingLessonScalarWhereWithAggregatesInput[]
+    NOT?: PendingLessonScalarWhereWithAggregatesInput | PendingLessonScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PendingLesson"> | string
+    title?: StringWithAggregatesFilter<"PendingLesson"> | string
+    subjectId?: StringWithAggregatesFilter<"PendingLesson"> | string
+    stream?: EnumStreamWithAggregatesFilter<"PendingLesson"> | $Enums.Stream
+    level?: EnumLevelWithAggregatesFilter<"PendingLesson"> | $Enums.Level
+    month?: IntWithAggregatesFilter<"PendingLesson"> | number
+    editingNotes?: StringWithAggregatesFilter<"PendingLesson"> | string
+    vimeoVideoId?: StringWithAggregatesFilter<"PendingLesson"> | string
+    vimeoUrl?: StringNullableWithAggregatesFilter<"PendingLesson"> | string | null
+    pdfUrl?: StringNullableWithAggregatesFilter<"PendingLesson"> | string | null
+    status?: StringWithAggregatesFilter<"PendingLesson"> | string
+    teacherId?: StringNullableWithAggregatesFilter<"PendingLesson"> | string | null
+    publishedLessonId?: StringNullableWithAggregatesFilter<"PendingLesson"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PendingLesson"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PendingLesson"> | Date | string
   }
 
   export type LessonCompletionWhereInput = {
@@ -43544,20 +47858,24 @@ export namespace Prisma {
     id?: StringFilter<"Enrollment"> | string
     studentId?: StringFilter<"Enrollment"> | string
     subjectId?: StringFilter<"Enrollment"> | string
+    groupId?: StringNullableFilter<"Enrollment"> | string | null
     enrolledMonths?: IntNullableListFilter<"Enrollment">
     createdAt?: DateTimeFilter<"Enrollment"> | Date | string
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
     subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+    group?: XOR<GroupNullableScalarRelationFilter, GroupWhereInput> | null
   }
 
   export type EnrollmentOrderByWithRelationInput = {
     id?: SortOrder
     studentId?: SortOrder
     subjectId?: SortOrder
+    groupId?: SortOrderInput | SortOrder
     enrolledMonths?: SortOrder
     createdAt?: SortOrder
     student?: UserOrderByWithRelationInput
     subject?: SubjectOrderByWithRelationInput
+    group?: GroupOrderByWithRelationInput
   }
 
   export type EnrollmentWhereUniqueInput = Prisma.AtLeast<{
@@ -43568,16 +47886,19 @@ export namespace Prisma {
     NOT?: EnrollmentWhereInput | EnrollmentWhereInput[]
     studentId?: StringFilter<"Enrollment"> | string
     subjectId?: StringFilter<"Enrollment"> | string
+    groupId?: StringNullableFilter<"Enrollment"> | string | null
     enrolledMonths?: IntNullableListFilter<"Enrollment">
     createdAt?: DateTimeFilter<"Enrollment"> | Date | string
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
     subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+    group?: XOR<GroupNullableScalarRelationFilter, GroupWhereInput> | null
   }, "id" | "studentId_subjectId">
 
   export type EnrollmentOrderByWithAggregationInput = {
     id?: SortOrder
     studentId?: SortOrder
     subjectId?: SortOrder
+    groupId?: SortOrderInput | SortOrder
     enrolledMonths?: SortOrder
     createdAt?: SortOrder
     _count?: EnrollmentCountOrderByAggregateInput
@@ -43594,6 +47915,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Enrollment"> | string
     studentId?: StringWithAggregatesFilter<"Enrollment"> | string
     subjectId?: StringWithAggregatesFilter<"Enrollment"> | string
+    groupId?: StringNullableWithAggregatesFilter<"Enrollment"> | string | null
     enrolledMonths?: IntNullableListFilter<"Enrollment">
     createdAt?: DateTimeWithAggregatesFilter<"Enrollment"> | Date | string
   }
@@ -44669,6 +48991,132 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"AdminAiInsight"> | Date | string
   }
 
+  export type PlatformSettingWhereInput = {
+    AND?: PlatformSettingWhereInput | PlatformSettingWhereInput[]
+    OR?: PlatformSettingWhereInput[]
+    NOT?: PlatformSettingWhereInput | PlatformSettingWhereInput[]
+    id?: StringFilter<"PlatformSetting"> | string
+    key?: StringFilter<"PlatformSetting"> | string
+    value?: StringFilter<"PlatformSetting"> | string
+    description?: StringNullableFilter<"PlatformSetting"> | string | null
+    updatedAt?: DateTimeFilter<"PlatformSetting"> | Date | string
+    updatedByAdminId?: StringNullableFilter<"PlatformSetting"> | string | null
+    admin?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type PlatformSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    description?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    updatedByAdminId?: SortOrderInput | SortOrder
+    admin?: UserOrderByWithRelationInput
+  }
+
+  export type PlatformSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    key?: string
+    AND?: PlatformSettingWhereInput | PlatformSettingWhereInput[]
+    OR?: PlatformSettingWhereInput[]
+    NOT?: PlatformSettingWhereInput | PlatformSettingWhereInput[]
+    value?: StringFilter<"PlatformSetting"> | string
+    description?: StringNullableFilter<"PlatformSetting"> | string | null
+    updatedAt?: DateTimeFilter<"PlatformSetting"> | Date | string
+    updatedByAdminId?: StringNullableFilter<"PlatformSetting"> | string | null
+    admin?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "key">
+
+  export type PlatformSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    description?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    updatedByAdminId?: SortOrderInput | SortOrder
+    _count?: PlatformSettingCountOrderByAggregateInput
+    _max?: PlatformSettingMaxOrderByAggregateInput
+    _min?: PlatformSettingMinOrderByAggregateInput
+  }
+
+  export type PlatformSettingScalarWhereWithAggregatesInput = {
+    AND?: PlatformSettingScalarWhereWithAggregatesInput | PlatformSettingScalarWhereWithAggregatesInput[]
+    OR?: PlatformSettingScalarWhereWithAggregatesInput[]
+    NOT?: PlatformSettingScalarWhereWithAggregatesInput | PlatformSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PlatformSetting"> | string
+    key?: StringWithAggregatesFilter<"PlatformSetting"> | string
+    value?: StringWithAggregatesFilter<"PlatformSetting"> | string
+    description?: StringNullableWithAggregatesFilter<"PlatformSetting"> | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"PlatformSetting"> | Date | string
+    updatedByAdminId?: StringNullableWithAggregatesFilter<"PlatformSetting"> | string | null
+  }
+
+  export type GroupWhereInput = {
+    AND?: GroupWhereInput | GroupWhereInput[]
+    OR?: GroupWhereInput[]
+    NOT?: GroupWhereInput | GroupWhereInput[]
+    id?: StringFilter<"Group"> | string
+    name?: StringFilter<"Group"> | string
+    level?: EnumLevelFilter<"Group"> | $Enums.Level
+    subjectId?: StringFilter<"Group"> | string
+    teacherId?: StringNullableFilter<"Group"> | string | null
+    createdAt?: DateTimeFilter<"Group"> | Date | string
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+    teacher?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
+    enrollments?: EnrollmentListRelationFilter
+  }
+
+  export type GroupOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    level?: SortOrder
+    subjectId?: SortOrder
+    teacherId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    subject?: SubjectOrderByWithRelationInput
+    teacher?: TeacherOrderByWithRelationInput
+    enrollments?: EnrollmentOrderByRelationAggregateInput
+  }
+
+  export type GroupWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GroupWhereInput | GroupWhereInput[]
+    OR?: GroupWhereInput[]
+    NOT?: GroupWhereInput | GroupWhereInput[]
+    name?: StringFilter<"Group"> | string
+    level?: EnumLevelFilter<"Group"> | $Enums.Level
+    subjectId?: StringFilter<"Group"> | string
+    teacherId?: StringNullableFilter<"Group"> | string | null
+    createdAt?: DateTimeFilter<"Group"> | Date | string
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+    teacher?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
+    enrollments?: EnrollmentListRelationFilter
+  }, "id">
+
+  export type GroupOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    level?: SortOrder
+    subjectId?: SortOrder
+    teacherId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: GroupCountOrderByAggregateInput
+    _max?: GroupMaxOrderByAggregateInput
+    _min?: GroupMinOrderByAggregateInput
+  }
+
+  export type GroupScalarWhereWithAggregatesInput = {
+    AND?: GroupScalarWhereWithAggregatesInput | GroupScalarWhereWithAggregatesInput[]
+    OR?: GroupScalarWhereWithAggregatesInput[]
+    NOT?: GroupScalarWhereWithAggregatesInput | GroupScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Group"> | string
+    name?: StringWithAggregatesFilter<"Group"> | string
+    level?: EnumLevelWithAggregatesFilter<"Group"> | $Enums.Level
+    subjectId?: StringWithAggregatesFilter<"Group"> | string
+    teacherId?: StringNullableWithAggregatesFilter<"Group"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Group"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     fullName: string
@@ -44699,6 +49147,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -44731,6 +49181,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUpdateInput = {
@@ -44763,6 +49215,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -44795,6 +49249,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -45008,6 +49464,7 @@ export namespace Prisma {
     createdAt?: Date | string
     user?: UserCreateNestedOneWithoutTeacherProfileInput
     subjects?: SubjectCreateNestedManyWithoutTeacherInput
+    groups?: GroupCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUncheckedCreateInput = {
@@ -45020,6 +49477,7 @@ export namespace Prisma {
     streams?: TeacherCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutTeacherInput
+    groups?: GroupUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUpdateInput = {
@@ -45032,6 +49490,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutTeacherProfileNestedInput
     subjects?: SubjectUpdateManyWithoutTeacherNestedInput
+    groups?: GroupUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherUncheckedUpdateInput = {
@@ -45044,6 +49503,7 @@ export namespace Prisma {
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutTeacherNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherCreateManyInput = {
@@ -45103,6 +49563,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
     lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateInput = {
@@ -45130,6 +49592,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUpdateInput = {
@@ -45157,6 +49621,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateInput = {
@@ -45184,6 +49650,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectCreateManyInput = {
@@ -45293,11 +49761,14 @@ export namespace Prisma {
   export type LessonCreateInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     academicMonth?: MonthCreateNestedOneWithoutLessonsInput
     subjects?: SubjectCreateNestedManyWithoutLessonsInput
@@ -45307,17 +49778,21 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonUncheckedCreateInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     monthId?: string | null
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
@@ -45326,16 +49801,20 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionUncheckedCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     academicMonth?: MonthUpdateOneWithoutLessonsNestedInput
     subjects?: SubjectUpdateManyWithoutLessonsNestedInput
@@ -45345,17 +49824,21 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type LessonUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     monthId?: NullableStringFieldUpdateOperationsInput | string | null
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
@@ -45364,40 +49847,50 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUncheckedUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type LessonCreateManyInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     monthId?: string | null
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
   }
 
   export type LessonUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LessonUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     monthId?: NullableStringFieldUpdateOperationsInput | string | null
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -45454,6 +49947,129 @@ export namespace Prisma {
     fileUrl?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PendingLessonCreateInput = {
+    id?: string
+    title: string
+    stream?: $Enums.Stream
+    level: $Enums.Level
+    month?: number
+    editingNotes?: string
+    vimeoVideoId: string
+    vimeoUrl?: string | null
+    pdfUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutPendingLessonsInput
+    teacher?: UserCreateNestedOneWithoutPendingLessonsInput
+    publishedLesson?: LessonCreateNestedOneWithoutPendingLessonsInput
+  }
+
+  export type PendingLessonUncheckedCreateInput = {
+    id?: string
+    title: string
+    subjectId: string
+    stream?: $Enums.Stream
+    level: $Enums.Level
+    month?: number
+    editingNotes?: string
+    vimeoVideoId: string
+    vimeoUrl?: string | null
+    pdfUrl?: string | null
+    status?: string
+    teacherId?: string | null
+    publishedLessonId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PendingLessonUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    month?: IntFieldUpdateOperationsInput | number
+    editingNotes?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    vimeoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutPendingLessonsNestedInput
+    teacher?: UserUpdateOneWithoutPendingLessonsNestedInput
+    publishedLesson?: LessonUpdateOneWithoutPendingLessonsNestedInput
+  }
+
+  export type PendingLessonUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    month?: IntFieldUpdateOperationsInput | number
+    editingNotes?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    vimeoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedLessonId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PendingLessonCreateManyInput = {
+    id?: string
+    title: string
+    subjectId: string
+    stream?: $Enums.Stream
+    level: $Enums.Level
+    month?: number
+    editingNotes?: string
+    vimeoVideoId: string
+    vimeoUrl?: string | null
+    pdfUrl?: string | null
+    status?: string
+    teacherId?: string | null
+    publishedLessonId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PendingLessonUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    month?: IntFieldUpdateOperationsInput | number
+    editingNotes?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    vimeoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PendingLessonUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    month?: IntFieldUpdateOperationsInput | number
+    editingNotes?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    vimeoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedLessonId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LessonCompletionCreateInput = {
@@ -45964,12 +50580,14 @@ export namespace Prisma {
     createdAt?: Date | string
     student: UserCreateNestedOneWithoutEnrollmentsInput
     subject: SubjectCreateNestedOneWithoutEnrollmentsInput
+    group?: GroupCreateNestedOneWithoutEnrollmentsInput
   }
 
   export type EnrollmentUncheckedCreateInput = {
     id?: string
     studentId: string
     subjectId: string
+    groupId?: string | null
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
     createdAt?: Date | string
   }
@@ -45980,12 +50598,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutEnrollmentsNestedInput
     subject?: SubjectUpdateOneRequiredWithoutEnrollmentsNestedInput
+    group?: GroupUpdateOneWithoutEnrollmentsNestedInput
   }
 
   export type EnrollmentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45994,6 +50614,7 @@ export namespace Prisma {
     id?: string
     studentId: string
     subjectId: string
+    groupId?: string | null
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
     createdAt?: Date | string
   }
@@ -46008,6 +50629,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -47125,6 +51747,133 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PlatformSettingCreateInput = {
+    id?: string
+    key: string
+    value: string
+    description?: string | null
+    updatedAt?: Date | string
+    admin?: UserCreateNestedOneWithoutPlatformSettingsInput
+  }
+
+  export type PlatformSettingUncheckedCreateInput = {
+    id?: string
+    key: string
+    value: string
+    description?: string | null
+    updatedAt?: Date | string
+    updatedByAdminId?: string | null
+  }
+
+  export type PlatformSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    admin?: UserUpdateOneWithoutPlatformSettingsNestedInput
+  }
+
+  export type PlatformSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedByAdminId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PlatformSettingCreateManyInput = {
+    id?: string
+    key: string
+    value: string
+    description?: string | null
+    updatedAt?: Date | string
+    updatedByAdminId?: string | null
+  }
+
+  export type PlatformSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedByAdminId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type GroupCreateInput = {
+    id?: string
+    name: string
+    level?: $Enums.Level
+    createdAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutGroupsInput
+    teacher?: TeacherCreateNestedOneWithoutGroupsInput
+    enrollments?: EnrollmentCreateNestedManyWithoutGroupInput
+  }
+
+  export type GroupUncheckedCreateInput = {
+    id?: string
+    name: string
+    level?: $Enums.Level
+    subjectId: string
+    teacherId?: string | null
+    createdAt?: Date | string
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutGroupInput
+  }
+
+  export type GroupUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutGroupsNestedInput
+    teacher?: TeacherUpdateOneWithoutGroupsNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutGroupNestedInput
+  }
+
+  export type GroupUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    subjectId?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutGroupNestedInput
+  }
+
+  export type GroupCreateManyInput = {
+    id?: string
+    name: string
+    level?: $Enums.Level
+    subjectId: string
+    teacherId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type GroupUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    subjectId?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -47285,6 +52034,18 @@ export namespace Prisma {
     none?: QuizCompletionWhereInput
   }
 
+  export type PlatformSettingListRelationFilter = {
+    every?: PlatformSettingWhereInput
+    some?: PlatformSettingWhereInput
+    none?: PlatformSettingWhereInput
+  }
+
+  export type PendingLessonListRelationFilter = {
+    every?: PendingLessonWhereInput
+    some?: PendingLessonWhereInput
+    none?: PendingLessonWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -47339,6 +52100,14 @@ export namespace Prisma {
   }
 
   export type QuizCompletionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PlatformSettingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PendingLessonOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -47686,7 +52455,17 @@ export namespace Prisma {
     none?: SubjectWhereInput
   }
 
+  export type GroupListRelationFilter = {
+    every?: GroupWhereInput
+    some?: GroupWhereInput
+    none?: GroupWhereInput
+  }
+
   export type SubjectOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GroupOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -47921,41 +52700,52 @@ export namespace Prisma {
   export type LessonCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrder
     month?: SortOrder
     monthId?: SortOrder
     vimeoVideoId?: SortOrder
+    youtubeVideoId?: SortOrder
     image?: SortOrder
     streams?: SortOrder
     levels?: SortOrder
+    order?: SortOrder
     createdAt?: SortOrder
   }
 
   export type LessonAvgOrderByAggregateInput = {
     month?: SortOrder
+    order?: SortOrder
   }
 
   export type LessonMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrder
     month?: SortOrder
     monthId?: SortOrder
     vimeoVideoId?: SortOrder
+    youtubeVideoId?: SortOrder
     image?: SortOrder
+    order?: SortOrder
     createdAt?: SortOrder
   }
 
   export type LessonMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrder
     month?: SortOrder
     monthId?: SortOrder
     vimeoVideoId?: SortOrder
+    youtubeVideoId?: SortOrder
     image?: SortOrder
+    order?: SortOrder
     createdAt?: SortOrder
   }
 
   export type LessonSumOrderByAggregateInput = {
     month?: SortOrder
+    order?: SortOrder
   }
 
   export type LessonScalarRelationFilter = {
@@ -47985,6 +52775,78 @@ export namespace Prisma {
     fileUrl?: SortOrder
     lessonId?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type SubjectScalarRelationFilter = {
+    is?: SubjectWhereInput
+    isNot?: SubjectWhereInput
+  }
+
+  export type LessonNullableScalarRelationFilter = {
+    is?: LessonWhereInput | null
+    isNot?: LessonWhereInput | null
+  }
+
+  export type PendingLessonCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    subjectId?: SortOrder
+    stream?: SortOrder
+    level?: SortOrder
+    month?: SortOrder
+    editingNotes?: SortOrder
+    vimeoVideoId?: SortOrder
+    vimeoUrl?: SortOrder
+    pdfUrl?: SortOrder
+    status?: SortOrder
+    teacherId?: SortOrder
+    publishedLessonId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PendingLessonAvgOrderByAggregateInput = {
+    month?: SortOrder
+  }
+
+  export type PendingLessonMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    subjectId?: SortOrder
+    stream?: SortOrder
+    level?: SortOrder
+    month?: SortOrder
+    editingNotes?: SortOrder
+    vimeoVideoId?: SortOrder
+    vimeoUrl?: SortOrder
+    pdfUrl?: SortOrder
+    status?: SortOrder
+    teacherId?: SortOrder
+    publishedLessonId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PendingLessonMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    subjectId?: SortOrder
+    stream?: SortOrder
+    level?: SortOrder
+    month?: SortOrder
+    editingNotes?: SortOrder
+    vimeoVideoId?: SortOrder
+    vimeoUrl?: SortOrder
+    pdfUrl?: SortOrder
+    status?: SortOrder
+    teacherId?: SortOrder
+    publishedLessonId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PendingLessonSumOrderByAggregateInput = {
+    month?: SortOrder
   }
 
   export type LessonCompletionStudentIdLessonIdCompoundUniqueInput = {
@@ -48034,11 +52896,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type LessonNullableScalarRelationFilter = {
-    is?: LessonWhereInput | null
-    isNot?: LessonWhereInput | null
   }
 
   export type DailyExerciseNullableScalarRelationFilter = {
@@ -48164,11 +53021,6 @@ export namespace Prisma {
     hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>
     hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>
     isEmpty?: boolean
-  }
-
-  export type SubjectScalarRelationFilter = {
-    is?: SubjectWhereInput
-    isNot?: SubjectWhereInput
   }
 
   export type AccessCodeCountOrderByAggregateInput = {
@@ -48336,6 +53188,11 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type GroupNullableScalarRelationFilter = {
+    is?: GroupWhereInput | null
+    isNot?: GroupWhereInput | null
+  }
+
   export type EnrollmentStudentIdSubjectIdCompoundUniqueInput = {
     studentId: string
     subjectId: string
@@ -48345,6 +53202,7 @@ export namespace Prisma {
     id?: SortOrder
     studentId?: SortOrder
     subjectId?: SortOrder
+    groupId?: SortOrder
     enrolledMonths?: SortOrder
     createdAt?: SortOrder
   }
@@ -48357,6 +53215,7 @@ export namespace Prisma {
     id?: SortOrder
     studentId?: SortOrder
     subjectId?: SortOrder
+    groupId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -48364,6 +53223,7 @@ export namespace Prisma {
     id?: SortOrder
     studentId?: SortOrder
     subjectId?: SortOrder
+    groupId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -49049,6 +53909,60 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type PlatformSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    description?: SortOrder
+    updatedAt?: SortOrder
+    updatedByAdminId?: SortOrder
+  }
+
+  export type PlatformSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    description?: SortOrder
+    updatedAt?: SortOrder
+    updatedByAdminId?: SortOrder
+  }
+
+  export type PlatformSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    description?: SortOrder
+    updatedAt?: SortOrder
+    updatedByAdminId?: SortOrder
+  }
+
+  export type GroupCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    level?: SortOrder
+    subjectId?: SortOrder
+    teacherId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GroupMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    level?: SortOrder
+    subjectId?: SortOrder
+    teacherId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GroupMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    level?: SortOrder
+    subjectId?: SortOrder
+    teacherId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type UserCreatedeviceFingerprintsInput = {
     set: string[]
   }
@@ -49176,6 +54090,20 @@ export namespace Prisma {
     connect?: QuizCompletionWhereUniqueInput | QuizCompletionWhereUniqueInput[]
   }
 
+  export type PlatformSettingCreateNestedManyWithoutAdminInput = {
+    create?: XOR<PlatformSettingCreateWithoutAdminInput, PlatformSettingUncheckedCreateWithoutAdminInput> | PlatformSettingCreateWithoutAdminInput[] | PlatformSettingUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: PlatformSettingCreateOrConnectWithoutAdminInput | PlatformSettingCreateOrConnectWithoutAdminInput[]
+    createMany?: PlatformSettingCreateManyAdminInputEnvelope
+    connect?: PlatformSettingWhereUniqueInput | PlatformSettingWhereUniqueInput[]
+  }
+
+  export type PendingLessonCreateNestedManyWithoutTeacherInput = {
+    create?: XOR<PendingLessonCreateWithoutTeacherInput, PendingLessonUncheckedCreateWithoutTeacherInput> | PendingLessonCreateWithoutTeacherInput[] | PendingLessonUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: PendingLessonCreateOrConnectWithoutTeacherInput | PendingLessonCreateOrConnectWithoutTeacherInput[]
+    createMany?: PendingLessonCreateManyTeacherInputEnvelope
+    connect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+  }
+
   export type StudentProfileUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<StudentProfileCreateWithoutUserInput, StudentProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: StudentProfileCreateOrConnectWithoutUserInput
@@ -49297,6 +54225,20 @@ export namespace Prisma {
     connectOrCreate?: QuizCompletionCreateOrConnectWithoutStudentInput | QuizCompletionCreateOrConnectWithoutStudentInput[]
     createMany?: QuizCompletionCreateManyStudentInputEnvelope
     connect?: QuizCompletionWhereUniqueInput | QuizCompletionWhereUniqueInput[]
+  }
+
+  export type PlatformSettingUncheckedCreateNestedManyWithoutAdminInput = {
+    create?: XOR<PlatformSettingCreateWithoutAdminInput, PlatformSettingUncheckedCreateWithoutAdminInput> | PlatformSettingCreateWithoutAdminInput[] | PlatformSettingUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: PlatformSettingCreateOrConnectWithoutAdminInput | PlatformSettingCreateOrConnectWithoutAdminInput[]
+    createMany?: PlatformSettingCreateManyAdminInputEnvelope
+    connect?: PlatformSettingWhereUniqueInput | PlatformSettingWhereUniqueInput[]
+  }
+
+  export type PendingLessonUncheckedCreateNestedManyWithoutTeacherInput = {
+    create?: XOR<PendingLessonCreateWithoutTeacherInput, PendingLessonUncheckedCreateWithoutTeacherInput> | PendingLessonCreateWithoutTeacherInput[] | PendingLessonUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: PendingLessonCreateOrConnectWithoutTeacherInput | PendingLessonCreateOrConnectWithoutTeacherInput[]
+    createMany?: PendingLessonCreateManyTeacherInputEnvelope
+    connect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -49568,6 +54510,34 @@ export namespace Prisma {
     deleteMany?: QuizCompletionScalarWhereInput | QuizCompletionScalarWhereInput[]
   }
 
+  export type PlatformSettingUpdateManyWithoutAdminNestedInput = {
+    create?: XOR<PlatformSettingCreateWithoutAdminInput, PlatformSettingUncheckedCreateWithoutAdminInput> | PlatformSettingCreateWithoutAdminInput[] | PlatformSettingUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: PlatformSettingCreateOrConnectWithoutAdminInput | PlatformSettingCreateOrConnectWithoutAdminInput[]
+    upsert?: PlatformSettingUpsertWithWhereUniqueWithoutAdminInput | PlatformSettingUpsertWithWhereUniqueWithoutAdminInput[]
+    createMany?: PlatformSettingCreateManyAdminInputEnvelope
+    set?: PlatformSettingWhereUniqueInput | PlatformSettingWhereUniqueInput[]
+    disconnect?: PlatformSettingWhereUniqueInput | PlatformSettingWhereUniqueInput[]
+    delete?: PlatformSettingWhereUniqueInput | PlatformSettingWhereUniqueInput[]
+    connect?: PlatformSettingWhereUniqueInput | PlatformSettingWhereUniqueInput[]
+    update?: PlatformSettingUpdateWithWhereUniqueWithoutAdminInput | PlatformSettingUpdateWithWhereUniqueWithoutAdminInput[]
+    updateMany?: PlatformSettingUpdateManyWithWhereWithoutAdminInput | PlatformSettingUpdateManyWithWhereWithoutAdminInput[]
+    deleteMany?: PlatformSettingScalarWhereInput | PlatformSettingScalarWhereInput[]
+  }
+
+  export type PendingLessonUpdateManyWithoutTeacherNestedInput = {
+    create?: XOR<PendingLessonCreateWithoutTeacherInput, PendingLessonUncheckedCreateWithoutTeacherInput> | PendingLessonCreateWithoutTeacherInput[] | PendingLessonUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: PendingLessonCreateOrConnectWithoutTeacherInput | PendingLessonCreateOrConnectWithoutTeacherInput[]
+    upsert?: PendingLessonUpsertWithWhereUniqueWithoutTeacherInput | PendingLessonUpsertWithWhereUniqueWithoutTeacherInput[]
+    createMany?: PendingLessonCreateManyTeacherInputEnvelope
+    set?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    disconnect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    delete?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    connect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    update?: PendingLessonUpdateWithWhereUniqueWithoutTeacherInput | PendingLessonUpdateWithWhereUniqueWithoutTeacherInput[]
+    updateMany?: PendingLessonUpdateManyWithWhereWithoutTeacherInput | PendingLessonUpdateManyWithWhereWithoutTeacherInput[]
+    deleteMany?: PendingLessonScalarWhereInput | PendingLessonScalarWhereInput[]
+  }
+
   export type StudentProfileUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<StudentProfileCreateWithoutUserInput, StudentProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: StudentProfileCreateOrConnectWithoutUserInput
@@ -49808,6 +54778,34 @@ export namespace Prisma {
     deleteMany?: QuizCompletionScalarWhereInput | QuizCompletionScalarWhereInput[]
   }
 
+  export type PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput = {
+    create?: XOR<PlatformSettingCreateWithoutAdminInput, PlatformSettingUncheckedCreateWithoutAdminInput> | PlatformSettingCreateWithoutAdminInput[] | PlatformSettingUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: PlatformSettingCreateOrConnectWithoutAdminInput | PlatformSettingCreateOrConnectWithoutAdminInput[]
+    upsert?: PlatformSettingUpsertWithWhereUniqueWithoutAdminInput | PlatformSettingUpsertWithWhereUniqueWithoutAdminInput[]
+    createMany?: PlatformSettingCreateManyAdminInputEnvelope
+    set?: PlatformSettingWhereUniqueInput | PlatformSettingWhereUniqueInput[]
+    disconnect?: PlatformSettingWhereUniqueInput | PlatformSettingWhereUniqueInput[]
+    delete?: PlatformSettingWhereUniqueInput | PlatformSettingWhereUniqueInput[]
+    connect?: PlatformSettingWhereUniqueInput | PlatformSettingWhereUniqueInput[]
+    update?: PlatformSettingUpdateWithWhereUniqueWithoutAdminInput | PlatformSettingUpdateWithWhereUniqueWithoutAdminInput[]
+    updateMany?: PlatformSettingUpdateManyWithWhereWithoutAdminInput | PlatformSettingUpdateManyWithWhereWithoutAdminInput[]
+    deleteMany?: PlatformSettingScalarWhereInput | PlatformSettingScalarWhereInput[]
+  }
+
+  export type PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput = {
+    create?: XOR<PendingLessonCreateWithoutTeacherInput, PendingLessonUncheckedCreateWithoutTeacherInput> | PendingLessonCreateWithoutTeacherInput[] | PendingLessonUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: PendingLessonCreateOrConnectWithoutTeacherInput | PendingLessonCreateOrConnectWithoutTeacherInput[]
+    upsert?: PendingLessonUpsertWithWhereUniqueWithoutTeacherInput | PendingLessonUpsertWithWhereUniqueWithoutTeacherInput[]
+    createMany?: PendingLessonCreateManyTeacherInputEnvelope
+    set?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    disconnect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    delete?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    connect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    update?: PendingLessonUpdateWithWhereUniqueWithoutTeacherInput | PendingLessonUpdateWithWhereUniqueWithoutTeacherInput[]
+    updateMany?: PendingLessonUpdateManyWithWhereWithoutTeacherInput | PendingLessonUpdateManyWithWhereWithoutTeacherInput[]
+    deleteMany?: PendingLessonScalarWhereInput | PendingLessonScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutStudentProfileInput = {
     create?: XOR<UserCreateWithoutStudentProfileInput, UserUncheckedCreateWithoutStudentProfileInput>
     connectOrCreate?: UserCreateOrConnectWithoutStudentProfileInput
@@ -49881,11 +54879,25 @@ export namespace Prisma {
     connect?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
   }
 
+  export type GroupCreateNestedManyWithoutTeacherInput = {
+    create?: XOR<GroupCreateWithoutTeacherInput, GroupUncheckedCreateWithoutTeacherInput> | GroupCreateWithoutTeacherInput[] | GroupUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: GroupCreateOrConnectWithoutTeacherInput | GroupCreateOrConnectWithoutTeacherInput[]
+    createMany?: GroupCreateManyTeacherInputEnvelope
+    connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+  }
+
   export type SubjectUncheckedCreateNestedManyWithoutTeacherInput = {
     create?: XOR<SubjectCreateWithoutTeacherInput, SubjectUncheckedCreateWithoutTeacherInput> | SubjectCreateWithoutTeacherInput[] | SubjectUncheckedCreateWithoutTeacherInput[]
     connectOrCreate?: SubjectCreateOrConnectWithoutTeacherInput | SubjectCreateOrConnectWithoutTeacherInput[]
     createMany?: SubjectCreateManyTeacherInputEnvelope
     connect?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
+  }
+
+  export type GroupUncheckedCreateNestedManyWithoutTeacherInput = {
+    create?: XOR<GroupCreateWithoutTeacherInput, GroupUncheckedCreateWithoutTeacherInput> | GroupCreateWithoutTeacherInput[] | GroupUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: GroupCreateOrConnectWithoutTeacherInput | GroupCreateOrConnectWithoutTeacherInput[]
+    createMany?: GroupCreateManyTeacherInputEnvelope
+    connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
   }
 
   export type TeacherUpdatephasesInput = {
@@ -49927,6 +54939,20 @@ export namespace Prisma {
     deleteMany?: SubjectScalarWhereInput | SubjectScalarWhereInput[]
   }
 
+  export type GroupUpdateManyWithoutTeacherNestedInput = {
+    create?: XOR<GroupCreateWithoutTeacherInput, GroupUncheckedCreateWithoutTeacherInput> | GroupCreateWithoutTeacherInput[] | GroupUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: GroupCreateOrConnectWithoutTeacherInput | GroupCreateOrConnectWithoutTeacherInput[]
+    upsert?: GroupUpsertWithWhereUniqueWithoutTeacherInput | GroupUpsertWithWhereUniqueWithoutTeacherInput[]
+    createMany?: GroupCreateManyTeacherInputEnvelope
+    set?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    disconnect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    delete?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    update?: GroupUpdateWithWhereUniqueWithoutTeacherInput | GroupUpdateWithWhereUniqueWithoutTeacherInput[]
+    updateMany?: GroupUpdateManyWithWhereWithoutTeacherInput | GroupUpdateManyWithWhereWithoutTeacherInput[]
+    deleteMany?: GroupScalarWhereInput | GroupScalarWhereInput[]
+  }
+
   export type SubjectUncheckedUpdateManyWithoutTeacherNestedInput = {
     create?: XOR<SubjectCreateWithoutTeacherInput, SubjectUncheckedCreateWithoutTeacherInput> | SubjectCreateWithoutTeacherInput[] | SubjectUncheckedCreateWithoutTeacherInput[]
     connectOrCreate?: SubjectCreateOrConnectWithoutTeacherInput | SubjectCreateOrConnectWithoutTeacherInput[]
@@ -49939,6 +54965,20 @@ export namespace Prisma {
     update?: SubjectUpdateWithWhereUniqueWithoutTeacherInput | SubjectUpdateWithWhereUniqueWithoutTeacherInput[]
     updateMany?: SubjectUpdateManyWithWhereWithoutTeacherInput | SubjectUpdateManyWithWhereWithoutTeacherInput[]
     deleteMany?: SubjectScalarWhereInput | SubjectScalarWhereInput[]
+  }
+
+  export type GroupUncheckedUpdateManyWithoutTeacherNestedInput = {
+    create?: XOR<GroupCreateWithoutTeacherInput, GroupUncheckedCreateWithoutTeacherInput> | GroupCreateWithoutTeacherInput[] | GroupUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: GroupCreateOrConnectWithoutTeacherInput | GroupCreateOrConnectWithoutTeacherInput[]
+    upsert?: GroupUpsertWithWhereUniqueWithoutTeacherInput | GroupUpsertWithWhereUniqueWithoutTeacherInput[]
+    createMany?: GroupCreateManyTeacherInputEnvelope
+    set?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    disconnect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    delete?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    update?: GroupUpdateWithWhereUniqueWithoutTeacherInput | GroupUpdateWithWhereUniqueWithoutTeacherInput[]
+    updateMany?: GroupUpdateManyWithWhereWithoutTeacherInput | GroupUpdateManyWithWhereWithoutTeacherInput[]
+    deleteMany?: GroupScalarWhereInput | GroupScalarWhereInput[]
   }
 
   export type SubjectCreatelevelsInput = {
@@ -50031,6 +55071,20 @@ export namespace Prisma {
     connect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
   }
 
+  export type PendingLessonCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<PendingLessonCreateWithoutSubjectInput, PendingLessonUncheckedCreateWithoutSubjectInput> | PendingLessonCreateWithoutSubjectInput[] | PendingLessonUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: PendingLessonCreateOrConnectWithoutSubjectInput | PendingLessonCreateOrConnectWithoutSubjectInput[]
+    createMany?: PendingLessonCreateManySubjectInputEnvelope
+    connect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+  }
+
+  export type GroupCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<GroupCreateWithoutSubjectInput, GroupUncheckedCreateWithoutSubjectInput> | GroupCreateWithoutSubjectInput[] | GroupUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: GroupCreateOrConnectWithoutSubjectInput | GroupCreateOrConnectWithoutSubjectInput[]
+    createMany?: GroupCreateManySubjectInputEnvelope
+    connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+  }
+
   export type LiveClassUncheckedCreateNestedManyWithoutSubjectInput = {
     create?: XOR<LiveClassCreateWithoutSubjectInput, LiveClassUncheckedCreateWithoutSubjectInput> | LiveClassCreateWithoutSubjectInput[] | LiveClassUncheckedCreateWithoutSubjectInput[]
     connectOrCreate?: LiveClassCreateOrConnectWithoutSubjectInput | LiveClassCreateOrConnectWithoutSubjectInput[]
@@ -50105,6 +55159,20 @@ export namespace Prisma {
     create?: XOR<LessonCreateWithoutSubjectsInput, LessonUncheckedCreateWithoutSubjectsInput> | LessonCreateWithoutSubjectsInput[] | LessonUncheckedCreateWithoutSubjectsInput[]
     connectOrCreate?: LessonCreateOrConnectWithoutSubjectsInput | LessonCreateOrConnectWithoutSubjectsInput[]
     connect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
+  }
+
+  export type PendingLessonUncheckedCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<PendingLessonCreateWithoutSubjectInput, PendingLessonUncheckedCreateWithoutSubjectInput> | PendingLessonCreateWithoutSubjectInput[] | PendingLessonUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: PendingLessonCreateOrConnectWithoutSubjectInput | PendingLessonCreateOrConnectWithoutSubjectInput[]
+    createMany?: PendingLessonCreateManySubjectInputEnvelope
+    connect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+  }
+
+  export type GroupUncheckedCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<GroupCreateWithoutSubjectInput, GroupUncheckedCreateWithoutSubjectInput> | GroupCreateWithoutSubjectInput[] | GroupUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: GroupCreateOrConnectWithoutSubjectInput | GroupCreateOrConnectWithoutSubjectInput[]
+    createMany?: GroupCreateManySubjectInputEnvelope
+    connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
   }
 
   export type SubjectUpdatelevelsInput = {
@@ -50292,6 +55360,34 @@ export namespace Prisma {
     deleteMany?: LessonScalarWhereInput | LessonScalarWhereInput[]
   }
 
+  export type PendingLessonUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<PendingLessonCreateWithoutSubjectInput, PendingLessonUncheckedCreateWithoutSubjectInput> | PendingLessonCreateWithoutSubjectInput[] | PendingLessonUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: PendingLessonCreateOrConnectWithoutSubjectInput | PendingLessonCreateOrConnectWithoutSubjectInput[]
+    upsert?: PendingLessonUpsertWithWhereUniqueWithoutSubjectInput | PendingLessonUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: PendingLessonCreateManySubjectInputEnvelope
+    set?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    disconnect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    delete?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    connect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    update?: PendingLessonUpdateWithWhereUniqueWithoutSubjectInput | PendingLessonUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: PendingLessonUpdateManyWithWhereWithoutSubjectInput | PendingLessonUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: PendingLessonScalarWhereInput | PendingLessonScalarWhereInput[]
+  }
+
+  export type GroupUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<GroupCreateWithoutSubjectInput, GroupUncheckedCreateWithoutSubjectInput> | GroupCreateWithoutSubjectInput[] | GroupUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: GroupCreateOrConnectWithoutSubjectInput | GroupCreateOrConnectWithoutSubjectInput[]
+    upsert?: GroupUpsertWithWhereUniqueWithoutSubjectInput | GroupUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: GroupCreateManySubjectInputEnvelope
+    set?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    disconnect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    delete?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    update?: GroupUpdateWithWhereUniqueWithoutSubjectInput | GroupUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: GroupUpdateManyWithWhereWithoutSubjectInput | GroupUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: GroupScalarWhereInput | GroupScalarWhereInput[]
+  }
+
   export type LiveClassUncheckedUpdateManyWithoutSubjectNestedInput = {
     create?: XOR<LiveClassCreateWithoutSubjectInput, LiveClassUncheckedCreateWithoutSubjectInput> | LiveClassCreateWithoutSubjectInput[] | LiveClassUncheckedCreateWithoutSubjectInput[]
     connectOrCreate?: LiveClassCreateOrConnectWithoutSubjectInput | LiveClassCreateOrConnectWithoutSubjectInput[]
@@ -50445,6 +55541,34 @@ export namespace Prisma {
     deleteMany?: LessonScalarWhereInput | LessonScalarWhereInput[]
   }
 
+  export type PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<PendingLessonCreateWithoutSubjectInput, PendingLessonUncheckedCreateWithoutSubjectInput> | PendingLessonCreateWithoutSubjectInput[] | PendingLessonUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: PendingLessonCreateOrConnectWithoutSubjectInput | PendingLessonCreateOrConnectWithoutSubjectInput[]
+    upsert?: PendingLessonUpsertWithWhereUniqueWithoutSubjectInput | PendingLessonUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: PendingLessonCreateManySubjectInputEnvelope
+    set?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    disconnect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    delete?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    connect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    update?: PendingLessonUpdateWithWhereUniqueWithoutSubjectInput | PendingLessonUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: PendingLessonUpdateManyWithWhereWithoutSubjectInput | PendingLessonUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: PendingLessonScalarWhereInput | PendingLessonScalarWhereInput[]
+  }
+
+  export type GroupUncheckedUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<GroupCreateWithoutSubjectInput, GroupUncheckedCreateWithoutSubjectInput> | GroupCreateWithoutSubjectInput[] | GroupUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: GroupCreateOrConnectWithoutSubjectInput | GroupCreateOrConnectWithoutSubjectInput[]
+    upsert?: GroupUpsertWithWhereUniqueWithoutSubjectInput | GroupUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: GroupCreateManySubjectInputEnvelope
+    set?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    disconnect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    delete?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    update?: GroupUpdateWithWhereUniqueWithoutSubjectInput | GroupUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: GroupUpdateManyWithWhereWithoutSubjectInput | GroupUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: GroupScalarWhereInput | GroupScalarWhereInput[]
+  }
+
   export type LessonCreateNestedManyWithoutAcademicMonthInput = {
     create?: XOR<LessonCreateWithoutAcademicMonthInput, LessonUncheckedCreateWithoutAcademicMonthInput> | LessonCreateWithoutAcademicMonthInput[] | LessonUncheckedCreateWithoutAcademicMonthInput[]
     connectOrCreate?: LessonCreateOrConnectWithoutAcademicMonthInput | LessonCreateOrConnectWithoutAcademicMonthInput[]
@@ -50590,6 +55714,13 @@ export namespace Prisma {
     connect?: LessonCompletionWhereUniqueInput | LessonCompletionWhereUniqueInput[]
   }
 
+  export type PendingLessonCreateNestedManyWithoutPublishedLessonInput = {
+    create?: XOR<PendingLessonCreateWithoutPublishedLessonInput, PendingLessonUncheckedCreateWithoutPublishedLessonInput> | PendingLessonCreateWithoutPublishedLessonInput[] | PendingLessonUncheckedCreateWithoutPublishedLessonInput[]
+    connectOrCreate?: PendingLessonCreateOrConnectWithoutPublishedLessonInput | PendingLessonCreateOrConnectWithoutPublishedLessonInput[]
+    createMany?: PendingLessonCreateManyPublishedLessonInputEnvelope
+    connect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+  }
+
   export type SubjectUncheckedCreateNestedManyWithoutLessonsInput = {
     create?: XOR<SubjectCreateWithoutLessonsInput, SubjectUncheckedCreateWithoutLessonsInput> | SubjectCreateWithoutLessonsInput[] | SubjectUncheckedCreateWithoutLessonsInput[]
     connectOrCreate?: SubjectCreateOrConnectWithoutLessonsInput | SubjectCreateOrConnectWithoutLessonsInput[]
@@ -50635,6 +55766,13 @@ export namespace Prisma {
     connectOrCreate?: LessonCompletionCreateOrConnectWithoutLessonInput | LessonCompletionCreateOrConnectWithoutLessonInput[]
     createMany?: LessonCompletionCreateManyLessonInputEnvelope
     connect?: LessonCompletionWhereUniqueInput | LessonCompletionWhereUniqueInput[]
+  }
+
+  export type PendingLessonUncheckedCreateNestedManyWithoutPublishedLessonInput = {
+    create?: XOR<PendingLessonCreateWithoutPublishedLessonInput, PendingLessonUncheckedCreateWithoutPublishedLessonInput> | PendingLessonCreateWithoutPublishedLessonInput[] | PendingLessonUncheckedCreateWithoutPublishedLessonInput[]
+    connectOrCreate?: PendingLessonCreateOrConnectWithoutPublishedLessonInput | PendingLessonCreateOrConnectWithoutPublishedLessonInput[]
+    createMany?: PendingLessonCreateManyPublishedLessonInputEnvelope
+    connect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
   }
 
   export type LessonUpdatestreamsInput = {
@@ -50750,6 +55888,20 @@ export namespace Prisma {
     deleteMany?: LessonCompletionScalarWhereInput | LessonCompletionScalarWhereInput[]
   }
 
+  export type PendingLessonUpdateManyWithoutPublishedLessonNestedInput = {
+    create?: XOR<PendingLessonCreateWithoutPublishedLessonInput, PendingLessonUncheckedCreateWithoutPublishedLessonInput> | PendingLessonCreateWithoutPublishedLessonInput[] | PendingLessonUncheckedCreateWithoutPublishedLessonInput[]
+    connectOrCreate?: PendingLessonCreateOrConnectWithoutPublishedLessonInput | PendingLessonCreateOrConnectWithoutPublishedLessonInput[]
+    upsert?: PendingLessonUpsertWithWhereUniqueWithoutPublishedLessonInput | PendingLessonUpsertWithWhereUniqueWithoutPublishedLessonInput[]
+    createMany?: PendingLessonCreateManyPublishedLessonInputEnvelope
+    set?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    disconnect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    delete?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    connect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    update?: PendingLessonUpdateWithWhereUniqueWithoutPublishedLessonInput | PendingLessonUpdateWithWhereUniqueWithoutPublishedLessonInput[]
+    updateMany?: PendingLessonUpdateManyWithWhereWithoutPublishedLessonInput | PendingLessonUpdateManyWithWhereWithoutPublishedLessonInput[]
+    deleteMany?: PendingLessonScalarWhereInput | PendingLessonScalarWhereInput[]
+  }
+
   export type SubjectUncheckedUpdateManyWithoutLessonsNestedInput = {
     create?: XOR<SubjectCreateWithoutLessonsInput, SubjectUncheckedCreateWithoutLessonsInput> | SubjectCreateWithoutLessonsInput[] | SubjectUncheckedCreateWithoutLessonsInput[]
     connectOrCreate?: SubjectCreateOrConnectWithoutLessonsInput | SubjectCreateOrConnectWithoutLessonsInput[]
@@ -50843,6 +55995,20 @@ export namespace Prisma {
     deleteMany?: LessonCompletionScalarWhereInput | LessonCompletionScalarWhereInput[]
   }
 
+  export type PendingLessonUncheckedUpdateManyWithoutPublishedLessonNestedInput = {
+    create?: XOR<PendingLessonCreateWithoutPublishedLessonInput, PendingLessonUncheckedCreateWithoutPublishedLessonInput> | PendingLessonCreateWithoutPublishedLessonInput[] | PendingLessonUncheckedCreateWithoutPublishedLessonInput[]
+    connectOrCreate?: PendingLessonCreateOrConnectWithoutPublishedLessonInput | PendingLessonCreateOrConnectWithoutPublishedLessonInput[]
+    upsert?: PendingLessonUpsertWithWhereUniqueWithoutPublishedLessonInput | PendingLessonUpsertWithWhereUniqueWithoutPublishedLessonInput[]
+    createMany?: PendingLessonCreateManyPublishedLessonInputEnvelope
+    set?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    disconnect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    delete?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    connect?: PendingLessonWhereUniqueInput | PendingLessonWhereUniqueInput[]
+    update?: PendingLessonUpdateWithWhereUniqueWithoutPublishedLessonInput | PendingLessonUpdateWithWhereUniqueWithoutPublishedLessonInput[]
+    updateMany?: PendingLessonUpdateManyWithWhereWithoutPublishedLessonInput | PendingLessonUpdateManyWithWhereWithoutPublishedLessonInput[]
+    deleteMany?: PendingLessonScalarWhereInput | PendingLessonScalarWhereInput[]
+  }
+
   export type LessonCreateNestedOneWithoutMaterialsInput = {
     create?: XOR<LessonCreateWithoutMaterialsInput, LessonUncheckedCreateWithoutMaterialsInput>
     connectOrCreate?: LessonCreateOrConnectWithoutMaterialsInput
@@ -50855,6 +56021,52 @@ export namespace Prisma {
     upsert?: LessonUpsertWithoutMaterialsInput
     connect?: LessonWhereUniqueInput
     update?: XOR<XOR<LessonUpdateToOneWithWhereWithoutMaterialsInput, LessonUpdateWithoutMaterialsInput>, LessonUncheckedUpdateWithoutMaterialsInput>
+  }
+
+  export type SubjectCreateNestedOneWithoutPendingLessonsInput = {
+    create?: XOR<SubjectCreateWithoutPendingLessonsInput, SubjectUncheckedCreateWithoutPendingLessonsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutPendingLessonsInput
+    connect?: SubjectWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutPendingLessonsInput = {
+    create?: XOR<UserCreateWithoutPendingLessonsInput, UserUncheckedCreateWithoutPendingLessonsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPendingLessonsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type LessonCreateNestedOneWithoutPendingLessonsInput = {
+    create?: XOR<LessonCreateWithoutPendingLessonsInput, LessonUncheckedCreateWithoutPendingLessonsInput>
+    connectOrCreate?: LessonCreateOrConnectWithoutPendingLessonsInput
+    connect?: LessonWhereUniqueInput
+  }
+
+  export type SubjectUpdateOneRequiredWithoutPendingLessonsNestedInput = {
+    create?: XOR<SubjectCreateWithoutPendingLessonsInput, SubjectUncheckedCreateWithoutPendingLessonsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutPendingLessonsInput
+    upsert?: SubjectUpsertWithoutPendingLessonsInput
+    connect?: SubjectWhereUniqueInput
+    update?: XOR<XOR<SubjectUpdateToOneWithWhereWithoutPendingLessonsInput, SubjectUpdateWithoutPendingLessonsInput>, SubjectUncheckedUpdateWithoutPendingLessonsInput>
+  }
+
+  export type UserUpdateOneWithoutPendingLessonsNestedInput = {
+    create?: XOR<UserCreateWithoutPendingLessonsInput, UserUncheckedCreateWithoutPendingLessonsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPendingLessonsInput
+    upsert?: UserUpsertWithoutPendingLessonsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPendingLessonsInput, UserUpdateWithoutPendingLessonsInput>, UserUncheckedUpdateWithoutPendingLessonsInput>
+  }
+
+  export type LessonUpdateOneWithoutPendingLessonsNestedInput = {
+    create?: XOR<LessonCreateWithoutPendingLessonsInput, LessonUncheckedCreateWithoutPendingLessonsInput>
+    connectOrCreate?: LessonCreateOrConnectWithoutPendingLessonsInput
+    upsert?: LessonUpsertWithoutPendingLessonsInput
+    disconnect?: LessonWhereInput | boolean
+    delete?: LessonWhereInput | boolean
+    connect?: LessonWhereUniqueInput
+    update?: XOR<XOR<LessonUpdateToOneWithWhereWithoutPendingLessonsInput, LessonUpdateWithoutPendingLessonsInput>, LessonUncheckedUpdateWithoutPendingLessonsInput>
   }
 
   export type UserCreateNestedOneWithoutLessonCompletionsInput = {
@@ -51216,6 +56428,12 @@ export namespace Prisma {
     connect?: SubjectWhereUniqueInput
   }
 
+  export type GroupCreateNestedOneWithoutEnrollmentsInput = {
+    create?: XOR<GroupCreateWithoutEnrollmentsInput, GroupUncheckedCreateWithoutEnrollmentsInput>
+    connectOrCreate?: GroupCreateOrConnectWithoutEnrollmentsInput
+    connect?: GroupWhereUniqueInput
+  }
+
   export type EnrollmentUpdateenrolledMonthsInput = {
     set?: number[]
     push?: number | number[]
@@ -51235,6 +56453,16 @@ export namespace Prisma {
     upsert?: SubjectUpsertWithoutEnrollmentsInput
     connect?: SubjectWhereUniqueInput
     update?: XOR<XOR<SubjectUpdateToOneWithWhereWithoutEnrollmentsInput, SubjectUpdateWithoutEnrollmentsInput>, SubjectUncheckedUpdateWithoutEnrollmentsInput>
+  }
+
+  export type GroupUpdateOneWithoutEnrollmentsNestedInput = {
+    create?: XOR<GroupCreateWithoutEnrollmentsInput, GroupUncheckedCreateWithoutEnrollmentsInput>
+    connectOrCreate?: GroupCreateOrConnectWithoutEnrollmentsInput
+    upsert?: GroupUpsertWithoutEnrollmentsInput
+    disconnect?: GroupWhereInput | boolean
+    delete?: GroupWhereInput | boolean
+    connect?: GroupWhereUniqueInput
+    update?: XOR<XOR<GroupUpdateToOneWithWhereWithoutEnrollmentsInput, GroupUpdateWithoutEnrollmentsInput>, GroupUncheckedUpdateWithoutEnrollmentsInput>
   }
 
   export type SubjectCreateNestedOneWithoutLiveClassesInput = {
@@ -51839,6 +57067,94 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAdminAiInsightsInput, UserUpdateWithoutAdminAiInsightsInput>, UserUncheckedUpdateWithoutAdminAiInsightsInput>
   }
 
+  export type UserCreateNestedOneWithoutPlatformSettingsInput = {
+    create?: XOR<UserCreateWithoutPlatformSettingsInput, UserUncheckedCreateWithoutPlatformSettingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPlatformSettingsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneWithoutPlatformSettingsNestedInput = {
+    create?: XOR<UserCreateWithoutPlatformSettingsInput, UserUncheckedCreateWithoutPlatformSettingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPlatformSettingsInput
+    upsert?: UserUpsertWithoutPlatformSettingsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPlatformSettingsInput, UserUpdateWithoutPlatformSettingsInput>, UserUncheckedUpdateWithoutPlatformSettingsInput>
+  }
+
+  export type SubjectCreateNestedOneWithoutGroupsInput = {
+    create?: XOR<SubjectCreateWithoutGroupsInput, SubjectUncheckedCreateWithoutGroupsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutGroupsInput
+    connect?: SubjectWhereUniqueInput
+  }
+
+  export type TeacherCreateNestedOneWithoutGroupsInput = {
+    create?: XOR<TeacherCreateWithoutGroupsInput, TeacherUncheckedCreateWithoutGroupsInput>
+    connectOrCreate?: TeacherCreateOrConnectWithoutGroupsInput
+    connect?: TeacherWhereUniqueInput
+  }
+
+  export type EnrollmentCreateNestedManyWithoutGroupInput = {
+    create?: XOR<EnrollmentCreateWithoutGroupInput, EnrollmentUncheckedCreateWithoutGroupInput> | EnrollmentCreateWithoutGroupInput[] | EnrollmentUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: EnrollmentCreateOrConnectWithoutGroupInput | EnrollmentCreateOrConnectWithoutGroupInput[]
+    createMany?: EnrollmentCreateManyGroupInputEnvelope
+    connect?: EnrollmentWhereUniqueInput | EnrollmentWhereUniqueInput[]
+  }
+
+  export type EnrollmentUncheckedCreateNestedManyWithoutGroupInput = {
+    create?: XOR<EnrollmentCreateWithoutGroupInput, EnrollmentUncheckedCreateWithoutGroupInput> | EnrollmentCreateWithoutGroupInput[] | EnrollmentUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: EnrollmentCreateOrConnectWithoutGroupInput | EnrollmentCreateOrConnectWithoutGroupInput[]
+    createMany?: EnrollmentCreateManyGroupInputEnvelope
+    connect?: EnrollmentWhereUniqueInput | EnrollmentWhereUniqueInput[]
+  }
+
+  export type SubjectUpdateOneRequiredWithoutGroupsNestedInput = {
+    create?: XOR<SubjectCreateWithoutGroupsInput, SubjectUncheckedCreateWithoutGroupsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutGroupsInput
+    upsert?: SubjectUpsertWithoutGroupsInput
+    connect?: SubjectWhereUniqueInput
+    update?: XOR<XOR<SubjectUpdateToOneWithWhereWithoutGroupsInput, SubjectUpdateWithoutGroupsInput>, SubjectUncheckedUpdateWithoutGroupsInput>
+  }
+
+  export type TeacherUpdateOneWithoutGroupsNestedInput = {
+    create?: XOR<TeacherCreateWithoutGroupsInput, TeacherUncheckedCreateWithoutGroupsInput>
+    connectOrCreate?: TeacherCreateOrConnectWithoutGroupsInput
+    upsert?: TeacherUpsertWithoutGroupsInput
+    disconnect?: TeacherWhereInput | boolean
+    delete?: TeacherWhereInput | boolean
+    connect?: TeacherWhereUniqueInput
+    update?: XOR<XOR<TeacherUpdateToOneWithWhereWithoutGroupsInput, TeacherUpdateWithoutGroupsInput>, TeacherUncheckedUpdateWithoutGroupsInput>
+  }
+
+  export type EnrollmentUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<EnrollmentCreateWithoutGroupInput, EnrollmentUncheckedCreateWithoutGroupInput> | EnrollmentCreateWithoutGroupInput[] | EnrollmentUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: EnrollmentCreateOrConnectWithoutGroupInput | EnrollmentCreateOrConnectWithoutGroupInput[]
+    upsert?: EnrollmentUpsertWithWhereUniqueWithoutGroupInput | EnrollmentUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: EnrollmentCreateManyGroupInputEnvelope
+    set?: EnrollmentWhereUniqueInput | EnrollmentWhereUniqueInput[]
+    disconnect?: EnrollmentWhereUniqueInput | EnrollmentWhereUniqueInput[]
+    delete?: EnrollmentWhereUniqueInput | EnrollmentWhereUniqueInput[]
+    connect?: EnrollmentWhereUniqueInput | EnrollmentWhereUniqueInput[]
+    update?: EnrollmentUpdateWithWhereUniqueWithoutGroupInput | EnrollmentUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: EnrollmentUpdateManyWithWhereWithoutGroupInput | EnrollmentUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: EnrollmentScalarWhereInput | EnrollmentScalarWhereInput[]
+  }
+
+  export type EnrollmentUncheckedUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<EnrollmentCreateWithoutGroupInput, EnrollmentUncheckedCreateWithoutGroupInput> | EnrollmentCreateWithoutGroupInput[] | EnrollmentUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: EnrollmentCreateOrConnectWithoutGroupInput | EnrollmentCreateOrConnectWithoutGroupInput[]
+    upsert?: EnrollmentUpsertWithWhereUniqueWithoutGroupInput | EnrollmentUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: EnrollmentCreateManyGroupInputEnvelope
+    set?: EnrollmentWhereUniqueInput | EnrollmentWhereUniqueInput[]
+    disconnect?: EnrollmentWhereUniqueInput | EnrollmentWhereUniqueInput[]
+    delete?: EnrollmentWhereUniqueInput | EnrollmentWhereUniqueInput[]
+    connect?: EnrollmentWhereUniqueInput | EnrollmentWhereUniqueInput[]
+    update?: EnrollmentUpdateWithWhereUniqueWithoutGroupInput | EnrollmentUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: EnrollmentUpdateManyWithWhereWithoutGroupInput | EnrollmentUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: EnrollmentScalarWhereInput | EnrollmentScalarWhereInput[]
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -52276,6 +57592,7 @@ export namespace Prisma {
     streams?: TeacherCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     subjects?: SubjectCreateNestedManyWithoutTeacherInput
+    groups?: GroupCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUncheckedCreateWithoutUserInput = {
@@ -52287,6 +57604,7 @@ export namespace Prisma {
     streams?: TeacherCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutTeacherInput
+    groups?: GroupUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherCreateOrConnectWithoutUserInput = {
@@ -52433,11 +57751,13 @@ export namespace Prisma {
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutEnrollmentsInput
+    group?: GroupCreateNestedOneWithoutEnrollmentsInput
   }
 
   export type EnrollmentUncheckedCreateWithoutStudentInput = {
     id?: string
     subjectId: string
+    groupId?: string | null
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
     createdAt?: Date | string
   }
@@ -52676,6 +57996,76 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PlatformSettingCreateWithoutAdminInput = {
+    id?: string
+    key: string
+    value: string
+    description?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type PlatformSettingUncheckedCreateWithoutAdminInput = {
+    id?: string
+    key: string
+    value: string
+    description?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type PlatformSettingCreateOrConnectWithoutAdminInput = {
+    where: PlatformSettingWhereUniqueInput
+    create: XOR<PlatformSettingCreateWithoutAdminInput, PlatformSettingUncheckedCreateWithoutAdminInput>
+  }
+
+  export type PlatformSettingCreateManyAdminInputEnvelope = {
+    data: PlatformSettingCreateManyAdminInput | PlatformSettingCreateManyAdminInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PendingLessonCreateWithoutTeacherInput = {
+    id?: string
+    title: string
+    stream?: $Enums.Stream
+    level: $Enums.Level
+    month?: number
+    editingNotes?: string
+    vimeoVideoId: string
+    vimeoUrl?: string | null
+    pdfUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutPendingLessonsInput
+    publishedLesson?: LessonCreateNestedOneWithoutPendingLessonsInput
+  }
+
+  export type PendingLessonUncheckedCreateWithoutTeacherInput = {
+    id?: string
+    title: string
+    subjectId: string
+    stream?: $Enums.Stream
+    level: $Enums.Level
+    month?: number
+    editingNotes?: string
+    vimeoVideoId: string
+    vimeoUrl?: string | null
+    pdfUrl?: string | null
+    status?: string
+    publishedLessonId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PendingLessonCreateOrConnectWithoutTeacherInput = {
+    where: PendingLessonWhereUniqueInput
+    create: XOR<PendingLessonCreateWithoutTeacherInput, PendingLessonUncheckedCreateWithoutTeacherInput>
+  }
+
+  export type PendingLessonCreateManyTeacherInputEnvelope = {
+    data: PendingLessonCreateManyTeacherInput | PendingLessonCreateManyTeacherInput[]
+    skipDuplicates?: boolean
+  }
+
   export type StudentProfileUpsertWithoutUserInput = {
     update: XOR<StudentProfileUpdateWithoutUserInput, StudentProfileUncheckedUpdateWithoutUserInput>
     create: XOR<StudentProfileCreateWithoutUserInput, StudentProfileUncheckedCreateWithoutUserInput>
@@ -52760,6 +58150,7 @@ export namespace Prisma {
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUpdateManyWithoutTeacherNestedInput
+    groups?: GroupUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherUncheckedUpdateWithoutUserInput = {
@@ -52771,6 +58162,7 @@ export namespace Prisma {
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutTeacherNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type ParentStudentLinkUpsertWithWhereUniqueWithoutParentInput = {
@@ -52928,6 +58320,7 @@ export namespace Prisma {
     id?: StringFilter<"Enrollment"> | string
     studentId?: StringFilter<"Enrollment"> | string
     subjectId?: StringFilter<"Enrollment"> | string
+    groupId?: StringNullableFilter<"Enrollment"> | string | null
     enrolledMonths?: IntNullableListFilter<"Enrollment">
     createdAt?: DateTimeFilter<"Enrollment"> | Date | string
   }
@@ -53168,6 +58561,71 @@ export namespace Prisma {
     completedAt?: DateTimeFilter<"QuizCompletion"> | Date | string
   }
 
+  export type PlatformSettingUpsertWithWhereUniqueWithoutAdminInput = {
+    where: PlatformSettingWhereUniqueInput
+    update: XOR<PlatformSettingUpdateWithoutAdminInput, PlatformSettingUncheckedUpdateWithoutAdminInput>
+    create: XOR<PlatformSettingCreateWithoutAdminInput, PlatformSettingUncheckedCreateWithoutAdminInput>
+  }
+
+  export type PlatformSettingUpdateWithWhereUniqueWithoutAdminInput = {
+    where: PlatformSettingWhereUniqueInput
+    data: XOR<PlatformSettingUpdateWithoutAdminInput, PlatformSettingUncheckedUpdateWithoutAdminInput>
+  }
+
+  export type PlatformSettingUpdateManyWithWhereWithoutAdminInput = {
+    where: PlatformSettingScalarWhereInput
+    data: XOR<PlatformSettingUpdateManyMutationInput, PlatformSettingUncheckedUpdateManyWithoutAdminInput>
+  }
+
+  export type PlatformSettingScalarWhereInput = {
+    AND?: PlatformSettingScalarWhereInput | PlatformSettingScalarWhereInput[]
+    OR?: PlatformSettingScalarWhereInput[]
+    NOT?: PlatformSettingScalarWhereInput | PlatformSettingScalarWhereInput[]
+    id?: StringFilter<"PlatformSetting"> | string
+    key?: StringFilter<"PlatformSetting"> | string
+    value?: StringFilter<"PlatformSetting"> | string
+    description?: StringNullableFilter<"PlatformSetting"> | string | null
+    updatedAt?: DateTimeFilter<"PlatformSetting"> | Date | string
+    updatedByAdminId?: StringNullableFilter<"PlatformSetting"> | string | null
+  }
+
+  export type PendingLessonUpsertWithWhereUniqueWithoutTeacherInput = {
+    where: PendingLessonWhereUniqueInput
+    update: XOR<PendingLessonUpdateWithoutTeacherInput, PendingLessonUncheckedUpdateWithoutTeacherInput>
+    create: XOR<PendingLessonCreateWithoutTeacherInput, PendingLessonUncheckedCreateWithoutTeacherInput>
+  }
+
+  export type PendingLessonUpdateWithWhereUniqueWithoutTeacherInput = {
+    where: PendingLessonWhereUniqueInput
+    data: XOR<PendingLessonUpdateWithoutTeacherInput, PendingLessonUncheckedUpdateWithoutTeacherInput>
+  }
+
+  export type PendingLessonUpdateManyWithWhereWithoutTeacherInput = {
+    where: PendingLessonScalarWhereInput
+    data: XOR<PendingLessonUpdateManyMutationInput, PendingLessonUncheckedUpdateManyWithoutTeacherInput>
+  }
+
+  export type PendingLessonScalarWhereInput = {
+    AND?: PendingLessonScalarWhereInput | PendingLessonScalarWhereInput[]
+    OR?: PendingLessonScalarWhereInput[]
+    NOT?: PendingLessonScalarWhereInput | PendingLessonScalarWhereInput[]
+    id?: StringFilter<"PendingLesson"> | string
+    title?: StringFilter<"PendingLesson"> | string
+    subjectId?: StringFilter<"PendingLesson"> | string
+    stream?: EnumStreamFilter<"PendingLesson"> | $Enums.Stream
+    level?: EnumLevelFilter<"PendingLesson"> | $Enums.Level
+    month?: IntFilter<"PendingLesson"> | number
+    editingNotes?: StringFilter<"PendingLesson"> | string
+    vimeoVideoId?: StringFilter<"PendingLesson"> | string
+    vimeoUrl?: StringNullableFilter<"PendingLesson"> | string | null
+    pdfUrl?: StringNullableFilter<"PendingLesson"> | string | null
+    status?: StringFilter<"PendingLesson"> | string
+    teacherId?: StringNullableFilter<"PendingLesson"> | string | null
+    publishedLessonId?: StringNullableFilter<"PendingLesson"> | string | null
+    createdAt?: DateTimeFilter<"PendingLesson"> | Date | string
+    updatedAt?: DateTimeFilter<"PendingLesson"> | Date | string
+  }
+
   export type UserCreateWithoutStudentProfileInput = {
     id?: string
     fullName: string
@@ -53197,6 +58655,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutStudentProfileInput = {
@@ -53228,6 +58688,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutStudentProfileInput = {
@@ -53275,6 +58737,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudentProfileInput = {
@@ -53306,6 +58770,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserCreateWithoutParentProfileInput = {
@@ -53337,6 +58803,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutParentProfileInput = {
@@ -53368,6 +58836,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutParentProfileInput = {
@@ -53415,6 +58885,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutParentProfileInput = {
@@ -53446,6 +58918,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserCreateWithoutTeacherProfileInput = {
@@ -53477,6 +58951,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutTeacherProfileInput = {
@@ -53508,6 +58984,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutTeacherProfileInput = {
@@ -53539,6 +59017,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
     lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutTeacherInput = {
@@ -53565,6 +59045,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutTeacherInput = {
@@ -53574,6 +59056,34 @@ export namespace Prisma {
 
   export type SubjectCreateManyTeacherInputEnvelope = {
     data: SubjectCreateManyTeacherInput | SubjectCreateManyTeacherInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GroupCreateWithoutTeacherInput = {
+    id?: string
+    name: string
+    level?: $Enums.Level
+    createdAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutGroupsInput
+    enrollments?: EnrollmentCreateNestedManyWithoutGroupInput
+  }
+
+  export type GroupUncheckedCreateWithoutTeacherInput = {
+    id?: string
+    name: string
+    level?: $Enums.Level
+    subjectId: string
+    createdAt?: Date | string
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutGroupInput
+  }
+
+  export type GroupCreateOrConnectWithoutTeacherInput = {
+    where: GroupWhereUniqueInput
+    create: XOR<GroupCreateWithoutTeacherInput, GroupUncheckedCreateWithoutTeacherInput>
+  }
+
+  export type GroupCreateManyTeacherInputEnvelope = {
+    data: GroupCreateManyTeacherInput | GroupCreateManyTeacherInput[]
     skipDuplicates?: boolean
   }
 
@@ -53617,6 +59127,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTeacherProfileInput = {
@@ -53648,6 +59160,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type SubjectUpsertWithWhereUniqueWithoutTeacherInput = {
@@ -53685,6 +59199,34 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Subject"> | Date | string
   }
 
+  export type GroupUpsertWithWhereUniqueWithoutTeacherInput = {
+    where: GroupWhereUniqueInput
+    update: XOR<GroupUpdateWithoutTeacherInput, GroupUncheckedUpdateWithoutTeacherInput>
+    create: XOR<GroupCreateWithoutTeacherInput, GroupUncheckedCreateWithoutTeacherInput>
+  }
+
+  export type GroupUpdateWithWhereUniqueWithoutTeacherInput = {
+    where: GroupWhereUniqueInput
+    data: XOR<GroupUpdateWithoutTeacherInput, GroupUncheckedUpdateWithoutTeacherInput>
+  }
+
+  export type GroupUpdateManyWithWhereWithoutTeacherInput = {
+    where: GroupScalarWhereInput
+    data: XOR<GroupUpdateManyMutationInput, GroupUncheckedUpdateManyWithoutTeacherInput>
+  }
+
+  export type GroupScalarWhereInput = {
+    AND?: GroupScalarWhereInput | GroupScalarWhereInput[]
+    OR?: GroupScalarWhereInput[]
+    NOT?: GroupScalarWhereInput | GroupScalarWhereInput[]
+    id?: StringFilter<"Group"> | string
+    name?: StringFilter<"Group"> | string
+    level?: EnumLevelFilter<"Group"> | $Enums.Level
+    subjectId?: StringFilter<"Group"> | string
+    teacherId?: StringNullableFilter<"Group"> | string | null
+    createdAt?: DateTimeFilter<"Group"> | Date | string
+  }
+
   export type TeacherCreateWithoutSubjectsInput = {
     id?: string
     name: string
@@ -53694,6 +59236,7 @@ export namespace Prisma {
     streams?: TeacherCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     user?: UserCreateNestedOneWithoutTeacherProfileInput
+    groups?: GroupCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUncheckedCreateWithoutSubjectsInput = {
@@ -53705,6 +59248,7 @@ export namespace Prisma {
     levels?: TeacherCreatelevelsInput | $Enums.Level[]
     streams?: TeacherCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
+    groups?: GroupUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherCreateOrConnectWithoutSubjectsInput = {
@@ -53811,11 +59355,13 @@ export namespace Prisma {
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
     createdAt?: Date | string
     student: UserCreateNestedOneWithoutEnrollmentsInput
+    group?: GroupCreateNestedOneWithoutEnrollmentsInput
   }
 
   export type EnrollmentUncheckedCreateWithoutSubjectInput = {
     id?: string
     studentId: string
+    groupId?: string | null
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
     createdAt?: Date | string
   }
@@ -54077,11 +59623,14 @@ export namespace Prisma {
   export type LessonCreateWithoutSubjectsInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     academicMonth?: MonthCreateNestedOneWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
@@ -54090,17 +59639,21 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonUncheckedCreateWithoutSubjectsInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     monthId?: string | null
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
@@ -54108,11 +59661,84 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionUncheckedCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonCreateOrConnectWithoutSubjectsInput = {
     where: LessonWhereUniqueInput
     create: XOR<LessonCreateWithoutSubjectsInput, LessonUncheckedCreateWithoutSubjectsInput>
+  }
+
+  export type PendingLessonCreateWithoutSubjectInput = {
+    id?: string
+    title: string
+    stream?: $Enums.Stream
+    level: $Enums.Level
+    month?: number
+    editingNotes?: string
+    vimeoVideoId: string
+    vimeoUrl?: string | null
+    pdfUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teacher?: UserCreateNestedOneWithoutPendingLessonsInput
+    publishedLesson?: LessonCreateNestedOneWithoutPendingLessonsInput
+  }
+
+  export type PendingLessonUncheckedCreateWithoutSubjectInput = {
+    id?: string
+    title: string
+    stream?: $Enums.Stream
+    level: $Enums.Level
+    month?: number
+    editingNotes?: string
+    vimeoVideoId: string
+    vimeoUrl?: string | null
+    pdfUrl?: string | null
+    status?: string
+    teacherId?: string | null
+    publishedLessonId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PendingLessonCreateOrConnectWithoutSubjectInput = {
+    where: PendingLessonWhereUniqueInput
+    create: XOR<PendingLessonCreateWithoutSubjectInput, PendingLessonUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type PendingLessonCreateManySubjectInputEnvelope = {
+    data: PendingLessonCreateManySubjectInput | PendingLessonCreateManySubjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GroupCreateWithoutSubjectInput = {
+    id?: string
+    name: string
+    level?: $Enums.Level
+    createdAt?: Date | string
+    teacher?: TeacherCreateNestedOneWithoutGroupsInput
+    enrollments?: EnrollmentCreateNestedManyWithoutGroupInput
+  }
+
+  export type GroupUncheckedCreateWithoutSubjectInput = {
+    id?: string
+    name: string
+    level?: $Enums.Level
+    teacherId?: string | null
+    createdAt?: Date | string
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutGroupInput
+  }
+
+  export type GroupCreateOrConnectWithoutSubjectInput = {
+    where: GroupWhereUniqueInput
+    create: XOR<GroupCreateWithoutSubjectInput, GroupUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type GroupCreateManySubjectInputEnvelope = {
+    data: GroupCreateManySubjectInput | GroupCreateManySubjectInput[]
+    skipDuplicates?: boolean
   }
 
   export type TeacherUpsertWithoutSubjectsInput = {
@@ -54135,6 +59761,7 @@ export namespace Prisma {
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutTeacherProfileNestedInput
+    groups?: GroupUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherUncheckedUpdateWithoutSubjectsInput = {
@@ -54146,6 +59773,7 @@ export namespace Prisma {
     levels?: TeacherUpdatelevelsInput | $Enums.Level[]
     streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    groups?: GroupUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type LiveClassUpsertWithWhereUniqueWithoutSubjectInput = {
@@ -54413,23 +60041,61 @@ export namespace Prisma {
     NOT?: LessonScalarWhereInput | LessonScalarWhereInput[]
     id?: StringFilter<"Lesson"> | string
     title?: StringFilter<"Lesson"> | string
+    description?: StringNullableFilter<"Lesson"> | string | null
     month?: IntFilter<"Lesson"> | number
     monthId?: StringNullableFilter<"Lesson"> | string | null
     vimeoVideoId?: StringFilter<"Lesson"> | string
+    youtubeVideoId?: StringNullableFilter<"Lesson"> | string | null
     image?: StringNullableFilter<"Lesson"> | string | null
     streams?: EnumStreamNullableListFilter<"Lesson">
     levels?: EnumLevelNullableListFilter<"Lesson">
+    order?: IntFilter<"Lesson"> | number
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
+  }
+
+  export type PendingLessonUpsertWithWhereUniqueWithoutSubjectInput = {
+    where: PendingLessonWhereUniqueInput
+    update: XOR<PendingLessonUpdateWithoutSubjectInput, PendingLessonUncheckedUpdateWithoutSubjectInput>
+    create: XOR<PendingLessonCreateWithoutSubjectInput, PendingLessonUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type PendingLessonUpdateWithWhereUniqueWithoutSubjectInput = {
+    where: PendingLessonWhereUniqueInput
+    data: XOR<PendingLessonUpdateWithoutSubjectInput, PendingLessonUncheckedUpdateWithoutSubjectInput>
+  }
+
+  export type PendingLessonUpdateManyWithWhereWithoutSubjectInput = {
+    where: PendingLessonScalarWhereInput
+    data: XOR<PendingLessonUpdateManyMutationInput, PendingLessonUncheckedUpdateManyWithoutSubjectInput>
+  }
+
+  export type GroupUpsertWithWhereUniqueWithoutSubjectInput = {
+    where: GroupWhereUniqueInput
+    update: XOR<GroupUpdateWithoutSubjectInput, GroupUncheckedUpdateWithoutSubjectInput>
+    create: XOR<GroupCreateWithoutSubjectInput, GroupUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type GroupUpdateWithWhereUniqueWithoutSubjectInput = {
+    where: GroupWhereUniqueInput
+    data: XOR<GroupUpdateWithoutSubjectInput, GroupUncheckedUpdateWithoutSubjectInput>
+  }
+
+  export type GroupUpdateManyWithWhereWithoutSubjectInput = {
+    where: GroupScalarWhereInput
+    data: XOR<GroupUpdateManyMutationInput, GroupUncheckedUpdateManyWithoutSubjectInput>
   }
 
   export type LessonCreateWithoutAcademicMonthInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     subjects?: SubjectCreateNestedManyWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
@@ -54438,16 +60104,20 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonUncheckedCreateWithoutAcademicMonthInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
@@ -54456,6 +60126,7 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionUncheckedCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonCreateOrConnectWithoutAcademicMonthInput = {
@@ -54577,6 +60248,8 @@ export namespace Prisma {
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutLessonsInput = {
@@ -54603,6 +60276,8 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutLessonsInput = {
@@ -54795,6 +60470,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PendingLessonCreateWithoutPublishedLessonInput = {
+    id?: string
+    title: string
+    stream?: $Enums.Stream
+    level: $Enums.Level
+    month?: number
+    editingNotes?: string
+    vimeoVideoId: string
+    vimeoUrl?: string | null
+    pdfUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutPendingLessonsInput
+    teacher?: UserCreateNestedOneWithoutPendingLessonsInput
+  }
+
+  export type PendingLessonUncheckedCreateWithoutPublishedLessonInput = {
+    id?: string
+    title: string
+    subjectId: string
+    stream?: $Enums.Stream
+    level: $Enums.Level
+    month?: number
+    editingNotes?: string
+    vimeoVideoId: string
+    vimeoUrl?: string | null
+    pdfUrl?: string | null
+    status?: string
+    teacherId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PendingLessonCreateOrConnectWithoutPublishedLessonInput = {
+    where: PendingLessonWhereUniqueInput
+    create: XOR<PendingLessonCreateWithoutPublishedLessonInput, PendingLessonUncheckedCreateWithoutPublishedLessonInput>
+  }
+
+  export type PendingLessonCreateManyPublishedLessonInputEnvelope = {
+    data: PendingLessonCreateManyPublishedLessonInput | PendingLessonCreateManyPublishedLessonInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MonthUpsertWithoutLessonsInput = {
     update: XOR<MonthUpdateWithoutLessonsInput, MonthUncheckedUpdateWithoutLessonsInput>
     create: XOR<MonthCreateWithoutLessonsInput, MonthUncheckedCreateWithoutLessonsInput>
@@ -54964,14 +60683,33 @@ export namespace Prisma {
     data: XOR<LessonCompletionUpdateManyMutationInput, LessonCompletionUncheckedUpdateManyWithoutLessonInput>
   }
 
+  export type PendingLessonUpsertWithWhereUniqueWithoutPublishedLessonInput = {
+    where: PendingLessonWhereUniqueInput
+    update: XOR<PendingLessonUpdateWithoutPublishedLessonInput, PendingLessonUncheckedUpdateWithoutPublishedLessonInput>
+    create: XOR<PendingLessonCreateWithoutPublishedLessonInput, PendingLessonUncheckedCreateWithoutPublishedLessonInput>
+  }
+
+  export type PendingLessonUpdateWithWhereUniqueWithoutPublishedLessonInput = {
+    where: PendingLessonWhereUniqueInput
+    data: XOR<PendingLessonUpdateWithoutPublishedLessonInput, PendingLessonUncheckedUpdateWithoutPublishedLessonInput>
+  }
+
+  export type PendingLessonUpdateManyWithWhereWithoutPublishedLessonInput = {
+    where: PendingLessonScalarWhereInput
+    data: XOR<PendingLessonUpdateManyMutationInput, PendingLessonUncheckedUpdateManyWithoutPublishedLessonInput>
+  }
+
   export type LessonCreateWithoutMaterialsInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     academicMonth?: MonthCreateNestedOneWithoutLessonsInput
     subjects?: SubjectCreateNestedManyWithoutLessonsInput
@@ -54980,17 +60718,21 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonUncheckedCreateWithoutMaterialsInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     monthId?: string | null
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
@@ -54998,6 +60740,7 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionUncheckedCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonCreateOrConnectWithoutMaterialsInput = {
@@ -55019,11 +60762,14 @@ export namespace Prisma {
   export type LessonUpdateWithoutMaterialsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     academicMonth?: MonthUpdateOneWithoutLessonsNestedInput
     subjects?: SubjectUpdateManyWithoutLessonsNestedInput
@@ -55032,21 +60778,406 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type LessonUncheckedUpdateWithoutMaterialsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     monthId?: NullableStringFieldUpdateOperationsInput | string | null
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
+    dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutLessonNestedInput
+    reviewCards?: ReviewCardUncheckedUpdateManyWithoutLessonNestedInput
+    completions?: LessonCompletionUncheckedUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutPublishedLessonNestedInput
+  }
+
+  export type SubjectCreateWithoutPendingLessonsInput = {
+    id?: string
+    title: string
+    description: string
+    teacherName: string
+    phase?: $Enums.Phase
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
+    image: string
+    price: number
+    accessType: string
+    isPublished?: boolean
+    createdAt?: Date | string
+    teacher?: TeacherCreateNestedOneWithoutSubjectsInput
+    liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
+    notifications?: NotificationCreateNestedManyWithoutSubjectInput
+    codes?: AccessCodeCreateNestedManyWithoutSubjectInput
+    enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
+    dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
+    secondaryDailyExercises?: DailyExerciseCreateNestedManyWithoutSecondarySubjectInput
+    exams?: ExamCreateNestedManyWithoutSubjectInput
+    secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
+    reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
+    classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectUncheckedCreateWithoutPendingLessonsInput = {
+    id?: string
+    title: string
+    description: string
+    teacherName: string
+    teacherId?: string | null
+    phase?: $Enums.Phase
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
+    image: string
+    price: number
+    accessType: string
+    isPublished?: boolean
+    createdAt?: Date | string
+    liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
+    codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
+    dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
+    secondaryDailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSecondarySubjectInput
+    exams?: ExamUncheckedCreateNestedManyWithoutSubjectInput
+    secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
+    reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
+    classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectCreateOrConnectWithoutPendingLessonsInput = {
+    where: SubjectWhereUniqueInput
+    create: XOR<SubjectCreateWithoutPendingLessonsInput, SubjectUncheckedCreateWithoutPendingLessonsInput>
+  }
+
+  export type UserCreateWithoutPendingLessonsInput = {
+    id?: string
+    fullName: string
+    phoneNumber: string
+    passwordHash?: string
+    avatarUrl?: string | null
+    role: $Enums.Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string
+    loginCount?: number
+    deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
+    parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
+    teacherProfile?: TeacherCreateNestedOneWithoutUserInput
+    parentLinks?: ParentStudentLinkCreateNestedManyWithoutParentInput
+    studentLinks?: ParentStudentLinkCreateNestedManyWithoutStudentInput
+    accessCodes?: AccessCodeCreateNestedManyWithoutUserInput
+    mistakes?: StudentMistakeCreateNestedManyWithoutUserInput
+    submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
+    enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
+    friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
+    friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
+    lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
+    quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+  }
+
+  export type UserUncheckedCreateWithoutPendingLessonsInput = {
+    id?: string
+    fullName: string
+    phoneNumber: string
+    passwordHash?: string
+    avatarUrl?: string | null
+    role: $Enums.Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string
+    loginCount?: number
+    deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
+    parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
+    teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
+    parentLinks?: ParentStudentLinkUncheckedCreateNestedManyWithoutParentInput
+    studentLinks?: ParentStudentLinkUncheckedCreateNestedManyWithoutStudentInput
+    accessCodes?: AccessCodeUncheckedCreateNestedManyWithoutUserInput
+    mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutUserInput
+    submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
+    friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
+    friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
+    lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
+    quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+  }
+
+  export type UserCreateOrConnectWithoutPendingLessonsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPendingLessonsInput, UserUncheckedCreateWithoutPendingLessonsInput>
+  }
+
+  export type LessonCreateWithoutPendingLessonsInput = {
+    id?: string
+    title: string
+    description?: string | null
+    month: number
+    vimeoVideoId: string
+    youtubeVideoId?: string | null
+    image?: string | null
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
+    createdAt?: Date | string
+    academicMonth?: MonthCreateNestedOneWithoutLessonsInput
+    subjects?: SubjectCreateNestedManyWithoutLessonsInput
+    quiz?: QuizCreateNestedOneWithoutLessonInput
+    mistakes?: StudentMistakeCreateNestedManyWithoutLessonInput
+    materials?: LessonMaterialCreateNestedManyWithoutLessonInput
+    dailyExercises?: DailyExerciseCreateNestedManyWithoutLessonInput
+    reviewCards?: ReviewCardCreateNestedManyWithoutLessonInput
+    completions?: LessonCompletionCreateNestedManyWithoutLessonInput
+  }
+
+  export type LessonUncheckedCreateWithoutPendingLessonsInput = {
+    id?: string
+    title: string
+    description?: string | null
+    month: number
+    monthId?: string | null
+    vimeoVideoId: string
+    youtubeVideoId?: string | null
+    image?: string | null
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
+    createdAt?: Date | string
+    subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
+    quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
+    mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
+    materials?: LessonMaterialUncheckedCreateNestedManyWithoutLessonInput
+    dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutLessonInput
+    reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutLessonInput
+    completions?: LessonCompletionUncheckedCreateNestedManyWithoutLessonInput
+  }
+
+  export type LessonCreateOrConnectWithoutPendingLessonsInput = {
+    where: LessonWhereUniqueInput
+    create: XOR<LessonCreateWithoutPendingLessonsInput, LessonUncheckedCreateWithoutPendingLessonsInput>
+  }
+
+  export type SubjectUpsertWithoutPendingLessonsInput = {
+    update: XOR<SubjectUpdateWithoutPendingLessonsInput, SubjectUncheckedUpdateWithoutPendingLessonsInput>
+    create: XOR<SubjectCreateWithoutPendingLessonsInput, SubjectUncheckedCreateWithoutPendingLessonsInput>
+    where?: SubjectWhereInput
+  }
+
+  export type SubjectUpdateToOneWithWhereWithoutPendingLessonsInput = {
+    where?: SubjectWhereInput
+    data: XOR<SubjectUpdateWithoutPendingLessonsInput, SubjectUncheckedUpdateWithoutPendingLessonsInput>
+  }
+
+  export type SubjectUpdateWithoutPendingLessonsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
+    image?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    accessType?: StringFieldUpdateOperationsInput | string
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
+    liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
+    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
+    codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
+    dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
+    secondaryDailyExercises?: DailyExerciseUpdateManyWithoutSecondarySubjectNestedInput
+    exams?: ExamUpdateManyWithoutSubjectNestedInput
+    secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
+    reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
+    classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectUncheckedUpdateWithoutPendingLessonsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    teacherName?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
+    image?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    accessType?: StringFieldUpdateOperationsInput | string
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
+    codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
+    dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
+    secondaryDailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSecondarySubjectNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutSubjectNestedInput
+    secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
+    reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
+    classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type UserUpsertWithoutPendingLessonsInput = {
+    update: XOR<UserUpdateWithoutPendingLessonsInput, UserUncheckedUpdateWithoutPendingLessonsInput>
+    create: XOR<UserCreateWithoutPendingLessonsInput, UserUncheckedCreateWithoutPendingLessonsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPendingLessonsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPendingLessonsInput, UserUncheckedUpdateWithoutPendingLessonsInput>
+  }
+
+  export type UserUpdateWithoutPendingLessonsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginCount?: IntFieldUpdateOperationsInput | number
+    deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
+    parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
+    teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
+    parentLinks?: ParentStudentLinkUpdateManyWithoutParentNestedInput
+    studentLinks?: ParentStudentLinkUpdateManyWithoutStudentNestedInput
+    accessCodes?: AccessCodeUpdateManyWithoutUserNestedInput
+    mistakes?: StudentMistakeUpdateManyWithoutUserNestedInput
+    submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
+    friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
+    friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
+    lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
+    quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPendingLessonsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginCount?: IntFieldUpdateOperationsInput | number
+    deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
+    parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
+    teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
+    parentLinks?: ParentStudentLinkUncheckedUpdateManyWithoutParentNestedInput
+    studentLinks?: ParentStudentLinkUncheckedUpdateManyWithoutStudentNestedInput
+    accessCodes?: AccessCodeUncheckedUpdateManyWithoutUserNestedInput
+    mistakes?: StudentMistakeUncheckedUpdateManyWithoutUserNestedInput
+    submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
+    friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
+    friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
+    lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+  }
+
+  export type LessonUpsertWithoutPendingLessonsInput = {
+    update: XOR<LessonUpdateWithoutPendingLessonsInput, LessonUncheckedUpdateWithoutPendingLessonsInput>
+    create: XOR<LessonCreateWithoutPendingLessonsInput, LessonUncheckedCreateWithoutPendingLessonsInput>
+    where?: LessonWhereInput
+  }
+
+  export type LessonUpdateToOneWithWhereWithoutPendingLessonsInput = {
+    where?: LessonWhereInput
+    data: XOR<LessonUpdateWithoutPendingLessonsInput, LessonUncheckedUpdateWithoutPendingLessonsInput>
+  }
+
+  export type LessonUpdateWithoutPendingLessonsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    month?: IntFieldUpdateOperationsInput | number
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicMonth?: MonthUpdateOneWithoutLessonsNestedInput
+    subjects?: SubjectUpdateManyWithoutLessonsNestedInput
+    quiz?: QuizUpdateOneWithoutLessonNestedInput
+    mistakes?: StudentMistakeUpdateManyWithoutLessonNestedInput
+    materials?: LessonMaterialUpdateManyWithoutLessonNestedInput
+    dailyExercises?: DailyExerciseUpdateManyWithoutLessonNestedInput
+    reviewCards?: ReviewCardUpdateManyWithoutLessonNestedInput
+    completions?: LessonCompletionUpdateManyWithoutLessonNestedInput
+  }
+
+  export type LessonUncheckedUpdateWithoutPendingLessonsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    month?: IntFieldUpdateOperationsInput | number
+    monthId?: NullableStringFieldUpdateOperationsInput | string | null
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
+    quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
+    mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
+    materials?: LessonMaterialUncheckedUpdateManyWithoutLessonNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUncheckedUpdateManyWithoutLessonNestedInput
@@ -55081,6 +61212,8 @@ export namespace Prisma {
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutLessonCompletionsInput = {
@@ -55112,6 +61245,8 @@ export namespace Prisma {
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutLessonCompletionsInput = {
@@ -55122,11 +61257,14 @@ export namespace Prisma {
   export type LessonCreateWithoutCompletionsInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     academicMonth?: MonthCreateNestedOneWithoutLessonsInput
     subjects?: SubjectCreateNestedManyWithoutLessonsInput
@@ -55135,17 +61273,21 @@ export namespace Prisma {
     materials?: LessonMaterialCreateNestedManyWithoutLessonInput
     dailyExercises?: DailyExerciseCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonUncheckedCreateWithoutCompletionsInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     monthId?: string | null
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
@@ -55153,6 +61295,7 @@ export namespace Prisma {
     materials?: LessonMaterialUncheckedCreateNestedManyWithoutLessonInput
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonCreateOrConnectWithoutCompletionsInput = {
@@ -55200,6 +61343,8 @@ export namespace Prisma {
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLessonCompletionsInput = {
@@ -55231,6 +61376,8 @@ export namespace Prisma {
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type LessonUpsertWithoutCompletionsInput = {
@@ -55247,11 +61394,14 @@ export namespace Prisma {
   export type LessonUpdateWithoutCompletionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     academicMonth?: MonthUpdateOneWithoutLessonsNestedInput
     subjects?: SubjectUpdateManyWithoutLessonsNestedInput
@@ -55260,17 +61410,21 @@ export namespace Prisma {
     materials?: LessonMaterialUpdateManyWithoutLessonNestedInput
     dailyExercises?: DailyExerciseUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type LessonUncheckedUpdateWithoutCompletionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     monthId?: NullableStringFieldUpdateOperationsInput | string | null
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
@@ -55278,16 +61432,20 @@ export namespace Prisma {
     materials?: LessonMaterialUncheckedUpdateManyWithoutLessonNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type LessonCreateWithoutQuizInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     academicMonth?: MonthCreateNestedOneWithoutLessonsInput
     subjects?: SubjectCreateNestedManyWithoutLessonsInput
@@ -55296,17 +61454,21 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonUncheckedCreateWithoutQuizInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     monthId?: string | null
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
@@ -55314,6 +61476,7 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionUncheckedCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonCreateOrConnectWithoutQuizInput = {
@@ -55461,11 +61624,14 @@ export namespace Prisma {
   export type LessonUpdateWithoutQuizInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     academicMonth?: MonthUpdateOneWithoutLessonsNestedInput
     subjects?: SubjectUpdateManyWithoutLessonsNestedInput
@@ -55474,17 +61640,21 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type LessonUncheckedUpdateWithoutQuizInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     monthId?: NullableStringFieldUpdateOperationsInput | string | null
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
@@ -55492,6 +61662,7 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUncheckedUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type DailyExerciseUpsertWithoutQuizInput = {
@@ -55641,6 +61812,8 @@ export namespace Prisma {
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutQuizCompletionsInput = {
@@ -55672,6 +61845,8 @@ export namespace Prisma {
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutQuizCompletionsInput = {
@@ -55748,6 +61923,8 @@ export namespace Prisma {
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuizCompletionsInput = {
@@ -55779,6 +61956,8 @@ export namespace Prisma {
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type QuizUpsertWithoutCompletionsInput = {
@@ -55866,6 +62045,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutAccessCodesInput = {
@@ -55897,6 +62078,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutAccessCodesInput = {
@@ -55928,6 +62111,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
     lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutCodesInput = {
@@ -55954,6 +62139,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutCodesInput = {
@@ -56028,6 +62215,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccessCodesInput = {
@@ -56059,6 +62248,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type SubjectUpsertWithoutCodesInput = {
@@ -56096,6 +62287,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutCodesInput = {
@@ -56122,6 +62315,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type UserCreateWithoutParentLinksInput = {
@@ -56153,6 +62348,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutParentLinksInput = {
@@ -56184,6 +62381,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutParentLinksInput = {
@@ -56220,6 +62419,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutStudentLinksInput = {
@@ -56251,6 +62452,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutStudentLinksInput = {
@@ -56298,6 +62501,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutParentLinksInput = {
@@ -56329,6 +62534,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUpsertWithoutStudentLinksInput = {
@@ -56371,6 +62578,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudentLinksInput = {
@@ -56402,6 +62611,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserCreateWithoutFriendLinksSourceInput = {
@@ -56433,6 +62644,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutFriendLinksSourceInput = {
@@ -56464,6 +62677,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutFriendLinksSourceInput = {
@@ -56500,6 +62715,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutFriendLinksTargetInput = {
@@ -56531,6 +62748,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutFriendLinksTargetInput = {
@@ -56578,6 +62797,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFriendLinksSourceInput = {
@@ -56609,6 +62830,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUpsertWithoutFriendLinksTargetInput = {
@@ -56651,6 +62874,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFriendLinksTargetInput = {
@@ -56682,6 +62907,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserCreateWithoutMistakesInput = {
@@ -56713,6 +62940,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutMistakesInput = {
@@ -56744,6 +62973,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutMistakesInput = {
@@ -56754,11 +62985,14 @@ export namespace Prisma {
   export type LessonCreateWithoutMistakesInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     academicMonth?: MonthCreateNestedOneWithoutLessonsInput
     subjects?: SubjectCreateNestedManyWithoutLessonsInput
@@ -56767,17 +63001,21 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonUncheckedCreateWithoutMistakesInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     monthId?: string | null
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
@@ -56785,6 +63023,7 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionUncheckedCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonCreateOrConnectWithoutMistakesInput = {
@@ -56861,6 +63100,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMistakesInput = {
@@ -56892,6 +63133,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type LessonUpsertWithoutMistakesInput = {
@@ -56908,11 +63151,14 @@ export namespace Prisma {
   export type LessonUpdateWithoutMistakesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     academicMonth?: MonthUpdateOneWithoutLessonsNestedInput
     subjects?: SubjectUpdateManyWithoutLessonsNestedInput
@@ -56921,17 +63167,21 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type LessonUncheckedUpdateWithoutMistakesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     monthId?: NullableStringFieldUpdateOperationsInput | string | null
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
@@ -56939,6 +63189,7 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUncheckedUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type QuizUpsertWithoutMistakesInput = {
@@ -57005,6 +63256,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -57036,6 +63289,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -57067,6 +63322,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
     lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutEnrollmentsInput = {
@@ -57093,11 +63350,36 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutEnrollmentsInput = {
     where: SubjectWhereUniqueInput
     create: XOR<SubjectCreateWithoutEnrollmentsInput, SubjectUncheckedCreateWithoutEnrollmentsInput>
+  }
+
+  export type GroupCreateWithoutEnrollmentsInput = {
+    id?: string
+    name: string
+    level?: $Enums.Level
+    createdAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutGroupsInput
+    teacher?: TeacherCreateNestedOneWithoutGroupsInput
+  }
+
+  export type GroupUncheckedCreateWithoutEnrollmentsInput = {
+    id?: string
+    name: string
+    level?: $Enums.Level
+    subjectId: string
+    teacherId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type GroupCreateOrConnectWithoutEnrollmentsInput = {
+    where: GroupWhereUniqueInput
+    create: XOR<GroupCreateWithoutEnrollmentsInput, GroupUncheckedCreateWithoutEnrollmentsInput>
   }
 
   export type UserUpsertWithoutEnrollmentsInput = {
@@ -57140,6 +63422,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -57171,6 +63455,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type SubjectUpsertWithoutEnrollmentsInput = {
@@ -57208,6 +63494,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutEnrollmentsInput = {
@@ -57234,6 +63522,37 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type GroupUpsertWithoutEnrollmentsInput = {
+    update: XOR<GroupUpdateWithoutEnrollmentsInput, GroupUncheckedUpdateWithoutEnrollmentsInput>
+    create: XOR<GroupCreateWithoutEnrollmentsInput, GroupUncheckedCreateWithoutEnrollmentsInput>
+    where?: GroupWhereInput
+  }
+
+  export type GroupUpdateToOneWithWhereWithoutEnrollmentsInput = {
+    where?: GroupWhereInput
+    data: XOR<GroupUpdateWithoutEnrollmentsInput, GroupUncheckedUpdateWithoutEnrollmentsInput>
+  }
+
+  export type GroupUpdateWithoutEnrollmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutGroupsNestedInput
+    teacher?: TeacherUpdateOneWithoutGroupsNestedInput
+  }
+
+  export type GroupUncheckedUpdateWithoutEnrollmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    subjectId?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubjectCreateWithoutLiveClassesInput = {
@@ -57260,6 +63579,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
     lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutLiveClassesInput = {
@@ -57286,6 +63607,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutLiveClassesInput = {
@@ -57328,6 +63651,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutLiveClassesInput = {
@@ -57354,6 +63679,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type UserCreateWithoutChatSessionsInput = {
@@ -57385,6 +63712,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutChatSessionsInput = {
@@ -57416,6 +63745,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutChatSessionsInput = {
@@ -57487,6 +63818,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChatSessionsInput = {
@@ -57518,6 +63851,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type ChatMessageUpsertWithWhereUniqueWithoutChatSessionInput = {
@@ -57615,6 +63950,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
     lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutDailyExercisesInput = {
@@ -57641,6 +63978,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutDailyExercisesInput = {
@@ -57672,6 +64011,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
     lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutSecondaryDailyExercisesInput = {
@@ -57698,6 +64039,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutSecondaryDailyExercisesInput = {
@@ -57708,11 +64051,14 @@ export namespace Prisma {
   export type LessonCreateWithoutDailyExercisesInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     academicMonth?: MonthCreateNestedOneWithoutLessonsInput
     subjects?: SubjectCreateNestedManyWithoutLessonsInput
@@ -57721,17 +64067,21 @@ export namespace Prisma {
     materials?: LessonMaterialCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonUncheckedCreateWithoutDailyExercisesInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     monthId?: string | null
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
@@ -57739,6 +64089,7 @@ export namespace Prisma {
     materials?: LessonMaterialUncheckedCreateNestedManyWithoutLessonInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionUncheckedCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonCreateOrConnectWithoutDailyExercisesInput = {
@@ -57834,6 +64185,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutDailyExercisesInput = {
@@ -57860,6 +64213,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUpsertWithoutSecondaryDailyExercisesInput = {
@@ -57897,6 +64252,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutSecondaryDailyExercisesInput = {
@@ -57923,6 +64280,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type LessonUpsertWithoutDailyExercisesInput = {
@@ -57939,11 +64298,14 @@ export namespace Prisma {
   export type LessonUpdateWithoutDailyExercisesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     academicMonth?: MonthUpdateOneWithoutLessonsNestedInput
     subjects?: SubjectUpdateManyWithoutLessonsNestedInput
@@ -57952,17 +64314,21 @@ export namespace Prisma {
     materials?: LessonMaterialUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type LessonUncheckedUpdateWithoutDailyExercisesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     monthId?: NullableStringFieldUpdateOperationsInput | string | null
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
@@ -57970,6 +64336,7 @@ export namespace Prisma {
     materials?: LessonMaterialUncheckedUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUncheckedUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type QuizUpsertWithoutDailyExerciseInput = {
@@ -58138,6 +64505,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
     lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutExamsInput = {
@@ -58164,6 +64533,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutExamsInput = {
@@ -58195,6 +64566,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
     lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutSecondaryExamsInput = {
@@ -58221,6 +64594,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutSecondaryExamsInput = {
@@ -58346,6 +64721,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutExamsInput = {
@@ -58372,6 +64749,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUpsertWithoutSecondaryExamsInput = {
@@ -58409,6 +64788,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutSecondaryExamsInput = {
@@ -58435,6 +64816,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type QuizUpsertWithoutExamInput = {
@@ -58661,6 +65044,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionsInput = {
@@ -58692,6 +65077,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionsInput = {
@@ -58782,6 +65169,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionsInput = {
@@ -58813,6 +65202,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type SubjectCreateWithoutNotificationsInput = {
@@ -58839,6 +65230,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
     lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutNotificationsInput = {
@@ -58865,6 +65258,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutNotificationsInput = {
@@ -58901,6 +65296,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -58932,6 +65329,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -58974,6 +65373,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutNotificationsInput = {
@@ -59000,6 +65401,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type UserUpsertWithoutNotificationsInput = {
@@ -59042,6 +65445,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -59073,6 +65478,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type SubjectCreateWithoutReviewCardsInput = {
@@ -59099,6 +65506,8 @@ export namespace Prisma {
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     classForums?: ClassForumCreateNestedManyWithoutSubjectInput
     lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutReviewCardsInput = {
@@ -59125,6 +65534,8 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutReviewCardsInput = {
@@ -59135,11 +65546,14 @@ export namespace Prisma {
   export type LessonCreateWithoutReviewCardsInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     academicMonth?: MonthCreateNestedOneWithoutLessonsInput
     subjects?: SubjectCreateNestedManyWithoutLessonsInput
@@ -59148,17 +65562,21 @@ export namespace Prisma {
     materials?: LessonMaterialCreateNestedManyWithoutLessonInput
     dailyExercises?: DailyExerciseCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonUncheckedCreateWithoutReviewCardsInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     monthId?: string | null
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutLessonsInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
@@ -59166,6 +65584,7 @@ export namespace Prisma {
     materials?: LessonMaterialUncheckedCreateNestedManyWithoutLessonInput
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutLessonInput
     completions?: LessonCompletionUncheckedCreateNestedManyWithoutLessonInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutPublishedLessonInput
   }
 
   export type LessonCreateOrConnectWithoutReviewCardsInput = {
@@ -59208,6 +65627,8 @@ export namespace Prisma {
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutReviewCardsInput = {
@@ -59234,6 +65655,8 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type LessonUpsertWithoutReviewCardsInput = {
@@ -59250,11 +65673,14 @@ export namespace Prisma {
   export type LessonUpdateWithoutReviewCardsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     academicMonth?: MonthUpdateOneWithoutLessonsNestedInput
     subjects?: SubjectUpdateManyWithoutLessonsNestedInput
@@ -59263,17 +65689,21 @@ export namespace Prisma {
     materials?: LessonMaterialUpdateManyWithoutLessonNestedInput
     dailyExercises?: DailyExerciseUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type LessonUncheckedUpdateWithoutReviewCardsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     monthId?: NullableStringFieldUpdateOperationsInput | string | null
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
@@ -59281,6 +65711,7 @@ export namespace Prisma {
     materials?: LessonMaterialUncheckedUpdateManyWithoutLessonNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUncheckedUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type SubjectCreateWithoutClassForumsInput = {
@@ -59307,6 +65738,8 @@ export namespace Prisma {
     secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
     lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+    groups?: GroupCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutClassForumsInput = {
@@ -59333,6 +65766,8 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
     reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+    groups?: GroupUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutClassForumsInput = {
@@ -59399,6 +65834,8 @@ export namespace Prisma {
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutClassForumsInput = {
@@ -59425,6 +65862,8 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type ForumMessageUpsertWithWhereUniqueWithoutForumInput = {
@@ -59503,6 +65942,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutForumMessagesInput = {
@@ -59534,6 +65975,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutForumMessagesInput = {
@@ -59618,6 +66061,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutForumMessagesInput = {
@@ -59649,6 +66094,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserCreateWithoutParentTicketsInput = {
@@ -59680,6 +66127,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutParentTicketsInput = {
@@ -59711,6 +66160,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutParentTicketsInput = {
@@ -59758,6 +66209,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutParentTicketsInput = {
@@ -59789,6 +66242,8 @@ export namespace Prisma {
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserCreateWithoutAdminAiInsightsInput = {
@@ -59820,6 +66275,8 @@ export namespace Prisma {
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
     lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutAdminAiInsightsInput = {
@@ -59851,6 +66308,8 @@ export namespace Prisma {
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
     lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
     quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutAdminAiInsightsInput = {
@@ -59898,6 +66357,8 @@ export namespace Prisma {
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
     lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdminAiInsightsInput = {
@@ -59929,6 +66390,390 @@ export namespace Prisma {
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
     lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
     quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
+  }
+
+  export type UserCreateWithoutPlatformSettingsInput = {
+    id?: string
+    fullName: string
+    phoneNumber: string
+    passwordHash?: string
+    avatarUrl?: string | null
+    role: $Enums.Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string
+    loginCount?: number
+    deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
+    parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
+    teacherProfile?: TeacherCreateNestedOneWithoutUserInput
+    parentLinks?: ParentStudentLinkCreateNestedManyWithoutParentInput
+    studentLinks?: ParentStudentLinkCreateNestedManyWithoutStudentInput
+    accessCodes?: AccessCodeCreateNestedManyWithoutUserInput
+    mistakes?: StudentMistakeCreateNestedManyWithoutUserInput
+    submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
+    enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
+    friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
+    friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
+    lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
+    quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
+  }
+
+  export type UserUncheckedCreateWithoutPlatformSettingsInput = {
+    id?: string
+    fullName: string
+    phoneNumber: string
+    passwordHash?: string
+    avatarUrl?: string | null
+    role: $Enums.Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string
+    loginCount?: number
+    deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
+    parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
+    teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
+    parentLinks?: ParentStudentLinkUncheckedCreateNestedManyWithoutParentInput
+    studentLinks?: ParentStudentLinkUncheckedCreateNestedManyWithoutStudentInput
+    accessCodes?: AccessCodeUncheckedCreateNestedManyWithoutUserInput
+    mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutUserInput
+    submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
+    friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
+    friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
+    lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
+    quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
+  }
+
+  export type UserCreateOrConnectWithoutPlatformSettingsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPlatformSettingsInput, UserUncheckedCreateWithoutPlatformSettingsInput>
+  }
+
+  export type UserUpsertWithoutPlatformSettingsInput = {
+    update: XOR<UserUpdateWithoutPlatformSettingsInput, UserUncheckedUpdateWithoutPlatformSettingsInput>
+    create: XOR<UserCreateWithoutPlatformSettingsInput, UserUncheckedCreateWithoutPlatformSettingsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPlatformSettingsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPlatformSettingsInput, UserUncheckedUpdateWithoutPlatformSettingsInput>
+  }
+
+  export type UserUpdateWithoutPlatformSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginCount?: IntFieldUpdateOperationsInput | number
+    deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
+    parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
+    teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
+    parentLinks?: ParentStudentLinkUpdateManyWithoutParentNestedInput
+    studentLinks?: ParentStudentLinkUpdateManyWithoutStudentNestedInput
+    accessCodes?: AccessCodeUpdateManyWithoutUserNestedInput
+    mistakes?: StudentMistakeUpdateManyWithoutUserNestedInput
+    submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
+    friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
+    friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
+    lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
+    quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPlatformSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginCount?: IntFieldUpdateOperationsInput | number
+    deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
+    parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
+    teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
+    parentLinks?: ParentStudentLinkUncheckedUpdateManyWithoutParentNestedInput
+    studentLinks?: ParentStudentLinkUncheckedUpdateManyWithoutStudentNestedInput
+    accessCodes?: AccessCodeUncheckedUpdateManyWithoutUserNestedInput
+    mistakes?: StudentMistakeUncheckedUpdateManyWithoutUserNestedInput
+    submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
+    friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
+    friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
+    lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
+  }
+
+  export type SubjectCreateWithoutGroupsInput = {
+    id?: string
+    title: string
+    description: string
+    teacherName: string
+    phase?: $Enums.Phase
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
+    image: string
+    price: number
+    accessType: string
+    isPublished?: boolean
+    createdAt?: Date | string
+    teacher?: TeacherCreateNestedOneWithoutSubjectsInput
+    liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
+    notifications?: NotificationCreateNestedManyWithoutSubjectInput
+    codes?: AccessCodeCreateNestedManyWithoutSubjectInput
+    enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
+    dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
+    secondaryDailyExercises?: DailyExerciseCreateNestedManyWithoutSecondarySubjectInput
+    exams?: ExamCreateNestedManyWithoutSubjectInput
+    secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
+    reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
+    classForums?: ClassForumCreateNestedManyWithoutSubjectInput
+    lessons?: LessonCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectUncheckedCreateWithoutGroupsInput = {
+    id?: string
+    title: string
+    description: string
+    teacherName: string
+    teacherId?: string | null
+    phase?: $Enums.Phase
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
+    image: string
+    price: number
+    accessType: string
+    isPublished?: boolean
+    createdAt?: Date | string
+    liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
+    codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
+    dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
+    secondaryDailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSecondarySubjectInput
+    exams?: ExamUncheckedCreateNestedManyWithoutSubjectInput
+    secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
+    reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
+    classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
+    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectsInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectCreateOrConnectWithoutGroupsInput = {
+    where: SubjectWhereUniqueInput
+    create: XOR<SubjectCreateWithoutGroupsInput, SubjectUncheckedCreateWithoutGroupsInput>
+  }
+
+  export type TeacherCreateWithoutGroupsInput = {
+    id?: string
+    name: string
+    phone: string
+    phases?: TeacherCreatephasesInput | $Enums.Phase[]
+    levels?: TeacherCreatelevelsInput | $Enums.Level[]
+    streams?: TeacherCreatestreamsInput | $Enums.Stream[]
+    createdAt?: Date | string
+    user?: UserCreateNestedOneWithoutTeacherProfileInput
+    subjects?: SubjectCreateNestedManyWithoutTeacherInput
+  }
+
+  export type TeacherUncheckedCreateWithoutGroupsInput = {
+    id?: string
+    userId?: string | null
+    name: string
+    phone: string
+    phases?: TeacherCreatephasesInput | $Enums.Phase[]
+    levels?: TeacherCreatelevelsInput | $Enums.Level[]
+    streams?: TeacherCreatestreamsInput | $Enums.Stream[]
+    createdAt?: Date | string
+    subjects?: SubjectUncheckedCreateNestedManyWithoutTeacherInput
+  }
+
+  export type TeacherCreateOrConnectWithoutGroupsInput = {
+    where: TeacherWhereUniqueInput
+    create: XOR<TeacherCreateWithoutGroupsInput, TeacherUncheckedCreateWithoutGroupsInput>
+  }
+
+  export type EnrollmentCreateWithoutGroupInput = {
+    id?: string
+    enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
+    createdAt?: Date | string
+    student: UserCreateNestedOneWithoutEnrollmentsInput
+    subject: SubjectCreateNestedOneWithoutEnrollmentsInput
+  }
+
+  export type EnrollmentUncheckedCreateWithoutGroupInput = {
+    id?: string
+    studentId: string
+    subjectId: string
+    enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
+    createdAt?: Date | string
+  }
+
+  export type EnrollmentCreateOrConnectWithoutGroupInput = {
+    where: EnrollmentWhereUniqueInput
+    create: XOR<EnrollmentCreateWithoutGroupInput, EnrollmentUncheckedCreateWithoutGroupInput>
+  }
+
+  export type EnrollmentCreateManyGroupInputEnvelope = {
+    data: EnrollmentCreateManyGroupInput | EnrollmentCreateManyGroupInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SubjectUpsertWithoutGroupsInput = {
+    update: XOR<SubjectUpdateWithoutGroupsInput, SubjectUncheckedUpdateWithoutGroupsInput>
+    create: XOR<SubjectCreateWithoutGroupsInput, SubjectUncheckedCreateWithoutGroupsInput>
+    where?: SubjectWhereInput
+  }
+
+  export type SubjectUpdateToOneWithWhereWithoutGroupsInput = {
+    where?: SubjectWhereInput
+    data: XOR<SubjectUpdateWithoutGroupsInput, SubjectUncheckedUpdateWithoutGroupsInput>
+  }
+
+  export type SubjectUpdateWithoutGroupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    teacherName?: StringFieldUpdateOperationsInput | string
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
+    image?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    accessType?: StringFieldUpdateOperationsInput | string
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
+    liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
+    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
+    codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
+    dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
+    secondaryDailyExercises?: DailyExerciseUpdateManyWithoutSecondarySubjectNestedInput
+    exams?: ExamUpdateManyWithoutSubjectNestedInput
+    secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
+    reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
+    classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectUncheckedUpdateWithoutGroupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    teacherName?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    phase?: EnumPhaseFieldUpdateOperationsInput | $Enums.Phase
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
+    image?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    accessType?: StringFieldUpdateOperationsInput | string
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
+    codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
+    dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
+    secondaryDailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSecondarySubjectNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutSubjectNestedInput
+    secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
+    reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
+    classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type TeacherUpsertWithoutGroupsInput = {
+    update: XOR<TeacherUpdateWithoutGroupsInput, TeacherUncheckedUpdateWithoutGroupsInput>
+    create: XOR<TeacherCreateWithoutGroupsInput, TeacherUncheckedCreateWithoutGroupsInput>
+    where?: TeacherWhereInput
+  }
+
+  export type TeacherUpdateToOneWithWhereWithoutGroupsInput = {
+    where?: TeacherWhereInput
+    data: XOR<TeacherUpdateWithoutGroupsInput, TeacherUncheckedUpdateWithoutGroupsInput>
+  }
+
+  export type TeacherUpdateWithoutGroupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    phases?: TeacherUpdatephasesInput | $Enums.Phase[]
+    levels?: TeacherUpdatelevelsInput | $Enums.Level[]
+    streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutTeacherProfileNestedInput
+    subjects?: SubjectUpdateManyWithoutTeacherNestedInput
+  }
+
+  export type TeacherUncheckedUpdateWithoutGroupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    phases?: TeacherUpdatephasesInput | $Enums.Phase[]
+    levels?: TeacherUpdatelevelsInput | $Enums.Level[]
+    streams?: TeacherUpdatestreamsInput | $Enums.Stream[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjects?: SubjectUncheckedUpdateManyWithoutTeacherNestedInput
+  }
+
+  export type EnrollmentUpsertWithWhereUniqueWithoutGroupInput = {
+    where: EnrollmentWhereUniqueInput
+    update: XOR<EnrollmentUpdateWithoutGroupInput, EnrollmentUncheckedUpdateWithoutGroupInput>
+    create: XOR<EnrollmentCreateWithoutGroupInput, EnrollmentUncheckedCreateWithoutGroupInput>
+  }
+
+  export type EnrollmentUpdateWithWhereUniqueWithoutGroupInput = {
+    where: EnrollmentWhereUniqueInput
+    data: XOR<EnrollmentUpdateWithoutGroupInput, EnrollmentUncheckedUpdateWithoutGroupInput>
+  }
+
+  export type EnrollmentUpdateManyWithWhereWithoutGroupInput = {
+    where: EnrollmentScalarWhereInput
+    data: XOR<EnrollmentUpdateManyMutationInput, EnrollmentUncheckedUpdateManyWithoutGroupInput>
   }
 
   export type ParentStudentLinkCreateManyParentInput = {
@@ -59976,6 +66821,7 @@ export namespace Prisma {
   export type EnrollmentCreateManyStudentInput = {
     id?: string
     subjectId: string
+    groupId?: string | null
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
     createdAt?: Date | string
   }
@@ -60044,6 +66890,31 @@ export namespace Prisma {
     quizId: string
     score?: number
     completedAt?: Date | string
+  }
+
+  export type PlatformSettingCreateManyAdminInput = {
+    id?: string
+    key: string
+    value: string
+    description?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type PendingLessonCreateManyTeacherInput = {
+    id?: string
+    title: string
+    subjectId: string
+    stream?: $Enums.Stream
+    level: $Enums.Level
+    month?: number
+    editingNotes?: string
+    vimeoVideoId: string
+    vimeoUrl?: string | null
+    pdfUrl?: string | null
+    status?: string
+    publishedLessonId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ParentStudentLinkUpdateWithoutParentInput = {
@@ -60177,11 +67048,13 @@ export namespace Prisma {
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutEnrollmentsNestedInput
+    group?: GroupUpdateOneWithoutEnrollmentsNestedInput
   }
 
   export type EnrollmentUncheckedUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -60189,6 +67062,7 @@ export namespace Prisma {
   export type EnrollmentUncheckedUpdateManyWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -60393,6 +67267,81 @@ export namespace Prisma {
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PlatformSettingUpdateWithoutAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformSettingUncheckedUpdateWithoutAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformSettingUncheckedUpdateManyWithoutAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PendingLessonUpdateWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    month?: IntFieldUpdateOperationsInput | number
+    editingNotes?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    vimeoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutPendingLessonsNestedInput
+    publishedLesson?: LessonUpdateOneWithoutPendingLessonsNestedInput
+  }
+
+  export type PendingLessonUncheckedUpdateWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    month?: IntFieldUpdateOperationsInput | number
+    editingNotes?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    vimeoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    publishedLessonId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PendingLessonUncheckedUpdateManyWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    month?: IntFieldUpdateOperationsInput | number
+    editingNotes?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    vimeoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    publishedLessonId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SubjectCreateManyTeacherInput = {
     id?: string
     title: string
@@ -60405,6 +67354,14 @@ export namespace Prisma {
     price: number
     accessType: string
     isPublished?: boolean
+    createdAt?: Date | string
+  }
+
+  export type GroupCreateManyTeacherInput = {
+    id?: string
+    name: string
+    level?: $Enums.Level
+    subjectId: string
     createdAt?: Date | string
   }
 
@@ -60432,6 +67389,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutTeacherInput = {
@@ -60458,6 +67417,8 @@ export namespace Prisma {
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
     lessons?: LessonUncheckedUpdateManyWithoutSubjectsNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateManyWithoutTeacherInput = {
@@ -60472,6 +67433,32 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupUpdateWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutGroupsNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutGroupNestedInput
+  }
+
+  export type GroupUncheckedUpdateWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    subjectId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutGroupNestedInput
+  }
+
+  export type GroupUncheckedUpdateManyWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    subjectId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -60510,6 +67497,7 @@ export namespace Prisma {
   export type EnrollmentCreateManySubjectInput = {
     id?: string
     studentId: string
+    groupId?: string | null
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
     createdAt?: Date | string
   }
@@ -60593,6 +67581,31 @@ export namespace Prisma {
     isOpen?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type PendingLessonCreateManySubjectInput = {
+    id?: string
+    title: string
+    stream?: $Enums.Stream
+    level: $Enums.Level
+    month?: number
+    editingNotes?: string
+    vimeoVideoId: string
+    vimeoUrl?: string | null
+    pdfUrl?: string | null
+    status?: string
+    teacherId?: string | null
+    publishedLessonId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GroupCreateManySubjectInput = {
+    id?: string
+    name: string
+    level?: $Enums.Level
+    teacherId?: string | null
+    createdAt?: Date | string
   }
 
   export type LiveClassUpdateWithoutSubjectInput = {
@@ -60696,11 +67709,13 @@ export namespace Prisma {
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutEnrollmentsNestedInput
+    group?: GroupUpdateOneWithoutEnrollmentsNestedInput
   }
 
   export type EnrollmentUncheckedUpdateWithoutSubjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -60708,6 +67723,7 @@ export namespace Prisma {
   export type EnrollmentUncheckedUpdateManyWithoutSubjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -60980,11 +67996,14 @@ export namespace Prisma {
   export type LessonUpdateWithoutSubjectsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     academicMonth?: MonthUpdateOneWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
@@ -60993,17 +68012,21 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type LessonUncheckedUpdateWithoutSubjectsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     monthId?: NullableStringFieldUpdateOperationsInput | string | null
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
@@ -61011,28 +68034,112 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUncheckedUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type LessonUncheckedUpdateManyWithoutSubjectsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     monthId?: NullableStringFieldUpdateOperationsInput | string | null
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PendingLessonUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    month?: IntFieldUpdateOperationsInput | number
+    editingNotes?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    vimeoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacher?: UserUpdateOneWithoutPendingLessonsNestedInput
+    publishedLesson?: LessonUpdateOneWithoutPendingLessonsNestedInput
+  }
+
+  export type PendingLessonUncheckedUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    month?: IntFieldUpdateOperationsInput | number
+    editingNotes?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    vimeoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedLessonId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PendingLessonUncheckedUpdateManyWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    month?: IntFieldUpdateOperationsInput | number
+    editingNotes?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    vimeoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedLessonId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacher?: TeacherUpdateOneWithoutGroupsNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutGroupNestedInput
+  }
+
+  export type GroupUncheckedUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutGroupNestedInput
+  }
+
+  export type GroupUncheckedUpdateManyWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LessonCreateManyAcademicMonthInput = {
     id?: string
     title: string
+    description?: string | null
     month: number
     vimeoVideoId: string
+    youtubeVideoId?: string | null
     image?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
+    order?: number
     createdAt?: Date | string
   }
 
@@ -61050,11 +68157,14 @@ export namespace Prisma {
   export type LessonUpdateWithoutAcademicMonthInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
@@ -61063,16 +68173,20 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type LessonUncheckedUpdateWithoutAcademicMonthInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutLessonsNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
@@ -61081,16 +68195,20 @@ export namespace Prisma {
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutLessonNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutLessonNestedInput
     completions?: LessonCompletionUncheckedUpdateManyWithoutLessonNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutPublishedLessonNestedInput
   }
 
   export type LessonUncheckedUpdateManyWithoutAcademicMonthInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -61178,6 +68296,23 @@ export namespace Prisma {
     completedAt?: Date | string
   }
 
+  export type PendingLessonCreateManyPublishedLessonInput = {
+    id?: string
+    title: string
+    subjectId: string
+    stream?: $Enums.Stream
+    level: $Enums.Level
+    month?: number
+    editingNotes?: string
+    vimeoVideoId: string
+    vimeoUrl?: string | null
+    pdfUrl?: string | null
+    status?: string
+    teacherId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type SubjectUpdateWithoutLessonsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -61202,6 +68337,8 @@ export namespace Prisma {
     secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutLessonsInput = {
@@ -61228,6 +68365,8 @@ export namespace Prisma {
     secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
     reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
     classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutSubjectNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateManyWithoutLessonsInput = {
@@ -61401,6 +68540,57 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PendingLessonUpdateWithoutPublishedLessonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    month?: IntFieldUpdateOperationsInput | number
+    editingNotes?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    vimeoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutPendingLessonsNestedInput
+    teacher?: UserUpdateOneWithoutPendingLessonsNestedInput
+  }
+
+  export type PendingLessonUncheckedUpdateWithoutPublishedLessonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    month?: IntFieldUpdateOperationsInput | number
+    editingNotes?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    vimeoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PendingLessonUncheckedUpdateManyWithoutPublishedLessonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    month?: IntFieldUpdateOperationsInput | number
+    editingNotes?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
+    vimeoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StudentMistakeCreateManyQuizInput = {
@@ -61616,6 +68806,38 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EnrollmentCreateManyGroupInput = {
+    id?: string
+    studentId: string
+    subjectId: string
+    enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
+    createdAt?: Date | string
+  }
+
+  export type EnrollmentUpdateWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: UserUpdateOneRequiredWithoutEnrollmentsNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutEnrollmentsNestedInput
+  }
+
+  export type EnrollmentUncheckedUpdateWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EnrollmentUncheckedUpdateManyWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { FileText } from "lucide-react";
 import { ExamUploadForm } from "@/components/admin/ExamUploadForm";
+import { SubjectName } from "@/components/shared/SubjectName";
 
 export default async function AdminExamsPage() {
   const subjects = await prisma.subject.findMany({
@@ -48,7 +49,9 @@ export default async function AdminExamsPage() {
                 <article key={exam.id} className="surface-card p-5 flex flex-col gap-3">
                   <div className="flex justify-between items-start gap-3">
                     <h4 className="font-bold text-ink">{exam.title}</h4>
-                    <span className="badge-soft shrink-0">{exam.subject.title}</span>
+                    <span className="badge-soft shrink-0">
+                      <SubjectName subject={exam.subject} />
+                    </span>
                   </div>
 
                   <div className="flex items-center justify-between text-sm">

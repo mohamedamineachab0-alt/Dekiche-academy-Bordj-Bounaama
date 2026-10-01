@@ -3,16 +3,20 @@
 import { useState } from "react";
 import { Key, Plus, Copy, CheckCircle2 } from "lucide-react";
 import { generateAccessCode } from "@/actions/subjects";
+import { SubjectSelector } from "@/components/shared/SubjectSelector";
 
-export function CodeGeneratorClient({ subjects }: { subjects: { id: string; title: string }[] }) {
+export function CodeGeneratorClient({ subjects }: { subjects: any[] }) {
+
   const [pending, setPending] = useState(false);
   const [generatedCodes, setGeneratedCodes] = useState<any[]>([]);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setPending(true);
     setGeneratedCodes([]);
+    setErrorMsg(null);
 
     const formData = new FormData(e.currentTarget);
     const result = await generateAccessCode(formData);
@@ -20,19 +24,43 @@ export function CodeGeneratorClient({ subjects }: { subjects: { id: string; titl
     if (result.success && result.codes) {
       setGeneratedCodes(result.codes);
 
-      const subjectId = formData.get("subjectId") as string;
-      const subjectTitle = subjects.find((s) => s.id === subjectId)?.title || "مادة غير معروفة";
+      const subjectIdStr = formData.get("subjectId") as string;
+      const isMultiple = subjectIdStr.includes(',');
+      const level = formData.get("level") as string;
+      const stream = formData.get("stream") as string;
+      const validMonths = formData.getAll("validMonths") as string[];
+      const validMonthsStr = validMonths.length > 0 ? validMonths.join("-") : "عام_كامل";
+      const generationDate = new Date().toISOString().split("T")[0];
 
-      const rows = result.codes.map((c: any) => c.code).join("\n");
+      let csvContent = "المادة,المستوى,الشعبة,الشهور,تاريخ_التوليد,الكود\n";
 
-      const csvContent = "\uFEFF" + rows;
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      result.codes.forEach((c: any) => {
+        const s = subjects.find((sub) => sub.id === c.subjectId);
+        const title = s?.title || "مادة_غير_معروفة";
+        csvContent += `"${title}","${level && level !== "ALL" ? level : "الكل"}","${stream && stream !== "ALL" && stream !== "NONE" ? stream : "الكل"}","${validMonthsStr}","${generationDate}","${c.code}"\n`;
+      });
+
+      const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = `رموز_دخول_${subjectTitle.replace(/\s+/g, "_")}_${new Date().toISOString().split("T")[0]}.csv`;
+      
+      if (isMultiple) {
+        link.download = `كل_الرموز_${generationDate}.csv`;
+      } else {
+        const subjectTitle = subjects.find((s) => s.id === subjectIdStr)?.title || "مادة";
+        let fileDetails = "";
+        if (level && level !== "ALL") fileDetails += `_${level}`;
+        if (stream && stream !== "ALL" && stream !== "NONE") fileDetails += `_${stream}`;
+        if (validMonths.length > 0) fileDetails += `_شهور_${validMonths.join("-")}`;
+        
+        link.download = `رموز_${subjectTitle.replace(/\s+/g, "_")}${fileDetails}_${generationDate}.csv`;
+      }
+      
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    } else if (result.error) {
+      setErrorMsg(result.error);
     }
 
     setPending(false);
@@ -55,16 +83,14 @@ export function CodeGeneratorClient({ subjects }: { subjects: { id: string; titl
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {errorMsg && (
+            <div className="p-4 bg-red-50 text-red-700 border border-red-200 rounded-lg text-sm font-semibold mb-4">
+              {errorMsg}
+            </div>
+          )}
           <div>
-            <label className="field-label">المادة التعليمية</label>
-            <select name="subjectId" required className="input-field">
-              <option value="">اختر المادة</option>
-              {subjects.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.title}
-                </option>
-              ))}
-            </select>
+            <label className="field-label mb-2">المادة التعليمية</label>
+            <SubjectSelector subjects={subjects} allowAll={true} />
           </div>
 
           <div>
@@ -96,10 +122,22 @@ export function CodeGeneratorClient({ subjects }: { subjects: { id: string; titl
               type="number"
               name="count"
               required
-              defaultValue={1}
+              defaultValue={100}
               min={1}
-              max={100}
+              max={1000}
               className="input-field"
+            />
+          </div>
+          
+          <div>
+            <label className="field-label">كلمة المرور لتأكيد التوليد</label>
+            <input
+              type="password"
+              name="actionPassword"
+              required
+              placeholder="أدخل كلمة المرور"
+              className="input-field text-left"
+              dir="ltr"
             />
           </div>
 

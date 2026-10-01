@@ -3,7 +3,7 @@
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { universalLoginAction, LoginState } from "@/actions/auth-login";
-import { User, LogIn, Loader2, AlertCircle, Phone } from "lucide-react";
+import { User, LogIn, Loader2, AlertCircle, Phone, KeyRound } from "lucide-react";
 import Link from "next/link";
 import { AuthPageShell } from "@/components/auth/AuthPageShell";
 

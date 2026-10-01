@@ -12,6 +12,7 @@ enum Role {
   PARENT
   TEACHER
   ADMIN
+  EMPLOYEE
 }
 
 enum Wilaya {
@@ -144,6 +145,8 @@ model User {
   adminAiInsights    AdminAiInsight[]
   lessonCompletions  LessonCompletion[]
   quizCompletions    QuizCompletion[]
+  platformSettings   PlatformSetting[]
+  pendingLessons     PendingLesson[]     @relation("TeacherPendingLessons")
 
   @@index([role, lastLoginAt])
 }
@@ -183,6 +186,7 @@ model Teacher {
   levels    Level[]
   streams   Stream[]
   subjects  Subject[]
+  groups    Group[]
   createdAt DateTime  @default(now())
 }
 
@@ -211,6 +215,8 @@ model Subject {
   reviewCards ReviewCard[]
   classForums ClassForum[]
   lessons     Lesson[]     @relation("LessonSubjects")
+  pendingLessons PendingLesson[]
+  groups      Group[]
   createdAt   DateTime     @default(now())
 }
 
@@ -227,10 +233,12 @@ model Month {
 model Lesson {
   id               String           @id @default(uuid())
   title            String
+  description      String?          @default("")
   month            Int // denormalized 1–12, kept for existing unlock checks
   monthId          String?
   academicMonth    Month?           @relation(fields: [monthId], references: [id], onDelete: Restrict)
   vimeoVideoId     String // Vimeo video ID
+  youtubeVideoId   String? // YouTube video ID
   image            String? // Square image URL for the lesson from Supabase Storage
   subjects         Subject[]        @relation("LessonSubjects")
   streams          Stream[]         @default([])
@@ -241,6 +249,8 @@ model Lesson {
   dailyExercises   DailyExercise[]
   reviewCards      ReviewCard[]
   completions      LessonCompletion[]
+  pendingLessons   PendingLesson[]
+  order            Int              @default(0)
   createdAt        DateTime         @default(now())
 
   @@index([monthId])
@@ -253,6 +263,33 @@ model LessonMaterial {
   lessonId  String
   lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+}
+
+model PendingLesson {
+  id                String   @id @default(uuid())
+  title             String
+  subjectId         String
+  subject           Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  stream            Stream   @default(NONE)
+  level             Level
+  month             Int      @default(1)
+  editingNotes      String   @default("")
+  vimeoVideoId      String
+  vimeoUrl          String?
+  pdfUrl            String?
+  status            String   @default("pending")
+  teacherId         String?
+  teacher           User?    @relation("TeacherPendingLessons", fields: [teacherId], references: [id], onDelete: SetNull)
+  publishedLessonId String?
+  publishedLesson   Lesson?  @relation(fields: [publishedLessonId], references: [id], onDelete: SetNull)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([status])
+  @@index([subjectId])
+  @@index([teacherId])
+  @@index([createdAt])
+  @@map("pending_lessons")
 }
 
 model LessonCompletion {
@@ -371,6 +408,8 @@ model Enrollment {
   student        User     @relation("StudentEnrollments", fields: [studentId], references: [id], onDelete: Cascade)
   subjectId      String
   subject        Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  groupId        String?
+  group          Group?   @relation(fields: [groupId], references: [id], onDelete: SetNull)
   enrolledMonths Int[]    @default([]) // Exact months unlocked
   createdAt      DateTime @default(now())
 
@@ -574,3 +613,26 @@ model AdminAiInsight {
   @@index([scope, createdAt])
   @@index([studentId, createdAt])
 }
+
+model PlatformSetting {
+  id               String   @id @default(cuid())
+  key              String   @unique
+  value            String
+  description      String?
+  updatedAt        DateTime @updatedAt
+  updatedByAdminId String?
+  admin            User?    @relation(fields: [updatedByAdminId], references: [id])
+}
+
+model Group {
+  id          String   @id @default(uuid())
+  name        String
+  level       Level    @default(SECONDARY_1)
+  subjectId   String
+  subject     Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  teacherId   String?
+  teacher     Teacher? @relation(fields: [teacherId], references: [id], onDelete: SetNull)
+  enrollments Enrollment[]
+  createdAt   DateTime @default(now())
+}
+

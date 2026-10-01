@@ -4,6 +4,7 @@ import { MessageSquare, Lock, Unlock } from "lucide-react";
 import { createForum, toggleForumStatus } from "@/actions/forums";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { ForumCreationClient } from "@/components/admin/ForumCreationClient";
+import { SubjectName } from "@/components/shared/SubjectName";
 
 export default async function AdminForumsPage() {
   const forums = await prisma.classForum.findMany({
@@ -77,7 +78,9 @@ export default async function AdminForumsPage() {
                             <p className="text-xs text-muted mt-1">الشهر {forum.month}</p>
                           </td>
                           <td>
-                            <p className="font-semibold text-primary text-sm">{forum.subject.title}</p>
+                            <div className="font-semibold text-primary text-sm">
+                              <SubjectName subject={forum.subject} />
+                            </div>
                             <p className="text-xs text-muted mt-1">
                               {levelStr} · {streamStr}
                             </p>

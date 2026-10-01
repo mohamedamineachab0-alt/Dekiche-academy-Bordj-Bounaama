@@ -2,30 +2,17 @@
 
 import { useState } from "react";
 import { Plus } from "lucide-react";
-import { EDUCATION_STAGES, EDUCATION_LEVELS, getStreamsForLevel } from "@/lib/constants/education";
 import { MonthSelect } from "@/components/shared/MonthSelect";
+import { SubjectSelector } from "@/components/shared/SubjectSelector";
 
 export function ReviewCardFormClient({
   subjects,
   action,
 }: {
-  subjects: { id: string; title: string; phase: string; levels: any[]; streams: any[] }[];
+  subjects: any[];
   action: (formData: FormData) => void;
 }) {
-  const [phase, setPhase] = useState("");
-  const [level, setLevel] = useState("");
-  const [stream, setStream] = useState("");
-
-  const currentLevels = phase ? EDUCATION_LEVELS[phase as keyof typeof EDUCATION_LEVELS] : [];
-  const currentStreams = getStreamsForLevel(phase, level);
-  const shouldShowStreams = phase === "SECONDARY" && currentStreams.length > 1;
-
-  const filteredSubjects = subjects.filter((s) => {
-    if (phase && s.phase !== phase) return false;
-    if (level && !s.levels?.includes(level)) return false;
-    if (stream && !s.streams?.includes(stream) && stream !== "NONE") return false;
-    return true;
-  });
+  // Removed manual filtering, handled by SubjectSelector
 
   return (
     <div className="surface-card p-6 sticky top-6">
@@ -66,83 +53,8 @@ export function ReviewCardFormClient({
 
         <div className="pt-2 border-t border-line space-y-3">
           <div>
-            <label className="field-label">الطور</label>
-            <select
-              name="phase"
-              value={phase}
-              onChange={(e) => {
-                setPhase(e.target.value);
-                setLevel("");
-                setStream("");
-              }}
-              required
-              className="input-field"
-            >
-              <option value="">اختر الطور</option>
-              {EDUCATION_STAGES.map((s) => (
-                <option key={s.value} value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="field-label">المستوى</label>
-            <select
-              name="level"
-              value={level}
-              onChange={(e) => {
-                setLevel(e.target.value);
-                setStream("");
-              }}
-              required
-              disabled={!phase}
-              className="input-field disabled:opacity-50"
-            >
-              <option value="">اختر المستوى</option>
-              {currentLevels.map((l: any) => (
-                <option key={l.value} value={l.value}>
-                  {l.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="field-label">الشعبة</label>
-            {shouldShowStreams ? (
-              <select
-                name="stream"
-                value={stream}
-                onChange={(e) => setStream(e.target.value)}
-                required
-                disabled={!level}
-                className="input-field disabled:opacity-50"
-              >
-                <option value="">اختر الشعبة</option>
-                {currentStreams.map((s: any) => (
-                  <option key={s.value} value={s.value}>
-                    {s.label}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <div className="w-full p-2.5 rounded-xl border border-line bg-surface-muted text-muted text-sm text-center">
-                غير مطبق
-                <input type="hidden" name="stream" value="NONE" />
-              </div>
-            )}
-          </div>
-
-          <div>
-            <label className="field-label">المادة الدراسية</label>
-            <select name="subjectId" required className="input-field">
-              <option value="">اختر المادة</option>
-              {filteredSubjects.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.title}
-                </option>
-              ))}
-            </select>
+            <label className="field-label mb-2">المادة الدراسية</label>
+            <SubjectSelector subjects={subjects} />
           </div>
 
           <div>

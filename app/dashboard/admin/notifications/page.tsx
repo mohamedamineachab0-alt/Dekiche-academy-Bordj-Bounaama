@@ -4,6 +4,7 @@ import { Bell, Trash2 } from "lucide-react";
 import { createNotification, deleteNotification } from "@/actions/notifications";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { NotificationFormClient } from "@/components/admin/NotificationFormClient";
+import { SubjectName } from "@/components/shared/SubjectName";
 
 export default async function AdminNotificationsPage() {
   const notifications = await prisma.notification.findMany({
@@ -95,7 +96,7 @@ export default async function AdminNotificationsPage() {
 
                   <div className="mt-4 flex flex-wrap gap-2">
                     {notification.subject && (
-                      <span className="badge-soft">مادة: {notification.subject.title}</span>
+                      <span className="badge-soft">مادة: <SubjectName subject={notification.subject} /></span>
                     )}
                     <span className="badge-outline">{levelStr}</span>
                     <span className="badge-outline">{streamStr}</span>

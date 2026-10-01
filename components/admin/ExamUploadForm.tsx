@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { MonthSelect } from "@/components/shared/MonthSelect";
 import { buildQuizGenerationFormData } from "@/lib/utils/quiz-request";
 import { MathPreview } from "@/components/shared/MathPreview";
+import { SubjectSelector } from "@/components/shared/SubjectSelector";
 
 type QuizQuestion = {
   question: string;
@@ -15,15 +16,12 @@ type QuizQuestion = {
   correctAnswerIndex: number;
 };
 
-export function ExamUploadForm({ subjects }: { subjects: { id: string, title: string, phase: string, levels: any[], streams: any[] }[] }) {
+export function ExamUploadForm({ subjects }: { subjects: any[] }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
 
   const [title, setTitle] = useState("");
-  const [phase, setPhase] = useState("");
-  const [level, setLevel] = useState("");
-  const [stream, setStream] = useState("");
   const [file, setFile] = useState<File | null>(null);
 
   const [numberOfQuestions, setNumberOfQuestions] = useState(10);
@@ -36,16 +34,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
 
   const [subjectId, setSubjectId] = useState("");
 
-  const filteredSubjects = subjects.filter(s => {
-    if (phase && s.phase !== phase) return false;
-    if (level && !s.levels?.includes(level)) return false;
-    if (stream && stream !== "NONE" && !s.streams?.includes(stream)) return false;
-    return true;
-  });
-
-  const currentLevels = phase ? EDUCATION_LEVELS[phase as keyof typeof EDUCATION_LEVELS] : [];
-  const currentStreams = getStreamsForLevel(phase, level);
-  const shouldShowStreams = phase === "SECONDARY" && currentStreams.length > 1;
+  // Removed manual filtering as SubjectSelector handles it
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -92,15 +81,13 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
     setError("");
 
     try {
-      const subjectName = subjects.find(s => s.id === subjectId)?.title;
       const formData = await buildQuizGenerationFormData({
         files: file ? [file] : [],
         numberOfQuestions,
         totalPoints: quizMaxScore,
         language: aiLanguage,
         title,
-        subjectName,
-        level,
+        subjectName: title, // use title as fallback since we don't have subjectName immediately
       });
 
       const response = await fetch("/api/generate-quiz", {
@@ -156,8 +143,6 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
         const formEl = e.target as HTMLFormElement;
         formEl.reset();
         setFile(null);
-        setLevel("");
-        setStream("");
         setQuizType("MANUAL");
         setManualQuestions([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
       }
@@ -276,92 +261,14 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-primary">الطور</label>
-            <select
-              name="phase"
-              value={phase}
-              onChange={e => { setPhase(e.target.value); setLevel(""); setStream(""); }}
-              required
-              className="input-field"
-            >
-              <option value="">اختر الطور..</option>
-              {EDUCATION_STAGES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
-            </select>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-primary">المستوى</label>
-            <select
-              name="level"
-              value={level}
-              onChange={e => { setLevel(e.target.value); setStream(""); }}
-              required
-              disabled={!phase}
-              className="input-field disabled:opacity-50"
-            >
-              <option value="">اختر المستوى..</option>
-              {currentLevels.map((lvl: any) => (
-                <option key={lvl.value} value={lvl.value}>{lvl.label}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-primary">الشعبة</label>
-            {shouldShowStreams ? (
-              <select
-                name="stream"
-                value={stream}
-                onChange={e => setStream(e.target.value)}
-                required
-                disabled={!level}
-                className="input-field disabled:opacity-50"
-              >
-                <option value="">اختر الشعبة..</option>
-                {currentStreams.map((str: any) => (
-                  <option key={str.value} value={str.value}>{str.label}</option>
-                ))}
-              </select>
-            ) : (
-              <div className="w-full px-4 py-3 bg-surface-muted border border-line rounded-xl text-muted font-medium text-center">
-                غير مطبق
-                <input type="hidden" name="stream" value="NONE" />
-              </div>
-            )}
-          </div>
+        <div className="space-y-4">
+          <label className="text-sm font-bold text-primary">المادة الأساسية</label>
+          <SubjectSelector subjects={subjects} name="subjectId" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-primary">المادة الأساسية</label>
-            <select
-              name="subjectId"
-              value={subjectId}
-              onChange={(e) => setSubjectId(e.target.value)}
-              required
-              className="input-field"
-            >
-              <option value="">اختر المادة..</option>
-              {filteredSubjects.map(sub => (
-                <option key={sub.id} value={sub.id}>{sub.title}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-primary">المادة الثانوية (اختياري)</label>
-            <select
-              name="secondarySubjectId"
-              className="input-field"
-            >
-              <option value="">بدون مادة ثانوية</option>
-              {filteredSubjects.map(sub => (
-                <option key={sub.id} value={sub.id}>{sub.title}</option>
-              ))}
-            </select>
-          </div>
+        <div className="space-y-4">
+          <label className="text-sm font-bold text-primary">المادة الثانوية (اختياري)</label>
+          <SubjectSelector subjects={subjects} name="secondarySubjectId" required={false} />
         </div>
 
         <div className="bg-primary-soft p-6 rounded-2xl border border-line space-y-4">

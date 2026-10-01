@@ -64,6 +64,7 @@ const ADMIN_GROUPS: NavGroup[] = [
     links: [
       { name: "المواد", href: "/dashboard/admin/subjects", icon: BookOpen },
       { name: "الدروس", href: "/dashboard/admin/lessons", icon: FileText },
+      { name: "مراجعة الدروس", href: "/dashboard/admin/pending-lessons", icon: Video },
       { name: "بطاقات المراجعة", href: "/dashboard/admin/review-cards", icon: Library },
       { name: "تمارين يومية", href: "/dashboard/admin/exercises", icon: CheckCircle },
       { name: "الإختبارات والفروض", href: "/dashboard/admin/exams", icon: FileText },
@@ -73,6 +74,7 @@ const ADMIN_GROUPS: NavGroup[] = [
   {
     label: "الإدارة",
     links: [
+      { name: "تسيير المدرسة", href: "/dashboard/admin/school", icon: Settings },
       { name: "الأساتذة", href: "/dashboard/admin/teachers", icon: Users },
       { name: "مداخيل الأساتذة", href: "/dashboard/admin/teachers/revenues", icon: Wallet },
       { name: "رموز الدخول", href: "/dashboard/admin/codes", icon: Key },
@@ -89,6 +91,8 @@ const TEACHER_GROUPS: NavGroup[] = [
     label: "التدريس",
     links: [
       { name: "الرئيسية", href: "/dashboard/teacher", icon: LayoutDashboard },
+      { name: "أستوديو التسجيل", href: "/dashboard/teacher/record", icon: Video },
+      { name: "توليد الرموز (الكودات)", href: "/dashboard/teacher/codes", icon: Key },
       { name: "أخطاء تلاميذي", href: "/dashboard/teacher/mistakes", icon: AlertTriangle },
       { name: "دردشة القسم", href: "/dashboard/teacher/forums", icon: MessageSquare },
       { name: "حصص مباشرة", href: "/dashboard/teacher/live-classes", icon: Video },
@@ -139,9 +143,9 @@ export function Sidebar({
 
   const groups =
     role === "ADMIN" ? ADMIN_GROUPS :
-    role === "TEACHER" ? TEACHER_GROUPS :
-    role === "PARENT" ? PARENT_GROUPS :
-    STUDENT_GROUPS;
+      role === "TEACHER" ? TEACHER_GROUPS :
+        role === "PARENT" ? PARENT_GROUPS :
+          STUDENT_GROUPS;
 
   const getRoleLabel = (r?: Role) => {
     switch (r) {
@@ -211,13 +215,11 @@ export function Sidebar({
                       href={link.href}
                       title={isCollapsed ? link.name : ""}
                       onClick={onMobileClose}
-                      className={`flex items-center gap-3 rounded-xl text-sm font-medium transition-colors px-3 h-10 ${
-                        isCollapsed ? "md:justify-center md:h-10 md:w-10 md:mx-auto md:px-0" : ""
-                      } ${
-                        isActive
+                      className={`flex items-center gap-3 rounded-xl text-sm font-medium transition-colors px-3 h-10 ${isCollapsed ? "md:justify-center md:h-10 md:w-10 md:mx-auto md:px-0" : ""
+                        } ${isActive
                           ? "bg-accent text-accent-text font-bold"
                           : "text-white/75 hover:bg-white/10 hover:text-white"
-                      }`}
+                        }`}
                     >
                       <Icon className="w-[18px] h-[18px] shrink-0" />
                       <span className={`truncate ${isCollapsed ? "md:hidden" : ""}`}>{link.name}</span>
@@ -257,18 +259,17 @@ export function Sidebar({
                 </div>
               )}
               <div className={`min-w-0 flex-1 text-right ${isCollapsed ? "md:hidden" : ""}`}>
-                  <p className="text-sm font-semibold truncate">{userData.fullName}</p>
-                  <p className="text-[11px] text-white/60 truncate">{getRoleLabel(userData.role)}</p>
-                </div>
+                <p className="text-sm font-semibold truncate">{userData.fullName}</p>
+                <p className="text-[11px] text-white/60 truncate">{getRoleLabel(userData.role)}</p>
+              </div>
             </div>
           ) : null}
 
           <form action={logoutUser}>
             <button
               title={isCollapsed ? "تسجيل الخروج" : ""}
-              className={`w-full flex items-center gap-3 h-10 rounded-xl text-sm font-medium text-white/75 hover:bg-white/10 hover:text-white transition-colors px-3 ${
-                isCollapsed ? "md:justify-center md:px-0" : ""
-              }`}
+              className={`w-full flex items-center gap-3 h-10 rounded-xl text-sm font-medium text-white/75 hover:bg-white/10 hover:text-white transition-colors px-3 ${isCollapsed ? "md:justify-center md:px-0" : ""
+                }`}
             >
               <LogOut className="w-[18px] h-[18px] shrink-0" />
               <span className={isCollapsed ? "md:hidden" : ""}>تسجيل الخروج</span>

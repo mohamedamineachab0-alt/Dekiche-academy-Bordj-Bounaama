@@ -1,0 +1,859 @@
+[
+  {
+    "title": "اللغة العربية",
+    "description": "مادة اللغة العربية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "PRIMARY",
+    "levels": [
+      "PRIMARY_1",
+      "PRIMARY_2",
+      "PRIMARY_3",
+      "PRIMARY_4",
+      "PRIMARY_5"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "الرياضيات",
+    "description": "مادة الرياضيات",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "PRIMARY",
+    "levels": [
+      "PRIMARY_1",
+      "PRIMARY_2",
+      "PRIMARY_3",
+      "PRIMARY_4",
+      "PRIMARY_5"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "التربية الإسلامية",
+    "description": "التربية الإسلامية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "PRIMARY",
+    "levels": [
+      "PRIMARY_1",
+      "PRIMARY_2",
+      "PRIMARY_3",
+      "PRIMARY_4",
+      "PRIMARY_5"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "التربية المدنية",
+    "description": "التربية المدنية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "PRIMARY",
+    "levels": [
+      "PRIMARY_1",
+      "PRIMARY_2",
+      "PRIMARY_3",
+      "PRIMARY_4",
+      "PRIMARY_5"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "التربية العلمية والتكنولوجية",
+    "description": "التربية العلمية والتكنولوجية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "PRIMARY",
+    "levels": [
+      "PRIMARY_1",
+      "PRIMARY_2",
+      "PRIMARY_3",
+      "PRIMARY_4",
+      "PRIMARY_5"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "التربية الفنية",
+    "description": "التربية الفنية والتشكيلية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "PRIMARY",
+    "levels": [
+      "PRIMARY_1",
+      "PRIMARY_2",
+      "PRIMARY_3",
+      "PRIMARY_4",
+      "PRIMARY_5"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "التربية البدنية والرياضية",
+    "description": "الرياضة",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "PRIMARY",
+    "levels": [
+      "PRIMARY_1",
+      "PRIMARY_2",
+      "PRIMARY_3",
+      "PRIMARY_4",
+      "PRIMARY_5"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "التاريخ والجغرافيا",
+    "description": "التاريخ والجغرافيا",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "PRIMARY",
+    "levels": [
+      "PRIMARY_3",
+      "PRIMARY_4",
+      "PRIMARY_5"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "اللغة الفرنسية",
+    "description": "اللغة الفرنسية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "PRIMARY",
+    "levels": [
+      "PRIMARY_3",
+      "PRIMARY_4",
+      "PRIMARY_5"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "اللغة الأمازيغية",
+    "description": "اللغة الأمازيغية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "PRIMARY",
+    "levels": [
+      "PRIMARY_4",
+      "PRIMARY_5"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "اللغة العربية",
+    "description": "اللغة العربية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "MIDDLE",
+    "levels": [
+      "MIDDLE_1",
+      "MIDDLE_2",
+      "MIDDLE_3",
+      "MIDDLE_4"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "الرياضيات",
+    "description": "الرياضيات",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "MIDDLE",
+    "levels": [
+      "MIDDLE_1",
+      "MIDDLE_2",
+      "MIDDLE_3",
+      "MIDDLE_4"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "التربية الإسلامية",
+    "description": "التربية الإسلامية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "MIDDLE",
+    "levels": [
+      "MIDDLE_1",
+      "MIDDLE_2",
+      "MIDDLE_3",
+      "MIDDLE_4"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "التربية المدنية",
+    "description": "التربية المدنية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "MIDDLE",
+    "levels": [
+      "MIDDLE_1",
+      "MIDDLE_2",
+      "MIDDLE_3",
+      "MIDDLE_4"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "التاريخ والجغرافيا",
+    "description": "التاريخ والجغرافيا",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "MIDDLE",
+    "levels": [
+      "MIDDLE_1",
+      "MIDDLE_2",
+      "MIDDLE_3",
+      "MIDDLE_4"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "علوم الطبيعة والحياة",
+    "description": "العلوم الطبيعية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "MIDDLE",
+    "levels": [
+      "MIDDLE_1",
+      "MIDDLE_2",
+      "MIDDLE_3",
+      "MIDDLE_4"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "العلوم الفيزيائية والتكنولوجيا",
+    "description": "الفيزياء",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "MIDDLE",
+    "levels": [
+      "MIDDLE_1",
+      "MIDDLE_2",
+      "MIDDLE_3",
+      "MIDDLE_4"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "اللغة الفرنسية",
+    "description": "اللغة الفرنسية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "MIDDLE",
+    "levels": [
+      "MIDDLE_1",
+      "MIDDLE_2",
+      "MIDDLE_3",
+      "MIDDLE_4"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "اللغة الإنجليزية",
+    "description": "اللغة الإنجليزية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "MIDDLE",
+    "levels": [
+      "MIDDLE_1",
+      "MIDDLE_2",
+      "MIDDLE_3",
+      "MIDDLE_4"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "اللغة الأمازيغية",
+    "description": "اللغة الأمازيغية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "MIDDLE",
+    "levels": [
+      "MIDDLE_1",
+      "MIDDLE_2",
+      "MIDDLE_3",
+      "MIDDLE_4"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "الإعلام الآلي",
+    "description": "الإعلام الآلي",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "MIDDLE",
+    "levels": [
+      "MIDDLE_1",
+      "MIDDLE_2",
+      "MIDDLE_3",
+      "MIDDLE_4"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "التربية الفنية",
+    "description": "التربية الفنية والتشكيلية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "MIDDLE",
+    "levels": [
+      "MIDDLE_1",
+      "MIDDLE_2",
+      "MIDDLE_3",
+      "MIDDLE_4"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "التربية البدنية والرياضية",
+    "description": "الرياضة",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "MIDDLE",
+    "levels": [
+      "MIDDLE_1",
+      "MIDDLE_2",
+      "MIDDLE_3",
+      "MIDDLE_4"
+    ],
+    "streams": [
+      "NONE"
+    ]
+  },
+  {
+    "title": "الأدب العربي",
+    "description": "الأدب العربي",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1",
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "COMMON_SCIENCE",
+      "COMMON_LETTERS",
+      "EXPERIMENTAL_SCIENCES",
+      "MATHEMATICS",
+      "TECHNICAL_MATH",
+      "MANAGEMENT_ECONOMY",
+      "LITERATURE_PHILOSOPHY",
+      "FOREIGN_LANGUAGES"
+    ]
+  },
+  {
+    "title": "التربية الإسلامية",
+    "description": "التربية الإسلامية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1",
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "COMMON_SCIENCE",
+      "COMMON_LETTERS",
+      "EXPERIMENTAL_SCIENCES",
+      "MATHEMATICS",
+      "TECHNICAL_MATH",
+      "MANAGEMENT_ECONOMY",
+      "LITERATURE_PHILOSOPHY",
+      "FOREIGN_LANGUAGES"
+    ]
+  },
+  {
+    "title": "اللغة الفرنسية",
+    "description": "اللغة الفرنسية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1",
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "COMMON_SCIENCE",
+      "COMMON_LETTERS",
+      "EXPERIMENTAL_SCIENCES",
+      "MATHEMATICS",
+      "TECHNICAL_MATH",
+      "MANAGEMENT_ECONOMY",
+      "LITERATURE_PHILOSOPHY",
+      "FOREIGN_LANGUAGES"
+    ]
+  },
+  {
+    "title": "اللغة الإنجليزية",
+    "description": "اللغة الإنجليزية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1",
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "COMMON_SCIENCE",
+      "COMMON_LETTERS",
+      "EXPERIMENTAL_SCIENCES",
+      "MATHEMATICS",
+      "TECHNICAL_MATH",
+      "MANAGEMENT_ECONOMY",
+      "LITERATURE_PHILOSOPHY",
+      "FOREIGN_LANGUAGES"
+    ]
+  },
+  {
+    "title": "التاريخ والجغرافيا",
+    "description": "التاريخ والجغرافيا",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1",
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "COMMON_SCIENCE",
+      "COMMON_LETTERS",
+      "EXPERIMENTAL_SCIENCES",
+      "MATHEMATICS",
+      "TECHNICAL_MATH",
+      "MANAGEMENT_ECONOMY",
+      "LITERATURE_PHILOSOPHY",
+      "FOREIGN_LANGUAGES"
+    ]
+  },
+  {
+    "title": "التربية البدنية والرياضية",
+    "description": "الرياضة",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1",
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "COMMON_SCIENCE",
+      "COMMON_LETTERS",
+      "EXPERIMENTAL_SCIENCES",
+      "MATHEMATICS",
+      "TECHNICAL_MATH",
+      "MANAGEMENT_ECONOMY",
+      "LITERATURE_PHILOSOPHY",
+      "FOREIGN_LANGUAGES"
+    ]
+  },
+  {
+    "title": "اللغة الأمازيغية",
+    "description": "اللغة الأمازيغية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1",
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "COMMON_SCIENCE",
+      "COMMON_LETTERS",
+      "EXPERIMENTAL_SCIENCES",
+      "MATHEMATICS",
+      "TECHNICAL_MATH",
+      "MANAGEMENT_ECONOMY",
+      "LITERATURE_PHILOSOPHY",
+      "FOREIGN_LANGUAGES"
+    ]
+  },
+  {
+    "title": "الرياضيات",
+    "description": "الرياضيات للشعب العلمية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1",
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "COMMON_SCIENCE",
+      "EXPERIMENTAL_SCIENCES",
+      "MATHEMATICS",
+      "TECHNICAL_MATH",
+      "MANAGEMENT_ECONOMY"
+    ]
+  },
+  {
+    "title": "الرياضيات (أدبية)",
+    "description": "الرياضيات للشعب الأدبية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1",
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "COMMON_LETTERS",
+      "LITERATURE_PHILOSOPHY",
+      "FOREIGN_LANGUAGES"
+    ]
+  },
+  {
+    "title": "العلوم الفيزيائية",
+    "description": "الفيزياء",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1",
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "COMMON_SCIENCE",
+      "EXPERIMENTAL_SCIENCES",
+      "MATHEMATICS",
+      "TECHNICAL_MATH"
+    ]
+  },
+  {
+    "title": "العلوم الفيزيائية (أدبية)",
+    "description": "الفيزياء للأدبيين",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1"
+    ],
+    "streams": [
+      "COMMON_LETTERS"
+    ]
+  },
+  {
+    "title": "علوم الطبيعة والحياة",
+    "description": "العلوم الطبيعية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1",
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "COMMON_SCIENCE",
+      "EXPERIMENTAL_SCIENCES",
+      "MATHEMATICS"
+    ]
+  },
+  {
+    "title": "علوم الطبيعة والحياة (أدبية)",
+    "description": "العلوم للطبيعية للأدبيين",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1"
+    ],
+    "streams": [
+      "COMMON_LETTERS"
+    ]
+  },
+  {
+    "title": "الفلسفة",
+    "description": "الفلسفة",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "EXPERIMENTAL_SCIENCES",
+      "MATHEMATICS",
+      "TECHNICAL_MATH",
+      "MANAGEMENT_ECONOMY",
+      "LITERATURE_PHILOSOPHY",
+      "FOREIGN_LANGUAGES"
+    ]
+  },
+  {
+    "title": "التسيير المالي والمحاسبي",
+    "description": "المحاسبة",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "MANAGEMENT_ECONOMY"
+    ]
+  },
+  {
+    "title": "الاقتصاد والمانجمنت",
+    "description": "الاقتصاد",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "MANAGEMENT_ECONOMY"
+    ]
+  },
+  {
+    "title": "القانون",
+    "description": "القانون",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "MANAGEMENT_ECONOMY"
+    ]
+  },
+  {
+    "title": "التكنولوجيا",
+    "description": "التكنولوجيا",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1"
+    ],
+    "streams": [
+      "COMMON_SCIENCE"
+    ]
+  },
+  {
+    "title": "الهندسة المدنية",
+    "description": "الهندسة المدنية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "TECHNICAL_MATH"
+    ]
+  },
+  {
+    "title": "الهندسة الكهربائية",
+    "description": "الهندسة الكهربائية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "TECHNICAL_MATH"
+    ]
+  },
+  {
+    "title": "الهندسة الميكانيكية",
+    "description": "الهندسة الميكانيكية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "TECHNICAL_MATH"
+    ]
+  },
+  {
+    "title": "هندسة الطرائق",
+    "description": "هندسة الطرائق",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "TECHNICAL_MATH"
+    ]
+  },
+  {
+    "title": "اللغة الإسبانية",
+    "description": "اللغة الإسبانية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "FOREIGN_LANGUAGES"
+    ]
+  },
+  {
+    "title": "اللغة الألمانية",
+    "description": "اللغة الألمانية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "FOREIGN_LANGUAGES"
+    ]
+  },
+  {
+    "title": "اللغة الإيطالية",
+    "description": "اللغة الإيطالية",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_2",
+      "SECONDARY_3"
+    ],
+    "streams": [
+      "FOREIGN_LANGUAGES"
+    ]
+  },
+  {
+    "title": "الإعلام الآلي",
+    "description": "الإعلام الآلي",
+    "image": "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop",
+    "price": 0,
+    "accessType": "YEARLY",
+    "phase": "SECONDARY",
+    "levels": [
+      "SECONDARY_1"
+    ],
+    "streams": [
+      "COMMON_SCIENCE",
+      "COMMON_LETTERS"
+    ]
+  }
+]

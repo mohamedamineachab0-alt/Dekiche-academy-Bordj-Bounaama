@@ -2,8 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { STREAMS, LEVELS } from "@/lib/constants";
 import { labelLevel, labelStream } from "@/lib/education-labels";
 import { Users, Plus, Phone, BookOpen } from "lucide-react";
-import { createTeacher } from "@/actions/admin";
 import { HeroBanner } from "@/components/shared/HeroBanner";
+import { CreateTeacherClient } from "@/components/admin/CreateTeacherClient";
 
 export default async function AdminTeachersPage() {
   const teachers = await prisma.teacher.findMany({
@@ -37,106 +37,7 @@ export default async function AdminTeachersPage() {
               <h2 className="text-lg font-bold text-ink">إضافة أستاذ جديد</h2>
             </div>
 
-            <form
-              action={async (formData) => {
-                "use server";
-                await createTeacher(formData);
-              }}
-              className="space-y-4"
-            >
-              <div>
-                <label className="field-label">الاسم الكامل</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  required
-                  className="input-field"
-                  placeholder="مثال: الأستاذ كمال"
-                />
-              </div>
-
-              <div>
-                <label className="field-label">رقم الهاتف (للدخول)</label>
-                <input
-                  type="tel"
-                  name="phoneNumber"
-                  required
-                  dir="ltr"
-                  className="input-field text-left"
-                  placeholder="05XXXXXXXX"
-                />
-              </div>
-
-              <div>
-                <label className="field-label">الأطوار الدراسية الموكلة</label>
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { value: "PRIMARY", label: "ابتدائي" },
-                    { value: "MIDDLE", label: "متوسط" },
-                    { value: "SECONDARY", label: "ثانوي" },
-                  ].map((p) => (
-                    <label
-                      key={p.value}
-                      className="flex items-center gap-2 rounded-xl border border-line bg-surface p-2 cursor-pointer hover:bg-primary-soft"
-                    >
-                      <input type="checkbox" name="phases" value={p.value} className="accent-primary w-4 h-4" />
-                      <span className="text-xs font-semibold text-ink">{p.label}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="field-label">المستويات الدراسية الموكلة</label>
-                <div className="grid grid-cols-2 gap-2">
-                  {LEVELS.map((l) => (
-                    <label
-                      key={l.value}
-                      className="flex items-center gap-2 rounded-xl border border-line bg-surface p-2 cursor-pointer hover:bg-primary-soft"
-                    >
-                      <input type="checkbox" name="levels" value={l.value} className="accent-primary w-4 h-4" />
-                      <span className="text-xs font-semibold text-ink">{l.label}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="field-label">الشعب الموكلة</label>
-                <div className="grid grid-cols-2 gap-2">
-                  {STREAMS.map((s) => (
-                    <label
-                      key={s.value}
-                      className="flex items-center gap-2 rounded-xl border border-line bg-surface p-2 cursor-pointer hover:bg-primary-soft"
-                    >
-                      <input type="checkbox" name="streams" value={s.value} className="accent-primary w-4 h-4" />
-                      <span className="text-xs font-semibold text-ink">{s.label}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="field-label">المواد المسندة</label>
-                <div className="grid grid-cols-1 gap-2 max-h-40 overflow-y-auto pr-2 custom-scrollbar">
-                  {subjects.length === 0 && <span className="text-xs text-muted">لا توجد مواد بعد</span>}
-                  {subjects.map((subj) => (
-                    <label
-                      key={subj.id}
-                      className="flex items-center gap-2 rounded-xl border border-line bg-surface p-2.5 cursor-pointer hover:bg-primary-soft"
-                    >
-                      <input type="checkbox" name="subjectIds" value={subj.id} className="accent-primary w-4 h-4" />
-                      <span className="text-sm font-semibold text-ink">{subj.title}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <button type="submit" className="btn-primary w-full mt-2">
-                <Users className="w-4 h-4" />
-                إنشاء حساب الأستاذ
-              </button>
-            </form>
+            <CreateTeacherClient subjects={subjects} />
           </div>
         </div>
 

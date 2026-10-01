@@ -64,7 +64,35 @@ export async function getTeacherSession() {
     include: teacherInclude,
   });
 
-  if (!user || user.role !== "TEACHER") return null;
+  if (!user) return null;
+
+  if (user.role === "ADMIN") {
+    const allSubjects = await prisma.subject.findMany({
+      select: {
+        id: true,
+        title: true,
+        teacherName: true,
+        phase: true,
+        levels: true,
+        streams: true,
+      },
+      take: 100,
+    });
+    type TeacherWithSubjects = NonNullable<NonNullable<typeof user>["teacherProfile"]>;
+    return {
+      user,
+      teacher: {
+        id: user.id,
+        userId: user.id,
+        name: user.fullName,
+        phone: user.phoneNumber,
+        subjects: allSubjects,
+      } as unknown as TeacherWithSubjects,
+      subjectIds: allSubjects.map((s) => s.id),
+    };
+  }
+
+  if (user.role !== "TEACHER") return null;
 
   if (!user.teacherProfile) {
     await ensureTeacherProfile(user);

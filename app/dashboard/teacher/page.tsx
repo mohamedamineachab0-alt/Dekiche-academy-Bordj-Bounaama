@@ -45,19 +45,22 @@ export default async function TeacherDashboardPage() {
     orderBy: { user: { fullName: "asc" } },
   });
 
-  const workByStudent = new Map(
-    await Promise.all(
-      enrolledStudents.map(async (student) => {
-        const file = await getStudentWorkFile(student.user.id, subjectIds);
-        return [
-          student.user.id,
-          file
-            ? workCounts(file)
-            : { unwatchedLessons: 0, unsolvedExercises: 0, unsolvedLessonQuizzes: 0 },
-        ] as const;
-      }),
-    ),
-  );
+  const workByStudent = new Map<string, ReturnType<typeof workCounts>>();
+  
+  for (const student of enrolledStudents) {
+    try {
+      const file = await getStudentWorkFile(student.user.id, subjectIds);
+      workByStudent.set(
+        student.user.id,
+        file
+          ? workCounts(file)
+          : { unwatchedLessons: 0, unsolvedExercises: 0, unsolvedLessonQuizzes: 0 }
+      );
+    } catch (err) {
+      console.warn("Failed to fetch work for student:", student.user.id, err);
+      workByStudent.set(student.user.id, { unwatchedLessons: 0, unsolvedExercises: 0, unsolvedLessonQuizzes: 0 });
+    }
+  }
 
   const totalMistakes = enrolledStudents.reduce(
     (acc, student) => acc + student.user.mistakes.length,

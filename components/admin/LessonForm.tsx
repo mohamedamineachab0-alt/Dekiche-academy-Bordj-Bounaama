@@ -68,6 +68,7 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
   const [levels, setLevels] = useState<string[]>([]);
   const [month, setMonth] = useState("1");
   const [vimeoVideoId, setVimeoVideoId] = useState("");
+  const [youtubeVideoId, setYoutubeVideoId] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState("");
 
@@ -187,8 +188,8 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || subjectIds.length === 0 || !month || !vimeoVideoId) {
-      setError("جميع الحقول الأساسية مطلوبة (ويجب اختيار مادة واحدة على الأقل)");
+    if (!title || subjectIds.length === 0 || !month || (!vimeoVideoId && !youtubeVideoId)) {
+      setError("جميع الحقول الأساسية مطلوبة (ويجب اختيار مادة واحدة على الأقل وتوفير رابط فيديو واحد على الأقل)");
       return;
     }
 
@@ -248,6 +249,7 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
         levels,
         month: parseInt(month),
         vimeoVideoId,
+        youtubeVideoId,
         image: uploadedImage,
         materials: uploadedMaterials,
         quiz: manualQuestions[0].question ? {
@@ -416,7 +418,6 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
                 type="text" 
                 value={vimeoVideoId}
                 onChange={e => {
-                  // Allow user to paste full URL and extract ID, or just paste ID
                   const val = e.target.value;
                   const match = val.match(/vimeo\.com\/(?:video\/)?(\d+)/);
                   setVimeoVideoId(match ? match[1] : val);
@@ -424,7 +425,27 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
                 dir="ltr"
                 className="w-full bg-white border border-line rounded-xl pr-10 pl-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-mid text-base font-medium"
                 placeholder="مثال: 123456789"
-                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-bold text-primary">YouTube Video ID (أو رابط الفيديو)</label>
+            <div className="relative">
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted">
+                <PlayCircle className="w-5 h-5" />
+              </span>
+              <input 
+                type="text" 
+                value={youtubeVideoId}
+                onChange={e => {
+                  const val = e.target.value;
+                  const match = val.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+                  setYoutubeVideoId(match ? match[1] : val);
+                }}
+                dir="ltr"
+                className="w-full bg-white border border-line rounded-xl pr-10 pl-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-mid text-base font-medium"
+                placeholder="مثال: dQw4w9WgXcQ"
               />
             </div>
           </div>

@@ -23,7 +23,7 @@ export default async function SubjectLessonsPage({
     where: { id },
     include: {
       lessons: {
-        orderBy: [{ month: "asc" }, { createdAt: "asc" }],
+        orderBy: [{ month: "asc" }, { order: "asc" }, { createdAt: "asc" }],
       },
     },
   });

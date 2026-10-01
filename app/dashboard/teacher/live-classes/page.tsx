@@ -5,6 +5,7 @@ import { labelLevel, labelStream } from "@/lib/education-labels";
 import { Video, Calendar, Plus, Link as LinkIcon, Trash2 } from "lucide-react";
 import { createLiveClass, deleteLiveClass } from "@/actions/live";
 import { HeroBanner } from "@/components/shared/HeroBanner";
+import { SubjectSelector } from "@/components/shared/SubjectSelector";
 
 export default async function TeacherLiveClassesPage() {
   const cookieStore = await cookies();
@@ -74,19 +75,8 @@ export default async function TeacherLiveClassesPage() {
               </div>
 
               <div>
-                <label className="field-label">المادة الدراسية</label>
-                <select name="subjectId" required className="input-field">
-                  <option value="">اختر المادة</option>
-                  {teacher.subjects.map((s) => {
-                    const levelStr = labelLevel(s.levels?.[0]);
-                    const streamStr = labelStream(s.streams?.[0]);
-                    return (
-                      <option key={s.id} value={s.id}>
-                        {s.title} ({levelStr} - {streamStr})
-                      </option>
-                    );
-                  })}
-                </select>
+                <label className="field-label mb-2">المادة الدراسية</label>
+                <SubjectSelector subjects={teacher.subjects as any[]} />
               </div>
 
               <div>

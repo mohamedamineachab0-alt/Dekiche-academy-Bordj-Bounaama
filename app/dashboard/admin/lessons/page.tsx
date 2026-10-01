@@ -23,7 +23,7 @@ export default async function AdminLessonsPage({
         include: {
           lessons: {
             include: { materials: true },
-            orderBy: { createdAt: "asc" },
+            orderBy: [{ order: "asc" }, { createdAt: "asc" }],
           },
         },
       })
@@ -113,7 +113,8 @@ export default async function AdminLessonsPage({
                                 <DeleteLessonButton lessonId={lesson.id} lessonTitle={lesson.title} />
                               </div>
                             </div>
-                            <p className="text-xs text-muted font-mono mt-1">Vimeo: {lesson.vimeoVideoId}</p>
+                            {lesson.youtubeVideoId && <p className="text-xs text-muted font-mono mt-1">YouTube: {lesson.youtubeVideoId}</p>}
+                            {lesson.vimeoVideoId && <p className="text-xs text-muted font-mono mt-1">Vimeo: {lesson.vimeoVideoId}</p>}
                           </div>
                         </div>
 

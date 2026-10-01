@@ -83,7 +83,7 @@ export default async function StudentDashboardPage() {
             select: {
               id: true,
               title: true,
-              lessons: { select: { id: true, title: true }, orderBy: { createdAt: "asc" } },
+              lessons: { select: { id: true, title: true }, orderBy: [{ order: "asc" }, { createdAt: "asc" }] },
             },
             orderBy: { title: "asc" },
           })

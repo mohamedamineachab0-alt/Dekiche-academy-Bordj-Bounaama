@@ -32,7 +32,7 @@ export default async function SubjectDetailsPage({
     where: { id },
     include: {
       lessons: {
-        orderBy: { createdAt: "asc" },
+        orderBy: [{ order: "asc" }, { createdAt: "asc" }],
       },
     },
   });

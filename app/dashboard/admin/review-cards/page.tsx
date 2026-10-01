@@ -5,6 +5,7 @@ import { createReviewCard } from "@/actions/review-cards";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { ReviewCardFormClient } from "@/components/admin/ReviewCardFormClient";
 import { MathPreview } from "@/components/shared/MathPreview";
+import { SubjectName } from "@/components/shared/SubjectName";
 
 export default async function AdminReviewCardsPage() {
   const cards = await prisma.reviewCard.findMany({
@@ -87,7 +88,9 @@ export default async function AdminReviewCardsPage() {
                   </div>
 
                   <div className="mt-4 pt-4 border-t border-line flex flex-wrap gap-2">
-                    <span className="badge-soft">{card.subject.title}</span>
+                    <span className="badge-soft">
+                      <SubjectName subject={card.subject} />
+                    </span>
                     <span className="badge-outline">
                       {levelStr} · {streamStr}
                     </span>

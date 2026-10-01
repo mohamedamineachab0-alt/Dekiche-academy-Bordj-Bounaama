@@ -18,7 +18,8 @@ export type LessonPayload = {
   streams: Stream[];
   levels: any[];
   month: number;
-  vimeoVideoId: string;
+  vimeoVideoId?: string;
+  youtubeVideoId?: string;
   materials: LessonMaterialInput[];
   quiz?: {
     maxScore: number;
@@ -34,8 +35,8 @@ export type ActionState = {
 };
 
 export async function createLesson(payload: LessonPayload): Promise<ActionState> {
-  if (!payload.title || payload.subjectIds.length === 0 || !payload.vimeoVideoId || !payload.month) {
-    return { error: "جميع الحقول الاساسية مطلوبة" };
+  if (!payload.title || payload.subjectIds.length === 0 || (!payload.vimeoVideoId && !payload.youtubeVideoId) || !payload.month) {
+    return { error: "جميع الحقول الاساسية مطلوبة (ومطلوب رابط فيديو واحد على الأقل)" };
   }
 
   try {
@@ -51,7 +52,8 @@ export async function createLesson(payload: LessonPayload): Promise<ActionState>
         levels: payload.levels,
         month: payload.month,
         academicMonth: { connect: { id: academicMonth.id } },
-        vimeoVideoId: payload.vimeoVideoId,
+        vimeoVideoId: payload.vimeoVideoId || "",
+        youtubeVideoId: payload.youtubeVideoId || null,
         image: payload.image || null,
         materials: {
           create: payload.materials.map(m => ({
@@ -115,7 +117,8 @@ export type UpdateLessonPayload = {
   streams: Stream[];
   levels: any[];
   month: number;
-  vimeoVideoId: string;
+  vimeoVideoId?: string;
+  youtubeVideoId?: string;
   image?: string | null;
   quiz?: {
     maxScore: number;
@@ -125,8 +128,8 @@ export type UpdateLessonPayload = {
 };
 
 export async function updateLesson(payload: UpdateLessonPayload): Promise<ActionState> {
-  if (!payload.id || !payload.title || payload.subjectIds.length === 0 || !payload.vimeoVideoId || !payload.month) {
-    return { error: "جميع الحقول الاساسية مطلوبة" };
+  if (!payload.id || !payload.title || payload.subjectIds.length === 0 || (!payload.vimeoVideoId && !payload.youtubeVideoId) || !payload.month) {
+    return { error: "جميع الحقول الاساسية مطلوبة (ومطلوب رابط فيديو واحد على الأقل)" };
   }
 
   try {
@@ -143,7 +146,8 @@ export async function updateLesson(payload: UpdateLessonPayload): Promise<Action
         levels: payload.levels,
         month: payload.month,
         academicMonth: { connect: { id: academicMonth.id } },
-        vimeoVideoId: payload.vimeoVideoId,
+        vimeoVideoId: payload.vimeoVideoId || "",
+        youtubeVideoId: payload.youtubeVideoId || null,
         ...(payload.image !== undefined && { image: payload.image }),
         ...(payload.quiz !== undefined && {
           quiz: payload.quiz ? {

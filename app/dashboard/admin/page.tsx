@@ -3,6 +3,7 @@ import { HeroBanner } from "@/components/shared/HeroBanner";
 import { Calendar, LayoutDashboard, Users } from "lucide-react";
 import Link from "next/link";
 import { getAdminAnalyticsHub } from "@/lib/admin-analytics";
+import { SubjectName } from "@/components/shared/SubjectName";
 import { getCachedAdminInsights } from "@/actions/admin-insights";
 import { AdminAnalyticsHub } from "@/components/admin/AdminAnalyticsHub";
 
@@ -14,7 +15,7 @@ export default async function AdminDashboardPage() {
       where: { date: { gte: new Date() } },
       orderBy: { date: "asc" },
       take: 3,
-      include: { subject: { select: { title: true } } },
+      include: { subject: { select: { title: true, levels: true, streams: true } } },
     }),
   ]);
 
@@ -46,7 +47,7 @@ export default async function AdminDashboardPage() {
             {upcomingLiveClasses.map((live) => (
               <article key={live.id} className="surface-card p-5">
                 <h3 className="font-bold text-ink">{live.title}</h3>
-                <p className="text-sm text-muted mt-1">{live.subject.title}</p>
+                <div className="text-sm text-muted mt-1"><SubjectName subject={live.subject} /></div>
                 <p className="flex items-center gap-2 text-sm text-muted mt-3">
                   <Calendar className="w-4 h-4 text-primary-mid shrink-0" />
                   {live.date.toLocaleDateString("ar-DZ", {

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { LessonTabs } from "@/components/student/LessonTabs";
 import { LessonWatchTracker } from "@/components/student/LessonWatchTracker";
 import { MarkLessonWatchedButton } from "@/components/student/MarkLessonWatchedButton";
+import { UnlockLessonInline } from "@/components/student/UnlockLessonInline";
 
 export default async function LessonStudyViewPage({
   params,
@@ -19,6 +20,11 @@ export default async function LessonStudyViewPage({
 
   if (!sessionId) redirect("/login");
 
+  const user = await prisma.user.findUnique({
+    where: { id: sessionId },
+    select: { id: true, role: true },
+  });
+
   const lesson = await prisma.lesson.findUnique({
     where: { id },
     include: {
@@ -30,16 +36,22 @@ export default async function LessonStudyViewPage({
 
   if (!lesson) redirect("/dashboard/student/subjects");
 
-  const enrollments = await prisma.enrollment.findMany({
-    where: {
-      studentId: sessionId,
-      subjectId: { in: lesson.subjects.map((s) => s.id) },
-    },
-  });
+  const isPrivileged = user?.role === "ADMIN" || user?.role === "TEACHER";
 
-  if (enrollments.length === 0) redirect("/dashboard/student/subjects");
+  const enrollments = isPrivileged
+    ? []
+    : await prisma.enrollment.findMany({
+        where: {
+          studentId: sessionId,
+          subjectId: { in: lesson.subjects.map((s) => s.id) },
+        },
+      });
 
-  const isUnlocked = enrollments.some((e) => e.enrolledMonths.includes(lesson.month));
+  if (!isPrivileged && enrollments.length === 0) {
+    redirect("/dashboard/student/subjects");
+  }
+
+  const isUnlocked = isPrivileged || enrollments.some((e) => e.enrolledMonths.includes(lesson.month));
   const completion = await prisma.lessonCompletion.findUnique({
     where: {
       studentId_lessonId: {
@@ -57,17 +69,30 @@ export default async function LessonStudyViewPage({
   if (!isUnlocked) {
     return (
       <div className="max-w-md mx-auto py-10 sm:py-16 px-1" dir="rtl">
-        <div className="surface-card px-5 py-12 sm:px-6 text-center">
-          <span className="icon-tile mx-auto mb-5">
-            <Lock className="w-5 h-5" />
+        <div className="surface-card p-6 sm:p-8 text-center space-y-5 border border-purple-500/20 shadow-2xl">
+          <span className="w-14 h-14 mx-auto rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+            <Lock className="w-7 h-7" />
           </span>
-          <h2 className="text-lg font-bold text-ink mb-2">الدرس مغلق</h2>
-          <p className="text-sm text-muted leading-relaxed mb-6">
-            هذا الدرس ينتمي إلى الشهر {lesson.month} وهو غير مُفعّل في اشتراكك الحالي.
-          </p>
-          <Link href={lessonsHref} className="btn-primary w-full sm:w-auto">
-            العودة للدروس المسجّلة
-          </Link>
+          <div className="space-y-1.5">
+            <h2 className="text-xl font-bold text-ink">هذا الدرس غير مفعّل</h2>
+            <p className="text-xs text-muted leading-relaxed">
+              ينتمي هذا المحتوى إلى <strong className="text-purple-400">الشهر {lesson.month}</strong>. بمجرد إدخال رمز هذا الشهر سيبقى مفتوحاً لك دائماً للمراجعة حتى نهاية العام الدراسي.
+            </p>
+          </div>
+
+          <div className="pt-2">
+            <UnlockLessonInline
+              lessonId={lesson.id}
+              monthNumber={lesson.month}
+              subjectId={primarySubjectId}
+            />
+          </div>
+
+          <div className="pt-3 border-t border-line">
+            <Link href={lessonsHref} className="text-xs font-semibold text-muted hover:text-ink transition-colors">
+              العودة لقائمة الدروس
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -96,13 +121,27 @@ export default async function LessonStudyViewPage({
       </h1>
 
       <div className="-mx-3 sm:-mx-4 md:mx-0 rounded-none md:rounded-2xl overflow-hidden border-y md:border border-line bg-ink aspect-video relative">
-        <iframe
-          src={`https://player.vimeo.com/video/${lesson.vimeoVideoId}?title=0&byline=0&portrait=0&badge=0&vimeo_logo=0&share=0&like=0&watch_later=0`}
-          className="absolute inset-0 w-full h-full"
-          allow="autoplay; fullscreen; picture-in-picture"
-          allowFullScreen
-          title={lesson.title}
-        />
+        {lesson.youtubeVideoId ? (
+          <iframe
+            src={`https://www.youtube.com/embed/${lesson.youtubeVideoId}?rel=0&modestbranding=1`}
+            className="absolute inset-0 w-full h-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title={lesson.title}
+          />
+        ) : lesson.vimeoVideoId ? (
+          <iframe
+            src={`https://player.vimeo.com/video/${lesson.vimeoVideoId}?title=0&byline=0&portrait=0&badge=0&vimeo_logo=0&share=0&like=0&watch_later=0`}
+            className="absolute inset-0 w-full h-full"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+            title={lesson.title}
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-white/50 text-sm font-bold bg-black/80">
+            الفيديو غير متوفر
+          </div>
+        )}
       </div>
 
       <MarkLessonWatchedButton lessonId={lesson.id} completed={Boolean(completion)} />

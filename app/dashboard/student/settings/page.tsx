@@ -6,6 +6,7 @@ import { getWilayaName } from "@/lib/constants";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { CopyParentCodeBtn } from "@/components/student/CopyParentCodeBtn";
 import { AvatarSelector } from "@/components/student/AvatarSelector";
+import { EditStudentProfileClient } from "@/components/student/EditStudentProfileClient";
 
 export default async function StudentSettingsPage() {
   const cookieStore = await cookies();
@@ -134,6 +135,16 @@ export default async function StudentSettingsPage() {
               <span className="text-muted text-sm font-semibold badge-soft">الولاية</span>
               <span className="text-ink font-bold text-lg">{getWilayaName(profile.wilaya)}</span>
             </div>
+            
+            <EditStudentProfileClient 
+              student={{
+                id: user.id,
+                fullName: user.fullName,
+                phase: profile.phase,
+                level: profile.level,
+                stream: profile.stream
+              }} 
+            />
           </div>
         </div>
       </div>

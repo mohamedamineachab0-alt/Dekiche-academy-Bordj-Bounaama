@@ -16,6 +16,7 @@ export type ParentChildStats = {
   fullName: string;
   avatarUrl: string | null;
   lastLoginAt: Date;
+  phase: string | null;
   level: string | null;
   stream: string | null;
   points: number;
@@ -37,7 +38,7 @@ export async function getLinkedParentChildren(parentId: string): Promise<ParentC
           fullName: true,
           avatarUrl: true,
           lastLoginAt: true,
-          studentProfile: { select: { level: true, stream: true, totalPoints: true } },
+          studentProfile: { select: { phase: true, level: true, stream: true, totalPoints: true } },
           enrollments: {
             select: {
               subject: { select: { id: true, title: true } },
@@ -154,6 +155,7 @@ export async function getLinkedParentChildren(parentId: string): Promise<ParentC
       fullName: student.fullName,
       avatarUrl: student.avatarUrl,
       lastLoginAt: student.lastLoginAt,
+      phase: profile?.phase ?? null,
       level: profile?.level ?? null,
       stream: profile?.stream ?? null,
       points: profile?.totalPoints ?? 0,

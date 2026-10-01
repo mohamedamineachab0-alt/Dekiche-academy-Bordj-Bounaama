@@ -10,6 +10,9 @@ import { Level, Stream, Phase } from "@/generated/prisma";
 export type ActionState = {
   error?: string;
   success?: boolean;
+  credentials?: {
+    phone: string;
+  };
 };
 
 export async function createTeacher(
@@ -31,20 +34,19 @@ export async function createTeacher(
       return { error: "جميع الحقول المطلوبة يجب ملؤها" };
     }
 
-    const existingUser = await prisma.user.findUnique({ where: { phoneNumber } });
-    if (existingUser) {
-      return { error: "رقم الهاتف مسجل مسبقاً" };
-    }
+    // Generate random phone
+    const generatedPhone = "09" + Math.floor(10000000 + Math.random() * 90000000).toString();
 
     await prisma.user.create({
       data: {
         fullName,
-        phoneNumber,
+        phoneNumber: generatedPhone,
+        passwordHash: "",
         role: "TEACHER",
         teacherProfile: {
           create: {
             name: fullName,
-            phone: phoneNumber,
+            phone: generatedPhone,
             phases: phases,
             levels: levels,
             streams: streams,
@@ -57,7 +59,10 @@ export async function createTeacher(
     });
 
     revalidatePath("/dashboard/admin/teachers");
-    return { success: true };
+    return { 
+      success: true, 
+      credentials: { phone: generatedPhone } 
+    };
   } catch (err: any) {
     return { error: "حدث خطأ أثناء إضافة الأستاذ" };
   }

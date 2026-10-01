@@ -88,18 +88,25 @@ export async function generateAccessCode(
       select: { role: true },
     });
 
-    if (!user || user.role !== "ADMIN") {
-      return { error: "غير مصرح" };
+    if (!user || (user.role !== "ADMIN" && user.role !== "TEACHER")) {
+      return { error: "غير مصرح لك بتوليد الرموز" };
     }
 
-    const subjectId = formData.get("subjectId") as string;
+    const subjectIdStr = formData.get("subjectId") as string;
     const accessType = formData.get("accessType") as string; // MONTHLY or YEARLY
     const validMonthsStr = formData.getAll("validMonths") as string[];
     const count = parseInt(formData.get("count") as string) || 1;
+    const actionPassword = formData.get("actionPassword") as string;
 
-    if (!subjectId || !accessType || count < 1) {
+    if (actionPassword !== "amine") {
+      return { error: "كلمة مرور التوليد غير صحيحة" };
+    }
+
+    if (!subjectIdStr || !accessType || count < 1) {
       return { error: "يرجى اختيار المادة ونوع الوصول والعدد" };
     }
+
+    const subjectIds = subjectIdStr.split(',');
 
     const validMonths = validMonthsStr.map(m => parseInt(m)).filter(n => !isNaN(n));
     const resolvedMonths = [
@@ -112,21 +119,33 @@ export async function generateAccessCode(
     const linkedMonthNumber = 1;
     const academicMonth = await ensureAcademicMonth(linkedMonthNumber);
 
-    // Generate N random codes
-    const codes = Array.from({ length: count }).map(() => ({
-      code: Array.from({ length: 8 }, () => Math.floor(Math.random() * 10)).join('') + "-" + Array.from({ length: 4 }, () => Math.floor(Math.random() * 10)).join(''),
-      subjectId,
-      accessType,
-      validMonths: resolvedMonths,
-      monthId: academicMonth.id,
-    }));
+    // Fast random string generator
+    const generateCode = () => {
+      const part1 = Math.floor(Math.random() * 100000000).toString().padStart(8, '0');
+      const part2 = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+      return `${part1}-${part2}`;
+    };
+
+    // Generate N random codes for each subject
+    const allCodes = [];
+    for (const sid of subjectIds) {
+      for (let i = 0; i < count; i++) {
+        allCodes.push({
+          code: generateCode(),
+          subjectId: sid,
+          accessType,
+          validMonths: resolvedMonths,
+          monthId: academicMonth.id,
+        });
+      }
+    }
 
     await prisma.accessCode.createMany({
-      data: codes,
+      data: allCodes,
     });
 
     revalidatePath("/dashboard/admin/codes");
-    return { success: true, codes };
+    return { success: true, codes: allCodes };
   } catch (err: any) {
     return { error: "حدث خطأ أثناء توليد رموز الدخول" };
   }
@@ -275,5 +294,77 @@ export async function deleteSubject(
     return { success: true };
   } catch (err: any) {
     return { error: "حدث خطأ أثناء حذف المادة" };
+  }
+}
+
+export async function updateSubjectImage(subjectId: string, formData: FormData): Promise<any> {
+  try {
+    const imageFile = formData.get("image") as File | null;
+    if (!imageFile || imageFile.size === 0) {
+      return { error: "يرجى اختيار صورة" };
+    }
+
+    let imageUrl = null;
+    await ensureBucketExists("subject-covers");
+    const fileName = `${Date.now()}-${imageFile.name}`;
+    const { data, error } = await supabase.storage.from("subject-covers").upload(fileName, imageFile, { upsert: false });
+    if (data) {
+      const { data: publicUrlData } = supabase.storage.from("subject-covers").getPublicUrl(fileName);
+      imageUrl = publicUrlData.publicUrl;
+    }
+
+    if (!imageUrl) {
+      return { error: "فشل في رفع الصورة" };
+    }
+
+    // Get the subject title to update all subjects with the same title
+    const subject = await prisma.subject.findUnique({
+      where: { id: subjectId },
+      select: { title: true },
+    });
+
+    if (subject) {
+      await prisma.subject.updateMany({
+        where: { title: subject.title },
+        data: { image: imageUrl },
+      });
+    }
+
+    revalidatePath("/dashboard/admin/subjects");
+    return { success: true };
+  } catch (err: any) {
+    return { error: "حدث خطأ أثناء تحديث الصورة" };
+  }
+}
+
+export async function bulkUpdateSubjectImages(formData: FormData): Promise<any> {
+  try {
+    const imageFile = formData.get("image") as File | null;
+    if (!imageFile || imageFile.size === 0) {
+      return { error: "يرجى اختيار صورة" };
+    }
+
+    let imageUrl = null;
+    await ensureBucketExists("subject-covers");
+    const fileName = `${Date.now()}-${imageFile.name}`;
+    const { data, error } = await supabase.storage.from("subject-covers").upload(fileName, imageFile, { upsert: false });
+    if (data) {
+      const { data: publicUrlData } = supabase.storage.from("subject-covers").getPublicUrl(fileName);
+      imageUrl = publicUrlData.publicUrl;
+    }
+
+    if (!imageUrl) {
+      return { error: "فشل في رفع الصورة" };
+    }
+
+    // Update ALL subjects
+    await prisma.subject.updateMany({
+      data: { image: imageUrl },
+    });
+
+    revalidatePath("/dashboard/admin/subjects");
+    return { success: true };
+  } catch (err: any) {
+    return { error: "حدث خطأ أثناء تحديث الصور دفعة واحدة" };
   }
 }

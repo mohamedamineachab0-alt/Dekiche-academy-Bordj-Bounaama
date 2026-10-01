@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Key, Plus, Copy, CheckCircle2 } from "lucide-react";
+import { Key, Plus, Copy, CheckCircle2, Printer } from "lucide-react";
 import { generateAccessCode } from "@/actions/subjects";
 import { SubjectSelector } from "@/components/shared/SubjectSelector";
 
@@ -71,6 +71,13 @@ export function CodeGeneratorClient({ subjects }: { subjects: any[] }) {
     setCopiedCode(code);
     setTimeout(() => setCopiedCode(null), 2000);
   }
+
+  const printPages = generatedCodes.reduce<any[][]>((pages, code, index) => {
+    const pageIndex = Math.floor(index / 4);
+    if (!pages[pageIndex]) pages[pageIndex] = [];
+    pages[pageIndex].push(code);
+    return pages;
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -154,6 +161,13 @@ export function CodeGeneratorClient({ subjects }: { subjects: any[] }) {
             <CheckCircle2 className="w-5 h-5 text-primary" />
             تم التوليد بنجاح
           </h3>
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <p className="text-sm text-muted">{generatedCodes.length} رمز جاهز للطباعة</p>
+            <button type="button" onClick={() => window.print()} className="btn-primary">
+              <Printer className="w-4 h-4" />
+              طباعة البطاقات
+            </button>
+          </div>
           <div className="space-y-3">
             {generatedCodes.map((c, i) => (
               <div key={i} className="flex items-center justify-between bg-surface border border-line p-3 rounded-xl">
@@ -174,6 +188,95 @@ export function CodeGeneratorClient({ subjects }: { subjects: any[] }) {
           </div>
         </div>
       )}
+
+      {printPages.length > 0 && (
+        <div className="access-code-print-area" aria-hidden="true">
+          {printPages.map((page, pageIndex) => (
+            <div className="access-code-print-page" key={pageIndex}>
+              {page.map((code, index) => {
+                const subject = subjects.find((item) => item.id === code.subjectId);
+                return (
+                  <article className="access-code-print-card" key={index}>
+                    <p className="access-code-print-label">بطاقة تفعيل</p>
+                    <h2>{subject?.title || "رمز الدخول"}</h2>
+                    <p className="access-code-print-code" dir="ltr">{code.code}</p>
+                    <p className="access-code-print-instructions">استعمل هذا الرمز لتفعيل الوصول إلى المنصة</p>
+                  </article>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <style jsx global>{`
+        .access-code-print-area { display: none; }
+
+        @media print {
+          @page { size: A4 portrait; margin: 12mm; }
+          body * { visibility: hidden; }
+          .access-code-print-area, .access-code-print-area * { visibility: visible; }
+          .access-code-print-area {
+            display: block;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+          }
+          .access-code-print-page {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-rows: repeat(2, 1fr);
+            gap: 8mm;
+            height: 273mm;
+            break-after: page;
+            page-break-after: always;
+          }
+          .access-code-print-page:last-child {
+            break-after: auto;
+            page-break-after: auto;
+          }
+          .access-code-print-card {
+            box-sizing: border-box;
+            border: 1.5px solid #0f766e;
+            border-radius: 5mm;
+            padding: 12mm;
+            text-align: center;
+            direction: rtl;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            break-inside: avoid;
+          }
+          .access-code-print-label {
+            color: #0f766e;
+            font-size: 12pt;
+            font-weight: 700;
+            margin: 0 0 6mm;
+          }
+          .access-code-print-card h2 {
+            color: #111827;
+            font-size: 17pt;
+            margin: 0 0 9mm;
+          }
+          .access-code-print-code {
+            border: 1px dashed #0f766e;
+            border-radius: 3mm;
+            color: #111827;
+            font-family: ui-monospace, monospace;
+            font-size: 20pt;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            margin: 0 0 9mm;
+            padding: 6mm 3mm;
+          }
+          .access-code-print-instructions {
+            color: #4b5563;
+            font-size: 10pt;
+            line-height: 1.6;
+            margin: 0;
+          }
+        }
+      `}</style>
     </div>
   );
 }

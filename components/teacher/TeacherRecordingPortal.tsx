@@ -465,11 +465,8 @@ export function TeacherRecordingPortal({
               استوديو تسجيل الدروس المباشر
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-ink">
-              تسجيل ورفع الدرس الجديد — {teacherName}
+              تسجيل ورفع الدرس الجديد
             </h1>
-            <p className="text-muted text-sm mt-1">
-              سجّل شاشتك وصوتك مباشرة، حدد تعليمات المونتاج، وسيتم رفع الفيديو فوراً إلى Vimeo وحفظه للمراجعة من قِبل الإدارة.
-            </p>
           </div>
           <Link
             href="/dashboard/teacher"
@@ -719,45 +716,9 @@ export function TeacherRecordingPortal({
                 </div>
               )}
 
-              {/* Editing & Montage Notes Section */}
+
               <div className="surface-card p-5 border border-line space-y-3">
-                <div className="flex items-center justify-between">
-                  <label className="text-sm font-bold text-ink flex items-center gap-2">
-                    <Scissors className="w-4 h-4 text-purple-400" />
-                    ملاحظات المونتاج والتعديل لفريق الإدارة
-                  </label>
-                  <span className="text-xs text-muted">اختياري ولكنه موصى به</span>
-                </div>
-                <p className="text-xs text-muted">
-                  اكتب أي توجيهات لفريق المونتاج (مثل توقيت القص، حذف أجزاء معينة، إبراز ملاحظة، إلخ).
-                </p>
-
-                <textarea
-                  value={editingNotes}
-                  onChange={(e) => setEditingNotes(e.target.value)}
-                  rows={4}
-                  placeholder="مثال: يرجى قص أول دقيقة حتى 01:20، وحذف التوقف في الدقيقة 5:40..."
-                  className="w-full p-3.5 rounded-xl bg-background border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-ink text-sm transition-all resize-y"
-                />
-
-                {/* Quick insertion badges */}
-                <div className="space-y-1.5 pt-1">
-                  <span className="text-xs font-medium text-muted block">عبارات سريعة:</span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {QUICK_NOTES.map((qNote, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => addQuickNote(qNote)}
-                        className="text-xs px-2.5 py-1 rounded-lg bg-surface border border-line text-ink/80 hover:text-purple-400 hover:border-purple-500/30 transition-all text-right"
-                      >
-                        + {qNote}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="space-y-2 mt-4">
+                <div className="space-y-2">
                   <label className="text-sm font-bold text-primary">أو ضع رابط يوتيوب مباشر (YouTube Link)</label>
                   <input
                     type="text"
@@ -919,7 +880,7 @@ export function TeacherRecordingPortal({
                       title="تحميل الفيديو لقصه وتعديله على جهازك"
                     >
                       <Download className="w-4 h-4 text-purple-400" />
-                      <span>تحميل الفيديو لعمل المونتاج (اختياري)</span>
+                      <span>تحميل الفيديو (اختياري)</span>
                     </a>
                   )}
 
@@ -982,7 +943,7 @@ export function TeacherRecordingPortal({
                   2. تُسجَّل ملاحظاتك وعنوان الدرس في جدول <span className="font-mono text-purple-400">pending_lessons</span> بالحالة المعلقة.
                 </p>
                 <p className="leading-relaxed">
-                  3. يقوم فريق المونتاج والأدمن بمراجعة الفيديو وملاحظاتك واعتماده فوراً ليظهر في قائمة دروس الطلاب.
+                  3. يقوم الأدمن بمراجعة الفيديو واعتماده ليظهر في قائمة دروس الطلاب.
                 </p>
               </div>
             </div>

@@ -96,11 +96,7 @@ export async function generateAccessCode(
     const accessType = formData.get("accessType") as string; // MONTHLY or YEARLY
     const validMonthsStr = formData.getAll("validMonths") as string[];
     const count = parseInt(formData.get("count") as string) || 1;
-    const actionPassword = formData.get("actionPassword") as string;
 
-    if (actionPassword !== "amine") {
-      return { error: "كلمة مرور التوليد غير صحيحة" };
-    }
 
     if (!subjectIdStr || !accessType || count < 1) {
       return { error: "يرجى اختيار المادة ونوع الوصول والعدد" };

@@ -128,18 +128,7 @@ export function CodeGeneratorClient({ subjects }: { subjects: any[] }) {
               className="input-field"
             />
           </div>
-          
-          <div>
-            <label className="field-label">كلمة المرور لتأكيد التوليد</label>
-            <input
-              type="password"
-              name="actionPassword"
-              required
-              placeholder="أدخل كلمة المرور"
-              className="input-field text-left"
-              dir="ltr"
-            />
-          </div>
+
 
           <button disabled={pending} type="submit" className="btn-primary w-full">
             <Plus className={`w-4 h-4 ${pending ? "animate-spin" : ""}`} />

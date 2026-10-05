@@ -93,9 +93,6 @@ const TEACHER_GROUPS: NavGroup[] = [
       { name: "الرئيسية", href: "/dashboard/teacher", icon: LayoutDashboard },
       { name: "أستوديو التسجيل", href: "/dashboard/teacher/record", icon: Video },
       { name: "توليد الرموز (الكودات)", href: "/dashboard/teacher/codes", icon: Key },
-      { name: "أخطاء تلاميذي", href: "/dashboard/teacher/mistakes", icon: AlertTriangle },
-      { name: "دردشة القسم", href: "/dashboard/teacher/forums", icon: MessageSquare },
-      { name: "حصص مباشرة", href: "/dashboard/teacher/live-classes", icon: Video },
     ],
   },
 ];
@@ -246,20 +243,20 @@ export function Sidebar({
               {userData.avatarUrl ? (
                 <img
                   src={userData.avatarUrl}
-                  alt={userData.fullName}
+                  alt={role === "TEACHER" ? "فضاء الأساتذة" : userData.fullName}
                   className="w-9 h-9 rounded-full object-cover shrink-0 ring-2 ring-white/20"
-                  title={isCollapsed ? userData.fullName : ""}
+                  title={isCollapsed ? (role === "TEACHER" ? "فضاء الأساتذة" : userData.fullName) : ""}
                 />
               ) : (
                 <div
                   className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-white text-sm font-bold shrink-0"
-                  title={isCollapsed ? userData.fullName : ""}
+                  title={isCollapsed ? (role === "TEACHER" ? "فضاء الأساتذة" : userData.fullName) : ""}
                 >
-                  {userData.fullName.charAt(0)}
+                  {role === "TEACHER" ? "ف" : userData.fullName.charAt(0)}
                 </div>
               )}
               <div className={`min-w-0 flex-1 text-right ${isCollapsed ? "md:hidden" : ""}`}>
-                <p className="text-sm font-semibold truncate">{userData.fullName}</p>
+                <p className="text-sm font-semibold truncate">{role === "TEACHER" ? "فضاء الأساتذة" : userData.fullName}</p>
                 <p className="text-[11px] text-white/60 truncate">{getRoleLabel(userData.role)}</p>
               </div>
             </div>

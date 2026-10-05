@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/prisma";
 
 // Ensure the caller is an admin
 async function requireAdmin() {

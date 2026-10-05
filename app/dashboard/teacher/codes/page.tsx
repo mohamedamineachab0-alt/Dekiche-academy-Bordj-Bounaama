@@ -23,24 +23,27 @@ export default async function TeacherCodesPage(props: {
     return <div className="p-8 text-center">لا توجد صلاحيات أستاذ.</div>;
   }
 
+  const teacherId = teacher.id;
+
   const [subjects, usedCodes, unusedCodes, usedCount, unusedCount] = await Promise.all([
-    prisma.subject.findMany({ 
+    prisma.subject.findMany({
+      where: { teacherId: teacherId },
       orderBy: { title: "asc" } 
     }),
     prisma.accessCode.findMany({
-      where: { isUsed: true },
+      where: { isUsed: true, subject: { teacherId: teacherId } },
       orderBy: { createdAt: "desc" },
       take: 100,
       include: { subject: true, user: true },
     }),
     prisma.accessCode.findMany({
-      where: { isUsed: false },
+      where: { isUsed: false, subject: { teacherId: teacherId } },
       orderBy: { createdAt: "desc" },
       take: 100,
       include: { subject: true },
     }),
-    prisma.accessCode.count({ where: { isUsed: true } }),
-    prisma.accessCode.count({ where: { isUsed: false } }),
+    prisma.accessCode.count({ where: { isUsed: true, subject: { teacherId: teacherId } } }),
+    prisma.accessCode.count({ where: { isUsed: false, subject: { teacherId: teacherId } } }),
   ]);
 
   const showUsed = status !== "unused";

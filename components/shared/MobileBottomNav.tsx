@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, BookOpen, FileText, CheckCircle, MessageSquare, AlertTriangle, Users, Activity } from "lucide-react";
+import { LayoutDashboard, BookOpen, FileText, CheckCircle, MessageSquare, AlertTriangle, Users, Activity, Video, Key } from "lucide-react";
 import { Role } from "@/generated/prisma";
 
 const STUDENT_BOTTOM_LINKS = [
@@ -15,8 +15,8 @@ const STUDENT_BOTTOM_LINKS = [
 
 const TEACHER_BOTTOM_LINKS = [
   { name: "الرئيسية", href: "/dashboard/teacher", icon: LayoutDashboard },
-  { name: "الأخطاء", href: "/dashboard/teacher/mistakes", icon: AlertTriangle },
-  { name: "الدردشة", href: "/dashboard/teacher/forums", icon: MessageSquare },
+  { name: "أستوديو التسجيل", href: "/dashboard/teacher/record", icon: Video },
+  { name: "الكودات", href: "/dashboard/teacher/codes", icon: Key },
 ];
 
 const PARENT_BOTTOM_LINKS = [

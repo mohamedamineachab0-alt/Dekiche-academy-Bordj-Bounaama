@@ -463,9 +463,14 @@ export function TeacherRecordingPortal({
         
         const fileName = `lesson_recording_${Date.now()}.webm`;
         // 1. Get secure upload signature
-        const { videoId, libraryId, expirationTime, signature } = await createBunnyVideo(title.trim() || fileName);
-        bunnyVideoId = videoId;
-        formData.append("bunnyVideoId", videoId);
+        const result = await createBunnyVideo(title.trim() || fileName);
+        if (result.error) {
+          throw new Error(result.error);
+        }
+        
+        const { videoId, libraryId, expirationTime, signature } = result;
+        bunnyVideoId = videoId as string;
+        formData.append("bunnyVideoId", bunnyVideoId);
         
         // 2. Upload directly to Bunny CDN
         await new Promise<void>((resolve, reject) => {

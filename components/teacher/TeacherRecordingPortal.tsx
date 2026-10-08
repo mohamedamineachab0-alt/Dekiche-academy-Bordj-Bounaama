@@ -1051,7 +1051,7 @@ export function TeacherRecordingPortal({
                   <div className="p-4 rounded-xl bg-purple-950/30 border border-purple-500/20 space-y-3">
                     <div className="flex items-center justify-between text-xs font-semibold text-purple-300">
                       <span>
-                        {uploadStep === "vimeo" && "1. جاري رفع وإرسال الفيديو للإدارة..."}
+                        {uploadStep === "vimeo" && "1. جاري رفع وإرسال الفيديو إلى Bunny.net..."}
                         {uploadStep === "saving" && "2. تسجيل البيانات والملاحظات في قاعدة البيانات..."}
                         {uploadStep === "done" && "3. اكتمل الرفع بنجاح!"}
                       </span>
@@ -1088,7 +1088,7 @@ export function TeacherRecordingPortal({
                   كيف تعمل العملية؟
                 </div>
                 <p className="leading-relaxed">
-                  1. يتم رفع الفيديو مباشرة إلى حساب Vimeo المحمي للمنصة بنظام التجزئة (Tus Upload) بدون استهلاك مساحة السيرفر المحلي.
+                  1. يتم رفع الفيديو مباشرة إلى حساب Bunny.net المحمي للمنصة بنظام التجزئة (Tus Upload) بدون استهلاك مساحة السيرفر المحلي.
                 </p>
                 <p className="leading-relaxed text-emerald-400 font-semibold">
                   2. يتم اعتماد الدرس ونشره مباشرة للطلاب بمجرد اكتمال الرفع، دون الحاجة لانتظار موافقة إضافية.

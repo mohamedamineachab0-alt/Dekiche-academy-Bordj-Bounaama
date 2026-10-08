@@ -1053,20 +1053,23 @@ export function TeacherRecordingPortal({
 
                 {/* Upload Status Indicator */}
                 {isUploading && (
-                  <div className="p-4 rounded-xl bg-purple-950/30 border border-purple-500/20 space-y-3">
-                    <div className="flex items-center justify-between text-xs font-semibold text-purple-300">
-                      <span>
-                        {uploadStep === "vimeo" && "1. جاري رفع وإرسال الفيديو إلى Bunny.net..."}
-                        {uploadStep === "saving" && "2. تسجيل البيانات والملاحظات في قاعدة البيانات..."}
-                        {uploadStep === "done" && "3. اكتمل الرفع بنجاح!"}
+                  <div className="p-6 rounded-2xl bg-emerald-950/20 border-2 border-emerald-500/30 space-y-4 animate-in fade-in zoom-in-95 duration-300 shadow-xl shadow-emerald-900/10">
+                    <div className="flex items-center justify-between font-bold text-emerald-400">
+                      <span className="flex items-center gap-2 text-sm md:text-base">
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        {uploadStep === "vimeo" && "جاري رفع الدرس ونشره في المنصة..."}
+                        {uploadStep === "saving" && "جاري حفظ وتوثيق البيانات..."}
+                        {uploadStep === "done" && "تم الرفع بنجاح!"}
                       </span>
-                      <span>{uploadProgress}%</span>
+                      <span className="text-lg">{uploadProgress}%</span>
                     </div>
-                    <div className="w-full bg-neutral-800 rounded-full h-2 overflow-hidden">
+                    <div className="w-full bg-neutral-900 rounded-full h-4 overflow-hidden border border-emerald-900/50 shadow-inner">
                       <div
-                        className="bg-purple-500 h-full rounded-full transition-all duration-300 ease-out"
+                        className="bg-gradient-to-r from-emerald-600 to-emerald-400 h-full rounded-full transition-all duration-300 ease-out relative"
                         style={{ width: `${uploadProgress}%` }}
-                      />
+                      >
+                        <div className="absolute inset-0 bg-white/20 animate-[pulse_2s_ease-in-out_infinite]" />
+                      </div>
                     </div>
                     {uploadStep !== "done" && (
                       <button
@@ -1093,7 +1096,7 @@ export function TeacherRecordingPortal({
                   كيف تعمل العملية؟
                 </div>
                 <p className="leading-relaxed">
-                  1. يتم رفع الفيديو مباشرة إلى حساب Bunny.net المحمي للمنصة بنظام التجزئة (Tus Upload) بدون استهلاك مساحة السيرفر المحلي.
+                  1. يتم رفع الفيديو مباشرة إلى السيرفرات المحمية للمنصة بنظام التجزئة السريع بدون استهلاك مساحة السيرفر المحلي.
                 </p>
                 <p className="leading-relaxed text-emerald-400 font-semibold">
                   2. يتم اعتماد الدرس ونشره مباشرة للطلاب بمجرد اكتمال الرفع، دون الحاجة لانتظار موافقة إضافية.

@@ -145,6 +145,7 @@ export function TeacherRecordingPortal({
 
   // Upload State
   const [isUploading, setIsUploading] = useState(false);
+  const [isUploadPaused, setIsUploadPaused] = useState(false);
   const [uploadStep, setUploadStep] = useState<"idle" | "vimeo" | "saving" | "done">("idle");
   const [uploadProgress, setUploadProgress] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -1056,10 +1057,11 @@ export function TeacherRecordingPortal({
                   <div className="p-6 rounded-2xl bg-emerald-950/20 border-2 border-emerald-500/30 space-y-4 animate-in fade-in zoom-in-95 duration-300 shadow-xl shadow-emerald-900/10">
                     <div className="flex items-center justify-between font-bold text-emerald-400">
                       <span className="flex items-center gap-2 text-sm md:text-base">
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        {uploadStep === "vimeo" && "جاري رفع الدرس ونشره في المنصة..."}
-                        {uploadStep === "saving" && "جاري حفظ وتوثيق البيانات..."}
-                        {uploadStep === "done" && "تم الرفع بنجاح!"}
+                        <Loader2 className={`w-5 h-5 ${isUploadPaused ? "" : "animate-spin"}`} />
+                        {isUploadPaused && "الرفع متوقف مؤقتاً..."}
+                        {!isUploadPaused && uploadStep === "vimeo" && "جاري رفع الدرس ونشره في المنصة..."}
+                        {!isUploadPaused && uploadStep === "saving" && "جاري حفظ وتوثيق البيانات..."}
+                        {!isUploadPaused && uploadStep === "done" && "تم الرفع بنجاح!"}
                       </span>
                       <span className="text-lg">{uploadProgress}%</span>
                     </div>
@@ -1068,22 +1070,57 @@ export function TeacherRecordingPortal({
                         className="bg-gradient-to-r from-emerald-600 to-emerald-400 h-full rounded-full transition-all duration-300 ease-out relative"
                         style={{ width: `${uploadProgress}%` }}
                       >
-                        <div className="absolute inset-0 bg-white/20 animate-[pulse_2s_ease-in-out_infinite]" />
+                        {!isUploadPaused && <div className="absolute inset-0 bg-white/20 animate-[pulse_2s_ease-in-out_infinite]" />}
                       </div>
                     </div>
                     {uploadStep !== "done" && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (xhrRef.current) {
-                            xhrRef.current.abort();
-                          }
-                        }}
-                        className="w-full mt-2 py-1.5 text-xs font-semibold text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 rounded-lg transition-colors border border-rose-500/20 flex items-center justify-center gap-1.5"
-                      >
-                        <Square className="w-3.5 h-3.5" />
-                        إلغاء الرفع
-                      </button>
+                      <div className="flex gap-3 mt-4">
+                        {isUploadPaused ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (xhrRef.current) {
+                                xhrRef.current.start();
+                                setIsUploadPaused(false);
+                              }
+                            }}
+                            className="flex-1 py-2 text-sm font-semibold text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 rounded-xl transition-colors border border-emerald-500/20 flex items-center justify-center gap-2"
+                          >
+                            <Play className="w-4 h-4" />
+                            استئناف الرفع
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (xhrRef.current) {
+                                xhrRef.current.abort();
+                                setIsUploadPaused(true);
+                              }
+                            }}
+                            className="flex-1 py-2 text-sm font-semibold text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 rounded-xl transition-colors border border-amber-500/20 flex items-center justify-center gap-2"
+                          >
+                            <Pause className="w-4 h-4" />
+                            إيقاف مؤقت
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (xhrRef.current) {
+                              xhrRef.current.abort(true);
+                              setIsUploading(false);
+                              setUploadStep("idle");
+                              setUploadProgress(0);
+                              setIsUploadPaused(false);
+                            }
+                          }}
+                          className="flex-1 py-2 text-sm font-semibold text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 rounded-xl transition-colors border border-rose-500/20 flex items-center justify-center gap-2"
+                        >
+                          <Square className="w-4 h-4" />
+                          إلغاء الرفع نهائياً
+                        </button>
+                      </div>
                     )}
                   </div>
                 )}

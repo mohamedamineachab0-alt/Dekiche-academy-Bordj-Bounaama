@@ -31,7 +31,12 @@ export default function BunnyVideoUpload() {
 
     try {
       // 1. Call server action to create video and get secure signature
-      const { videoId, libraryId, expirationTime, signature } = await createBunnyVideo(title || file.name);
+      const result = await createBunnyVideo(title || file.name);
+      if (result.error) {
+        throw new Error(result.error);
+      }
+      
+      const { videoId, libraryId, expirationTime, signature } = result;
 
       setUploadStatus("uploading");
 
@@ -40,10 +45,10 @@ export default function BunnyVideoUpload() {
         endpoint: "https://video.bunnycdn.com/tusupload",
         retryDelays: [0, 3000, 5000, 10000, 20000],
         headers: {
-          AuthorizationSignature: signature,
-          AuthorizationExpire: expirationTime.toString(),
-          VideoId: videoId,
-          LibraryId: libraryId,
+          AuthorizationSignature: signature!,
+          AuthorizationExpire: expirationTime!.toString(),
+          VideoId: videoId!,
+          LibraryId: libraryId!,
         },
         metadata: {
           filename: file.name,

@@ -93,7 +93,6 @@ const TEACHER_GROUPS: NavGroup[] = [
     links: [
       { name: "الرئيسية", href: "/dashboard/teacher", icon: LayoutDashboard },
       { name: "أستوديو التسجيل", href: "/dashboard/teacher/record", icon: Video },
-      { name: "توليد الرموز (الكودات)", href: "/dashboard/teacher/codes", icon: Key },
     ],
   },
 ];

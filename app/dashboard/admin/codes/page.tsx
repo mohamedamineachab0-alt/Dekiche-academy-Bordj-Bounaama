@@ -5,6 +5,7 @@ import { CodeGeneratorClient } from "@/components/admin/CodeGeneratorClient";
 import { CodesPageLock } from "@/components/admin/CodesPageLock";
 import Link from "next/link";
 import { SubjectName } from "@/components/shared/SubjectName";
+import { BulkZipExportButton } from "@/components/admin/BulkZipExportButton";
 
 export default async function AdminCodesPage(props: {
   searchParams?: Promise<{ status?: string }>;
@@ -56,6 +57,7 @@ export default async function AdminCodesPage(props: {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-1">
+            <BulkZipExportButton />
             <CodeGeneratorClient subjects={subjects} />
           </div>
 

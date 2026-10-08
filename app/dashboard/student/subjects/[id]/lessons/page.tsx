@@ -110,10 +110,10 @@ export default async function SubjectLessonsPage({
                         className="group surface-card-interactive flex flex-col overflow-hidden min-w-0"
                       >
                         <div className="relative aspect-video bg-primary-soft flex items-center justify-center overflow-hidden">
-                          {lesson.image ? (
+                          {lesson.image || subject.image ? (
                             /* eslint-disable-next-line @next/next/no-img-element */
                             <img
-                              src={lesson.image}
+                              src={lesson.image || subject.image || ""}
                               alt=""
                               className={`absolute inset-0 w-full h-full object-cover ${unlocked ? "" : "opacity-40"}`}
                             />

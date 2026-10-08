@@ -6,7 +6,7 @@ export default function TeacherDashboardLoading() {
       <div className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center text-primary">
         <Loader2 className="w-8 h-8 animate-spin" />
       </div>
-      <p className="text-sm font-semibold text-muted">جاري تحميل بيانات تلاميذك وأخطائهم...</p>
+      <p className="text-sm font-semibold text-muted">جاري تحضير فضاء الأستاذ...</p>
     </div>
   );
 }

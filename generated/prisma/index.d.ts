@@ -188,6 +188,21 @@ export type PlatformSetting = $Result.DefaultSelection<Prisma.$PlatformSettingPa
  * 
  */
 export type Group = $Result.DefaultSelection<Prisma.$GroupPayload>
+/**
+ * Model StudyStage
+ * 
+ */
+export type StudyStage = $Result.DefaultSelection<Prisma.$StudyStagePayload>
+/**
+ * Model StudyLevel
+ * 
+ */
+export type StudyLevel = $Result.DefaultSelection<Prisma.$StudyLevelPayload>
+/**
+ * Model Schedule
+ * 
+ */
+export type Schedule = $Result.DefaultSelection<Prisma.$SchedulePayload>
 
 /**
  * Enums
@@ -306,11 +321,13 @@ export type Level = (typeof Level)[keyof typeof Level]
 
 export const Stream: {
   NONE: 'NONE',
+  GENERAL: 'GENERAL',
   COMMON_SCIENCE: 'COMMON_SCIENCE',
   COMMON_LETTERS: 'COMMON_LETTERS',
   EXPERIMENTAL_SCIENCES: 'EXPERIMENTAL_SCIENCES',
   MATHEMATICS: 'MATHEMATICS',
   TECHNICAL_MATH: 'TECHNICAL_MATH',
+  SCIENCES_MATH_TECH: 'SCIENCES_MATH_TECH',
   MANAGEMENT_ECONOMY: 'MANAGEMENT_ECONOMY',
   LITERATURE_PHILOSOPHY: 'LITERATURE_PHILOSOPHY',
   FOREIGN_LANGUAGES: 'FOREIGN_LANGUAGES'
@@ -814,6 +831,36 @@ export class PrismaClient<
     * ```
     */
   get group(): Prisma.GroupDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.studyStage`: Exposes CRUD operations for the **StudyStage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StudyStages
+    * const studyStages = await prisma.studyStage.findMany()
+    * ```
+    */
+  get studyStage(): Prisma.StudyStageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.studyLevel`: Exposes CRUD operations for the **StudyLevel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StudyLevels
+    * const studyLevels = await prisma.studyLevel.findMany()
+    * ```
+    */
+  get studyLevel(): Prisma.StudyLevelDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.schedule`: Exposes CRUD operations for the **Schedule** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Schedules
+    * const schedules = await prisma.schedule.findMany()
+    * ```
+    */
+  get schedule(): Prisma.ScheduleDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1295,7 +1342,10 @@ export namespace Prisma {
     File: 'File',
     AdminAiInsight: 'AdminAiInsight',
     PlatformSetting: 'PlatformSetting',
-    Group: 'Group'
+    Group: 'Group',
+    StudyStage: 'StudyStage',
+    StudyLevel: 'StudyLevel',
+    Schedule: 'Schedule'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1311,7 +1361,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "month" | "lesson" | "lessonMaterial" | "pendingLesson" | "lessonCompletion" | "quiz" | "quizCompletion" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exerciseMaterial" | "exam" | "examMaterial" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket" | "file" | "adminAiInsight" | "platformSetting" | "group"
+      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "month" | "lesson" | "lessonMaterial" | "pendingLesson" | "lessonCompletion" | "quiz" | "quizCompletion" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exerciseMaterial" | "exam" | "examMaterial" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket" | "file" | "adminAiInsight" | "platformSetting" | "group" | "studyStage" | "studyLevel" | "schedule"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3905,6 +3955,228 @@ export namespace Prisma {
           }
         }
       }
+      StudyStage: {
+        payload: Prisma.$StudyStagePayload<ExtArgs>
+        fields: Prisma.StudyStageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StudyStageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyStagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StudyStageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyStagePayload>
+          }
+          findFirst: {
+            args: Prisma.StudyStageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyStagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StudyStageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyStagePayload>
+          }
+          findMany: {
+            args: Prisma.StudyStageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyStagePayload>[]
+          }
+          create: {
+            args: Prisma.StudyStageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyStagePayload>
+          }
+          createMany: {
+            args: Prisma.StudyStageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StudyStageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyStagePayload>[]
+          }
+          delete: {
+            args: Prisma.StudyStageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyStagePayload>
+          }
+          update: {
+            args: Prisma.StudyStageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyStagePayload>
+          }
+          deleteMany: {
+            args: Prisma.StudyStageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StudyStageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StudyStageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyStagePayload>[]
+          }
+          upsert: {
+            args: Prisma.StudyStageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyStagePayload>
+          }
+          aggregate: {
+            args: Prisma.StudyStageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStudyStage>
+          }
+          groupBy: {
+            args: Prisma.StudyStageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StudyStageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StudyStageCountArgs<ExtArgs>
+            result: $Utils.Optional<StudyStageCountAggregateOutputType> | number
+          }
+        }
+      }
+      StudyLevel: {
+        payload: Prisma.$StudyLevelPayload<ExtArgs>
+        fields: Prisma.StudyLevelFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StudyLevelFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyLevelPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StudyLevelFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyLevelPayload>
+          }
+          findFirst: {
+            args: Prisma.StudyLevelFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyLevelPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StudyLevelFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyLevelPayload>
+          }
+          findMany: {
+            args: Prisma.StudyLevelFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyLevelPayload>[]
+          }
+          create: {
+            args: Prisma.StudyLevelCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyLevelPayload>
+          }
+          createMany: {
+            args: Prisma.StudyLevelCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StudyLevelCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyLevelPayload>[]
+          }
+          delete: {
+            args: Prisma.StudyLevelDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyLevelPayload>
+          }
+          update: {
+            args: Prisma.StudyLevelUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyLevelPayload>
+          }
+          deleteMany: {
+            args: Prisma.StudyLevelDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StudyLevelUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StudyLevelUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyLevelPayload>[]
+          }
+          upsert: {
+            args: Prisma.StudyLevelUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyLevelPayload>
+          }
+          aggregate: {
+            args: Prisma.StudyLevelAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStudyLevel>
+          }
+          groupBy: {
+            args: Prisma.StudyLevelGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StudyLevelGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StudyLevelCountArgs<ExtArgs>
+            result: $Utils.Optional<StudyLevelCountAggregateOutputType> | number
+          }
+        }
+      }
+      Schedule: {
+        payload: Prisma.$SchedulePayload<ExtArgs>
+        fields: Prisma.ScheduleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScheduleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScheduleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>
+          }
+          findFirst: {
+            args: Prisma.ScheduleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScheduleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>
+          }
+          findMany: {
+            args: Prisma.ScheduleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>[]
+          }
+          create: {
+            args: Prisma.ScheduleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>
+          }
+          createMany: {
+            args: Prisma.ScheduleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScheduleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>[]
+          }
+          delete: {
+            args: Prisma.ScheduleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>
+          }
+          update: {
+            args: Prisma.ScheduleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>
+          }
+          deleteMany: {
+            args: Prisma.ScheduleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScheduleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ScheduleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>[]
+          }
+          upsert: {
+            args: Prisma.ScheduleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>
+          }
+          aggregate: {
+            args: Prisma.ScheduleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSchedule>
+          }
+          groupBy: {
+            args: Prisma.ScheduleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScheduleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScheduleCountArgs<ExtArgs>
+            result: $Utils.Optional<ScheduleCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4063,6 +4335,9 @@ export namespace Prisma {
     adminAiInsight?: AdminAiInsightOmit
     platformSetting?: PlatformSettingOmit
     group?: GroupOmit
+    studyStage?: StudyStageOmit
+    studyLevel?: StudyLevelOmit
+    schedule?: ScheduleOmit
   }
 
   /* Types for Logging */
@@ -4818,6 +5093,68 @@ export namespace Prisma {
    */
   export type GroupCountOutputTypeCountEnrollmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EnrollmentWhereInput
+  }
+
+
+  /**
+   * Count Type StudyStageCountOutputType
+   */
+
+  export type StudyStageCountOutputType = {
+    levels: number
+  }
+
+  export type StudyStageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    levels?: boolean | StudyStageCountOutputTypeCountLevelsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * StudyStageCountOutputType without action
+   */
+  export type StudyStageCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyStageCountOutputType
+     */
+    select?: StudyStageCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * StudyStageCountOutputType without action
+   */
+  export type StudyStageCountOutputTypeCountLevelsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudyLevelWhereInput
+  }
+
+
+  /**
+   * Count Type StudyLevelCountOutputType
+   */
+
+  export type StudyLevelCountOutputType = {
+    schedules: number
+  }
+
+  export type StudyLevelCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    schedules?: boolean | StudyLevelCountOutputTypeCountSchedulesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * StudyLevelCountOutputType without action
+   */
+  export type StudyLevelCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevelCountOutputType
+     */
+    select?: StudyLevelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * StudyLevelCountOutputType without action
+   */
+  export type StudyLevelCountOutputTypeCountSchedulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduleWhereInput
   }
 
 
@@ -45794,6 +46131,3172 @@ export namespace Prisma {
 
 
   /**
+   * Model StudyStage
+   */
+
+  export type AggregateStudyStage = {
+    _count: StudyStageCountAggregateOutputType | null
+    _min: StudyStageMinAggregateOutputType | null
+    _max: StudyStageMaxAggregateOutputType | null
+  }
+
+  export type StudyStageMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+  }
+
+  export type StudyStageMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+  }
+
+  export type StudyStageCountAggregateOutputType = {
+    id: number
+    name: number
+    _all: number
+  }
+
+
+  export type StudyStageMinAggregateInputType = {
+    id?: true
+    name?: true
+  }
+
+  export type StudyStageMaxAggregateInputType = {
+    id?: true
+    name?: true
+  }
+
+  export type StudyStageCountAggregateInputType = {
+    id?: true
+    name?: true
+    _all?: true
+  }
+
+  export type StudyStageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudyStage to aggregate.
+     */
+    where?: StudyStageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyStages to fetch.
+     */
+    orderBy?: StudyStageOrderByWithRelationInput | StudyStageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StudyStageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyStages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyStages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StudyStages
+    **/
+    _count?: true | StudyStageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StudyStageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StudyStageMaxAggregateInputType
+  }
+
+  export type GetStudyStageAggregateType<T extends StudyStageAggregateArgs> = {
+        [P in keyof T & keyof AggregateStudyStage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStudyStage[P]>
+      : GetScalarType<T[P], AggregateStudyStage[P]>
+  }
+
+
+
+
+  export type StudyStageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudyStageWhereInput
+    orderBy?: StudyStageOrderByWithAggregationInput | StudyStageOrderByWithAggregationInput[]
+    by: StudyStageScalarFieldEnum[] | StudyStageScalarFieldEnum
+    having?: StudyStageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StudyStageCountAggregateInputType | true
+    _min?: StudyStageMinAggregateInputType
+    _max?: StudyStageMaxAggregateInputType
+  }
+
+  export type StudyStageGroupByOutputType = {
+    id: string
+    name: string
+    _count: StudyStageCountAggregateOutputType | null
+    _min: StudyStageMinAggregateOutputType | null
+    _max: StudyStageMaxAggregateOutputType | null
+  }
+
+  type GetStudyStageGroupByPayload<T extends StudyStageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StudyStageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StudyStageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StudyStageGroupByOutputType[P]>
+            : GetScalarType<T[P], StudyStageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StudyStageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    levels?: boolean | StudyStage$levelsArgs<ExtArgs>
+    _count?: boolean | StudyStageCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyStage"]>
+
+  export type StudyStageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+  }, ExtArgs["result"]["studyStage"]>
+
+  export type StudyStageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+  }, ExtArgs["result"]["studyStage"]>
+
+  export type StudyStageSelectScalar = {
+    id?: boolean
+    name?: boolean
+  }
+
+  export type StudyStageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["studyStage"]>
+  export type StudyStageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    levels?: boolean | StudyStage$levelsArgs<ExtArgs>
+    _count?: boolean | StudyStageCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type StudyStageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type StudyStageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $StudyStagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StudyStage"
+    objects: {
+      levels: Prisma.$StudyLevelPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+    }, ExtArgs["result"]["studyStage"]>
+    composites: {}
+  }
+
+  type StudyStageGetPayload<S extends boolean | null | undefined | StudyStageDefaultArgs> = $Result.GetResult<Prisma.$StudyStagePayload, S>
+
+  type StudyStageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StudyStageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StudyStageCountAggregateInputType | true
+    }
+
+  export interface StudyStageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StudyStage'], meta: { name: 'StudyStage' } }
+    /**
+     * Find zero or one StudyStage that matches the filter.
+     * @param {StudyStageFindUniqueArgs} args - Arguments to find a StudyStage
+     * @example
+     * // Get one StudyStage
+     * const studyStage = await prisma.studyStage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StudyStageFindUniqueArgs>(args: SelectSubset<T, StudyStageFindUniqueArgs<ExtArgs>>): Prisma__StudyStageClient<$Result.GetResult<Prisma.$StudyStagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StudyStage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StudyStageFindUniqueOrThrowArgs} args - Arguments to find a StudyStage
+     * @example
+     * // Get one StudyStage
+     * const studyStage = await prisma.studyStage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StudyStageFindUniqueOrThrowArgs>(args: SelectSubset<T, StudyStageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StudyStageClient<$Result.GetResult<Prisma.$StudyStagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudyStage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyStageFindFirstArgs} args - Arguments to find a StudyStage
+     * @example
+     * // Get one StudyStage
+     * const studyStage = await prisma.studyStage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StudyStageFindFirstArgs>(args?: SelectSubset<T, StudyStageFindFirstArgs<ExtArgs>>): Prisma__StudyStageClient<$Result.GetResult<Prisma.$StudyStagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudyStage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyStageFindFirstOrThrowArgs} args - Arguments to find a StudyStage
+     * @example
+     * // Get one StudyStage
+     * const studyStage = await prisma.studyStage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StudyStageFindFirstOrThrowArgs>(args?: SelectSubset<T, StudyStageFindFirstOrThrowArgs<ExtArgs>>): Prisma__StudyStageClient<$Result.GetResult<Prisma.$StudyStagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StudyStages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyStageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StudyStages
+     * const studyStages = await prisma.studyStage.findMany()
+     * 
+     * // Get first 10 StudyStages
+     * const studyStages = await prisma.studyStage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const studyStageWithIdOnly = await prisma.studyStage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StudyStageFindManyArgs>(args?: SelectSubset<T, StudyStageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyStagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StudyStage.
+     * @param {StudyStageCreateArgs} args - Arguments to create a StudyStage.
+     * @example
+     * // Create one StudyStage
+     * const StudyStage = await prisma.studyStage.create({
+     *   data: {
+     *     // ... data to create a StudyStage
+     *   }
+     * })
+     * 
+     */
+    create<T extends StudyStageCreateArgs>(args: SelectSubset<T, StudyStageCreateArgs<ExtArgs>>): Prisma__StudyStageClient<$Result.GetResult<Prisma.$StudyStagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StudyStages.
+     * @param {StudyStageCreateManyArgs} args - Arguments to create many StudyStages.
+     * @example
+     * // Create many StudyStages
+     * const studyStage = await prisma.studyStage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StudyStageCreateManyArgs>(args?: SelectSubset<T, StudyStageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StudyStages and returns the data saved in the database.
+     * @param {StudyStageCreateManyAndReturnArgs} args - Arguments to create many StudyStages.
+     * @example
+     * // Create many StudyStages
+     * const studyStage = await prisma.studyStage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StudyStages and only return the `id`
+     * const studyStageWithIdOnly = await prisma.studyStage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StudyStageCreateManyAndReturnArgs>(args?: SelectSubset<T, StudyStageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyStagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StudyStage.
+     * @param {StudyStageDeleteArgs} args - Arguments to delete one StudyStage.
+     * @example
+     * // Delete one StudyStage
+     * const StudyStage = await prisma.studyStage.delete({
+     *   where: {
+     *     // ... filter to delete one StudyStage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StudyStageDeleteArgs>(args: SelectSubset<T, StudyStageDeleteArgs<ExtArgs>>): Prisma__StudyStageClient<$Result.GetResult<Prisma.$StudyStagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StudyStage.
+     * @param {StudyStageUpdateArgs} args - Arguments to update one StudyStage.
+     * @example
+     * // Update one StudyStage
+     * const studyStage = await prisma.studyStage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StudyStageUpdateArgs>(args: SelectSubset<T, StudyStageUpdateArgs<ExtArgs>>): Prisma__StudyStageClient<$Result.GetResult<Prisma.$StudyStagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StudyStages.
+     * @param {StudyStageDeleteManyArgs} args - Arguments to filter StudyStages to delete.
+     * @example
+     * // Delete a few StudyStages
+     * const { count } = await prisma.studyStage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StudyStageDeleteManyArgs>(args?: SelectSubset<T, StudyStageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudyStages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyStageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StudyStages
+     * const studyStage = await prisma.studyStage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StudyStageUpdateManyArgs>(args: SelectSubset<T, StudyStageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudyStages and returns the data updated in the database.
+     * @param {StudyStageUpdateManyAndReturnArgs} args - Arguments to update many StudyStages.
+     * @example
+     * // Update many StudyStages
+     * const studyStage = await prisma.studyStage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StudyStages and only return the `id`
+     * const studyStageWithIdOnly = await prisma.studyStage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StudyStageUpdateManyAndReturnArgs>(args: SelectSubset<T, StudyStageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyStagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StudyStage.
+     * @param {StudyStageUpsertArgs} args - Arguments to update or create a StudyStage.
+     * @example
+     * // Update or create a StudyStage
+     * const studyStage = await prisma.studyStage.upsert({
+     *   create: {
+     *     // ... data to create a StudyStage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StudyStage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StudyStageUpsertArgs>(args: SelectSubset<T, StudyStageUpsertArgs<ExtArgs>>): Prisma__StudyStageClient<$Result.GetResult<Prisma.$StudyStagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StudyStages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyStageCountArgs} args - Arguments to filter StudyStages to count.
+     * @example
+     * // Count the number of StudyStages
+     * const count = await prisma.studyStage.count({
+     *   where: {
+     *     // ... the filter for the StudyStages we want to count
+     *   }
+     * })
+    **/
+    count<T extends StudyStageCountArgs>(
+      args?: Subset<T, StudyStageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StudyStageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StudyStage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyStageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StudyStageAggregateArgs>(args: Subset<T, StudyStageAggregateArgs>): Prisma.PrismaPromise<GetStudyStageAggregateType<T>>
+
+    /**
+     * Group by StudyStage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyStageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StudyStageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StudyStageGroupByArgs['orderBy'] }
+        : { orderBy?: StudyStageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StudyStageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStudyStageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StudyStage model
+   */
+  readonly fields: StudyStageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StudyStage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StudyStageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    levels<T extends StudyStage$levelsArgs<ExtArgs> = {}>(args?: Subset<T, StudyStage$levelsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyLevelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StudyStage model
+   */
+  interface StudyStageFieldRefs {
+    readonly id: FieldRef<"StudyStage", 'String'>
+    readonly name: FieldRef<"StudyStage", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StudyStage findUnique
+   */
+  export type StudyStageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyStage
+     */
+    select?: StudyStageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyStage
+     */
+    omit?: StudyStageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyStageInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyStage to fetch.
+     */
+    where: StudyStageWhereUniqueInput
+  }
+
+  /**
+   * StudyStage findUniqueOrThrow
+   */
+  export type StudyStageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyStage
+     */
+    select?: StudyStageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyStage
+     */
+    omit?: StudyStageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyStageInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyStage to fetch.
+     */
+    where: StudyStageWhereUniqueInput
+  }
+
+  /**
+   * StudyStage findFirst
+   */
+  export type StudyStageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyStage
+     */
+    select?: StudyStageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyStage
+     */
+    omit?: StudyStageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyStageInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyStage to fetch.
+     */
+    where?: StudyStageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyStages to fetch.
+     */
+    orderBy?: StudyStageOrderByWithRelationInput | StudyStageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudyStages.
+     */
+    cursor?: StudyStageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyStages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyStages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyStages.
+     */
+    distinct?: StudyStageScalarFieldEnum | StudyStageScalarFieldEnum[]
+  }
+
+  /**
+   * StudyStage findFirstOrThrow
+   */
+  export type StudyStageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyStage
+     */
+    select?: StudyStageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyStage
+     */
+    omit?: StudyStageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyStageInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyStage to fetch.
+     */
+    where?: StudyStageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyStages to fetch.
+     */
+    orderBy?: StudyStageOrderByWithRelationInput | StudyStageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudyStages.
+     */
+    cursor?: StudyStageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyStages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyStages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyStages.
+     */
+    distinct?: StudyStageScalarFieldEnum | StudyStageScalarFieldEnum[]
+  }
+
+  /**
+   * StudyStage findMany
+   */
+  export type StudyStageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyStage
+     */
+    select?: StudyStageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyStage
+     */
+    omit?: StudyStageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyStageInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyStages to fetch.
+     */
+    where?: StudyStageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyStages to fetch.
+     */
+    orderBy?: StudyStageOrderByWithRelationInput | StudyStageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StudyStages.
+     */
+    cursor?: StudyStageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyStages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyStages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyStages.
+     */
+    distinct?: StudyStageScalarFieldEnum | StudyStageScalarFieldEnum[]
+  }
+
+  /**
+   * StudyStage create
+   */
+  export type StudyStageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyStage
+     */
+    select?: StudyStageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyStage
+     */
+    omit?: StudyStageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyStageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StudyStage.
+     */
+    data: XOR<StudyStageCreateInput, StudyStageUncheckedCreateInput>
+  }
+
+  /**
+   * StudyStage createMany
+   */
+  export type StudyStageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StudyStages.
+     */
+    data: StudyStageCreateManyInput | StudyStageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StudyStage createManyAndReturn
+   */
+  export type StudyStageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyStage
+     */
+    select?: StudyStageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyStage
+     */
+    omit?: StudyStageOmit<ExtArgs> | null
+    /**
+     * The data used to create many StudyStages.
+     */
+    data: StudyStageCreateManyInput | StudyStageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StudyStage update
+   */
+  export type StudyStageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyStage
+     */
+    select?: StudyStageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyStage
+     */
+    omit?: StudyStageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyStageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StudyStage.
+     */
+    data: XOR<StudyStageUpdateInput, StudyStageUncheckedUpdateInput>
+    /**
+     * Choose, which StudyStage to update.
+     */
+    where: StudyStageWhereUniqueInput
+  }
+
+  /**
+   * StudyStage updateMany
+   */
+  export type StudyStageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StudyStages.
+     */
+    data: XOR<StudyStageUpdateManyMutationInput, StudyStageUncheckedUpdateManyInput>
+    /**
+     * Filter which StudyStages to update
+     */
+    where?: StudyStageWhereInput
+    /**
+     * Limit how many StudyStages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudyStage updateManyAndReturn
+   */
+  export type StudyStageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyStage
+     */
+    select?: StudyStageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyStage
+     */
+    omit?: StudyStageOmit<ExtArgs> | null
+    /**
+     * The data used to update StudyStages.
+     */
+    data: XOR<StudyStageUpdateManyMutationInput, StudyStageUncheckedUpdateManyInput>
+    /**
+     * Filter which StudyStages to update
+     */
+    where?: StudyStageWhereInput
+    /**
+     * Limit how many StudyStages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudyStage upsert
+   */
+  export type StudyStageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyStage
+     */
+    select?: StudyStageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyStage
+     */
+    omit?: StudyStageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyStageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StudyStage to update in case it exists.
+     */
+    where: StudyStageWhereUniqueInput
+    /**
+     * In case the StudyStage found by the `where` argument doesn't exist, create a new StudyStage with this data.
+     */
+    create: XOR<StudyStageCreateInput, StudyStageUncheckedCreateInput>
+    /**
+     * In case the StudyStage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StudyStageUpdateInput, StudyStageUncheckedUpdateInput>
+  }
+
+  /**
+   * StudyStage delete
+   */
+  export type StudyStageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyStage
+     */
+    select?: StudyStageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyStage
+     */
+    omit?: StudyStageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyStageInclude<ExtArgs> | null
+    /**
+     * Filter which StudyStage to delete.
+     */
+    where: StudyStageWhereUniqueInput
+  }
+
+  /**
+   * StudyStage deleteMany
+   */
+  export type StudyStageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudyStages to delete
+     */
+    where?: StudyStageWhereInput
+    /**
+     * Limit how many StudyStages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudyStage.levels
+   */
+  export type StudyStage$levelsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevel
+     */
+    select?: StudyLevelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyLevel
+     */
+    omit?: StudyLevelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyLevelInclude<ExtArgs> | null
+    where?: StudyLevelWhereInput
+    orderBy?: StudyLevelOrderByWithRelationInput | StudyLevelOrderByWithRelationInput[]
+    cursor?: StudyLevelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StudyLevelScalarFieldEnum | StudyLevelScalarFieldEnum[]
+  }
+
+  /**
+   * StudyStage without action
+   */
+  export type StudyStageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyStage
+     */
+    select?: StudyStageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyStage
+     */
+    omit?: StudyStageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyStageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model StudyLevel
+   */
+
+  export type AggregateStudyLevel = {
+    _count: StudyLevelCountAggregateOutputType | null
+    _min: StudyLevelMinAggregateOutputType | null
+    _max: StudyLevelMaxAggregateOutputType | null
+  }
+
+  export type StudyLevelMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    stageId: string | null
+  }
+
+  export type StudyLevelMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    stageId: string | null
+  }
+
+  export type StudyLevelCountAggregateOutputType = {
+    id: number
+    name: number
+    stageId: number
+    _all: number
+  }
+
+
+  export type StudyLevelMinAggregateInputType = {
+    id?: true
+    name?: true
+    stageId?: true
+  }
+
+  export type StudyLevelMaxAggregateInputType = {
+    id?: true
+    name?: true
+    stageId?: true
+  }
+
+  export type StudyLevelCountAggregateInputType = {
+    id?: true
+    name?: true
+    stageId?: true
+    _all?: true
+  }
+
+  export type StudyLevelAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudyLevel to aggregate.
+     */
+    where?: StudyLevelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyLevels to fetch.
+     */
+    orderBy?: StudyLevelOrderByWithRelationInput | StudyLevelOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StudyLevelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyLevels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyLevels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StudyLevels
+    **/
+    _count?: true | StudyLevelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StudyLevelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StudyLevelMaxAggregateInputType
+  }
+
+  export type GetStudyLevelAggregateType<T extends StudyLevelAggregateArgs> = {
+        [P in keyof T & keyof AggregateStudyLevel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStudyLevel[P]>
+      : GetScalarType<T[P], AggregateStudyLevel[P]>
+  }
+
+
+
+
+  export type StudyLevelGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudyLevelWhereInput
+    orderBy?: StudyLevelOrderByWithAggregationInput | StudyLevelOrderByWithAggregationInput[]
+    by: StudyLevelScalarFieldEnum[] | StudyLevelScalarFieldEnum
+    having?: StudyLevelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StudyLevelCountAggregateInputType | true
+    _min?: StudyLevelMinAggregateInputType
+    _max?: StudyLevelMaxAggregateInputType
+  }
+
+  export type StudyLevelGroupByOutputType = {
+    id: string
+    name: string
+    stageId: string
+    _count: StudyLevelCountAggregateOutputType | null
+    _min: StudyLevelMinAggregateOutputType | null
+    _max: StudyLevelMaxAggregateOutputType | null
+  }
+
+  type GetStudyLevelGroupByPayload<T extends StudyLevelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StudyLevelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StudyLevelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StudyLevelGroupByOutputType[P]>
+            : GetScalarType<T[P], StudyLevelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StudyLevelSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    stageId?: boolean
+    stage?: boolean | StudyStageDefaultArgs<ExtArgs>
+    schedules?: boolean | StudyLevel$schedulesArgs<ExtArgs>
+    _count?: boolean | StudyLevelCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyLevel"]>
+
+  export type StudyLevelSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    stageId?: boolean
+    stage?: boolean | StudyStageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyLevel"]>
+
+  export type StudyLevelSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    stageId?: boolean
+    stage?: boolean | StudyStageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyLevel"]>
+
+  export type StudyLevelSelectScalar = {
+    id?: boolean
+    name?: boolean
+    stageId?: boolean
+  }
+
+  export type StudyLevelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "stageId", ExtArgs["result"]["studyLevel"]>
+  export type StudyLevelInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stage?: boolean | StudyStageDefaultArgs<ExtArgs>
+    schedules?: boolean | StudyLevel$schedulesArgs<ExtArgs>
+    _count?: boolean | StudyLevelCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type StudyLevelIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stage?: boolean | StudyStageDefaultArgs<ExtArgs>
+  }
+  export type StudyLevelIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stage?: boolean | StudyStageDefaultArgs<ExtArgs>
+  }
+
+  export type $StudyLevelPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StudyLevel"
+    objects: {
+      stage: Prisma.$StudyStagePayload<ExtArgs>
+      schedules: Prisma.$SchedulePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      stageId: string
+    }, ExtArgs["result"]["studyLevel"]>
+    composites: {}
+  }
+
+  type StudyLevelGetPayload<S extends boolean | null | undefined | StudyLevelDefaultArgs> = $Result.GetResult<Prisma.$StudyLevelPayload, S>
+
+  type StudyLevelCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StudyLevelFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StudyLevelCountAggregateInputType | true
+    }
+
+  export interface StudyLevelDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StudyLevel'], meta: { name: 'StudyLevel' } }
+    /**
+     * Find zero or one StudyLevel that matches the filter.
+     * @param {StudyLevelFindUniqueArgs} args - Arguments to find a StudyLevel
+     * @example
+     * // Get one StudyLevel
+     * const studyLevel = await prisma.studyLevel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StudyLevelFindUniqueArgs>(args: SelectSubset<T, StudyLevelFindUniqueArgs<ExtArgs>>): Prisma__StudyLevelClient<$Result.GetResult<Prisma.$StudyLevelPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StudyLevel that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StudyLevelFindUniqueOrThrowArgs} args - Arguments to find a StudyLevel
+     * @example
+     * // Get one StudyLevel
+     * const studyLevel = await prisma.studyLevel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StudyLevelFindUniqueOrThrowArgs>(args: SelectSubset<T, StudyLevelFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StudyLevelClient<$Result.GetResult<Prisma.$StudyLevelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudyLevel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyLevelFindFirstArgs} args - Arguments to find a StudyLevel
+     * @example
+     * // Get one StudyLevel
+     * const studyLevel = await prisma.studyLevel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StudyLevelFindFirstArgs>(args?: SelectSubset<T, StudyLevelFindFirstArgs<ExtArgs>>): Prisma__StudyLevelClient<$Result.GetResult<Prisma.$StudyLevelPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudyLevel that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyLevelFindFirstOrThrowArgs} args - Arguments to find a StudyLevel
+     * @example
+     * // Get one StudyLevel
+     * const studyLevel = await prisma.studyLevel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StudyLevelFindFirstOrThrowArgs>(args?: SelectSubset<T, StudyLevelFindFirstOrThrowArgs<ExtArgs>>): Prisma__StudyLevelClient<$Result.GetResult<Prisma.$StudyLevelPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StudyLevels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyLevelFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StudyLevels
+     * const studyLevels = await prisma.studyLevel.findMany()
+     * 
+     * // Get first 10 StudyLevels
+     * const studyLevels = await prisma.studyLevel.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const studyLevelWithIdOnly = await prisma.studyLevel.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StudyLevelFindManyArgs>(args?: SelectSubset<T, StudyLevelFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyLevelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StudyLevel.
+     * @param {StudyLevelCreateArgs} args - Arguments to create a StudyLevel.
+     * @example
+     * // Create one StudyLevel
+     * const StudyLevel = await prisma.studyLevel.create({
+     *   data: {
+     *     // ... data to create a StudyLevel
+     *   }
+     * })
+     * 
+     */
+    create<T extends StudyLevelCreateArgs>(args: SelectSubset<T, StudyLevelCreateArgs<ExtArgs>>): Prisma__StudyLevelClient<$Result.GetResult<Prisma.$StudyLevelPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StudyLevels.
+     * @param {StudyLevelCreateManyArgs} args - Arguments to create many StudyLevels.
+     * @example
+     * // Create many StudyLevels
+     * const studyLevel = await prisma.studyLevel.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StudyLevelCreateManyArgs>(args?: SelectSubset<T, StudyLevelCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StudyLevels and returns the data saved in the database.
+     * @param {StudyLevelCreateManyAndReturnArgs} args - Arguments to create many StudyLevels.
+     * @example
+     * // Create many StudyLevels
+     * const studyLevel = await prisma.studyLevel.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StudyLevels and only return the `id`
+     * const studyLevelWithIdOnly = await prisma.studyLevel.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StudyLevelCreateManyAndReturnArgs>(args?: SelectSubset<T, StudyLevelCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyLevelPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StudyLevel.
+     * @param {StudyLevelDeleteArgs} args - Arguments to delete one StudyLevel.
+     * @example
+     * // Delete one StudyLevel
+     * const StudyLevel = await prisma.studyLevel.delete({
+     *   where: {
+     *     // ... filter to delete one StudyLevel
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StudyLevelDeleteArgs>(args: SelectSubset<T, StudyLevelDeleteArgs<ExtArgs>>): Prisma__StudyLevelClient<$Result.GetResult<Prisma.$StudyLevelPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StudyLevel.
+     * @param {StudyLevelUpdateArgs} args - Arguments to update one StudyLevel.
+     * @example
+     * // Update one StudyLevel
+     * const studyLevel = await prisma.studyLevel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StudyLevelUpdateArgs>(args: SelectSubset<T, StudyLevelUpdateArgs<ExtArgs>>): Prisma__StudyLevelClient<$Result.GetResult<Prisma.$StudyLevelPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StudyLevels.
+     * @param {StudyLevelDeleteManyArgs} args - Arguments to filter StudyLevels to delete.
+     * @example
+     * // Delete a few StudyLevels
+     * const { count } = await prisma.studyLevel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StudyLevelDeleteManyArgs>(args?: SelectSubset<T, StudyLevelDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudyLevels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyLevelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StudyLevels
+     * const studyLevel = await prisma.studyLevel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StudyLevelUpdateManyArgs>(args: SelectSubset<T, StudyLevelUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudyLevels and returns the data updated in the database.
+     * @param {StudyLevelUpdateManyAndReturnArgs} args - Arguments to update many StudyLevels.
+     * @example
+     * // Update many StudyLevels
+     * const studyLevel = await prisma.studyLevel.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StudyLevels and only return the `id`
+     * const studyLevelWithIdOnly = await prisma.studyLevel.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StudyLevelUpdateManyAndReturnArgs>(args: SelectSubset<T, StudyLevelUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyLevelPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StudyLevel.
+     * @param {StudyLevelUpsertArgs} args - Arguments to update or create a StudyLevel.
+     * @example
+     * // Update or create a StudyLevel
+     * const studyLevel = await prisma.studyLevel.upsert({
+     *   create: {
+     *     // ... data to create a StudyLevel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StudyLevel we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StudyLevelUpsertArgs>(args: SelectSubset<T, StudyLevelUpsertArgs<ExtArgs>>): Prisma__StudyLevelClient<$Result.GetResult<Prisma.$StudyLevelPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StudyLevels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyLevelCountArgs} args - Arguments to filter StudyLevels to count.
+     * @example
+     * // Count the number of StudyLevels
+     * const count = await prisma.studyLevel.count({
+     *   where: {
+     *     // ... the filter for the StudyLevels we want to count
+     *   }
+     * })
+    **/
+    count<T extends StudyLevelCountArgs>(
+      args?: Subset<T, StudyLevelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StudyLevelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StudyLevel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyLevelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StudyLevelAggregateArgs>(args: Subset<T, StudyLevelAggregateArgs>): Prisma.PrismaPromise<GetStudyLevelAggregateType<T>>
+
+    /**
+     * Group by StudyLevel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyLevelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StudyLevelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StudyLevelGroupByArgs['orderBy'] }
+        : { orderBy?: StudyLevelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StudyLevelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStudyLevelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StudyLevel model
+   */
+  readonly fields: StudyLevelFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StudyLevel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StudyLevelClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    stage<T extends StudyStageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudyStageDefaultArgs<ExtArgs>>): Prisma__StudyStageClient<$Result.GetResult<Prisma.$StudyStagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    schedules<T extends StudyLevel$schedulesArgs<ExtArgs> = {}>(args?: Subset<T, StudyLevel$schedulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StudyLevel model
+   */
+  interface StudyLevelFieldRefs {
+    readonly id: FieldRef<"StudyLevel", 'String'>
+    readonly name: FieldRef<"StudyLevel", 'String'>
+    readonly stageId: FieldRef<"StudyLevel", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StudyLevel findUnique
+   */
+  export type StudyLevelFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevel
+     */
+    select?: StudyLevelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyLevel
+     */
+    omit?: StudyLevelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyLevelInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyLevel to fetch.
+     */
+    where: StudyLevelWhereUniqueInput
+  }
+
+  /**
+   * StudyLevel findUniqueOrThrow
+   */
+  export type StudyLevelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevel
+     */
+    select?: StudyLevelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyLevel
+     */
+    omit?: StudyLevelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyLevelInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyLevel to fetch.
+     */
+    where: StudyLevelWhereUniqueInput
+  }
+
+  /**
+   * StudyLevel findFirst
+   */
+  export type StudyLevelFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevel
+     */
+    select?: StudyLevelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyLevel
+     */
+    omit?: StudyLevelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyLevelInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyLevel to fetch.
+     */
+    where?: StudyLevelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyLevels to fetch.
+     */
+    orderBy?: StudyLevelOrderByWithRelationInput | StudyLevelOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudyLevels.
+     */
+    cursor?: StudyLevelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyLevels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyLevels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyLevels.
+     */
+    distinct?: StudyLevelScalarFieldEnum | StudyLevelScalarFieldEnum[]
+  }
+
+  /**
+   * StudyLevel findFirstOrThrow
+   */
+  export type StudyLevelFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevel
+     */
+    select?: StudyLevelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyLevel
+     */
+    omit?: StudyLevelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyLevelInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyLevel to fetch.
+     */
+    where?: StudyLevelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyLevels to fetch.
+     */
+    orderBy?: StudyLevelOrderByWithRelationInput | StudyLevelOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudyLevels.
+     */
+    cursor?: StudyLevelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyLevels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyLevels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyLevels.
+     */
+    distinct?: StudyLevelScalarFieldEnum | StudyLevelScalarFieldEnum[]
+  }
+
+  /**
+   * StudyLevel findMany
+   */
+  export type StudyLevelFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevel
+     */
+    select?: StudyLevelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyLevel
+     */
+    omit?: StudyLevelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyLevelInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyLevels to fetch.
+     */
+    where?: StudyLevelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyLevels to fetch.
+     */
+    orderBy?: StudyLevelOrderByWithRelationInput | StudyLevelOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StudyLevels.
+     */
+    cursor?: StudyLevelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyLevels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyLevels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyLevels.
+     */
+    distinct?: StudyLevelScalarFieldEnum | StudyLevelScalarFieldEnum[]
+  }
+
+  /**
+   * StudyLevel create
+   */
+  export type StudyLevelCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevel
+     */
+    select?: StudyLevelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyLevel
+     */
+    omit?: StudyLevelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyLevelInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StudyLevel.
+     */
+    data: XOR<StudyLevelCreateInput, StudyLevelUncheckedCreateInput>
+  }
+
+  /**
+   * StudyLevel createMany
+   */
+  export type StudyLevelCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StudyLevels.
+     */
+    data: StudyLevelCreateManyInput | StudyLevelCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StudyLevel createManyAndReturn
+   */
+  export type StudyLevelCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevel
+     */
+    select?: StudyLevelSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyLevel
+     */
+    omit?: StudyLevelOmit<ExtArgs> | null
+    /**
+     * The data used to create many StudyLevels.
+     */
+    data: StudyLevelCreateManyInput | StudyLevelCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyLevelIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudyLevel update
+   */
+  export type StudyLevelUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevel
+     */
+    select?: StudyLevelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyLevel
+     */
+    omit?: StudyLevelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyLevelInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StudyLevel.
+     */
+    data: XOR<StudyLevelUpdateInput, StudyLevelUncheckedUpdateInput>
+    /**
+     * Choose, which StudyLevel to update.
+     */
+    where: StudyLevelWhereUniqueInput
+  }
+
+  /**
+   * StudyLevel updateMany
+   */
+  export type StudyLevelUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StudyLevels.
+     */
+    data: XOR<StudyLevelUpdateManyMutationInput, StudyLevelUncheckedUpdateManyInput>
+    /**
+     * Filter which StudyLevels to update
+     */
+    where?: StudyLevelWhereInput
+    /**
+     * Limit how many StudyLevels to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudyLevel updateManyAndReturn
+   */
+  export type StudyLevelUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevel
+     */
+    select?: StudyLevelSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyLevel
+     */
+    omit?: StudyLevelOmit<ExtArgs> | null
+    /**
+     * The data used to update StudyLevels.
+     */
+    data: XOR<StudyLevelUpdateManyMutationInput, StudyLevelUncheckedUpdateManyInput>
+    /**
+     * Filter which StudyLevels to update
+     */
+    where?: StudyLevelWhereInput
+    /**
+     * Limit how many StudyLevels to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyLevelIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudyLevel upsert
+   */
+  export type StudyLevelUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevel
+     */
+    select?: StudyLevelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyLevel
+     */
+    omit?: StudyLevelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyLevelInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StudyLevel to update in case it exists.
+     */
+    where: StudyLevelWhereUniqueInput
+    /**
+     * In case the StudyLevel found by the `where` argument doesn't exist, create a new StudyLevel with this data.
+     */
+    create: XOR<StudyLevelCreateInput, StudyLevelUncheckedCreateInput>
+    /**
+     * In case the StudyLevel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StudyLevelUpdateInput, StudyLevelUncheckedUpdateInput>
+  }
+
+  /**
+   * StudyLevel delete
+   */
+  export type StudyLevelDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevel
+     */
+    select?: StudyLevelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyLevel
+     */
+    omit?: StudyLevelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyLevelInclude<ExtArgs> | null
+    /**
+     * Filter which StudyLevel to delete.
+     */
+    where: StudyLevelWhereUniqueInput
+  }
+
+  /**
+   * StudyLevel deleteMany
+   */
+  export type StudyLevelDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudyLevels to delete
+     */
+    where?: StudyLevelWhereInput
+    /**
+     * Limit how many StudyLevels to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudyLevel.schedules
+   */
+  export type StudyLevel$schedulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    where?: ScheduleWhereInput
+    orderBy?: ScheduleOrderByWithRelationInput | ScheduleOrderByWithRelationInput[]
+    cursor?: ScheduleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScheduleScalarFieldEnum | ScheduleScalarFieldEnum[]
+  }
+
+  /**
+   * StudyLevel without action
+   */
+  export type StudyLevelDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyLevel
+     */
+    select?: StudyLevelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyLevel
+     */
+    omit?: StudyLevelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyLevelInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Schedule
+   */
+
+  export type AggregateSchedule = {
+    _count: ScheduleCountAggregateOutputType | null
+    _min: ScheduleMinAggregateOutputType | null
+    _max: ScheduleMaxAggregateOutputType | null
+  }
+
+  export type ScheduleMinAggregateOutputType = {
+    id: string | null
+    levelId: string | null
+    dayOfWeek: string | null
+    subject: string | null
+    teacher: string | null
+  }
+
+  export type ScheduleMaxAggregateOutputType = {
+    id: string | null
+    levelId: string | null
+    dayOfWeek: string | null
+    subject: string | null
+    teacher: string | null
+  }
+
+  export type ScheduleCountAggregateOutputType = {
+    id: number
+    levelId: number
+    dayOfWeek: number
+    subject: number
+    teacher: number
+    _all: number
+  }
+
+
+  export type ScheduleMinAggregateInputType = {
+    id?: true
+    levelId?: true
+    dayOfWeek?: true
+    subject?: true
+    teacher?: true
+  }
+
+  export type ScheduleMaxAggregateInputType = {
+    id?: true
+    levelId?: true
+    dayOfWeek?: true
+    subject?: true
+    teacher?: true
+  }
+
+  export type ScheduleCountAggregateInputType = {
+    id?: true
+    levelId?: true
+    dayOfWeek?: true
+    subject?: true
+    teacher?: true
+    _all?: true
+  }
+
+  export type ScheduleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Schedule to aggregate.
+     */
+    where?: ScheduleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Schedules to fetch.
+     */
+    orderBy?: ScheduleOrderByWithRelationInput | ScheduleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScheduleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Schedules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Schedules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Schedules
+    **/
+    _count?: true | ScheduleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScheduleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScheduleMaxAggregateInputType
+  }
+
+  export type GetScheduleAggregateType<T extends ScheduleAggregateArgs> = {
+        [P in keyof T & keyof AggregateSchedule]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSchedule[P]>
+      : GetScalarType<T[P], AggregateSchedule[P]>
+  }
+
+
+
+
+  export type ScheduleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduleWhereInput
+    orderBy?: ScheduleOrderByWithAggregationInput | ScheduleOrderByWithAggregationInput[]
+    by: ScheduleScalarFieldEnum[] | ScheduleScalarFieldEnum
+    having?: ScheduleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScheduleCountAggregateInputType | true
+    _min?: ScheduleMinAggregateInputType
+    _max?: ScheduleMaxAggregateInputType
+  }
+
+  export type ScheduleGroupByOutputType = {
+    id: string
+    levelId: string
+    dayOfWeek: string
+    subject: string
+    teacher: string
+    _count: ScheduleCountAggregateOutputType | null
+    _min: ScheduleMinAggregateOutputType | null
+    _max: ScheduleMaxAggregateOutputType | null
+  }
+
+  type GetScheduleGroupByPayload<T extends ScheduleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScheduleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScheduleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScheduleGroupByOutputType[P]>
+            : GetScalarType<T[P], ScheduleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScheduleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    levelId?: boolean
+    dayOfWeek?: boolean
+    subject?: boolean
+    teacher?: boolean
+    level?: boolean | StudyLevelDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["schedule"]>
+
+  export type ScheduleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    levelId?: boolean
+    dayOfWeek?: boolean
+    subject?: boolean
+    teacher?: boolean
+    level?: boolean | StudyLevelDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["schedule"]>
+
+  export type ScheduleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    levelId?: boolean
+    dayOfWeek?: boolean
+    subject?: boolean
+    teacher?: boolean
+    level?: boolean | StudyLevelDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["schedule"]>
+
+  export type ScheduleSelectScalar = {
+    id?: boolean
+    levelId?: boolean
+    dayOfWeek?: boolean
+    subject?: boolean
+    teacher?: boolean
+  }
+
+  export type ScheduleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "levelId" | "dayOfWeek" | "subject" | "teacher", ExtArgs["result"]["schedule"]>
+  export type ScheduleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    level?: boolean | StudyLevelDefaultArgs<ExtArgs>
+  }
+  export type ScheduleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    level?: boolean | StudyLevelDefaultArgs<ExtArgs>
+  }
+  export type ScheduleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    level?: boolean | StudyLevelDefaultArgs<ExtArgs>
+  }
+
+  export type $SchedulePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Schedule"
+    objects: {
+      level: Prisma.$StudyLevelPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      levelId: string
+      dayOfWeek: string
+      subject: string
+      teacher: string
+    }, ExtArgs["result"]["schedule"]>
+    composites: {}
+  }
+
+  type ScheduleGetPayload<S extends boolean | null | undefined | ScheduleDefaultArgs> = $Result.GetResult<Prisma.$SchedulePayload, S>
+
+  type ScheduleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ScheduleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ScheduleCountAggregateInputType | true
+    }
+
+  export interface ScheduleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Schedule'], meta: { name: 'Schedule' } }
+    /**
+     * Find zero or one Schedule that matches the filter.
+     * @param {ScheduleFindUniqueArgs} args - Arguments to find a Schedule
+     * @example
+     * // Get one Schedule
+     * const schedule = await prisma.schedule.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScheduleFindUniqueArgs>(args: SelectSubset<T, ScheduleFindUniqueArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Schedule that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ScheduleFindUniqueOrThrowArgs} args - Arguments to find a Schedule
+     * @example
+     * // Get one Schedule
+     * const schedule = await prisma.schedule.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScheduleFindUniqueOrThrowArgs>(args: SelectSubset<T, ScheduleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Schedule that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleFindFirstArgs} args - Arguments to find a Schedule
+     * @example
+     * // Get one Schedule
+     * const schedule = await prisma.schedule.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScheduleFindFirstArgs>(args?: SelectSubset<T, ScheduleFindFirstArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Schedule that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleFindFirstOrThrowArgs} args - Arguments to find a Schedule
+     * @example
+     * // Get one Schedule
+     * const schedule = await prisma.schedule.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScheduleFindFirstOrThrowArgs>(args?: SelectSubset<T, ScheduleFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Schedules that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Schedules
+     * const schedules = await prisma.schedule.findMany()
+     * 
+     * // Get first 10 Schedules
+     * const schedules = await prisma.schedule.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scheduleWithIdOnly = await prisma.schedule.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScheduleFindManyArgs>(args?: SelectSubset<T, ScheduleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Schedule.
+     * @param {ScheduleCreateArgs} args - Arguments to create a Schedule.
+     * @example
+     * // Create one Schedule
+     * const Schedule = await prisma.schedule.create({
+     *   data: {
+     *     // ... data to create a Schedule
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScheduleCreateArgs>(args: SelectSubset<T, ScheduleCreateArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Schedules.
+     * @param {ScheduleCreateManyArgs} args - Arguments to create many Schedules.
+     * @example
+     * // Create many Schedules
+     * const schedule = await prisma.schedule.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScheduleCreateManyArgs>(args?: SelectSubset<T, ScheduleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Schedules and returns the data saved in the database.
+     * @param {ScheduleCreateManyAndReturnArgs} args - Arguments to create many Schedules.
+     * @example
+     * // Create many Schedules
+     * const schedule = await prisma.schedule.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Schedules and only return the `id`
+     * const scheduleWithIdOnly = await prisma.schedule.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScheduleCreateManyAndReturnArgs>(args?: SelectSubset<T, ScheduleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Schedule.
+     * @param {ScheduleDeleteArgs} args - Arguments to delete one Schedule.
+     * @example
+     * // Delete one Schedule
+     * const Schedule = await prisma.schedule.delete({
+     *   where: {
+     *     // ... filter to delete one Schedule
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScheduleDeleteArgs>(args: SelectSubset<T, ScheduleDeleteArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Schedule.
+     * @param {ScheduleUpdateArgs} args - Arguments to update one Schedule.
+     * @example
+     * // Update one Schedule
+     * const schedule = await prisma.schedule.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScheduleUpdateArgs>(args: SelectSubset<T, ScheduleUpdateArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Schedules.
+     * @param {ScheduleDeleteManyArgs} args - Arguments to filter Schedules to delete.
+     * @example
+     * // Delete a few Schedules
+     * const { count } = await prisma.schedule.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScheduleDeleteManyArgs>(args?: SelectSubset<T, ScheduleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Schedules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Schedules
+     * const schedule = await prisma.schedule.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScheduleUpdateManyArgs>(args: SelectSubset<T, ScheduleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Schedules and returns the data updated in the database.
+     * @param {ScheduleUpdateManyAndReturnArgs} args - Arguments to update many Schedules.
+     * @example
+     * // Update many Schedules
+     * const schedule = await prisma.schedule.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Schedules and only return the `id`
+     * const scheduleWithIdOnly = await prisma.schedule.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ScheduleUpdateManyAndReturnArgs>(args: SelectSubset<T, ScheduleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Schedule.
+     * @param {ScheduleUpsertArgs} args - Arguments to update or create a Schedule.
+     * @example
+     * // Update or create a Schedule
+     * const schedule = await prisma.schedule.upsert({
+     *   create: {
+     *     // ... data to create a Schedule
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Schedule we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScheduleUpsertArgs>(args: SelectSubset<T, ScheduleUpsertArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Schedules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleCountArgs} args - Arguments to filter Schedules to count.
+     * @example
+     * // Count the number of Schedules
+     * const count = await prisma.schedule.count({
+     *   where: {
+     *     // ... the filter for the Schedules we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScheduleCountArgs>(
+      args?: Subset<T, ScheduleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScheduleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Schedule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScheduleAggregateArgs>(args: Subset<T, ScheduleAggregateArgs>): Prisma.PrismaPromise<GetScheduleAggregateType<T>>
+
+    /**
+     * Group by Schedule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScheduleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScheduleGroupByArgs['orderBy'] }
+        : { orderBy?: ScheduleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScheduleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScheduleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Schedule model
+   */
+  readonly fields: ScheduleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Schedule.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScheduleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    level<T extends StudyLevelDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudyLevelDefaultArgs<ExtArgs>>): Prisma__StudyLevelClient<$Result.GetResult<Prisma.$StudyLevelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Schedule model
+   */
+  interface ScheduleFieldRefs {
+    readonly id: FieldRef<"Schedule", 'String'>
+    readonly levelId: FieldRef<"Schedule", 'String'>
+    readonly dayOfWeek: FieldRef<"Schedule", 'String'>
+    readonly subject: FieldRef<"Schedule", 'String'>
+    readonly teacher: FieldRef<"Schedule", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Schedule findUnique
+   */
+  export type ScheduleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which Schedule to fetch.
+     */
+    where: ScheduleWhereUniqueInput
+  }
+
+  /**
+   * Schedule findUniqueOrThrow
+   */
+  export type ScheduleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which Schedule to fetch.
+     */
+    where: ScheduleWhereUniqueInput
+  }
+
+  /**
+   * Schedule findFirst
+   */
+  export type ScheduleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which Schedule to fetch.
+     */
+    where?: ScheduleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Schedules to fetch.
+     */
+    orderBy?: ScheduleOrderByWithRelationInput | ScheduleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Schedules.
+     */
+    cursor?: ScheduleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Schedules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Schedules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Schedules.
+     */
+    distinct?: ScheduleScalarFieldEnum | ScheduleScalarFieldEnum[]
+  }
+
+  /**
+   * Schedule findFirstOrThrow
+   */
+  export type ScheduleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which Schedule to fetch.
+     */
+    where?: ScheduleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Schedules to fetch.
+     */
+    orderBy?: ScheduleOrderByWithRelationInput | ScheduleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Schedules.
+     */
+    cursor?: ScheduleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Schedules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Schedules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Schedules.
+     */
+    distinct?: ScheduleScalarFieldEnum | ScheduleScalarFieldEnum[]
+  }
+
+  /**
+   * Schedule findMany
+   */
+  export type ScheduleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which Schedules to fetch.
+     */
+    where?: ScheduleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Schedules to fetch.
+     */
+    orderBy?: ScheduleOrderByWithRelationInput | ScheduleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Schedules.
+     */
+    cursor?: ScheduleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Schedules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Schedules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Schedules.
+     */
+    distinct?: ScheduleScalarFieldEnum | ScheduleScalarFieldEnum[]
+  }
+
+  /**
+   * Schedule create
+   */
+  export type ScheduleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Schedule.
+     */
+    data: XOR<ScheduleCreateInput, ScheduleUncheckedCreateInput>
+  }
+
+  /**
+   * Schedule createMany
+   */
+  export type ScheduleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Schedules.
+     */
+    data: ScheduleCreateManyInput | ScheduleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Schedule createManyAndReturn
+   */
+  export type ScheduleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * The data used to create many Schedules.
+     */
+    data: ScheduleCreateManyInput | ScheduleCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Schedule update
+   */
+  export type ScheduleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Schedule.
+     */
+    data: XOR<ScheduleUpdateInput, ScheduleUncheckedUpdateInput>
+    /**
+     * Choose, which Schedule to update.
+     */
+    where: ScheduleWhereUniqueInput
+  }
+
+  /**
+   * Schedule updateMany
+   */
+  export type ScheduleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Schedules.
+     */
+    data: XOR<ScheduleUpdateManyMutationInput, ScheduleUncheckedUpdateManyInput>
+    /**
+     * Filter which Schedules to update
+     */
+    where?: ScheduleWhereInput
+    /**
+     * Limit how many Schedules to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Schedule updateManyAndReturn
+   */
+  export type ScheduleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * The data used to update Schedules.
+     */
+    data: XOR<ScheduleUpdateManyMutationInput, ScheduleUncheckedUpdateManyInput>
+    /**
+     * Filter which Schedules to update
+     */
+    where?: ScheduleWhereInput
+    /**
+     * Limit how many Schedules to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Schedule upsert
+   */
+  export type ScheduleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Schedule to update in case it exists.
+     */
+    where: ScheduleWhereUniqueInput
+    /**
+     * In case the Schedule found by the `where` argument doesn't exist, create a new Schedule with this data.
+     */
+    create: XOR<ScheduleCreateInput, ScheduleUncheckedCreateInput>
+    /**
+     * In case the Schedule was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScheduleUpdateInput, ScheduleUncheckedUpdateInput>
+  }
+
+  /**
+   * Schedule delete
+   */
+  export type ScheduleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * Filter which Schedule to delete.
+     */
+    where: ScheduleWhereUniqueInput
+  }
+
+  /**
+   * Schedule deleteMany
+   */
+  export type ScheduleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Schedules to delete
+     */
+    where?: ScheduleWhereInput
+    /**
+     * Limit how many Schedules to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Schedule without action
+   */
+  export type ScheduleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -46280,6 +49783,34 @@ export namespace Prisma {
   };
 
   export type GroupScalarFieldEnum = (typeof GroupScalarFieldEnum)[keyof typeof GroupScalarFieldEnum]
+
+
+  export const StudyStageScalarFieldEnum: {
+    id: 'id',
+    name: 'name'
+  };
+
+  export type StudyStageScalarFieldEnum = (typeof StudyStageScalarFieldEnum)[keyof typeof StudyStageScalarFieldEnum]
+
+
+  export const StudyLevelScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    stageId: 'stageId'
+  };
+
+  export type StudyLevelScalarFieldEnum = (typeof StudyLevelScalarFieldEnum)[keyof typeof StudyLevelScalarFieldEnum]
+
+
+  export const ScheduleScalarFieldEnum: {
+    id: 'id',
+    levelId: 'levelId',
+    dayOfWeek: 'dayOfWeek',
+    subject: 'subject',
+    teacher: 'teacher'
+  };
+
+  export type ScheduleScalarFieldEnum = (typeof ScheduleScalarFieldEnum)[keyof typeof ScheduleScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -49117,6 +52648,149 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Group"> | Date | string
   }
 
+  export type StudyStageWhereInput = {
+    AND?: StudyStageWhereInput | StudyStageWhereInput[]
+    OR?: StudyStageWhereInput[]
+    NOT?: StudyStageWhereInput | StudyStageWhereInput[]
+    id?: StringFilter<"StudyStage"> | string
+    name?: StringFilter<"StudyStage"> | string
+    levels?: StudyLevelListRelationFilter
+  }
+
+  export type StudyStageOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    levels?: StudyLevelOrderByRelationAggregateInput
+  }
+
+  export type StudyStageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name?: string
+    AND?: StudyStageWhereInput | StudyStageWhereInput[]
+    OR?: StudyStageWhereInput[]
+    NOT?: StudyStageWhereInput | StudyStageWhereInput[]
+    levels?: StudyLevelListRelationFilter
+  }, "id" | "name">
+
+  export type StudyStageOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    _count?: StudyStageCountOrderByAggregateInput
+    _max?: StudyStageMaxOrderByAggregateInput
+    _min?: StudyStageMinOrderByAggregateInput
+  }
+
+  export type StudyStageScalarWhereWithAggregatesInput = {
+    AND?: StudyStageScalarWhereWithAggregatesInput | StudyStageScalarWhereWithAggregatesInput[]
+    OR?: StudyStageScalarWhereWithAggregatesInput[]
+    NOT?: StudyStageScalarWhereWithAggregatesInput | StudyStageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StudyStage"> | string
+    name?: StringWithAggregatesFilter<"StudyStage"> | string
+  }
+
+  export type StudyLevelWhereInput = {
+    AND?: StudyLevelWhereInput | StudyLevelWhereInput[]
+    OR?: StudyLevelWhereInput[]
+    NOT?: StudyLevelWhereInput | StudyLevelWhereInput[]
+    id?: StringFilter<"StudyLevel"> | string
+    name?: StringFilter<"StudyLevel"> | string
+    stageId?: StringFilter<"StudyLevel"> | string
+    stage?: XOR<StudyStageScalarRelationFilter, StudyStageWhereInput>
+    schedules?: ScheduleListRelationFilter
+  }
+
+  export type StudyLevelOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    stageId?: SortOrder
+    stage?: StudyStageOrderByWithRelationInput
+    schedules?: ScheduleOrderByRelationAggregateInput
+  }
+
+  export type StudyLevelWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: StudyLevelWhereInput | StudyLevelWhereInput[]
+    OR?: StudyLevelWhereInput[]
+    NOT?: StudyLevelWhereInput | StudyLevelWhereInput[]
+    name?: StringFilter<"StudyLevel"> | string
+    stageId?: StringFilter<"StudyLevel"> | string
+    stage?: XOR<StudyStageScalarRelationFilter, StudyStageWhereInput>
+    schedules?: ScheduleListRelationFilter
+  }, "id">
+
+  export type StudyLevelOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    stageId?: SortOrder
+    _count?: StudyLevelCountOrderByAggregateInput
+    _max?: StudyLevelMaxOrderByAggregateInput
+    _min?: StudyLevelMinOrderByAggregateInput
+  }
+
+  export type StudyLevelScalarWhereWithAggregatesInput = {
+    AND?: StudyLevelScalarWhereWithAggregatesInput | StudyLevelScalarWhereWithAggregatesInput[]
+    OR?: StudyLevelScalarWhereWithAggregatesInput[]
+    NOT?: StudyLevelScalarWhereWithAggregatesInput | StudyLevelScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StudyLevel"> | string
+    name?: StringWithAggregatesFilter<"StudyLevel"> | string
+    stageId?: StringWithAggregatesFilter<"StudyLevel"> | string
+  }
+
+  export type ScheduleWhereInput = {
+    AND?: ScheduleWhereInput | ScheduleWhereInput[]
+    OR?: ScheduleWhereInput[]
+    NOT?: ScheduleWhereInput | ScheduleWhereInput[]
+    id?: StringFilter<"Schedule"> | string
+    levelId?: StringFilter<"Schedule"> | string
+    dayOfWeek?: StringFilter<"Schedule"> | string
+    subject?: StringFilter<"Schedule"> | string
+    teacher?: StringFilter<"Schedule"> | string
+    level?: XOR<StudyLevelScalarRelationFilter, StudyLevelWhereInput>
+  }
+
+  export type ScheduleOrderByWithRelationInput = {
+    id?: SortOrder
+    levelId?: SortOrder
+    dayOfWeek?: SortOrder
+    subject?: SortOrder
+    teacher?: SortOrder
+    level?: StudyLevelOrderByWithRelationInput
+  }
+
+  export type ScheduleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ScheduleWhereInput | ScheduleWhereInput[]
+    OR?: ScheduleWhereInput[]
+    NOT?: ScheduleWhereInput | ScheduleWhereInput[]
+    levelId?: StringFilter<"Schedule"> | string
+    dayOfWeek?: StringFilter<"Schedule"> | string
+    subject?: StringFilter<"Schedule"> | string
+    teacher?: StringFilter<"Schedule"> | string
+    level?: XOR<StudyLevelScalarRelationFilter, StudyLevelWhereInput>
+  }, "id">
+
+  export type ScheduleOrderByWithAggregationInput = {
+    id?: SortOrder
+    levelId?: SortOrder
+    dayOfWeek?: SortOrder
+    subject?: SortOrder
+    teacher?: SortOrder
+    _count?: ScheduleCountOrderByAggregateInput
+    _max?: ScheduleMaxOrderByAggregateInput
+    _min?: ScheduleMinOrderByAggregateInput
+  }
+
+  export type ScheduleScalarWhereWithAggregatesInput = {
+    AND?: ScheduleScalarWhereWithAggregatesInput | ScheduleScalarWhereWithAggregatesInput[]
+    OR?: ScheduleScalarWhereWithAggregatesInput[]
+    NOT?: ScheduleScalarWhereWithAggregatesInput | ScheduleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Schedule"> | string
+    levelId?: StringWithAggregatesFilter<"Schedule"> | string
+    dayOfWeek?: StringWithAggregatesFilter<"Schedule"> | string
+    subject?: StringWithAggregatesFilter<"Schedule"> | string
+    teacher?: StringWithAggregatesFilter<"Schedule"> | string
+  }
+
   export type UserCreateInput = {
     id?: string
     fullName: string
@@ -51874,6 +55548,145 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StudyStageCreateInput = {
+    id?: string
+    name: string
+    levels?: StudyLevelCreateNestedManyWithoutStageInput
+  }
+
+  export type StudyStageUncheckedCreateInput = {
+    id?: string
+    name: string
+    levels?: StudyLevelUncheckedCreateNestedManyWithoutStageInput
+  }
+
+  export type StudyStageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    levels?: StudyLevelUpdateManyWithoutStageNestedInput
+  }
+
+  export type StudyStageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    levels?: StudyLevelUncheckedUpdateManyWithoutStageNestedInput
+  }
+
+  export type StudyStageCreateManyInput = {
+    id?: string
+    name: string
+  }
+
+  export type StudyStageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type StudyStageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type StudyLevelCreateInput = {
+    id?: string
+    name: string
+    stage: StudyStageCreateNestedOneWithoutLevelsInput
+    schedules?: ScheduleCreateNestedManyWithoutLevelInput
+  }
+
+  export type StudyLevelUncheckedCreateInput = {
+    id?: string
+    name: string
+    stageId: string
+    schedules?: ScheduleUncheckedCreateNestedManyWithoutLevelInput
+  }
+
+  export type StudyLevelUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    stage?: StudyStageUpdateOneRequiredWithoutLevelsNestedInput
+    schedules?: ScheduleUpdateManyWithoutLevelNestedInput
+  }
+
+  export type StudyLevelUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    stageId?: StringFieldUpdateOperationsInput | string
+    schedules?: ScheduleUncheckedUpdateManyWithoutLevelNestedInput
+  }
+
+  export type StudyLevelCreateManyInput = {
+    id?: string
+    name: string
+    stageId: string
+  }
+
+  export type StudyLevelUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type StudyLevelUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    stageId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ScheduleCreateInput = {
+    id?: string
+    dayOfWeek: string
+    subject: string
+    teacher: string
+    level: StudyLevelCreateNestedOneWithoutSchedulesInput
+  }
+
+  export type ScheduleUncheckedCreateInput = {
+    id?: string
+    levelId: string
+    dayOfWeek: string
+    subject: string
+    teacher: string
+  }
+
+  export type ScheduleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    teacher?: StringFieldUpdateOperationsInput | string
+    level?: StudyLevelUpdateOneRequiredWithoutSchedulesNestedInput
+  }
+
+  export type ScheduleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    levelId?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    teacher?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ScheduleCreateManyInput = {
+    id?: string
+    levelId: string
+    dayOfWeek: string
+    subject: string
+    teacher: string
+  }
+
+  export type ScheduleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    teacher?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ScheduleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    levelId?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    teacher?: StringFieldUpdateOperationsInput | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -53961,6 +57774,93 @@ export namespace Prisma {
     subjectId?: SortOrder
     teacherId?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type StudyLevelListRelationFilter = {
+    every?: StudyLevelWhereInput
+    some?: StudyLevelWhereInput
+    none?: StudyLevelWhereInput
+  }
+
+  export type StudyLevelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StudyStageCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type StudyStageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type StudyStageMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type StudyStageScalarRelationFilter = {
+    is?: StudyStageWhereInput
+    isNot?: StudyStageWhereInput
+  }
+
+  export type ScheduleListRelationFilter = {
+    every?: ScheduleWhereInput
+    some?: ScheduleWhereInput
+    none?: ScheduleWhereInput
+  }
+
+  export type ScheduleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StudyLevelCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    stageId?: SortOrder
+  }
+
+  export type StudyLevelMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    stageId?: SortOrder
+  }
+
+  export type StudyLevelMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    stageId?: SortOrder
+  }
+
+  export type StudyLevelScalarRelationFilter = {
+    is?: StudyLevelWhereInput
+    isNot?: StudyLevelWhereInput
+  }
+
+  export type ScheduleCountOrderByAggregateInput = {
+    id?: SortOrder
+    levelId?: SortOrder
+    dayOfWeek?: SortOrder
+    subject?: SortOrder
+    teacher?: SortOrder
+  }
+
+  export type ScheduleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    levelId?: SortOrder
+    dayOfWeek?: SortOrder
+    subject?: SortOrder
+    teacher?: SortOrder
+  }
+
+  export type ScheduleMinOrderByAggregateInput = {
+    id?: SortOrder
+    levelId?: SortOrder
+    dayOfWeek?: SortOrder
+    subject?: SortOrder
+    teacher?: SortOrder
   }
 
   export type UserCreatedeviceFingerprintsInput = {
@@ -57153,6 +61053,118 @@ export namespace Prisma {
     update?: EnrollmentUpdateWithWhereUniqueWithoutGroupInput | EnrollmentUpdateWithWhereUniqueWithoutGroupInput[]
     updateMany?: EnrollmentUpdateManyWithWhereWithoutGroupInput | EnrollmentUpdateManyWithWhereWithoutGroupInput[]
     deleteMany?: EnrollmentScalarWhereInput | EnrollmentScalarWhereInput[]
+  }
+
+  export type StudyLevelCreateNestedManyWithoutStageInput = {
+    create?: XOR<StudyLevelCreateWithoutStageInput, StudyLevelUncheckedCreateWithoutStageInput> | StudyLevelCreateWithoutStageInput[] | StudyLevelUncheckedCreateWithoutStageInput[]
+    connectOrCreate?: StudyLevelCreateOrConnectWithoutStageInput | StudyLevelCreateOrConnectWithoutStageInput[]
+    createMany?: StudyLevelCreateManyStageInputEnvelope
+    connect?: StudyLevelWhereUniqueInput | StudyLevelWhereUniqueInput[]
+  }
+
+  export type StudyLevelUncheckedCreateNestedManyWithoutStageInput = {
+    create?: XOR<StudyLevelCreateWithoutStageInput, StudyLevelUncheckedCreateWithoutStageInput> | StudyLevelCreateWithoutStageInput[] | StudyLevelUncheckedCreateWithoutStageInput[]
+    connectOrCreate?: StudyLevelCreateOrConnectWithoutStageInput | StudyLevelCreateOrConnectWithoutStageInput[]
+    createMany?: StudyLevelCreateManyStageInputEnvelope
+    connect?: StudyLevelWhereUniqueInput | StudyLevelWhereUniqueInput[]
+  }
+
+  export type StudyLevelUpdateManyWithoutStageNestedInput = {
+    create?: XOR<StudyLevelCreateWithoutStageInput, StudyLevelUncheckedCreateWithoutStageInput> | StudyLevelCreateWithoutStageInput[] | StudyLevelUncheckedCreateWithoutStageInput[]
+    connectOrCreate?: StudyLevelCreateOrConnectWithoutStageInput | StudyLevelCreateOrConnectWithoutStageInput[]
+    upsert?: StudyLevelUpsertWithWhereUniqueWithoutStageInput | StudyLevelUpsertWithWhereUniqueWithoutStageInput[]
+    createMany?: StudyLevelCreateManyStageInputEnvelope
+    set?: StudyLevelWhereUniqueInput | StudyLevelWhereUniqueInput[]
+    disconnect?: StudyLevelWhereUniqueInput | StudyLevelWhereUniqueInput[]
+    delete?: StudyLevelWhereUniqueInput | StudyLevelWhereUniqueInput[]
+    connect?: StudyLevelWhereUniqueInput | StudyLevelWhereUniqueInput[]
+    update?: StudyLevelUpdateWithWhereUniqueWithoutStageInput | StudyLevelUpdateWithWhereUniqueWithoutStageInput[]
+    updateMany?: StudyLevelUpdateManyWithWhereWithoutStageInput | StudyLevelUpdateManyWithWhereWithoutStageInput[]
+    deleteMany?: StudyLevelScalarWhereInput | StudyLevelScalarWhereInput[]
+  }
+
+  export type StudyLevelUncheckedUpdateManyWithoutStageNestedInput = {
+    create?: XOR<StudyLevelCreateWithoutStageInput, StudyLevelUncheckedCreateWithoutStageInput> | StudyLevelCreateWithoutStageInput[] | StudyLevelUncheckedCreateWithoutStageInput[]
+    connectOrCreate?: StudyLevelCreateOrConnectWithoutStageInput | StudyLevelCreateOrConnectWithoutStageInput[]
+    upsert?: StudyLevelUpsertWithWhereUniqueWithoutStageInput | StudyLevelUpsertWithWhereUniqueWithoutStageInput[]
+    createMany?: StudyLevelCreateManyStageInputEnvelope
+    set?: StudyLevelWhereUniqueInput | StudyLevelWhereUniqueInput[]
+    disconnect?: StudyLevelWhereUniqueInput | StudyLevelWhereUniqueInput[]
+    delete?: StudyLevelWhereUniqueInput | StudyLevelWhereUniqueInput[]
+    connect?: StudyLevelWhereUniqueInput | StudyLevelWhereUniqueInput[]
+    update?: StudyLevelUpdateWithWhereUniqueWithoutStageInput | StudyLevelUpdateWithWhereUniqueWithoutStageInput[]
+    updateMany?: StudyLevelUpdateManyWithWhereWithoutStageInput | StudyLevelUpdateManyWithWhereWithoutStageInput[]
+    deleteMany?: StudyLevelScalarWhereInput | StudyLevelScalarWhereInput[]
+  }
+
+  export type StudyStageCreateNestedOneWithoutLevelsInput = {
+    create?: XOR<StudyStageCreateWithoutLevelsInput, StudyStageUncheckedCreateWithoutLevelsInput>
+    connectOrCreate?: StudyStageCreateOrConnectWithoutLevelsInput
+    connect?: StudyStageWhereUniqueInput
+  }
+
+  export type ScheduleCreateNestedManyWithoutLevelInput = {
+    create?: XOR<ScheduleCreateWithoutLevelInput, ScheduleUncheckedCreateWithoutLevelInput> | ScheduleCreateWithoutLevelInput[] | ScheduleUncheckedCreateWithoutLevelInput[]
+    connectOrCreate?: ScheduleCreateOrConnectWithoutLevelInput | ScheduleCreateOrConnectWithoutLevelInput[]
+    createMany?: ScheduleCreateManyLevelInputEnvelope
+    connect?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+  }
+
+  export type ScheduleUncheckedCreateNestedManyWithoutLevelInput = {
+    create?: XOR<ScheduleCreateWithoutLevelInput, ScheduleUncheckedCreateWithoutLevelInput> | ScheduleCreateWithoutLevelInput[] | ScheduleUncheckedCreateWithoutLevelInput[]
+    connectOrCreate?: ScheduleCreateOrConnectWithoutLevelInput | ScheduleCreateOrConnectWithoutLevelInput[]
+    createMany?: ScheduleCreateManyLevelInputEnvelope
+    connect?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+  }
+
+  export type StudyStageUpdateOneRequiredWithoutLevelsNestedInput = {
+    create?: XOR<StudyStageCreateWithoutLevelsInput, StudyStageUncheckedCreateWithoutLevelsInput>
+    connectOrCreate?: StudyStageCreateOrConnectWithoutLevelsInput
+    upsert?: StudyStageUpsertWithoutLevelsInput
+    connect?: StudyStageWhereUniqueInput
+    update?: XOR<XOR<StudyStageUpdateToOneWithWhereWithoutLevelsInput, StudyStageUpdateWithoutLevelsInput>, StudyStageUncheckedUpdateWithoutLevelsInput>
+  }
+
+  export type ScheduleUpdateManyWithoutLevelNestedInput = {
+    create?: XOR<ScheduleCreateWithoutLevelInput, ScheduleUncheckedCreateWithoutLevelInput> | ScheduleCreateWithoutLevelInput[] | ScheduleUncheckedCreateWithoutLevelInput[]
+    connectOrCreate?: ScheduleCreateOrConnectWithoutLevelInput | ScheduleCreateOrConnectWithoutLevelInput[]
+    upsert?: ScheduleUpsertWithWhereUniqueWithoutLevelInput | ScheduleUpsertWithWhereUniqueWithoutLevelInput[]
+    createMany?: ScheduleCreateManyLevelInputEnvelope
+    set?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    disconnect?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    delete?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    connect?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    update?: ScheduleUpdateWithWhereUniqueWithoutLevelInput | ScheduleUpdateWithWhereUniqueWithoutLevelInput[]
+    updateMany?: ScheduleUpdateManyWithWhereWithoutLevelInput | ScheduleUpdateManyWithWhereWithoutLevelInput[]
+    deleteMany?: ScheduleScalarWhereInput | ScheduleScalarWhereInput[]
+  }
+
+  export type ScheduleUncheckedUpdateManyWithoutLevelNestedInput = {
+    create?: XOR<ScheduleCreateWithoutLevelInput, ScheduleUncheckedCreateWithoutLevelInput> | ScheduleCreateWithoutLevelInput[] | ScheduleUncheckedCreateWithoutLevelInput[]
+    connectOrCreate?: ScheduleCreateOrConnectWithoutLevelInput | ScheduleCreateOrConnectWithoutLevelInput[]
+    upsert?: ScheduleUpsertWithWhereUniqueWithoutLevelInput | ScheduleUpsertWithWhereUniqueWithoutLevelInput[]
+    createMany?: ScheduleCreateManyLevelInputEnvelope
+    set?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    disconnect?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    delete?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    connect?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    update?: ScheduleUpdateWithWhereUniqueWithoutLevelInput | ScheduleUpdateWithWhereUniqueWithoutLevelInput[]
+    updateMany?: ScheduleUpdateManyWithWhereWithoutLevelInput | ScheduleUpdateManyWithWhereWithoutLevelInput[]
+    deleteMany?: ScheduleScalarWhereInput | ScheduleScalarWhereInput[]
+  }
+
+  export type StudyLevelCreateNestedOneWithoutSchedulesInput = {
+    create?: XOR<StudyLevelCreateWithoutSchedulesInput, StudyLevelUncheckedCreateWithoutSchedulesInput>
+    connectOrCreate?: StudyLevelCreateOrConnectWithoutSchedulesInput
+    connect?: StudyLevelWhereUniqueInput
+  }
+
+  export type StudyLevelUpdateOneRequiredWithoutSchedulesNestedInput = {
+    create?: XOR<StudyLevelCreateWithoutSchedulesInput, StudyLevelUncheckedCreateWithoutSchedulesInput>
+    connectOrCreate?: StudyLevelCreateOrConnectWithoutSchedulesInput
+    upsert?: StudyLevelUpsertWithoutSchedulesInput
+    connect?: StudyLevelWhereUniqueInput
+    update?: XOR<XOR<StudyLevelUpdateToOneWithWhereWithoutSchedulesInput, StudyLevelUpdateWithoutSchedulesInput>, StudyLevelUncheckedUpdateWithoutSchedulesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -66776,6 +70788,180 @@ export namespace Prisma {
     data: XOR<EnrollmentUpdateManyMutationInput, EnrollmentUncheckedUpdateManyWithoutGroupInput>
   }
 
+  export type StudyLevelCreateWithoutStageInput = {
+    id?: string
+    name: string
+    schedules?: ScheduleCreateNestedManyWithoutLevelInput
+  }
+
+  export type StudyLevelUncheckedCreateWithoutStageInput = {
+    id?: string
+    name: string
+    schedules?: ScheduleUncheckedCreateNestedManyWithoutLevelInput
+  }
+
+  export type StudyLevelCreateOrConnectWithoutStageInput = {
+    where: StudyLevelWhereUniqueInput
+    create: XOR<StudyLevelCreateWithoutStageInput, StudyLevelUncheckedCreateWithoutStageInput>
+  }
+
+  export type StudyLevelCreateManyStageInputEnvelope = {
+    data: StudyLevelCreateManyStageInput | StudyLevelCreateManyStageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StudyLevelUpsertWithWhereUniqueWithoutStageInput = {
+    where: StudyLevelWhereUniqueInput
+    update: XOR<StudyLevelUpdateWithoutStageInput, StudyLevelUncheckedUpdateWithoutStageInput>
+    create: XOR<StudyLevelCreateWithoutStageInput, StudyLevelUncheckedCreateWithoutStageInput>
+  }
+
+  export type StudyLevelUpdateWithWhereUniqueWithoutStageInput = {
+    where: StudyLevelWhereUniqueInput
+    data: XOR<StudyLevelUpdateWithoutStageInput, StudyLevelUncheckedUpdateWithoutStageInput>
+  }
+
+  export type StudyLevelUpdateManyWithWhereWithoutStageInput = {
+    where: StudyLevelScalarWhereInput
+    data: XOR<StudyLevelUpdateManyMutationInput, StudyLevelUncheckedUpdateManyWithoutStageInput>
+  }
+
+  export type StudyLevelScalarWhereInput = {
+    AND?: StudyLevelScalarWhereInput | StudyLevelScalarWhereInput[]
+    OR?: StudyLevelScalarWhereInput[]
+    NOT?: StudyLevelScalarWhereInput | StudyLevelScalarWhereInput[]
+    id?: StringFilter<"StudyLevel"> | string
+    name?: StringFilter<"StudyLevel"> | string
+    stageId?: StringFilter<"StudyLevel"> | string
+  }
+
+  export type StudyStageCreateWithoutLevelsInput = {
+    id?: string
+    name: string
+  }
+
+  export type StudyStageUncheckedCreateWithoutLevelsInput = {
+    id?: string
+    name: string
+  }
+
+  export type StudyStageCreateOrConnectWithoutLevelsInput = {
+    where: StudyStageWhereUniqueInput
+    create: XOR<StudyStageCreateWithoutLevelsInput, StudyStageUncheckedCreateWithoutLevelsInput>
+  }
+
+  export type ScheduleCreateWithoutLevelInput = {
+    id?: string
+    dayOfWeek: string
+    subject: string
+    teacher: string
+  }
+
+  export type ScheduleUncheckedCreateWithoutLevelInput = {
+    id?: string
+    dayOfWeek: string
+    subject: string
+    teacher: string
+  }
+
+  export type ScheduleCreateOrConnectWithoutLevelInput = {
+    where: ScheduleWhereUniqueInput
+    create: XOR<ScheduleCreateWithoutLevelInput, ScheduleUncheckedCreateWithoutLevelInput>
+  }
+
+  export type ScheduleCreateManyLevelInputEnvelope = {
+    data: ScheduleCreateManyLevelInput | ScheduleCreateManyLevelInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StudyStageUpsertWithoutLevelsInput = {
+    update: XOR<StudyStageUpdateWithoutLevelsInput, StudyStageUncheckedUpdateWithoutLevelsInput>
+    create: XOR<StudyStageCreateWithoutLevelsInput, StudyStageUncheckedCreateWithoutLevelsInput>
+    where?: StudyStageWhereInput
+  }
+
+  export type StudyStageUpdateToOneWithWhereWithoutLevelsInput = {
+    where?: StudyStageWhereInput
+    data: XOR<StudyStageUpdateWithoutLevelsInput, StudyStageUncheckedUpdateWithoutLevelsInput>
+  }
+
+  export type StudyStageUpdateWithoutLevelsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type StudyStageUncheckedUpdateWithoutLevelsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ScheduleUpsertWithWhereUniqueWithoutLevelInput = {
+    where: ScheduleWhereUniqueInput
+    update: XOR<ScheduleUpdateWithoutLevelInput, ScheduleUncheckedUpdateWithoutLevelInput>
+    create: XOR<ScheduleCreateWithoutLevelInput, ScheduleUncheckedCreateWithoutLevelInput>
+  }
+
+  export type ScheduleUpdateWithWhereUniqueWithoutLevelInput = {
+    where: ScheduleWhereUniqueInput
+    data: XOR<ScheduleUpdateWithoutLevelInput, ScheduleUncheckedUpdateWithoutLevelInput>
+  }
+
+  export type ScheduleUpdateManyWithWhereWithoutLevelInput = {
+    where: ScheduleScalarWhereInput
+    data: XOR<ScheduleUpdateManyMutationInput, ScheduleUncheckedUpdateManyWithoutLevelInput>
+  }
+
+  export type ScheduleScalarWhereInput = {
+    AND?: ScheduleScalarWhereInput | ScheduleScalarWhereInput[]
+    OR?: ScheduleScalarWhereInput[]
+    NOT?: ScheduleScalarWhereInput | ScheduleScalarWhereInput[]
+    id?: StringFilter<"Schedule"> | string
+    levelId?: StringFilter<"Schedule"> | string
+    dayOfWeek?: StringFilter<"Schedule"> | string
+    subject?: StringFilter<"Schedule"> | string
+    teacher?: StringFilter<"Schedule"> | string
+  }
+
+  export type StudyLevelCreateWithoutSchedulesInput = {
+    id?: string
+    name: string
+    stage: StudyStageCreateNestedOneWithoutLevelsInput
+  }
+
+  export type StudyLevelUncheckedCreateWithoutSchedulesInput = {
+    id?: string
+    name: string
+    stageId: string
+  }
+
+  export type StudyLevelCreateOrConnectWithoutSchedulesInput = {
+    where: StudyLevelWhereUniqueInput
+    create: XOR<StudyLevelCreateWithoutSchedulesInput, StudyLevelUncheckedCreateWithoutSchedulesInput>
+  }
+
+  export type StudyLevelUpsertWithoutSchedulesInput = {
+    update: XOR<StudyLevelUpdateWithoutSchedulesInput, StudyLevelUncheckedUpdateWithoutSchedulesInput>
+    create: XOR<StudyLevelCreateWithoutSchedulesInput, StudyLevelUncheckedCreateWithoutSchedulesInput>
+    where?: StudyLevelWhereInput
+  }
+
+  export type StudyLevelUpdateToOneWithWhereWithoutSchedulesInput = {
+    where?: StudyLevelWhereInput
+    data: XOR<StudyLevelUpdateWithoutSchedulesInput, StudyLevelUncheckedUpdateWithoutSchedulesInput>
+  }
+
+  export type StudyLevelUpdateWithoutSchedulesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    stage?: StudyStageUpdateOneRequiredWithoutLevelsNestedInput
+  }
+
+  export type StudyLevelUncheckedUpdateWithoutSchedulesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    stageId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type ParentStudentLinkCreateManyParentInput = {
     id?: string
     studentId: string
@@ -68839,6 +73025,56 @@ export namespace Prisma {
     subjectId?: StringFieldUpdateOperationsInput | string
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyLevelCreateManyStageInput = {
+    id?: string
+    name: string
+  }
+
+  export type StudyLevelUpdateWithoutStageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    schedules?: ScheduleUpdateManyWithoutLevelNestedInput
+  }
+
+  export type StudyLevelUncheckedUpdateWithoutStageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    schedules?: ScheduleUncheckedUpdateManyWithoutLevelNestedInput
+  }
+
+  export type StudyLevelUncheckedUpdateManyWithoutStageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ScheduleCreateManyLevelInput = {
+    id?: string
+    dayOfWeek: string
+    subject: string
+    teacher: string
+  }
+
+  export type ScheduleUpdateWithoutLevelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    teacher?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ScheduleUncheckedUpdateWithoutLevelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    teacher?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ScheduleUncheckedUpdateManyWithoutLevelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    teacher?: StringFieldUpdateOperationsInput | string
   }
 
 

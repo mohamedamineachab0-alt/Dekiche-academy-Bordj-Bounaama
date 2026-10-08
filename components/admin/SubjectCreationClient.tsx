@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { BookOpen, Plus, Loader2, Image as ImageIcon } from "lucide-react";
-import { EDUCATION_STAGES, EDUCATION_LEVELS, getStreamsForLevel } from "@/lib/constants/education";
+import { EDUCATION_STAGES, EDUCATION_LEVELS, EDUCATION_STREAMS, getStreamsForLevel } from "@/lib/constants/education";
 
 export function SubjectCreationClient({ 
   teachers,
@@ -21,7 +21,7 @@ export function SubjectCreationClient({
   const [pending, setPending] = useState(false);
 
   const currentLevels = phase ? EDUCATION_LEVELS[phase as keyof typeof EDUCATION_LEVELS] : [];
-  const currentStreams = levels.length > 0 ? getStreamsForLevel(phase, levels[0]) : [];
+  const currentStreams = levels.length > 0 ? getStreamsForLevel(levels[0] as keyof typeof EDUCATION_STREAMS) : [];
   const shouldShowStreams = phase === "SECONDARY" && currentStreams.length > 1;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {

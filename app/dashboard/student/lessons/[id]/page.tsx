@@ -124,19 +124,29 @@ export default async function LessonStudyViewPage({
         {lesson.youtubeVideoId ? (
           <iframe
             src={`https://www.youtube.com/embed/${lesson.youtubeVideoId}?rel=0&modestbranding=1`}
-            className="absolute inset-0 w-full h-full"
+            className="absolute inset-0 w-full h-full border-0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             title={lesson.title}
           />
         ) : lesson.vimeoVideoId ? (
-          <iframe
-            src={`https://player.vimeo.com/video/${lesson.vimeoVideoId}?title=0&byline=0&portrait=0&badge=0&vimeo_logo=0&share=0&like=0&watch_later=0`}
-            className="absolute inset-0 w-full h-full"
-            allow="autoplay; fullscreen; picture-in-picture"
-            allowFullScreen
-            title={lesson.title}
-          />
+          lesson.vimeoVideoId.includes('-') ? (
+            <iframe
+              src={`https://${process.env.NEXT_PUBLIC_BUNNY_CDN_HOSTNAME || "vz-08fda30d-f55.b-cdn.net"}/play/${process.env.NEXT_PUBLIC_BUNNY_LIBRARY_ID || "773860"}/${lesson.vimeoVideoId}`}
+              className="absolute inset-0 w-full h-full border-0"
+              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+              allowFullScreen
+              title={lesson.title}
+            />
+          ) : (
+            <iframe
+              src={`https://player.vimeo.com/video/${lesson.vimeoVideoId}?title=0&byline=0&portrait=0&badge=0&vimeo_logo=0&share=0&like=0&watch_later=0`}
+              className="absolute inset-0 w-full h-full border-0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
+              title={lesson.title}
+            />
+          )
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-white/50 text-sm font-bold bg-black/80">
             الفيديو غير متوفر

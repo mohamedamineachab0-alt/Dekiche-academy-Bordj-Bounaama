@@ -490,6 +490,25 @@ exports.Prisma.GroupScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.StudyStageScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.StudyLevelScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  stageId: 'stageId'
+};
+
+exports.Prisma.ScheduleScalarFieldEnum = {
+  id: 'id',
+  levelId: 'levelId',
+  dayOfWeek: 'dayOfWeek',
+  subject: 'subject',
+  teacher: 'teacher'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -545,11 +564,13 @@ exports.Level = exports.$Enums.Level = {
 
 exports.Stream = exports.$Enums.Stream = {
   NONE: 'NONE',
+  GENERAL: 'GENERAL',
   COMMON_SCIENCE: 'COMMON_SCIENCE',
   COMMON_LETTERS: 'COMMON_LETTERS',
   EXPERIMENTAL_SCIENCES: 'EXPERIMENTAL_SCIENCES',
   MATHEMATICS: 'MATHEMATICS',
   TECHNICAL_MATH: 'TECHNICAL_MATH',
+  SCIENCES_MATH_TECH: 'SCIENCES_MATH_TECH',
   MANAGEMENT_ECONOMY: 'MANAGEMENT_ECONOMY',
   LITERATURE_PHILOSOPHY: 'LITERATURE_PHILOSOPHY',
   FOREIGN_LANGUAGES: 'FOREIGN_LANGUAGES'
@@ -651,7 +672,10 @@ exports.Prisma.ModelName = {
   File: 'File',
   AdminAiInsight: 'AdminAiInsight',
   PlatformSetting: 'PlatformSetting',
-  Group: 'Group'
+  Group: 'Group',
+  StudyStage: 'StudyStage',
+  StudyLevel: 'StudyLevel',
+  Schedule: 'Schedule'
 };
 
 /**

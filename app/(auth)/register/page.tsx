@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { registerUser } from "@/actions/auth";
-import { EDUCATION_STAGES, EDUCATION_LEVELS, getStreamsForLevel } from "@/lib/constants/education";
+import { EDUCATION_STAGES, EDUCATION_LEVELS, EDUCATION_STREAMS, getStreamsForLevel } from "@/lib/constants/education";
 import {
   User, GraduationCap, BookOpen,
   UserPlus, ChevronDown, Loader2, AlertCircle,
@@ -162,7 +162,7 @@ export default function RegisterPage() {
   };
 
   const currentLevels = formData.phase ? EDUCATION_LEVELS[formData.phase as keyof typeof EDUCATION_LEVELS] : [];
-  const currentStreams = getStreamsForLevel(formData.phase, formData.level);
+  const currentStreams = getStreamsForLevel(formData.level as keyof typeof EDUCATION_STREAMS);
   const shouldShowStreams = formData.phase === "SECONDARY" && currentStreams.length > 1;
 
   return (

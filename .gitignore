@@ -27,3 +27,15 @@ yarn-error.log*
 pnpm-debug.log*
 .prisma/
 .agents/mcp.json
+
+# Output files
+*.zip
+*.csv
+*.html
+أكواد_المواد/
+scripts/
+*test*.ts
+*test*.js
+check_*.js
+check_*.ts
+

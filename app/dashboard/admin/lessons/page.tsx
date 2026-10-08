@@ -90,10 +90,10 @@ export default async function AdminLessonsPage({
                       <article key={lesson.id} className="rounded-2xl border border-line p-4 flex flex-col bg-surface">
                         <div className="flex items-center gap-4 mb-4">
                           <div className="w-12 h-12 rounded-xl bg-primary-soft overflow-hidden shrink-0 border border-line flex items-center justify-center relative">
-                            {lesson.image ? (
+                            {lesson.image || selectedSubject.image ? (
                               /* eslint-disable-next-line @next/next/no-img-element */
                               <img
-                                src={lesson.image}
+                                src={lesson.image || selectedSubject.image || ""}
                                 alt={lesson.title}
                                 className="absolute inset-0 w-full h-full object-cover z-0"
                               />

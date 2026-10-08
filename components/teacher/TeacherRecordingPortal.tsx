@@ -28,6 +28,8 @@ import {
 import Link from "next/link";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile, toBlobURL } from "@ffmpeg/util";
+import * as tus from "tus-js-client";
+import { createBunnyVideo } from "@/actions/bunny-actions";
 
 interface SubjectOption {
   id: string;
@@ -39,15 +41,25 @@ interface TeacherRecordingPortalProps {
   teacherName?: string;
 }
 
+const STAGES = [
+  { value: "SECONDARY", label: "التعليم الثانوي" },
+  { value: "MIDDLE", label: "التعليم المتوسط" },
+  { value: "PRIMARY", label: "التعليم الابتدائي" },
+];
+
 const LEVELS = [
-  { value: "SECONDARY_3", label: "السنة الثالثة ثانوي (بكالوريا)" },
-  { value: "SECONDARY_2", label: "السنة الثانية ثانوي" },
-  { value: "SECONDARY_1", label: "السنة الأولى ثانوي" },
-  { value: "MIDDLE_4", label: "السنة الرابعة متوسط (بيام)" },
-  { value: "MIDDLE_3", label: "السنة الثالثة متوسط" },
-  { value: "MIDDLE_2", label: "السنة الثانية متوسط" },
-  { value: "MIDDLE_1", label: "السنة الأولى متوسط" },
-  { value: "PRIMARY_5", label: "السنة الخامسة ابتدائي" },
+  { value: "SECONDARY_3", label: "السنة الثالثة ثانوي (بكالوريا)", stage: "SECONDARY" },
+  { value: "SECONDARY_2", label: "السنة الثانية ثانوي", stage: "SECONDARY" },
+  { value: "SECONDARY_1", label: "السنة الأولى ثانوي", stage: "SECONDARY" },
+  { value: "MIDDLE_4", label: "السنة الرابعة متوسط (بيام)", stage: "MIDDLE" },
+  { value: "MIDDLE_3", label: "السنة الثالثة متوسط", stage: "MIDDLE" },
+  { value: "MIDDLE_2", label: "السنة الثانية متوسط", stage: "MIDDLE" },
+  { value: "MIDDLE_1", label: "السنة الأولى متوسط", stage: "MIDDLE" },
+  { value: "PRIMARY_5", label: "السنة الخامسة ابتدائي (السانكيام)", stage: "PRIMARY" },
+  { value: "PRIMARY_4", label: "السنة الرابعة ابتدائي", stage: "PRIMARY" },
+  { value: "PRIMARY_3", label: "السنة الثالثة ابتدائي", stage: "PRIMARY" },
+  { value: "PRIMARY_2", label: "السنة الثانية ابتدائي", stage: "PRIMARY" },
+  { value: "PRIMARY_1", label: "السنة الأولى ابتدائي", stage: "PRIMARY" },
 ];
 
 const STREAMS = [
@@ -76,9 +88,10 @@ export function TeacherRecordingPortal({
 }: TeacherRecordingPortalProps) {
   // Form State
   const [title, setTitle] = useState("");
-  const [subjectId, setSubjectId] = useState(subjects[0]?.id || "");
-  const [level, setLevel] = useState("SECONDARY_3");
-  const [stream, setStream] = useState("EXPERIMENTAL_SCIENCES");
+  const [selectedSubjectIds, setSelectedSubjectIds] = useState<string[]>([subjects[0]?.id].filter(Boolean));
+  const [stage, setStage] = useState("SECONDARY");
+  const [selectedLevels, setSelectedLevels] = useState<string[]>(["SECONDARY_3"]);
+  const [selectedStreams, setSelectedStreams] = useState<string[]>(["EXPERIMENTAL_SCIENCES"]);
   const [month, setMonth] = useState(1);
   const [order, setOrder] = useState(1);
   const [editingNotes, setEditingNotes] = useState("");
@@ -101,6 +114,7 @@ export function TeacherRecordingPortal({
   const [isTrimming, setIsTrimming] = useState(false);
   const [trimStart, setTrimStart] = useState<number>(0);
   const [trimEnd, setTrimEnd] = useState<number>(0);
+  const [isLoadingVideo, setIsLoadingVideo] = useState(false);
 
   // Upload State
   const [isUploading, setIsUploading] = useState(false);
@@ -118,6 +132,7 @@ export function TeacherRecordingPortal({
   const streamRef = useRef<MediaStream | null>(null);
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const liveVideoPreviewRef = useRef<HTMLVideoElement | null>(null);
+  const xhrRef = useRef<any>(null);
 
   // Format seconds to mm:ss
   const formatTime = (secs: number) => {
@@ -343,9 +358,15 @@ export function TeacherRecordingPortal({
 
   const handleVideoFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
+      setIsLoadingVideo(true);
       const file = e.target.files[0];
-      setRecordedBlob(file);
-      setPreviewUrl(URL.createObjectURL(file));
+      
+      // Simulate loading for better UX and allow the thread to breathe
+      setTimeout(() => {
+        setRecordedBlob(file);
+        setPreviewUrl(URL.createObjectURL(file));
+        setIsLoadingVideo(false);
+      }, 800);
     }
   };
 
@@ -374,8 +395,8 @@ export function TeacherRecordingPortal({
       return;
     }
 
-    if (!subjectId) {
-      setErrorMessage("يرجى اختيار المادة المقررة.");
+    if (selectedSubjectIds.length === 0) {
+      setErrorMessage("يرجى اختيار مادة مقررة واحدة على الأقل.");
       return;
     }
 
@@ -391,9 +412,9 @@ export function TeacherRecordingPortal({
     try {
       const formData = new FormData();
       formData.append("title", title.trim());
-      formData.append("subjectId", subjectId);
-      formData.append("stream", stream);
-      formData.append("level", level);
+      selectedSubjectIds.forEach(id => formData.append("subjectIds", id));
+      selectedStreams.forEach(st => formData.append("streams", st));
+      selectedLevels.forEach(lvl => formData.append("levels", lvl));
       formData.append("month", month.toString());
       formData.append("order", order.toString());
       formData.append("editingNotes", editingNotes.trim());
@@ -402,24 +423,59 @@ export function TeacherRecordingPortal({
         formData.append("youtubeUrl", youtubeUrl.trim());
       }
 
-      if (recordedBlob) {
-        const fileName = `lesson_recording_${Date.now()}.webm`;
-        formData.append("video", recordedBlob, fileName);
-      }
-
       if (pdfFile) {
         formData.append("pdf", pdfFile);
       }
 
-      setUploadProgress(45);
+      setUploadProgress(0);
 
+      let bunnyVideoId = null;
+
+      if (recordedBlob) {
+        setUploadStep("vimeo"); // UI string "جاري الرفع..."
+        
+        const fileName = `lesson_recording_${Date.now()}.webm`;
+        // 1. Get secure upload signature
+        const { videoId, libraryId, expirationTime, signature } = await createBunnyVideo(title.trim() || fileName);
+        bunnyVideoId = videoId;
+        formData.append("bunnyVideoId", videoId);
+        
+        // 2. Upload directly to Bunny CDN
+        await new Promise<void>((resolve, reject) => {
+          const upload = new tus.Upload(recordedBlob as Blob, {
+            endpoint: "https://video.bunnycdn.com/tusupload",
+            retryDelays: [0, 3000, 5000, 10000, 20000],
+            headers: {
+              AuthorizationSignature: signature,
+              AuthorizationExpire: expirationTime.toString(),
+              VideoId: videoId,
+              LibraryId: libraryId,
+            },
+            metadata: {
+              filename: fileName,
+              filetype: "video/webm",
+            },
+            onError: (err) => reject(new Error("حدث خطأ أثناء رفع الفيديو: " + err)),
+            onProgress: (bytesUploaded, bytesTotal) => {
+              const percent = Math.round((bytesUploaded / bytesTotal) * 100);
+              setUploadProgress(Math.min(percent * 0.85, 85)); // 85% for upload
+            },
+            onSuccess: () => resolve(),
+          });
+          
+          xhrRef.current = upload;
+          upload.start();
+        });
+      }
+
+      setUploadStep("saving");
+      setUploadProgress(95);
+
+      // 3. Send metadata (and optional PDF) to Next.js API
       const res = await fetch("/api/teacher/recordings/upload", {
         method: "POST",
         body: formData,
       });
-
-      setUploadStep("saving");
-      setUploadProgress(85);
 
       const data = await res.json();
 
@@ -542,8 +598,18 @@ export function TeacherRecordingPortal({
                   </div>
                 )}
 
+                {/* Loading State for Uploaded Video */}
+                {isLoadingVideo && (
+                  <div className="w-full h-full flex flex-col items-center justify-center space-y-4 py-16">
+                    <div className="w-16 h-16 rounded-3xl bg-purple-500/10 flex items-center justify-center text-purple-400">
+                      <div className="w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                    </div>
+                    <p className="text-sm font-semibold text-muted">جاري تحميل وتجهيز الفيديو...</p>
+                  </div>
+                )}
+
                 {/* Post-recording preview */}
-                {!isRecording && previewUrl && (
+                {!isRecording && !isLoadingVideo && previewUrl && (
                   <div className="w-full flex flex-col items-center space-y-3">
                     <video
                       ref={playbackVideoRef}
@@ -611,7 +677,7 @@ export function TeacherRecordingPortal({
                 )}
 
                 {/* Idle / Initial State */}
-                {!isRecording && !previewUrl && (
+                {!isRecording && !isLoadingVideo && !previewUrl && (
                   <div className="text-center py-12 px-4 space-y-4 max-w-sm">
                     <div className="w-20 h-20 mx-auto rounded-3xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shadow-inner">
                       <Monitor className="w-10 h-10" />
@@ -628,7 +694,7 @@ export function TeacherRecordingPortal({
                 {/* Recorder Control Bar */}
                 <div className="w-full mt-4 pt-4 border-t border-line/60 flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
-                    {!isRecording && !previewUrl && (
+                    {!isRecording && !isLoadingVideo && !previewUrl && (
                       <div className="flex gap-2">
                         <button
                           type="button"
@@ -755,23 +821,28 @@ export function TeacherRecordingPortal({
                 </div>
 
                 {/* Subject Selector */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-ink">المادة المقررة *</label>
-                  <select
-                    value={subjectId}
-                    onChange={(e) => setSubjectId(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-background border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-ink text-sm transition-all"
-                  >
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-ink">المواد المقررة (يمكنك اختيار أكثر من مادة) *</label>
+                  <div className="flex flex-col gap-2 max-h-48 overflow-y-auto p-3 bg-background border border-line rounded-xl">
                     {subjects.length === 0 ? (
-                      <option value="">لا توجد مواد مسندة</option>
+                      <span className="text-sm text-muted">لا توجد مواد مسندة</span>
                     ) : (
                       subjects.map((sub) => (
-                        <option key={sub.id} value={sub.id}>
-                          {sub.title}
-                        </option>
+                        <label key={sub.id} className="flex items-center gap-3 cursor-pointer hover:bg-surface p-1.5 rounded-lg transition-colors">
+                          <input 
+                            type="checkbox" 
+                            checked={selectedSubjectIds.includes(sub.id)}
+                            onChange={(e) => {
+                              if (e.target.checked) setSelectedSubjectIds([...selectedSubjectIds, sub.id]);
+                              else setSelectedSubjectIds(selectedSubjectIds.filter(id => id !== sub.id));
+                            }}
+                            className="w-4 h-4 text-purple-600 rounded border-line focus:ring-purple-500 bg-background accent-purple-600 cursor-pointer"
+                          />
+                          <span className="text-sm text-ink">{sub.title}</span>
+                        </label>
                       ))
                     )}
-                  </select>
+                  </div>
                 </div>
 
                 {/* Lesson Order */}
@@ -787,37 +858,76 @@ export function TeacherRecordingPortal({
                   />
                 </div>
 
-                {/* Level Selector */}
+                {/* Stage Selector */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-ink">المستوى الدراسي *</label>
+                  <label className="text-xs font-semibold text-ink">الطور المقرّر (لتصفية المستويات)</label>
                   <select
-                    value={level}
-                    onChange={(e) => setLevel(e.target.value)}
+                    value={stage}
+                    onChange={(e) => {
+                      setStage(e.target.value);
+                      // Update level to first available for this stage
+                      const newLevels = LEVELS.filter(l => l.stage === e.target.value);
+                      if (newLevels.length > 0) {
+                        setSelectedLevels([newLevels[0].value]);
+                      }
+                      // If PRIMARY or MIDDLE, we typically don't have streams, so default to NONE
+                      if (e.target.value !== "SECONDARY") {
+                        setSelectedStreams(["NONE"]);
+                      }
+                    }}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-background border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-ink text-sm transition-all"
                   >
-                    {LEVELS.map((lvl) => (
-                      <option key={lvl.value} value={lvl.value}>
-                        {lvl.label}
+                    {STAGES.map((stg) => (
+                      <option key={stg.value} value={stg.value}>
+                        {stg.label}
                       </option>
                     ))}
                   </select>
                 </div>
 
-                {/* Stream Selector */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-ink">الشعبة المقررة *</label>
-                  <select
-                    value={stream}
-                    onChange={(e) => setStream(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-background border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-ink text-sm transition-all"
-                  >
-                    {STREAMS.map((st) => (
-                      <option key={st.value} value={st.value}>
-                        {st.label}
-                      </option>
+                {/* Level Selector */}
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-ink">المستويات الدراسية (يمكنك اختيار أكثر من مستوى) *</label>
+                  <div className="flex flex-col gap-2 p-3 bg-background border border-line rounded-xl">
+                    {LEVELS.filter(l => l.stage === stage).map((lvl) => (
+                      <label key={lvl.value} className="flex items-center gap-3 cursor-pointer hover:bg-surface p-1.5 rounded-lg transition-colors">
+                        <input 
+                          type="checkbox" 
+                          checked={selectedLevels.includes(lvl.value)}
+                          onChange={(e) => {
+                            if (e.target.checked) setSelectedLevels([...selectedLevels, lvl.value]);
+                            else setSelectedLevels(selectedLevels.filter(v => v !== lvl.value));
+                          }}
+                          className="w-4 h-4 text-purple-600 rounded border-line focus:ring-purple-500 bg-background accent-purple-600 cursor-pointer"
+                        />
+                        <span className="text-sm text-ink">{lvl.label}</span>
+                      </label>
                     ))}
-                  </select>
+                  </div>
                 </div>
+
+                {/* Stream Selector */}
+                {stage === "SECONDARY" && (
+                  <div className="space-y-2">
+                    <label className="text-xs font-semibold text-ink">الشُعب المقررة (يمكنك اختيار أكثر من شعبة) *</label>
+                    <div className="flex flex-col gap-2 p-3 bg-background border border-line rounded-xl max-h-48 overflow-y-auto">
+                      {STREAMS.map((st) => (
+                        <label key={st.value} className="flex items-center gap-3 cursor-pointer hover:bg-surface p-1.5 rounded-lg transition-colors">
+                          <input 
+                            type="checkbox" 
+                            checked={selectedStreams.includes(st.value)}
+                            onChange={(e) => {
+                              if (e.target.checked) setSelectedStreams([...selectedStreams, st.value]);
+                              else setSelectedStreams(selectedStreams.filter(v => v !== st.value));
+                            }}
+                            className="w-4 h-4 text-purple-600 rounded border-line focus:ring-purple-500 bg-background accent-purple-600 cursor-pointer"
+                          />
+                          <span className="text-sm text-ink">{st.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Month Selector */}
                 <div className="space-y-1.5">
@@ -886,7 +996,7 @@ export function TeacherRecordingPortal({
 
                   <button
                     type="submit"
-                    disabled={isUploading || isRecording || !recordedBlob}
+                    disabled={isUploading || isRecording || (!recordedBlob && !youtubeUrl.trim())}
                     className="w-full py-3.5 px-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-xl shadow-purple-600/25 transition-all flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     {isUploading ? (
@@ -902,9 +1012,9 @@ export function TeacherRecordingPortal({
                     )}
                   </button>
 
-                  {!recordedBlob && !isRecording && (
+                  {!recordedBlob && !youtubeUrl.trim() && !isRecording && (
                     <p className="text-[11px] text-muted text-center mt-2">
-                      * يجب تسجيل مقطع الفيديو أولاً لتتمكن من الإرسال
+                      * يجب تسجيل أو رفع مقطع فيديو أولاً أو وضع رابط يوتيوب لتتمكن من الإرسال
                     </p>
                   )}
                 </div>
@@ -926,6 +1036,20 @@ export function TeacherRecordingPortal({
                         style={{ width: `${uploadProgress}%` }}
                       />
                     </div>
+                    {uploadStep !== "done" && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (xhrRef.current) {
+                            xhrRef.current.abort();
+                          }
+                        }}
+                        className="w-full mt-2 py-1.5 text-xs font-semibold text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 rounded-lg transition-colors border border-rose-500/20 flex items-center justify-center gap-1.5"
+                      >
+                        <Square className="w-3.5 h-3.5" />
+                        إلغاء الرفع
+                      </button>
+                    )}
                   </div>
                 )}
               </div>

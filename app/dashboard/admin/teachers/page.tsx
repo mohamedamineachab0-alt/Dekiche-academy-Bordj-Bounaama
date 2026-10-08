@@ -1,8 +1,10 @@
+export const dynamic = 'force-dynamic';
 import { prisma } from "@/lib/prisma";
 import { STREAMS, LEVELS } from "@/lib/constants";
 import { labelLevel, labelStream } from "@/lib/education-labels";
-import { Users, Plus, Phone, BookOpen } from "lucide-react";
+import { Users, Plus, Phone, BookOpen, Download, Printer } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
+import Link from "next/link";
 import { CreateTeacherClient } from "@/components/admin/CreateTeacherClient";
 
 export default async function AdminTeachersPage() {
@@ -25,6 +27,18 @@ export default async function AdminTeachersPage() {
         title="إدارة الأساتذة"
         description="تسجيل أساتذة جدد وتعيين مستويات وشعب التدريس الخاصة بهم."
         icon={Users}
+        action={
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <Link href="/dashboard/admin/teachers/credentials" target="_blank" className="btn-secondary w-full sm:w-auto bg-white hover:bg-gray-50 text-ink shadow-sm">
+              <Printer className="w-4 h-4" />
+              طباعة حسابات الأساتذة
+            </Link>
+            <a href="/api/admin/export-teachers" className="btn-primary w-full sm:w-auto">
+              <Download className="w-4 h-4" />
+              تحميل القائمة (CSV)
+            </a>
+          </div>
+        }
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

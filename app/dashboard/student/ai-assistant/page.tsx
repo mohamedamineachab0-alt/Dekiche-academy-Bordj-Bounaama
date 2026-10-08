@@ -4,7 +4,7 @@ import { Bot } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { AiChatClient } from "@/components/student/AiChatClient";
 import { prisma } from "@/lib/prisma";
-import { EDUCATION_LEVELS, getStreamsForLevel } from "@/lib/constants/education";
+import { EDUCATION_LEVELS, EDUCATION_STREAMS, getStreamsForLevel } from "@/lib/constants/education";
 
 export default async function AiAssistantPage() {
   const cookieStore = await cookies();
@@ -36,16 +36,16 @@ export default async function AiAssistantPage() {
   const levelsForPhase = EDUCATION_LEVELS[rawPhase as keyof typeof EDUCATION_LEVELS] || [];
   const levelStr = levelsForPhase.find((l: any) => l.value === rawLevel)?.label || rawLevel;
 
-  const streamsForLevel = getStreamsForLevel(rawPhase, rawLevel);
+  const streamsForLevel = getStreamsForLevel(rawLevel as keyof typeof EDUCATION_STREAMS);
   const streamStr = streamsForLevel.find((s: any) => s.value === rawStream)?.label || rawStream;
 
   const studentName = user.fullName;
 
-  const studentLevelStr = rawStream !== "NONE" && streamStr !== "بدون شعبة"
+  const studentLevelStr = rawStream !== "GENERAL" && streamStr !== "عام (لا توجد)"
     ? `${levelStr} - ${streamStr}`
     : levelStr;
 
-  const greetingText = rawStream !== "NONE" && streamStr !== "بدون شعبة"
+  const greetingText = rawStream !== "GENERAL" && streamStr !== "عام (لا توجد)"
     ? `أنت طالب في ${levelStr} في شعبة ${streamStr}`
     : `أنت طالب في ${levelStr}`;
 

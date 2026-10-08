@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "echo 'Lint disabled for Vercel'",
@@ -50,6 +50,7 @@
     "react-katex": "^3.1.0",
     "recharts": "^3.10.1",
     "tailwind-merge": "^3.6.0",
+    "tus-js-client": "^4.3.1",
     "video.js": "^8.23.9",
     "videojs-mux": "^4.21.28",
     "xlsx": "^0.18.5",

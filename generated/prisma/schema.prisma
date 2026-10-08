@@ -105,11 +105,13 @@ enum Level {
 
 enum Stream {
   NONE
+  GENERAL
   COMMON_SCIENCE
   COMMON_LETTERS
   EXPERIMENTAL_SCIENCES
   MATHEMATICS
   TECHNICAL_MATH
+  SCIENCES_MATH_TECH
   MANAGEMENT_ECONOMY
   LITERATURE_PHILOSOPHY
   FOREIGN_LANGUAGES
@@ -634,4 +636,28 @@ model Group {
   teacher     Teacher?     @relation(fields: [teacherId], references: [id], onDelete: SetNull)
   enrollments Enrollment[]
   createdAt   DateTime     @default(now())
+}
+
+// Models for Schedule
+model StudyStage {
+  id     String       @id @default(cuid())
+  name   String       @unique
+  levels StudyLevel[]
+}
+
+model StudyLevel {
+  id        String     @id @default(cuid())
+  name      String
+  stageId   String
+  stage     StudyStage @relation(fields: [stageId], references: [id], onDelete: Cascade)
+  schedules Schedule[]
+}
+
+model Schedule {
+  id        String     @id @default(cuid())
+  levelId   String
+  level     StudyLevel @relation(fields: [levelId], references: [id], onDelete: Cascade)
+  dayOfWeek String
+  subject   String
+  teacher   String
 }

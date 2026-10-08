@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Loader2, Edit3, X, Check } from "lucide-react";
 import { updateStudentProfile } from "@/actions/student-profile";
-import { EDUCATION_STAGES, EDUCATION_LEVELS, getStreamsForLevel } from "@/lib/constants/education";
+import { EDUCATION_STAGES, EDUCATION_LEVELS, EDUCATION_STREAMS, getStreamsForLevel } from "@/lib/constants/education";
 
 type StudentData = {
   id: string;
@@ -24,7 +24,7 @@ export function EditStudentProfileClient({ student }: { student: StudentData }) 
   const [stream, setStream] = useState(student.stream);
 
   const currentLevels = phase ? EDUCATION_LEVELS[phase as keyof typeof EDUCATION_LEVELS] : [];
-  const currentStreams = level ? getStreamsForLevel(phase, level) : [];
+  const currentStreams = level ? getStreamsForLevel(level as keyof typeof EDUCATION_STREAMS) : [];
   const shouldShowStreams = phase === "SECONDARY" && currentStreams.length > 1;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {

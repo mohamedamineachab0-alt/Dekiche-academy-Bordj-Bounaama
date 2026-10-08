@@ -478,10 +478,10 @@ export function TeacherRecordingPortal({
             endpoint: "https://video.bunnycdn.com/tusupload",
             retryDelays: [0, 3000, 5000, 10000, 20000],
             headers: {
-              AuthorizationSignature: signature,
-              AuthorizationExpire: expirationTime.toString(),
-              VideoId: videoId,
-              LibraryId: libraryId,
+              AuthorizationSignature: signature!,
+              AuthorizationExpire: expirationTime!.toString(),
+              VideoId: videoId!,
+              LibraryId: libraryId!,
             },
             metadata: {
               filename: fileName,

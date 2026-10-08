@@ -34,6 +34,8 @@ import { createBunnyVideo } from "@/actions/bunny-actions";
 interface SubjectOption {
   id: string;
   title: string;
+  levels?: string[];
+  streams?: string[];
 }
 
 interface TeacherRecordingPortalProps {
@@ -96,6 +98,31 @@ export function TeacherRecordingPortal({
   const [order, setOrder] = useState(1);
   const [editingNotes, setEditingNotes] = useState("");
   const [youtubeUrl, setYoutubeUrl] = useState("");
+
+  // Auto-populate levels and streams when selected subjects change
+  useEffect(() => {
+    const newLevels = new Set<string>();
+    const newStreams = new Set<string>();
+    
+    selectedSubjectIds.forEach(id => {
+      const sub = subjects.find(s => s.id === id);
+      if (sub) {
+        sub.levels?.forEach(l => newLevels.add(l));
+        sub.streams?.forEach(s => newStreams.add(s));
+      }
+    });
+    
+    if (newLevels.size > 0) setSelectedLevels(Array.from(newLevels));
+    if (newStreams.size > 0) setSelectedStreams(Array.from(newStreams));
+    
+    // Auto-detect stage based on levels
+    if (newLevels.size > 0) {
+      const firstLevel = Array.from(newLevels)[0];
+      if (firstLevel.startsWith("PRIMARY")) setStage("PRIMARY");
+      else if (firstLevel.startsWith("MIDDLE")) setStage("MIDDLE");
+      else if (firstLevel.startsWith("SECONDARY")) setStage("SECONDARY");
+    }
+  }, [selectedSubjectIds, subjects]);
 
   // Recording State
   const [isRecording, setIsRecording] = useState(false);
@@ -1063,11 +1090,8 @@ export function TeacherRecordingPortal({
                 <p className="leading-relaxed">
                   1. يتم رفع الفيديو مباشرة إلى حساب Vimeo المحمي للمنصة بنظام التجزئة (Tus Upload) بدون استهلاك مساحة السيرفر المحلي.
                 </p>
-                <p className="leading-relaxed">
-                  2. تُسجَّل ملاحظاتك وعنوان الدرس في جدول <span className="font-mono text-purple-400">pending_lessons</span> بالحالة المعلقة.
-                </p>
-                <p className="leading-relaxed">
-                  3. يقوم الأدمن بمراجعة الفيديو واعتماده ليظهر في قائمة دروس الطلاب.
+                <p className="leading-relaxed text-emerald-400 font-semibold">
+                  2. يتم اعتماد الدرس ونشره مباشرة للطلاب بمجرد اكتمال الرفع، دون الحاجة لانتظار موافقة إضافية.
                 </p>
               </div>
             </div>

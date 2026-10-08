@@ -49,16 +49,9 @@ export async function GET(req: NextRequest) {
 
     // CSV format
     if (format === "csv") {
-      const header = ["الرمز", "المادة", "نوع الاشتراك", "الشهور الصالحة", "الحالة", "المستعمل", "رقم المستعمل", "تاريخ الإنشاء"];
+      const header = ["الرمز"];
       const rows = codes.map((c) => [
         `="${c.code}"`,
-        `"${c.subject?.title || ""}"`,
-        c.accessType === "YEARLY" ? "سنوي" : "شهري",
-        `"${c.validMonths.join(", ")}"`,
-        c.isUsed ? "مستعمل" : "غير مستعمل",
-        `"${c.user?.fullName || ""}"`,
-        `"${c.user?.phoneNumber || ""}"`,
-        c.createdAt.toISOString().split("T")[0],
       ]);
 
       const csvContent = "\uFEFF" + [header.join(","), ...rows.map((r) => r.join(","))].join("\r\n");

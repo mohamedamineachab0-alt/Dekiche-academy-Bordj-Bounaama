@@ -139,19 +139,17 @@ export function CodesPortalClient({
 
         setCodes((prev) => [...newFormattedCodes, ...prev]);
 
-        // Auto trigger download for easy immediate extraction
-        const lines = res.codes.map((c) => c.code).join("\n");
-        const blob = new Blob(["\uFEFF" + lines], { type: "text/plain;charset=utf-8;" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        const subjName =
-          genSubjectMode === "ALL"
-            ? "جميع_المواد"
-            : initialSubjects.find((s) => s.id === genSelectedSubject)?.title || "رموز";
-        link.download = `رموز_${subjName.replace(/\s+/g, "_")}_${new Date().toISOString().split("T")[0]}.txt`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        if (genSubjectMode === "SINGLE") {
+          const lines = res.codes.map((c) => c.code).join("\n");
+          const blob = new Blob(["\uFEFF" + lines], { type: "text/csv;charset=utf-8;" });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          const subjName = initialSubjects.find((s) => s.id === genSelectedSubject)?.title || "رموز";
+          link.download = `رموز_${subjName.replace(/\s+/g, "_")}_${new Date().toISOString().split("T")[0]}.csv`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
 
         setTimeout(() => {
           setGenSuccessMessage(null);
@@ -276,12 +274,22 @@ export function CodesPortalClient({
 
             {/* Quick Export ZIP */}
             <a
-              href="/api/admin/export-codes?format=zip&status=unused"
+              href="/api/admin/export-codes-zip"
               className="flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-3.5 py-2.5 rounded-xl text-xs font-semibold border border-neutral-700 transition"
-              title="تحميل ZIP مقسم حسب المواد"
+              title="تحميل كل الأكواد الشهرية كملفات CSV في ZIP"
             >
               <FileArchive className="w-4 h-4 text-purple-400" />
-              <span>تصدير ZIP (حسب المواد)</span>
+              <span>تصدير ZIP (كل الشهور)</span>
+            </a>
+
+            {/* Sept & Oct Export ZIP */}
+            <a
+              href="/api/admin/export-codes-zip?months=9,10"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white px-3.5 py-2.5 rounded-xl text-xs font-semibold shadow-lg shadow-emerald-500/20 transition"
+              title="تحميل أكواد سبتمبر وأكتوبر فقط كملفات CSV مقسمة في ZIP"
+            >
+              <Download className="w-4 h-4" />
+              <span>أكواد سبتمبر وأكتوبر (ZIP)</span>
             </a>
 
             {/* Quick Export Excel */}

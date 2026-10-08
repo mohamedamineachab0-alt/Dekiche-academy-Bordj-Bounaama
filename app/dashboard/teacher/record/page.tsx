@@ -26,28 +26,40 @@ export default async function TeacherRecordPage() {
     redirect("/login");
   }
 
-  let subjects: { id: string; title: string }[] = [];
+  let subjects: { id: string; title: string; levels: string[]; streams: string[] }[] = [];
 
   if (user.role === "TEACHER") {
     const session = await getTeacherSession();
     if (session?.teacher?.subjects && session.teacher.subjects.length > 0) {
-      subjects = session.teacher.subjects.map((s) => ({ id: s.id, title: s.title }));
+      subjects = session.teacher.subjects.map((s) => ({ 
+        id: s.id, 
+        title: s.title,
+        levels: s.levels || [],
+        streams: s.streams || []
+      }));
     }
   }
 
   // Fallback: If no assigned subjects found or admin is testing, fetch published subjects
   if (subjects.length === 0) {
     const allSubjects = await prisma.subject.findMany({
-      select: { id: true, title: true },
+      select: { id: true, title: true, levels: true, streams: true },
       orderBy: { title: "asc" },
       take: 50,
     });
     subjects = allSubjects;
   }
 
+  // Format subjects with levels and streams
+  const { formatSubjectTitle } = await import("@/lib/subject-formatter");
+  const formattedSubjects = subjects.map(s => ({
+    id: s.id,
+    title: formatSubjectTitle(s.title, s.levels, s.streams)
+  }));
+
   return (
     <div className="py-2">
-      <TeacherRecordingPortal subjects={subjects} teacherName={user.fullName} />
+      <TeacherRecordingPortal subjects={formattedSubjects} teacherName={user.fullName} />
     </div>
   );
 }

@@ -45,11 +45,20 @@ export async function GET(req: Request) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
+    const url = new URL(req.url);
+    const monthsParam = url.searchParams.get('months');
+    
+    let codesWhere: any = { accessType: 'MONTHLY', isUsed: false };
+    if (monthsParam) {
+      const months = monthsParam.split(',').map(Number);
+      codesWhere.validMonths = { hasSome: months };
+    }
+
     const subjects = await prisma.subject.findMany({
       include: { 
         teacher: true, 
         codes: {
-          where: { accessType: 'MONTHLY' }
+          where: codesWhere
         } 
       }
     });
@@ -64,19 +73,22 @@ export async function GET(req: Request) {
         ? subject.levels.map((l: string) => levelMap[l] || l).join(' و') 
         : 'جميع المستويات';
         
-      const streams = subject.streams.map((s: string) => streamMap[s] || s).filter((s: string) => s !== '').join(' و');
+      let csvContent = '\uFEFFالكود\n';
+      for (const code of subject.codes) {
+        csvContent += `"${code.code}"\n`;
+      }
 
+      const streamNames = subject.streams
+        .map((s: string) => streamMap[s] || s)
+        .filter((s: string) => s && s !== '');
+        
       let fileName = `${subject.title} - ${levels} ${phase}`;
-      if (streams && streams !== '') fileName += ` - ${streams}`;
+      if (streamNames.length > 0) {
+        fileName += ` - ${streamNames.join(' و ')}`;
+      }
+      
       fileName = fileName.replace(/[\/\\?%*:|"<>]/g, '-');
       fileName += '.csv';
-
-      let csvContent = '\uFEFFالكود;المادة;الأستاذ;المستوى;الشعبة;الطور\n';
-
-      for (const code of subject.codes) {
-        const teacherName = subject.teacher?.name || subject.teacherName || 'بدون أستاذ';
-        csvContent += `"${code.code}";"${subject.title}";"${teacherName}";"${levels}";"${streams}";"${phase}"\n`;
-      }
 
       zip.file(fileName, csvContent);
     }

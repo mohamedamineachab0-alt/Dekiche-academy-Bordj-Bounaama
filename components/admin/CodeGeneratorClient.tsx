@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Key, Plus, Copy, CheckCircle2 } from "lucide-react";
 import { generateAccessCode } from "@/actions/subjects";
 import { SubjectSelector } from "@/components/shared/SubjectSelector";
+import JSZip from "jszip";
 
 export function CodeGeneratorClient({ subjects }: { subjects: any[] }) {
 
@@ -11,6 +12,35 @@ export function CodeGeneratorClient({ subjects }: { subjects: any[] }) {
   const [generatedCodes, setGeneratedCodes] = useState<any[]>([]);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const streamMap: Record<string, string> = {
+    NONE: '',
+    GENERAL: 'عام',
+    COMMON_SCIENCE: 'جذع مشترك علوم',
+    COMMON_LETTERS: 'جذع مشترك آداب',
+    EXPERIMENTAL_SCIENCES: 'علوم تجريبية',
+    MATHEMATICS: 'رياضيات',
+    TECHNICAL_MATH: 'تقني رياضي',
+    SCIENCES_MATH_TECH: 'شعب علمية',
+    MANAGEMENT_ECONOMY: 'تسيير واقتصاد',
+    LITERATURE_PHILOSOPHY: 'آداب وفلسفة',
+    FOREIGN_LANGUAGES: 'لغات أجنبية',
+  };
+
+  const levelMap: Record<string, string> = {
+    PRIMARY_1: 'الأولى ابتدائي',
+    PRIMARY_2: 'الثانية ابتدائي',
+    PRIMARY_3: 'الثالثة ابتدائي',
+    PRIMARY_4: 'الرابعة ابتدائي',
+    PRIMARY_5: 'الخامسة ابتدائي',
+    MIDDLE_1: 'الأولى متوسط',
+    MIDDLE_2: 'الثانية متوسط',
+    MIDDLE_3: 'الثالثة متوسط',
+    MIDDLE_4: 'الرابعة متوسط',
+    SECONDARY_1: 'الأولى ثانوي',
+    SECONDARY_2: 'الثانية ثانوي',
+    SECONDARY_3: 'الثالثة ثانوي',
+  };
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -32,33 +62,79 @@ export function CodeGeneratorClient({ subjects }: { subjects: any[] }) {
       const validMonthsStr = validMonths.length > 0 ? validMonths.join("-") : "عام_كامل";
       const generationDate = new Date().toISOString().split("T")[0];
 
-      let csvContent = "المادة,المستوى,الشعبة,الشهور,تاريخ_التوليد,الكود\n";
-
-      result.codes.forEach((c: any) => {
-        const s = subjects.find((sub) => sub.id === c.subjectId);
-        const title = s?.title || "مادة_غير_معروفة";
-        csvContent += `"${title}","${level && level !== "ALL" ? level : "الكل"}","${stream && stream !== "ALL" && stream !== "NONE" ? stream : "الكل"}","${validMonthsStr}","${generationDate}","${c.code}"\n`;
-      });
-
-      const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      
       if (isMultiple) {
-        link.download = `كل_الرموز_${generationDate}.csv`;
+        const zip = new JSZip();
+        
+        // Group codes by subjectId
+        const codesBySubject: Record<string, any[]> = {};
+        result.codes.forEach((c: any) => {
+          if (!codesBySubject[c.subjectId]) codesBySubject[c.subjectId] = [];
+          codesBySubject[c.subjectId].push(c);
+        });
+
+        // Add each subject's codes to the zip
+        for (const [subId, subCodes] of Object.entries(codesBySubject)) {
+          const sub = subjects.find(s => s.id === subId);
+          if (!sub) continue;
+
+          let csvContent = "\uFEFFالكود\n";
+          subCodes.forEach(c => {
+            csvContent += `"${c.code}"\n`;
+          });
+
+          // Build filename parts
+          const phaseStr = sub.phase === 'PRIMARY' ? 'ابتدائي' : sub.phase === 'MIDDLE' ? 'متوسط' : sub.phase === 'SECONDARY' ? 'ثانوي' : '';
+          const levelsStr = sub.levels?.length > 0 ? sub.levels.map((l: string) => levelMap[l] || l).join(' و') : 'جميع المستويات';
+          
+          const streamNames = sub.streams
+            ?.map((s: string) => streamMap[s] || s)
+            .filter((s: string) => s && s !== '') || [];
+
+          let fileName = `${sub.title} - ${levelsStr} ${phaseStr}`;
+          if (streamNames.length > 0) {
+            fileName += ` - ${streamNames.join(' و ')}`;
+          }
+          if (validMonths.length > 0) {
+            fileName += ` - شهور ${validMonths.join("-")}`;
+          }
+          fileName = fileName.replace(/[\/\\?%*:|"<>]/g, '-');
+          
+          zip.file(`${fileName}.csv`, csvContent);
+        }
+
+        const zipBlob = await zip.generateAsync({ type: "blob" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(zipBlob);
+        link.download = `كل_الرموز_${generationDate}.zip`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       } else {
+        let csvContent = "الكود\n";
+        result.codes.forEach((c: any) => {
+          csvContent += `"${c.code}"\n`;
+        });
+        const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
         const subjectTitle = subjects.find((s) => s.id === subjectIdStr)?.title || "مادة";
         let fileDetails = "";
-        if (level && level !== "ALL") fileDetails += `_${level}`;
-        if (stream && stream !== "ALL" && stream !== "NONE") fileDetails += `_${stream}`;
+        
+        if (level && level !== "ALL") {
+          const arabicLevel = levelMap[level] || level;
+          fileDetails += `_${arabicLevel}`;
+        }
+        if (stream && stream !== "ALL" && stream !== "NONE") {
+          const arabicStream = streamMap[stream] || stream;
+          fileDetails += `_${arabicStream}`;
+        }
         if (validMonths.length > 0) fileDetails += `_شهور_${validMonths.join("-")}`;
         
-        link.download = `رموز_${subjectTitle.replace(/\s+/g, "_")}${fileDetails}_${generationDate}.csv`;
+        link.download = `رموز_${subjectTitle.replace(/\s+/g, "_")}${fileDetails.replace(/\s+/g, "_")}_${generationDate}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
-      
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
     } else if (result.error) {
       setErrorMsg(result.error);
     }

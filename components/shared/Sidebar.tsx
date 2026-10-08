@@ -64,6 +64,7 @@ const ADMIN_GROUPS: NavGroup[] = [
     links: [
       { name: "المواد", href: "/dashboard/admin/subjects", icon: BookOpen },
       { name: "الدروس", href: "/dashboard/admin/lessons", icon: FileText },
+      { name: "إضافة درس جديد", href: "/dashboard/admin/upload-lesson", icon: Video },
       { name: "مراجعة الدروس", href: "/dashboard/admin/pending-lessons", icon: Video },
       { name: "بطاقات المراجعة", href: "/dashboard/admin/review-cards", icon: Library },
       { name: "تمارين يومية", href: "/dashboard/admin/exercises", icon: CheckCircle },

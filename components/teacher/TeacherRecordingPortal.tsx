@@ -27,8 +27,7 @@ import {
   Download
 } from "lucide-react";
 import Link from "next/link";
-import { FFmpeg } from "@ffmpeg/ffmpeg";
-import { fetchFile, toBlobURL } from "@ffmpeg/util";
+
 import * as tus from "tus-js-client";
 import { createBunnyVideo } from "@/actions/bunny-actions";
 
@@ -135,13 +134,7 @@ export function TeacherRecordingPortal({
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [deviceError, setDeviceError] = useState<string | null>(null);
 
-  // FFmpeg State
-  const ffmpegRef = useRef<any>(null);
-  const playbackVideoRef = useRef<HTMLVideoElement>(null);
-  const [isFfmpegLoaded, setIsFfmpegLoaded] = useState(false);
-  const [isTrimming, setIsTrimming] = useState(false);
-  const [trimStart, setTrimStart] = useState<number>(0);
-  const [trimEnd, setTrimEnd] = useState<number>(0);
+  // Playback State
   const [isLoadingVideo, setIsLoadingVideo] = useState(false);
 
   // Upload State
@@ -161,6 +154,7 @@ export function TeacherRecordingPortal({
   const streamRef = useRef<MediaStream | null>(null);
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const liveVideoPreviewRef = useRef<HTMLVideoElement | null>(null);
+  const playbackVideoRef = useRef<HTMLVideoElement | null>(null);
   const xhrRef = useRef<any>(null);
 
   // Format seconds to mm:ss
@@ -324,66 +318,6 @@ export function TeacherRecordingPortal({
     setPdfFile(null);
   };
 
-  const loadFfmpeg = async () => {
-    if (!ffmpegRef.current) {
-      ffmpegRef.current = new FFmpeg();
-    }
-    const ffmpeg = ffmpegRef.current;
-    if (ffmpeg.loaded) return;
-    try {
-      const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
-      await ffmpeg.load({
-        coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
-        wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
-      });
-      setIsFfmpegLoaded(true);
-    } catch (e) {
-      console.error("FFmpeg load error:", e);
-      setErrorMessage("فشل في تحميل مكتبة المونتاج المدمجة (تأكد من اتصالك بالإنترنت).");
-    }
-  };
-
-  const performTrim = async () => {
-    if (!recordedBlob) return;
-    if (trimStart >= trimEnd || trimEnd === 0) {
-      setErrorMessage("تأكد من اختيار نقطة بداية ونهاية صحيحة.");
-      return;
-    }
-    setIsTrimming(true);
-    setErrorMessage(null);
-    try {
-      await loadFfmpeg();
-      const ffmpeg = ffmpegRef.current;
-      await ffmpeg.writeFile("input.webm", await fetchFile(recordedBlob));
-      
-      const duration = trimEnd - trimStart;
-      await ffmpeg.exec([
-        "-i", "input.webm",
-        "-ss", trimStart.toString(),
-        "-t", duration.toString(),
-        "-c", "copy",
-        "output.webm"
-      ]);
-      
-      const data = await ffmpeg.readFile("output.webm");
-      const trimmedBlob = new Blob([data as any], { type: "video/webm" });
-      setRecordedBlob(trimmedBlob);
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
-      setPreviewUrl(URL.createObjectURL(trimmedBlob));
-      
-      setTrimStart(0);
-      setTrimEnd(0);
-      setRecordingDuration(Math.floor(duration));
-      
-      await ffmpeg.deleteFile("input.webm");
-      await ffmpeg.deleteFile("output.webm");
-    } catch (err: any) {
-      console.error("Trim error:", err);
-      setErrorMessage("حدث خطأ أثناء محاولة قص الفيديو.");
-    } finally {
-      setIsTrimming(false);
-    }
-  };
 
   const handleVideoFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -654,54 +588,6 @@ export function TeacherRecordingPortal({
                     />
                     
                     {/* Trimming UI */}
-                    <div className="w-full p-4 rounded-xl bg-surface border border-line space-y-3 shadow-inner">
-                      <div className="flex items-center justify-between">
-                         <span className="text-sm font-semibold text-ink flex items-center gap-2"><Scissors className="w-4 h-4 text-purple-400" /> قص الفيديو بداخل المنصة</span>
-                      </div>
-                      <div className="space-y-4">
-                         <div className="space-y-2">
-                           <div className="flex justify-between text-xs">
-                             <span className="text-muted">نقطة البداية (من)</span>
-                             <span className="font-mono text-purple-400 font-bold">{formatTime(trimStart)}</span>
-                           </div>
-                           <input 
-                             type="range" 
-                             min={0} 
-                             max={recordingDuration || 100} 
-                             value={trimStart} 
-                             onChange={e => {
-                               const val = Number(e.target.value);
-                               setTrimStart(val);
-                               if (playbackVideoRef.current) playbackVideoRef.current.currentTime = val;
-                             }} 
-                             className="w-full h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-purple-500" 
-                           />
-                           <button type="button" onClick={() => { if(playbackVideoRef.current) setTrimStart(Math.floor(playbackVideoRef.current.currentTime)) }} className="text-[10px] text-purple-400 hover:underline">تحديد من موقع المشغل الحالي</button>
-                         </div>
-                         <div className="space-y-2">
-                           <div className="flex justify-between text-xs">
-                             <span className="text-muted">نقطة النهاية (إلى)</span>
-                             <span className="font-mono text-rose-400 font-bold">{formatTime(trimEnd)}</span>
-                           </div>
-                           <input 
-                             type="range" 
-                             min={0} 
-                             max={recordingDuration || 100} 
-                             value={trimEnd} 
-                             onChange={e => {
-                               const val = Number(e.target.value);
-                               setTrimEnd(val);
-                               if (playbackVideoRef.current) playbackVideoRef.current.currentTime = val;
-                             }} 
-                             className="w-full h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-rose-500" 
-                           />
-                           <button type="button" onClick={() => { if(playbackVideoRef.current) setTrimEnd(Math.floor(playbackVideoRef.current.currentTime)) }} className="text-[10px] text-purple-400 hover:underline">تحديد من موقع المشغل الحالي</button>
-                         </div>
-                      </div>
-                      <button type="button" onClick={performTrim} disabled={isTrimming || trimStart >= trimEnd || trimEnd === 0} className="w-full py-2 bg-purple-600/10 text-purple-400 border border-purple-500/30 rounded-lg text-sm font-semibold hover:bg-purple-600 hover:text-white transition-colors disabled:opacity-50">
-                        {isTrimming ? "جاري القص والمعالجة... قد يستغرق بعض الوقت" : "قص وتأكيد المدة"}
-                      </button>
-                    </div>
 
                     <div className="flex items-center justify-between w-full px-2 text-xs text-muted">
                       <span>مدة التسجيل: {formatTime(recordingDuration)}</span>

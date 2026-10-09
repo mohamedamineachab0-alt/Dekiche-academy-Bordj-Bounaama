@@ -169,6 +169,11 @@ export type ForumMessage = $Result.DefaultSelection<Prisma.$ForumMessagePayload>
  */
 export type ParentTicket = $Result.DefaultSelection<Prisma.$ParentTicketPayload>
 /**
+ * Model TeacherTicket
+ * 
+ */
+export type TeacherTicket = $Result.DefaultSelection<Prisma.$TeacherTicketPayload>
+/**
  * Model File
  * 
  */
@@ -793,6 +798,16 @@ export class PrismaClient<
   get parentTicket(): Prisma.ParentTicketDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.teacherTicket`: Exposes CRUD operations for the **TeacherTicket** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TeacherTickets
+    * const teacherTickets = await prisma.teacherTicket.findMany()
+    * ```
+    */
+  get teacherTicket(): Prisma.TeacherTicketDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.file`: Exposes CRUD operations for the **File** model.
     * Example usage:
     * ```ts
@@ -1339,6 +1354,7 @@ export namespace Prisma {
     ClassForum: 'ClassForum',
     ForumMessage: 'ForumMessage',
     ParentTicket: 'ParentTicket',
+    TeacherTicket: 'TeacherTicket',
     File: 'File',
     AdminAiInsight: 'AdminAiInsight',
     PlatformSetting: 'PlatformSetting',
@@ -1361,7 +1377,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "month" | "lesson" | "lessonMaterial" | "pendingLesson" | "lessonCompletion" | "quiz" | "quizCompletion" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exerciseMaterial" | "exam" | "examMaterial" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket" | "file" | "adminAiInsight" | "platformSetting" | "group" | "studyStage" | "studyLevel" | "schedule"
+      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "month" | "lesson" | "lessonMaterial" | "pendingLesson" | "lessonCompletion" | "quiz" | "quizCompletion" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exerciseMaterial" | "exam" | "examMaterial" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket" | "teacherTicket" | "file" | "adminAiInsight" | "platformSetting" | "group" | "studyStage" | "studyLevel" | "schedule"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3659,6 +3675,80 @@ export namespace Prisma {
           }
         }
       }
+      TeacherTicket: {
+        payload: Prisma.$TeacherTicketPayload<ExtArgs>
+        fields: Prisma.TeacherTicketFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TeacherTicketFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherTicketPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TeacherTicketFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherTicketPayload>
+          }
+          findFirst: {
+            args: Prisma.TeacherTicketFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherTicketPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TeacherTicketFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherTicketPayload>
+          }
+          findMany: {
+            args: Prisma.TeacherTicketFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherTicketPayload>[]
+          }
+          create: {
+            args: Prisma.TeacherTicketCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherTicketPayload>
+          }
+          createMany: {
+            args: Prisma.TeacherTicketCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TeacherTicketCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherTicketPayload>[]
+          }
+          delete: {
+            args: Prisma.TeacherTicketDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherTicketPayload>
+          }
+          update: {
+            args: Prisma.TeacherTicketUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherTicketPayload>
+          }
+          deleteMany: {
+            args: Prisma.TeacherTicketDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TeacherTicketUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TeacherTicketUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherTicketPayload>[]
+          }
+          upsert: {
+            args: Prisma.TeacherTicketUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherTicketPayload>
+          }
+          aggregate: {
+            args: Prisma.TeacherTicketAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTeacherTicket>
+          }
+          groupBy: {
+            args: Prisma.TeacherTicketGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TeacherTicketGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TeacherTicketCountArgs<ExtArgs>
+            result: $Utils.Optional<TeacherTicketCountAggregateOutputType> | number
+          }
+        }
+      }
       File: {
         payload: Prisma.$FilePayload<ExtArgs>
         fields: Prisma.FileFieldRefs
@@ -4331,6 +4421,7 @@ export namespace Prisma {
     classForum?: ClassForumOmit
     forumMessage?: ForumMessageOmit
     parentTicket?: ParentTicketOmit
+    teacherTicket?: TeacherTicketOmit
     file?: FileOmit
     adminAiInsight?: AdminAiInsightOmit
     platformSetting?: PlatformSettingOmit
@@ -4427,6 +4518,7 @@ export namespace Prisma {
     chatSessions: number
     notifications: number
     parentTickets: number
+    teacherTickets: number
     forumMessages: number
     friendLinksSource: number
     friendLinksTarget: number
@@ -4447,6 +4539,7 @@ export namespace Prisma {
     chatSessions?: boolean | UserCountOutputTypeCountChatSessionsArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
     parentTickets?: boolean | UserCountOutputTypeCountParentTicketsArgs
+    teacherTickets?: boolean | UserCountOutputTypeCountTeacherTicketsArgs
     forumMessages?: boolean | UserCountOutputTypeCountForumMessagesArgs
     friendLinksSource?: boolean | UserCountOutputTypeCountFriendLinksSourceArgs
     friendLinksTarget?: boolean | UserCountOutputTypeCountFriendLinksTargetArgs
@@ -4529,6 +4622,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountParentTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ParentTicketWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTeacherTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeacherTicketWhereInput
   }
 
   /**
@@ -5416,6 +5516,7 @@ export namespace Prisma {
     chatSessions?: boolean | User$chatSessionsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     parentTickets?: boolean | User$parentTicketsArgs<ExtArgs>
+    teacherTickets?: boolean | User$teacherTicketsArgs<ExtArgs>
     forumMessages?: boolean | User$forumMessagesArgs<ExtArgs>
     friendLinksSource?: boolean | User$friendLinksSourceArgs<ExtArgs>
     friendLinksTarget?: boolean | User$friendLinksTargetArgs<ExtArgs>
@@ -5483,6 +5584,7 @@ export namespace Prisma {
     chatSessions?: boolean | User$chatSessionsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     parentTickets?: boolean | User$parentTicketsArgs<ExtArgs>
+    teacherTickets?: boolean | User$teacherTicketsArgs<ExtArgs>
     forumMessages?: boolean | User$forumMessagesArgs<ExtArgs>
     friendLinksSource?: boolean | User$friendLinksSourceArgs<ExtArgs>
     friendLinksTarget?: boolean | User$friendLinksTargetArgs<ExtArgs>
@@ -5511,6 +5613,7 @@ export namespace Prisma {
       chatSessions: Prisma.$ChatSessionPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
       parentTickets: Prisma.$ParentTicketPayload<ExtArgs>[]
+      teacherTickets: Prisma.$TeacherTicketPayload<ExtArgs>[]
       forumMessages: Prisma.$ForumMessagePayload<ExtArgs>[]
       friendLinksSource: Prisma.$StudentFriendLinkPayload<ExtArgs>[]
       friendLinksTarget: Prisma.$StudentFriendLinkPayload<ExtArgs>[]
@@ -5938,6 +6041,7 @@ export namespace Prisma {
     chatSessions<T extends User$chatSessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$chatSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     parentTickets<T extends User$parentTicketsArgs<ExtArgs> = {}>(args?: Subset<T, User$parentTicketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParentTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    teacherTickets<T extends User$teacherTicketsArgs<ExtArgs> = {}>(args?: Subset<T, User$teacherTicketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeacherTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     forumMessages<T extends User$forumMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$forumMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ForumMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     friendLinksSource<T extends User$friendLinksSourceArgs<ExtArgs> = {}>(args?: Subset<T, User$friendLinksSourceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentFriendLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     friendLinksTarget<T extends User$friendLinksTargetArgs<ExtArgs> = {}>(args?: Subset<T, User$friendLinksTargetArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentFriendLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6649,6 +6753,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ParentTicketScalarFieldEnum | ParentTicketScalarFieldEnum[]
+  }
+
+  /**
+   * User.teacherTickets
+   */
+  export type User$teacherTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherTicket
+     */
+    select?: TeacherTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherTicket
+     */
+    omit?: TeacherTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherTicketInclude<ExtArgs> | null
+    where?: TeacherTicketWhereInput
+    orderBy?: TeacherTicketOrderByWithRelationInput | TeacherTicketOrderByWithRelationInput[]
+    cursor?: TeacherTicketWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TeacherTicketScalarFieldEnum | TeacherTicketScalarFieldEnum[]
   }
 
   /**
@@ -13051,6 +13179,7 @@ export namespace Prisma {
     vimeoVideoId: string | null
     youtubeVideoId: string | null
     image: string | null
+    mindmap: string | null
     order: number | null
     createdAt: Date | null
   }
@@ -13064,6 +13193,7 @@ export namespace Prisma {
     vimeoVideoId: string | null
     youtubeVideoId: string | null
     image: string | null
+    mindmap: string | null
     order: number | null
     createdAt: Date | null
   }
@@ -13077,6 +13207,7 @@ export namespace Prisma {
     vimeoVideoId: number
     youtubeVideoId: number
     image: number
+    mindmap: number
     streams: number
     levels: number
     order: number
@@ -13104,6 +13235,7 @@ export namespace Prisma {
     vimeoVideoId?: true
     youtubeVideoId?: true
     image?: true
+    mindmap?: true
     order?: true
     createdAt?: true
   }
@@ -13117,6 +13249,7 @@ export namespace Prisma {
     vimeoVideoId?: true
     youtubeVideoId?: true
     image?: true
+    mindmap?: true
     order?: true
     createdAt?: true
   }
@@ -13130,6 +13263,7 @@ export namespace Prisma {
     vimeoVideoId?: true
     youtubeVideoId?: true
     image?: true
+    mindmap?: true
     streams?: true
     levels?: true
     order?: true
@@ -13232,6 +13366,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId: string | null
     image: string | null
+    mindmap: string | null
     streams: $Enums.Stream[]
     levels: $Enums.Level[]
     order: number
@@ -13266,6 +13401,7 @@ export namespace Prisma {
     vimeoVideoId?: boolean
     youtubeVideoId?: boolean
     image?: boolean
+    mindmap?: boolean
     streams?: boolean
     levels?: boolean
     order?: boolean
@@ -13291,6 +13427,7 @@ export namespace Prisma {
     vimeoVideoId?: boolean
     youtubeVideoId?: boolean
     image?: boolean
+    mindmap?: boolean
     streams?: boolean
     levels?: boolean
     order?: boolean
@@ -13307,6 +13444,7 @@ export namespace Prisma {
     vimeoVideoId?: boolean
     youtubeVideoId?: boolean
     image?: boolean
+    mindmap?: boolean
     streams?: boolean
     levels?: boolean
     order?: boolean
@@ -13323,13 +13461,14 @@ export namespace Prisma {
     vimeoVideoId?: boolean
     youtubeVideoId?: boolean
     image?: boolean
+    mindmap?: boolean
     streams?: boolean
     levels?: boolean
     order?: boolean
     createdAt?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "month" | "monthId" | "vimeoVideoId" | "youtubeVideoId" | "image" | "streams" | "levels" | "order" | "createdAt", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "month" | "monthId" | "vimeoVideoId" | "youtubeVideoId" | "image" | "mindmap" | "streams" | "levels" | "order" | "createdAt", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     academicMonth?: boolean | Lesson$academicMonthArgs<ExtArgs>
     subjects?: boolean | Lesson$subjectsArgs<ExtArgs>
@@ -13371,6 +13510,7 @@ export namespace Prisma {
       vimeoVideoId: string
       youtubeVideoId: string | null
       image: string | null
+      mindmap: string | null
       streams: $Enums.Stream[]
       levels: $Enums.Level[]
       order: number
@@ -13815,6 +13955,7 @@ export namespace Prisma {
     readonly vimeoVideoId: FieldRef<"Lesson", 'String'>
     readonly youtubeVideoId: FieldRef<"Lesson", 'String'>
     readonly image: FieldRef<"Lesson", 'String'>
+    readonly mindmap: FieldRef<"Lesson", 'String'>
     readonly streams: FieldRef<"Lesson", 'Stream[]'>
     readonly levels: FieldRef<"Lesson", 'Level[]'>
     readonly order: FieldRef<"Lesson", 'Int'>
@@ -41765,6 +41906,1108 @@ export namespace Prisma {
 
 
   /**
+   * Model TeacherTicket
+   */
+
+  export type AggregateTeacherTicket = {
+    _count: TeacherTicketCountAggregateOutputType | null
+    _min: TeacherTicketMinAggregateOutputType | null
+    _max: TeacherTicketMaxAggregateOutputType | null
+  }
+
+  export type TeacherTicketMinAggregateOutputType = {
+    id: string | null
+    teacherId: string | null
+    subject: string | null
+    message: string | null
+    reply: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TeacherTicketMaxAggregateOutputType = {
+    id: string | null
+    teacherId: string | null
+    subject: string | null
+    message: string | null
+    reply: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TeacherTicketCountAggregateOutputType = {
+    id: number
+    teacherId: number
+    subject: number
+    message: number
+    reply: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TeacherTicketMinAggregateInputType = {
+    id?: true
+    teacherId?: true
+    subject?: true
+    message?: true
+    reply?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TeacherTicketMaxAggregateInputType = {
+    id?: true
+    teacherId?: true
+    subject?: true
+    message?: true
+    reply?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TeacherTicketCountAggregateInputType = {
+    id?: true
+    teacherId?: true
+    subject?: true
+    message?: true
+    reply?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TeacherTicketAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TeacherTicket to aggregate.
+     */
+    where?: TeacherTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeacherTickets to fetch.
+     */
+    orderBy?: TeacherTicketOrderByWithRelationInput | TeacherTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TeacherTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeacherTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeacherTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TeacherTickets
+    **/
+    _count?: true | TeacherTicketCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TeacherTicketMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TeacherTicketMaxAggregateInputType
+  }
+
+  export type GetTeacherTicketAggregateType<T extends TeacherTicketAggregateArgs> = {
+        [P in keyof T & keyof AggregateTeacherTicket]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTeacherTicket[P]>
+      : GetScalarType<T[P], AggregateTeacherTicket[P]>
+  }
+
+
+
+
+  export type TeacherTicketGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeacherTicketWhereInput
+    orderBy?: TeacherTicketOrderByWithAggregationInput | TeacherTicketOrderByWithAggregationInput[]
+    by: TeacherTicketScalarFieldEnum[] | TeacherTicketScalarFieldEnum
+    having?: TeacherTicketScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TeacherTicketCountAggregateInputType | true
+    _min?: TeacherTicketMinAggregateInputType
+    _max?: TeacherTicketMaxAggregateInputType
+  }
+
+  export type TeacherTicketGroupByOutputType = {
+    id: string
+    teacherId: string
+    subject: string
+    message: string
+    reply: string | null
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: TeacherTicketCountAggregateOutputType | null
+    _min: TeacherTicketMinAggregateOutputType | null
+    _max: TeacherTicketMaxAggregateOutputType | null
+  }
+
+  type GetTeacherTicketGroupByPayload<T extends TeacherTicketGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TeacherTicketGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TeacherTicketGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TeacherTicketGroupByOutputType[P]>
+            : GetScalarType<T[P], TeacherTicketGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TeacherTicketSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teacherId?: boolean
+    subject?: boolean
+    message?: boolean
+    reply?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    teacher?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teacherTicket"]>
+
+  export type TeacherTicketSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teacherId?: boolean
+    subject?: boolean
+    message?: boolean
+    reply?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    teacher?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teacherTicket"]>
+
+  export type TeacherTicketSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teacherId?: boolean
+    subject?: boolean
+    message?: boolean
+    reply?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    teacher?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teacherTicket"]>
+
+  export type TeacherTicketSelectScalar = {
+    id?: boolean
+    teacherId?: boolean
+    subject?: boolean
+    message?: boolean
+    reply?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TeacherTicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "teacherId" | "subject" | "message" | "reply" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["teacherTicket"]>
+  export type TeacherTicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    teacher?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TeacherTicketIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    teacher?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TeacherTicketIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    teacher?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $TeacherTicketPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TeacherTicket"
+    objects: {
+      teacher: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      teacherId: string
+      subject: string
+      message: string
+      reply: string | null
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["teacherTicket"]>
+    composites: {}
+  }
+
+  type TeacherTicketGetPayload<S extends boolean | null | undefined | TeacherTicketDefaultArgs> = $Result.GetResult<Prisma.$TeacherTicketPayload, S>
+
+  type TeacherTicketCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TeacherTicketFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TeacherTicketCountAggregateInputType | true
+    }
+
+  export interface TeacherTicketDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TeacherTicket'], meta: { name: 'TeacherTicket' } }
+    /**
+     * Find zero or one TeacherTicket that matches the filter.
+     * @param {TeacherTicketFindUniqueArgs} args - Arguments to find a TeacherTicket
+     * @example
+     * // Get one TeacherTicket
+     * const teacherTicket = await prisma.teacherTicket.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TeacherTicketFindUniqueArgs>(args: SelectSubset<T, TeacherTicketFindUniqueArgs<ExtArgs>>): Prisma__TeacherTicketClient<$Result.GetResult<Prisma.$TeacherTicketPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TeacherTicket that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TeacherTicketFindUniqueOrThrowArgs} args - Arguments to find a TeacherTicket
+     * @example
+     * // Get one TeacherTicket
+     * const teacherTicket = await prisma.teacherTicket.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TeacherTicketFindUniqueOrThrowArgs>(args: SelectSubset<T, TeacherTicketFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TeacherTicketClient<$Result.GetResult<Prisma.$TeacherTicketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TeacherTicket that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherTicketFindFirstArgs} args - Arguments to find a TeacherTicket
+     * @example
+     * // Get one TeacherTicket
+     * const teacherTicket = await prisma.teacherTicket.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TeacherTicketFindFirstArgs>(args?: SelectSubset<T, TeacherTicketFindFirstArgs<ExtArgs>>): Prisma__TeacherTicketClient<$Result.GetResult<Prisma.$TeacherTicketPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TeacherTicket that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherTicketFindFirstOrThrowArgs} args - Arguments to find a TeacherTicket
+     * @example
+     * // Get one TeacherTicket
+     * const teacherTicket = await prisma.teacherTicket.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TeacherTicketFindFirstOrThrowArgs>(args?: SelectSubset<T, TeacherTicketFindFirstOrThrowArgs<ExtArgs>>): Prisma__TeacherTicketClient<$Result.GetResult<Prisma.$TeacherTicketPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TeacherTickets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherTicketFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TeacherTickets
+     * const teacherTickets = await prisma.teacherTicket.findMany()
+     * 
+     * // Get first 10 TeacherTickets
+     * const teacherTickets = await prisma.teacherTicket.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const teacherTicketWithIdOnly = await prisma.teacherTicket.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TeacherTicketFindManyArgs>(args?: SelectSubset<T, TeacherTicketFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeacherTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TeacherTicket.
+     * @param {TeacherTicketCreateArgs} args - Arguments to create a TeacherTicket.
+     * @example
+     * // Create one TeacherTicket
+     * const TeacherTicket = await prisma.teacherTicket.create({
+     *   data: {
+     *     // ... data to create a TeacherTicket
+     *   }
+     * })
+     * 
+     */
+    create<T extends TeacherTicketCreateArgs>(args: SelectSubset<T, TeacherTicketCreateArgs<ExtArgs>>): Prisma__TeacherTicketClient<$Result.GetResult<Prisma.$TeacherTicketPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TeacherTickets.
+     * @param {TeacherTicketCreateManyArgs} args - Arguments to create many TeacherTickets.
+     * @example
+     * // Create many TeacherTickets
+     * const teacherTicket = await prisma.teacherTicket.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TeacherTicketCreateManyArgs>(args?: SelectSubset<T, TeacherTicketCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TeacherTickets and returns the data saved in the database.
+     * @param {TeacherTicketCreateManyAndReturnArgs} args - Arguments to create many TeacherTickets.
+     * @example
+     * // Create many TeacherTickets
+     * const teacherTicket = await prisma.teacherTicket.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TeacherTickets and only return the `id`
+     * const teacherTicketWithIdOnly = await prisma.teacherTicket.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TeacherTicketCreateManyAndReturnArgs>(args?: SelectSubset<T, TeacherTicketCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeacherTicketPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TeacherTicket.
+     * @param {TeacherTicketDeleteArgs} args - Arguments to delete one TeacherTicket.
+     * @example
+     * // Delete one TeacherTicket
+     * const TeacherTicket = await prisma.teacherTicket.delete({
+     *   where: {
+     *     // ... filter to delete one TeacherTicket
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TeacherTicketDeleteArgs>(args: SelectSubset<T, TeacherTicketDeleteArgs<ExtArgs>>): Prisma__TeacherTicketClient<$Result.GetResult<Prisma.$TeacherTicketPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TeacherTicket.
+     * @param {TeacherTicketUpdateArgs} args - Arguments to update one TeacherTicket.
+     * @example
+     * // Update one TeacherTicket
+     * const teacherTicket = await prisma.teacherTicket.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TeacherTicketUpdateArgs>(args: SelectSubset<T, TeacherTicketUpdateArgs<ExtArgs>>): Prisma__TeacherTicketClient<$Result.GetResult<Prisma.$TeacherTicketPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TeacherTickets.
+     * @param {TeacherTicketDeleteManyArgs} args - Arguments to filter TeacherTickets to delete.
+     * @example
+     * // Delete a few TeacherTickets
+     * const { count } = await prisma.teacherTicket.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TeacherTicketDeleteManyArgs>(args?: SelectSubset<T, TeacherTicketDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TeacherTickets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherTicketUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TeacherTickets
+     * const teacherTicket = await prisma.teacherTicket.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TeacherTicketUpdateManyArgs>(args: SelectSubset<T, TeacherTicketUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TeacherTickets and returns the data updated in the database.
+     * @param {TeacherTicketUpdateManyAndReturnArgs} args - Arguments to update many TeacherTickets.
+     * @example
+     * // Update many TeacherTickets
+     * const teacherTicket = await prisma.teacherTicket.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TeacherTickets and only return the `id`
+     * const teacherTicketWithIdOnly = await prisma.teacherTicket.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TeacherTicketUpdateManyAndReturnArgs>(args: SelectSubset<T, TeacherTicketUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeacherTicketPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TeacherTicket.
+     * @param {TeacherTicketUpsertArgs} args - Arguments to update or create a TeacherTicket.
+     * @example
+     * // Update or create a TeacherTicket
+     * const teacherTicket = await prisma.teacherTicket.upsert({
+     *   create: {
+     *     // ... data to create a TeacherTicket
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TeacherTicket we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TeacherTicketUpsertArgs>(args: SelectSubset<T, TeacherTicketUpsertArgs<ExtArgs>>): Prisma__TeacherTicketClient<$Result.GetResult<Prisma.$TeacherTicketPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TeacherTickets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherTicketCountArgs} args - Arguments to filter TeacherTickets to count.
+     * @example
+     * // Count the number of TeacherTickets
+     * const count = await prisma.teacherTicket.count({
+     *   where: {
+     *     // ... the filter for the TeacherTickets we want to count
+     *   }
+     * })
+    **/
+    count<T extends TeacherTicketCountArgs>(
+      args?: Subset<T, TeacherTicketCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TeacherTicketCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TeacherTicket.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherTicketAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TeacherTicketAggregateArgs>(args: Subset<T, TeacherTicketAggregateArgs>): Prisma.PrismaPromise<GetTeacherTicketAggregateType<T>>
+
+    /**
+     * Group by TeacherTicket.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherTicketGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TeacherTicketGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TeacherTicketGroupByArgs['orderBy'] }
+        : { orderBy?: TeacherTicketGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TeacherTicketGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTeacherTicketGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TeacherTicket model
+   */
+  readonly fields: TeacherTicketFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TeacherTicket.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TeacherTicketClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    teacher<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TeacherTicket model
+   */
+  interface TeacherTicketFieldRefs {
+    readonly id: FieldRef<"TeacherTicket", 'String'>
+    readonly teacherId: FieldRef<"TeacherTicket", 'String'>
+    readonly subject: FieldRef<"TeacherTicket", 'String'>
+    readonly message: FieldRef<"TeacherTicket", 'String'>
+    readonly reply: FieldRef<"TeacherTicket", 'String'>
+    readonly status: FieldRef<"TeacherTicket", 'String'>
+    readonly createdAt: FieldRef<"TeacherTicket", 'DateTime'>
+    readonly updatedAt: FieldRef<"TeacherTicket", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TeacherTicket findUnique
+   */
+  export type TeacherTicketFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherTicket
+     */
+    select?: TeacherTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherTicket
+     */
+    omit?: TeacherTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which TeacherTicket to fetch.
+     */
+    where: TeacherTicketWhereUniqueInput
+  }
+
+  /**
+   * TeacherTicket findUniqueOrThrow
+   */
+  export type TeacherTicketFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherTicket
+     */
+    select?: TeacherTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherTicket
+     */
+    omit?: TeacherTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which TeacherTicket to fetch.
+     */
+    where: TeacherTicketWhereUniqueInput
+  }
+
+  /**
+   * TeacherTicket findFirst
+   */
+  export type TeacherTicketFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherTicket
+     */
+    select?: TeacherTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherTicket
+     */
+    omit?: TeacherTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which TeacherTicket to fetch.
+     */
+    where?: TeacherTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeacherTickets to fetch.
+     */
+    orderBy?: TeacherTicketOrderByWithRelationInput | TeacherTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TeacherTickets.
+     */
+    cursor?: TeacherTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeacherTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeacherTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeacherTickets.
+     */
+    distinct?: TeacherTicketScalarFieldEnum | TeacherTicketScalarFieldEnum[]
+  }
+
+  /**
+   * TeacherTicket findFirstOrThrow
+   */
+  export type TeacherTicketFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherTicket
+     */
+    select?: TeacherTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherTicket
+     */
+    omit?: TeacherTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which TeacherTicket to fetch.
+     */
+    where?: TeacherTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeacherTickets to fetch.
+     */
+    orderBy?: TeacherTicketOrderByWithRelationInput | TeacherTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TeacherTickets.
+     */
+    cursor?: TeacherTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeacherTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeacherTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeacherTickets.
+     */
+    distinct?: TeacherTicketScalarFieldEnum | TeacherTicketScalarFieldEnum[]
+  }
+
+  /**
+   * TeacherTicket findMany
+   */
+  export type TeacherTicketFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherTicket
+     */
+    select?: TeacherTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherTicket
+     */
+    omit?: TeacherTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which TeacherTickets to fetch.
+     */
+    where?: TeacherTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeacherTickets to fetch.
+     */
+    orderBy?: TeacherTicketOrderByWithRelationInput | TeacherTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TeacherTickets.
+     */
+    cursor?: TeacherTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeacherTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeacherTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeacherTickets.
+     */
+    distinct?: TeacherTicketScalarFieldEnum | TeacherTicketScalarFieldEnum[]
+  }
+
+  /**
+   * TeacherTicket create
+   */
+  export type TeacherTicketCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherTicket
+     */
+    select?: TeacherTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherTicket
+     */
+    omit?: TeacherTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherTicketInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TeacherTicket.
+     */
+    data: XOR<TeacherTicketCreateInput, TeacherTicketUncheckedCreateInput>
+  }
+
+  /**
+   * TeacherTicket createMany
+   */
+  export type TeacherTicketCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TeacherTickets.
+     */
+    data: TeacherTicketCreateManyInput | TeacherTicketCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TeacherTicket createManyAndReturn
+   */
+  export type TeacherTicketCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherTicket
+     */
+    select?: TeacherTicketSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherTicket
+     */
+    omit?: TeacherTicketOmit<ExtArgs> | null
+    /**
+     * The data used to create many TeacherTickets.
+     */
+    data: TeacherTicketCreateManyInput | TeacherTicketCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherTicketIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TeacherTicket update
+   */
+  export type TeacherTicketUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherTicket
+     */
+    select?: TeacherTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherTicket
+     */
+    omit?: TeacherTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherTicketInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TeacherTicket.
+     */
+    data: XOR<TeacherTicketUpdateInput, TeacherTicketUncheckedUpdateInput>
+    /**
+     * Choose, which TeacherTicket to update.
+     */
+    where: TeacherTicketWhereUniqueInput
+  }
+
+  /**
+   * TeacherTicket updateMany
+   */
+  export type TeacherTicketUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TeacherTickets.
+     */
+    data: XOR<TeacherTicketUpdateManyMutationInput, TeacherTicketUncheckedUpdateManyInput>
+    /**
+     * Filter which TeacherTickets to update
+     */
+    where?: TeacherTicketWhereInput
+    /**
+     * Limit how many TeacherTickets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TeacherTicket updateManyAndReturn
+   */
+  export type TeacherTicketUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherTicket
+     */
+    select?: TeacherTicketSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherTicket
+     */
+    omit?: TeacherTicketOmit<ExtArgs> | null
+    /**
+     * The data used to update TeacherTickets.
+     */
+    data: XOR<TeacherTicketUpdateManyMutationInput, TeacherTicketUncheckedUpdateManyInput>
+    /**
+     * Filter which TeacherTickets to update
+     */
+    where?: TeacherTicketWhereInput
+    /**
+     * Limit how many TeacherTickets to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherTicketIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TeacherTicket upsert
+   */
+  export type TeacherTicketUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherTicket
+     */
+    select?: TeacherTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherTicket
+     */
+    omit?: TeacherTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherTicketInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TeacherTicket to update in case it exists.
+     */
+    where: TeacherTicketWhereUniqueInput
+    /**
+     * In case the TeacherTicket found by the `where` argument doesn't exist, create a new TeacherTicket with this data.
+     */
+    create: XOR<TeacherTicketCreateInput, TeacherTicketUncheckedCreateInput>
+    /**
+     * In case the TeacherTicket was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TeacherTicketUpdateInput, TeacherTicketUncheckedUpdateInput>
+  }
+
+  /**
+   * TeacherTicket delete
+   */
+  export type TeacherTicketDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherTicket
+     */
+    select?: TeacherTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherTicket
+     */
+    omit?: TeacherTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherTicketInclude<ExtArgs> | null
+    /**
+     * Filter which TeacherTicket to delete.
+     */
+    where: TeacherTicketWhereUniqueInput
+  }
+
+  /**
+   * TeacherTicket deleteMany
+   */
+  export type TeacherTicketDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TeacherTickets to delete
+     */
+    where?: TeacherTicketWhereInput
+    /**
+     * Limit how many TeacherTickets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TeacherTicket without action
+   */
+  export type TeacherTicketDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherTicket
+     */
+    select?: TeacherTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherTicket
+     */
+    omit?: TeacherTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherTicketInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model File
    */
 
@@ -49408,6 +50651,7 @@ export namespace Prisma {
     vimeoVideoId: 'vimeoVideoId',
     youtubeVideoId: 'youtubeVideoId',
     image: 'image',
+    mindmap: 'mindmap',
     streams: 'streams',
     levels: 'levels',
     order: 'order',
@@ -49737,6 +50981,20 @@ export namespace Prisma {
   export type ParentTicketScalarFieldEnum = (typeof ParentTicketScalarFieldEnum)[keyof typeof ParentTicketScalarFieldEnum]
 
 
+  export const TeacherTicketScalarFieldEnum: {
+    id: 'id',
+    teacherId: 'teacherId',
+    subject: 'subject',
+    message: 'message',
+    reply: 'reply',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TeacherTicketScalarFieldEnum = (typeof TeacherTicketScalarFieldEnum)[keyof typeof TeacherTicketScalarFieldEnum]
+
+
   export const FileScalarFieldEnum: {
     id: 'id',
     originalName: 'originalName',
@@ -50035,6 +51293,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionListRelationFilter
     notifications?: NotificationListRelationFilter
     parentTickets?: ParentTicketListRelationFilter
+    teacherTickets?: TeacherTicketListRelationFilter
     forumMessages?: ForumMessageListRelationFilter
     friendLinksSource?: StudentFriendLinkListRelationFilter
     friendLinksTarget?: StudentFriendLinkListRelationFilter
@@ -50069,6 +51328,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
     parentTickets?: ParentTicketOrderByRelationAggregateInput
+    teacherTickets?: TeacherTicketOrderByRelationAggregateInput
     forumMessages?: ForumMessageOrderByRelationAggregateInput
     friendLinksSource?: StudentFriendLinkOrderByRelationAggregateInput
     friendLinksTarget?: StudentFriendLinkOrderByRelationAggregateInput
@@ -50106,6 +51366,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionListRelationFilter
     notifications?: NotificationListRelationFilter
     parentTickets?: ParentTicketListRelationFilter
+    teacherTickets?: TeacherTicketListRelationFilter
     forumMessages?: ForumMessageListRelationFilter
     friendLinksSource?: StudentFriendLinkListRelationFilter
     friendLinksTarget?: StudentFriendLinkListRelationFilter
@@ -50580,6 +51841,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFilter<"Lesson"> | string
     youtubeVideoId?: StringNullableFilter<"Lesson"> | string | null
     image?: StringNullableFilter<"Lesson"> | string | null
+    mindmap?: StringNullableFilter<"Lesson"> | string | null
     streams?: EnumStreamNullableListFilter<"Lesson">
     levels?: EnumLevelNullableListFilter<"Lesson">
     order?: IntFilter<"Lesson"> | number
@@ -50604,6 +51866,7 @@ export namespace Prisma {
     vimeoVideoId?: SortOrder
     youtubeVideoId?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    mindmap?: SortOrderInput | SortOrder
     streams?: SortOrder
     levels?: SortOrder
     order?: SortOrder
@@ -50631,6 +51894,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFilter<"Lesson"> | string
     youtubeVideoId?: StringNullableFilter<"Lesson"> | string | null
     image?: StringNullableFilter<"Lesson"> | string | null
+    mindmap?: StringNullableFilter<"Lesson"> | string | null
     streams?: EnumStreamNullableListFilter<"Lesson">
     levels?: EnumLevelNullableListFilter<"Lesson">
     order?: IntFilter<"Lesson"> | number
@@ -50655,6 +51919,7 @@ export namespace Prisma {
     vimeoVideoId?: SortOrder
     youtubeVideoId?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    mindmap?: SortOrderInput | SortOrder
     streams?: SortOrder
     levels?: SortOrder
     order?: SortOrder
@@ -50678,6 +51943,7 @@ export namespace Prisma {
     vimeoVideoId?: StringWithAggregatesFilter<"Lesson"> | string
     youtubeVideoId?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     image?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
+    mindmap?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     streams?: EnumStreamNullableListFilter<"Lesson">
     levels?: EnumLevelNullableListFilter<"Lesson">
     order?: IntWithAggregatesFilter<"Lesson"> | number
@@ -52403,6 +53669,76 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"ParentTicket"> | Date | string
   }
 
+  export type TeacherTicketWhereInput = {
+    AND?: TeacherTicketWhereInput | TeacherTicketWhereInput[]
+    OR?: TeacherTicketWhereInput[]
+    NOT?: TeacherTicketWhereInput | TeacherTicketWhereInput[]
+    id?: StringFilter<"TeacherTicket"> | string
+    teacherId?: StringFilter<"TeacherTicket"> | string
+    subject?: StringFilter<"TeacherTicket"> | string
+    message?: StringFilter<"TeacherTicket"> | string
+    reply?: StringNullableFilter<"TeacherTicket"> | string | null
+    status?: StringFilter<"TeacherTicket"> | string
+    createdAt?: DateTimeFilter<"TeacherTicket"> | Date | string
+    updatedAt?: DateTimeFilter<"TeacherTicket"> | Date | string
+    teacher?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type TeacherTicketOrderByWithRelationInput = {
+    id?: SortOrder
+    teacherId?: SortOrder
+    subject?: SortOrder
+    message?: SortOrder
+    reply?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    teacher?: UserOrderByWithRelationInput
+  }
+
+  export type TeacherTicketWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TeacherTicketWhereInput | TeacherTicketWhereInput[]
+    OR?: TeacherTicketWhereInput[]
+    NOT?: TeacherTicketWhereInput | TeacherTicketWhereInput[]
+    teacherId?: StringFilter<"TeacherTicket"> | string
+    subject?: StringFilter<"TeacherTicket"> | string
+    message?: StringFilter<"TeacherTicket"> | string
+    reply?: StringNullableFilter<"TeacherTicket"> | string | null
+    status?: StringFilter<"TeacherTicket"> | string
+    createdAt?: DateTimeFilter<"TeacherTicket"> | Date | string
+    updatedAt?: DateTimeFilter<"TeacherTicket"> | Date | string
+    teacher?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type TeacherTicketOrderByWithAggregationInput = {
+    id?: SortOrder
+    teacherId?: SortOrder
+    subject?: SortOrder
+    message?: SortOrder
+    reply?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TeacherTicketCountOrderByAggregateInput
+    _max?: TeacherTicketMaxOrderByAggregateInput
+    _min?: TeacherTicketMinOrderByAggregateInput
+  }
+
+  export type TeacherTicketScalarWhereWithAggregatesInput = {
+    AND?: TeacherTicketScalarWhereWithAggregatesInput | TeacherTicketScalarWhereWithAggregatesInput[]
+    OR?: TeacherTicketScalarWhereWithAggregatesInput[]
+    NOT?: TeacherTicketScalarWhereWithAggregatesInput | TeacherTicketScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TeacherTicket"> | string
+    teacherId?: StringWithAggregatesFilter<"TeacherTicket"> | string
+    subject?: StringWithAggregatesFilter<"TeacherTicket"> | string
+    message?: StringWithAggregatesFilter<"TeacherTicket"> | string
+    reply?: StringNullableWithAggregatesFilter<"TeacherTicket"> | string | null
+    status?: StringWithAggregatesFilter<"TeacherTicket"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"TeacherTicket"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TeacherTicket"> | Date | string
+  }
+
   export type FileWhereInput = {
     AND?: FileWhereInput | FileWhereInput[]
     OR?: FileWhereInput[]
@@ -52815,6 +54151,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -52849,6 +54186,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -52883,6 +54221,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -52917,6 +54256,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -53440,6 +54780,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -53464,6 +54805,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -53486,6 +54828,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -53510,6 +54853,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -53533,6 +54877,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -53547,6 +54892,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -53562,6 +54908,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -55296,6 +56643,82 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TeacherTicketCreateInput = {
+    id?: string
+    subject: string
+    message: string
+    reply?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teacher: UserCreateNestedOneWithoutTeacherTicketsInput
+  }
+
+  export type TeacherTicketUncheckedCreateInput = {
+    id?: string
+    teacherId: string
+    subject: string
+    message: string
+    reply?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeacherTicketUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacher?: UserUpdateOneRequiredWithoutTeacherTicketsNestedInput
+  }
+
+  export type TeacherTicketUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teacherId?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeacherTicketCreateManyInput = {
+    id?: string
+    teacherId: string
+    subject: string
+    message: string
+    reply?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeacherTicketUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeacherTicketUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teacherId?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type FileCreateInput = {
     id?: string
     originalName: string
@@ -55817,6 +57240,12 @@ export namespace Prisma {
     none?: ParentTicketWhereInput
   }
 
+  export type TeacherTicketListRelationFilter = {
+    every?: TeacherTicketWhereInput
+    some?: TeacherTicketWhereInput
+    none?: TeacherTicketWhereInput
+  }
+
   export type ForumMessageListRelationFilter = {
     every?: ForumMessageWhereInput
     some?: ForumMessageWhereInput
@@ -55893,6 +57322,10 @@ export namespace Prisma {
   }
 
   export type ParentTicketOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TeacherTicketOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -56519,6 +57952,7 @@ export namespace Prisma {
     vimeoVideoId?: SortOrder
     youtubeVideoId?: SortOrder
     image?: SortOrder
+    mindmap?: SortOrder
     streams?: SortOrder
     levels?: SortOrder
     order?: SortOrder
@@ -56539,6 +57973,7 @@ export namespace Prisma {
     vimeoVideoId?: SortOrder
     youtubeVideoId?: SortOrder
     image?: SortOrder
+    mindmap?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
   }
@@ -56552,6 +57987,7 @@ export namespace Prisma {
     vimeoVideoId?: SortOrder
     youtubeVideoId?: SortOrder
     image?: SortOrder
+    mindmap?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
   }
@@ -57662,6 +59098,39 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type TeacherTicketCountOrderByAggregateInput = {
+    id?: SortOrder
+    teacherId?: SortOrder
+    subject?: SortOrder
+    message?: SortOrder
+    reply?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TeacherTicketMaxOrderByAggregateInput = {
+    id?: SortOrder
+    teacherId?: SortOrder
+    subject?: SortOrder
+    message?: SortOrder
+    reply?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TeacherTicketMinOrderByAggregateInput = {
+    id?: SortOrder
+    teacherId?: SortOrder
+    subject?: SortOrder
+    message?: SortOrder
+    reply?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type FileCountOrderByAggregateInput = {
     id?: SortOrder
     originalName?: SortOrder
@@ -57948,6 +59417,13 @@ export namespace Prisma {
     connect?: ParentTicketWhereUniqueInput | ParentTicketWhereUniqueInput[]
   }
 
+  export type TeacherTicketCreateNestedManyWithoutTeacherInput = {
+    create?: XOR<TeacherTicketCreateWithoutTeacherInput, TeacherTicketUncheckedCreateWithoutTeacherInput> | TeacherTicketCreateWithoutTeacherInput[] | TeacherTicketUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: TeacherTicketCreateOrConnectWithoutTeacherInput | TeacherTicketCreateOrConnectWithoutTeacherInput[]
+    createMany?: TeacherTicketCreateManyTeacherInputEnvelope
+    connect?: TeacherTicketWhereUniqueInput | TeacherTicketWhereUniqueInput[]
+  }
+
   export type ForumMessageCreateNestedManyWithoutUserInput = {
     create?: XOR<ForumMessageCreateWithoutUserInput, ForumMessageUncheckedCreateWithoutUserInput> | ForumMessageCreateWithoutUserInput[] | ForumMessageUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ForumMessageCreateOrConnectWithoutUserInput | ForumMessageCreateOrConnectWithoutUserInput[]
@@ -58083,6 +59559,13 @@ export namespace Prisma {
     connectOrCreate?: ParentTicketCreateOrConnectWithoutParentInput | ParentTicketCreateOrConnectWithoutParentInput[]
     createMany?: ParentTicketCreateManyParentInputEnvelope
     connect?: ParentTicketWhereUniqueInput | ParentTicketWhereUniqueInput[]
+  }
+
+  export type TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput = {
+    create?: XOR<TeacherTicketCreateWithoutTeacherInput, TeacherTicketUncheckedCreateWithoutTeacherInput> | TeacherTicketCreateWithoutTeacherInput[] | TeacherTicketUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: TeacherTicketCreateOrConnectWithoutTeacherInput | TeacherTicketCreateOrConnectWithoutTeacherInput[]
+    createMany?: TeacherTicketCreateManyTeacherInputEnvelope
+    connect?: TeacherTicketWhereUniqueInput | TeacherTicketWhereUniqueInput[]
   }
 
   export type ForumMessageUncheckedCreateNestedManyWithoutUserInput = {
@@ -58324,6 +59807,20 @@ export namespace Prisma {
     update?: ParentTicketUpdateWithWhereUniqueWithoutParentInput | ParentTicketUpdateWithWhereUniqueWithoutParentInput[]
     updateMany?: ParentTicketUpdateManyWithWhereWithoutParentInput | ParentTicketUpdateManyWithWhereWithoutParentInput[]
     deleteMany?: ParentTicketScalarWhereInput | ParentTicketScalarWhereInput[]
+  }
+
+  export type TeacherTicketUpdateManyWithoutTeacherNestedInput = {
+    create?: XOR<TeacherTicketCreateWithoutTeacherInput, TeacherTicketUncheckedCreateWithoutTeacherInput> | TeacherTicketCreateWithoutTeacherInput[] | TeacherTicketUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: TeacherTicketCreateOrConnectWithoutTeacherInput | TeacherTicketCreateOrConnectWithoutTeacherInput[]
+    upsert?: TeacherTicketUpsertWithWhereUniqueWithoutTeacherInput | TeacherTicketUpsertWithWhereUniqueWithoutTeacherInput[]
+    createMany?: TeacherTicketCreateManyTeacherInputEnvelope
+    set?: TeacherTicketWhereUniqueInput | TeacherTicketWhereUniqueInput[]
+    disconnect?: TeacherTicketWhereUniqueInput | TeacherTicketWhereUniqueInput[]
+    delete?: TeacherTicketWhereUniqueInput | TeacherTicketWhereUniqueInput[]
+    connect?: TeacherTicketWhereUniqueInput | TeacherTicketWhereUniqueInput[]
+    update?: TeacherTicketUpdateWithWhereUniqueWithoutTeacherInput | TeacherTicketUpdateWithWhereUniqueWithoutTeacherInput[]
+    updateMany?: TeacherTicketUpdateManyWithWhereWithoutTeacherInput | TeacherTicketUpdateManyWithWhereWithoutTeacherInput[]
+    deleteMany?: TeacherTicketScalarWhereInput | TeacherTicketScalarWhereInput[]
   }
 
   export type ForumMessageUpdateManyWithoutUserNestedInput = {
@@ -58592,6 +60089,20 @@ export namespace Prisma {
     update?: ParentTicketUpdateWithWhereUniqueWithoutParentInput | ParentTicketUpdateWithWhereUniqueWithoutParentInput[]
     updateMany?: ParentTicketUpdateManyWithWhereWithoutParentInput | ParentTicketUpdateManyWithWhereWithoutParentInput[]
     deleteMany?: ParentTicketScalarWhereInput | ParentTicketScalarWhereInput[]
+  }
+
+  export type TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput = {
+    create?: XOR<TeacherTicketCreateWithoutTeacherInput, TeacherTicketUncheckedCreateWithoutTeacherInput> | TeacherTicketCreateWithoutTeacherInput[] | TeacherTicketUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: TeacherTicketCreateOrConnectWithoutTeacherInput | TeacherTicketCreateOrConnectWithoutTeacherInput[]
+    upsert?: TeacherTicketUpsertWithWhereUniqueWithoutTeacherInput | TeacherTicketUpsertWithWhereUniqueWithoutTeacherInput[]
+    createMany?: TeacherTicketCreateManyTeacherInputEnvelope
+    set?: TeacherTicketWhereUniqueInput | TeacherTicketWhereUniqueInput[]
+    disconnect?: TeacherTicketWhereUniqueInput | TeacherTicketWhereUniqueInput[]
+    delete?: TeacherTicketWhereUniqueInput | TeacherTicketWhereUniqueInput[]
+    connect?: TeacherTicketWhereUniqueInput | TeacherTicketWhereUniqueInput[]
+    update?: TeacherTicketUpdateWithWhereUniqueWithoutTeacherInput | TeacherTicketUpdateWithWhereUniqueWithoutTeacherInput[]
+    updateMany?: TeacherTicketUpdateManyWithWhereWithoutTeacherInput | TeacherTicketUpdateManyWithWhereWithoutTeacherInput[]
+    deleteMany?: TeacherTicketScalarWhereInput | TeacherTicketScalarWhereInput[]
   }
 
   export type ForumMessageUncheckedUpdateManyWithoutUserNestedInput = {
@@ -60951,6 +62462,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutParentTicketsInput, UserUpdateWithoutParentTicketsInput>, UserUncheckedUpdateWithoutParentTicketsInput>
   }
 
+  export type UserCreateNestedOneWithoutTeacherTicketsInput = {
+    create?: XOR<UserCreateWithoutTeacherTicketsInput, UserUncheckedCreateWithoutTeacherTicketsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTeacherTicketsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutTeacherTicketsNestedInput = {
+    create?: XOR<UserCreateWithoutTeacherTicketsInput, UserUncheckedCreateWithoutTeacherTicketsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTeacherTicketsInput
+    upsert?: UserUpsertWithoutTeacherTicketsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTeacherTicketsInput, UserUpdateWithoutTeacherTicketsInput>, UserUncheckedUpdateWithoutTeacherTicketsInput>
+  }
+
   export type UserCreateNestedOneWithoutAdminAiInsightsInput = {
     create?: XOR<UserCreateWithoutAdminAiInsightsInput, UserUncheckedCreateWithoutAdminAiInsightsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAdminAiInsightsInput
@@ -61868,6 +63393,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TeacherTicketCreateWithoutTeacherInput = {
+    id?: string
+    subject: string
+    message: string
+    reply?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeacherTicketUncheckedCreateWithoutTeacherInput = {
+    id?: string
+    subject: string
+    message: string
+    reply?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeacherTicketCreateOrConnectWithoutTeacherInput = {
+    where: TeacherTicketWhereUniqueInput
+    create: XOR<TeacherTicketCreateWithoutTeacherInput, TeacherTicketUncheckedCreateWithoutTeacherInput>
+  }
+
+  export type TeacherTicketCreateManyTeacherInputEnvelope = {
+    data: TeacherTicketCreateManyTeacherInput | TeacherTicketCreateManyTeacherInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ForumMessageCreateWithoutUserInput = {
     id?: string
     content: string
@@ -62423,6 +63978,36 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ParentTicket"> | Date | string
   }
 
+  export type TeacherTicketUpsertWithWhereUniqueWithoutTeacherInput = {
+    where: TeacherTicketWhereUniqueInput
+    update: XOR<TeacherTicketUpdateWithoutTeacherInput, TeacherTicketUncheckedUpdateWithoutTeacherInput>
+    create: XOR<TeacherTicketCreateWithoutTeacherInput, TeacherTicketUncheckedCreateWithoutTeacherInput>
+  }
+
+  export type TeacherTicketUpdateWithWhereUniqueWithoutTeacherInput = {
+    where: TeacherTicketWhereUniqueInput
+    data: XOR<TeacherTicketUpdateWithoutTeacherInput, TeacherTicketUncheckedUpdateWithoutTeacherInput>
+  }
+
+  export type TeacherTicketUpdateManyWithWhereWithoutTeacherInput = {
+    where: TeacherTicketScalarWhereInput
+    data: XOR<TeacherTicketUpdateManyMutationInput, TeacherTicketUncheckedUpdateManyWithoutTeacherInput>
+  }
+
+  export type TeacherTicketScalarWhereInput = {
+    AND?: TeacherTicketScalarWhereInput | TeacherTicketScalarWhereInput[]
+    OR?: TeacherTicketScalarWhereInput[]
+    NOT?: TeacherTicketScalarWhereInput | TeacherTicketScalarWhereInput[]
+    id?: StringFilter<"TeacherTicket"> | string
+    teacherId?: StringFilter<"TeacherTicket"> | string
+    subject?: StringFilter<"TeacherTicket"> | string
+    message?: StringFilter<"TeacherTicket"> | string
+    reply?: StringNullableFilter<"TeacherTicket"> | string | null
+    status?: StringFilter<"TeacherTicket"> | string
+    createdAt?: DateTimeFilter<"TeacherTicket"> | Date | string
+    updatedAt?: DateTimeFilter<"TeacherTicket"> | Date | string
+  }
+
   export type ForumMessageUpsertWithWhereUniqueWithoutUserInput = {
     where: ForumMessageWhereUniqueInput
     update: XOR<ForumMessageUpdateWithoutUserInput, ForumMessageUncheckedUpdateWithoutUserInput>
@@ -62661,6 +64246,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -62694,6 +64280,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -62743,6 +64330,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -62776,6 +64364,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -62809,6 +64398,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -62842,6 +64432,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -62891,6 +64482,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -62924,6 +64516,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -62957,6 +64550,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -62990,6 +64584,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -63133,6 +64728,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -63166,6 +64762,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -63640,6 +65237,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -63663,6 +65261,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -64059,6 +65658,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFilter<"Lesson"> | string
     youtubeVideoId?: StringNullableFilter<"Lesson"> | string | null
     image?: StringNullableFilter<"Lesson"> | string | null
+    mindmap?: StringNullableFilter<"Lesson"> | string | null
     streams?: EnumStreamNullableListFilter<"Lesson">
     levels?: EnumLevelNullableListFilter<"Lesson">
     order?: IntFilter<"Lesson"> | number
@@ -64105,6 +65705,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -64127,6 +65728,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -64719,6 +66321,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -64742,6 +66345,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -64779,6 +66383,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -64802,6 +66407,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -64900,6 +66506,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -64933,6 +66540,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -64955,6 +66563,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -64978,6 +66587,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -65098,6 +66708,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -65131,6 +66742,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -65159,6 +66771,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -65182,6 +66795,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -65219,6 +66833,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -65252,6 +66867,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -65274,6 +66890,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -65297,6 +66914,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -65350,6 +66968,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -65383,6 +67002,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -65411,6 +67031,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -65434,6 +67055,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -65455,6 +67077,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -65478,6 +67101,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -65641,6 +67265,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -65664,6 +67289,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -65819,6 +67445,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -65852,6 +67479,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -65930,6 +67558,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -65963,6 +67592,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -66051,6 +67681,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -66084,6 +67715,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -66221,6 +67853,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -66254,6 +67887,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -66354,6 +67988,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -66387,6 +68022,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -66425,6 +68061,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -66458,6 +68095,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -66507,6 +68145,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -66540,6 +68179,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -66584,6 +68224,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -66617,6 +68258,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -66651,6 +68293,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
@@ -66684,6 +68327,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
@@ -66722,6 +68366,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
@@ -66755,6 +68400,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
@@ -66804,6 +68450,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
@@ -66837,6 +68484,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
@@ -66881,6 +68529,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
@@ -66914,6 +68563,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
@@ -66946,6 +68596,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -66979,6 +68630,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -67002,6 +68654,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -67025,6 +68678,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -67106,6 +68760,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -67139,6 +68794,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -67168,6 +68824,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -67191,6 +68848,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -67262,6 +68920,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -67295,6 +68954,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -67428,6 +69088,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -67461,6 +69122,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -67718,6 +69380,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -67751,6 +69414,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -67824,6 +69488,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -67857,6 +69522,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -68068,6 +69734,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -68091,6 +69758,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -68315,6 +69983,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -68338,6 +70007,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -69050,6 +70720,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -69083,6 +70754,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -69175,6 +70847,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -69208,6 +70881,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -69302,6 +70976,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -69335,6 +71010,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -69451,6 +71127,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -69484,6 +71161,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -69563,6 +71241,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -69586,6 +71265,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -69690,6 +71370,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -69713,6 +71394,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -69949,6 +71631,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
     adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
@@ -69982,6 +71665,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
     adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
@@ -70068,6 +71752,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
     adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
@@ -70101,6 +71786,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
     adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
@@ -70133,6 +71819,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -70166,6 +71853,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -70215,6 +71903,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -70248,6 +71937,159 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
+    forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
+    friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
+    friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    adminAiInsights?: AdminAiInsightUncheckedUpdateManyWithoutStudentNestedInput
+    lessonCompletions?: LessonCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    quizCompletions?: QuizCompletionUncheckedUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUncheckedUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUncheckedUpdateManyWithoutTeacherNestedInput
+  }
+
+  export type UserCreateWithoutTeacherTicketsInput = {
+    id?: string
+    fullName: string
+    phoneNumber: string
+    passwordHash?: string
+    avatarUrl?: string | null
+    role: $Enums.Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string
+    loginCount?: number
+    deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
+    parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
+    teacherProfile?: TeacherCreateNestedOneWithoutUserInput
+    parentLinks?: ParentStudentLinkCreateNestedManyWithoutParentInput
+    studentLinks?: ParentStudentLinkCreateNestedManyWithoutStudentInput
+    accessCodes?: AccessCodeCreateNestedManyWithoutUserInput
+    mistakes?: StudentMistakeCreateNestedManyWithoutUserInput
+    submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
+    enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
+    friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
+    friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    adminAiInsights?: AdminAiInsightCreateNestedManyWithoutStudentInput
+    lessonCompletions?: LessonCompletionCreateNestedManyWithoutStudentInput
+    quizCompletions?: QuizCompletionCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonCreateNestedManyWithoutTeacherInput
+  }
+
+  export type UserUncheckedCreateWithoutTeacherTicketsInput = {
+    id?: string
+    fullName: string
+    phoneNumber: string
+    passwordHash?: string
+    avatarUrl?: string | null
+    role: $Enums.Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string
+    loginCount?: number
+    deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
+    parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
+    teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
+    parentLinks?: ParentStudentLinkUncheckedCreateNestedManyWithoutParentInput
+    studentLinks?: ParentStudentLinkUncheckedCreateNestedManyWithoutStudentInput
+    accessCodes?: AccessCodeUncheckedCreateNestedManyWithoutUserInput
+    mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutUserInput
+    submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
+    friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
+    friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    adminAiInsights?: AdminAiInsightUncheckedCreateNestedManyWithoutStudentInput
+    lessonCompletions?: LessonCompletionUncheckedCreateNestedManyWithoutStudentInput
+    quizCompletions?: QuizCompletionUncheckedCreateNestedManyWithoutStudentInput
+    platformSettings?: PlatformSettingUncheckedCreateNestedManyWithoutAdminInput
+    pendingLessons?: PendingLessonUncheckedCreateNestedManyWithoutTeacherInput
+  }
+
+  export type UserCreateOrConnectWithoutTeacherTicketsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTeacherTicketsInput, UserUncheckedCreateWithoutTeacherTicketsInput>
+  }
+
+  export type UserUpsertWithoutTeacherTicketsInput = {
+    update: XOR<UserUpdateWithoutTeacherTicketsInput, UserUncheckedUpdateWithoutTeacherTicketsInput>
+    create: XOR<UserCreateWithoutTeacherTicketsInput, UserUncheckedCreateWithoutTeacherTicketsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTeacherTicketsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTeacherTicketsInput, UserUncheckedUpdateWithoutTeacherTicketsInput>
+  }
+
+  export type UserUpdateWithoutTeacherTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginCount?: IntFieldUpdateOperationsInput | number
+    deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
+    parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
+    teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
+    parentLinks?: ParentStudentLinkUpdateManyWithoutParentNestedInput
+    studentLinks?: ParentStudentLinkUpdateManyWithoutStudentNestedInput
+    accessCodes?: AccessCodeUpdateManyWithoutUserNestedInput
+    mistakes?: StudentMistakeUpdateManyWithoutUserNestedInput
+    submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
+    friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
+    friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    adminAiInsights?: AdminAiInsightUpdateManyWithoutStudentNestedInput
+    lessonCompletions?: LessonCompletionUpdateManyWithoutStudentNestedInput
+    quizCompletions?: QuizCompletionUpdateManyWithoutStudentNestedInput
+    platformSettings?: PlatformSettingUpdateManyWithoutAdminNestedInput
+    pendingLessons?: PendingLessonUpdateManyWithoutTeacherNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTeacherTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginCount?: IntFieldUpdateOperationsInput | number
+    deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
+    parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
+    teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
+    parentLinks?: ParentStudentLinkUncheckedUpdateManyWithoutParentNestedInput
+    studentLinks?: ParentStudentLinkUncheckedUpdateManyWithoutStudentNestedInput
+    accessCodes?: AccessCodeUncheckedUpdateManyWithoutUserNestedInput
+    mistakes?: StudentMistakeUncheckedUpdateManyWithoutUserNestedInput
+    submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -70282,6 +72124,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -70315,6 +72158,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -70364,6 +72208,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -70397,6 +72242,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -70430,6 +72276,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -70463,6 +72310,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    teacherTickets?: TeacherTicketUncheckedCreateNestedManyWithoutTeacherInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -70512,6 +72360,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -70545,6 +72394,7 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
+    teacherTickets?: TeacherTicketUncheckedUpdateManyWithoutTeacherNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -71038,6 +72888,16 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type TeacherTicketCreateManyTeacherInput = {
+    id?: string
+    subject: string
+    message: string
+    reply?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ForumMessageCreateManyUserInput = {
     id?: string
     forumId: string
@@ -71331,6 +73191,36 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeacherTicketUpdateWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeacherTicketUncheckedUpdateWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeacherTicketUncheckedUpdateManyWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ForumMessageUpdateWithoutUserInput = {
@@ -72187,6 +74077,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -72210,6 +74101,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -72232,6 +74124,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -72323,6 +74216,7 @@ export namespace Prisma {
     vimeoVideoId: string
     youtubeVideoId?: string | null
     image?: string | null
+    mindmap?: string | null
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     levels?: LessonCreatelevelsInput | $Enums.Level[]
     order?: number
@@ -72348,6 +74242,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -72370,6 +74265,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number
@@ -72392,6 +74288,7 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     youtubeVideoId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmap?: NullableStringFieldUpdateOperationsInput | string | null
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     levels?: LessonUpdatelevelsInput | $Enums.Level[]
     order?: IntFieldUpdateOperationsInput | number

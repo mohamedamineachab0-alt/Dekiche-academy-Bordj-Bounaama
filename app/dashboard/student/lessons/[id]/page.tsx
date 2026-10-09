@@ -132,7 +132,7 @@ export default async function LessonStudyViewPage({
         ) : lesson.vimeoVideoId ? (
           lesson.vimeoVideoId.includes('-') ? (
             <iframe
-              src={`https://${process.env.NEXT_PUBLIC_BUNNY_CDN_HOSTNAME || "vz-08fda30d-f55.b-cdn.net"}/play/${process.env.NEXT_PUBLIC_BUNNY_LIBRARY_ID || "773860"}/${lesson.vimeoVideoId}`}
+              src={`https://iframe.mediadelivery.net/embed/${process.env.NEXT_PUBLIC_BUNNY_LIBRARY_ID || "773860"}/${lesson.vimeoVideoId}`}
               className="absolute inset-0 w-full h-full border-0"
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
               allowFullScreen

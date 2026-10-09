@@ -66,7 +66,7 @@ export default function BunnyVideoUpload() {
         },
         onSuccess: async function () {
           // You can construct the delivery URL using the stream hostname or the iframe format
-          const finalUrl = `https://${process.env.NEXT_PUBLIC_BUNNY_CDN_HOSTNAME || "vz-08fda30d-f55.b-cdn.net"}/play/${libraryId}/${videoId}`;
+          const finalUrl = `https://iframe.mediadelivery.net/embed/${libraryId}/${videoId}`;
           setFinalVideoUrl(finalUrl);
           setUploadStatus("done");
           setIsUploading(false);

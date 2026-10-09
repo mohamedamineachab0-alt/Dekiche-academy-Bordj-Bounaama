@@ -9,7 +9,7 @@ import { AdminSubjectsFilterClient } from "@/components/admin/AdminSubjectsFilte
 export default async function AdminSubjectsPage() {
   const subjects = await prisma.subject.findMany({
     orderBy: { createdAt: "desc" },
-    include: { teacher: true },
+    include: { teacher: true, _count: { select: { enrollments: true } } },
   });
 
   const teachers = await prisma.teacher.findMany({

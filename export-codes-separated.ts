@@ -70,31 +70,28 @@ async function main() {
       ? subject.levels.map(l => levelMap[l] || l).join(' و') 
       : 'جميع المستويات';
       
-    const streams = subject.streams.map(s => streamMap[s] || s).filter(s => s !== '').join(' و');
+    const streamsArr = subject.streams.length > 0 ? subject.streams : ['NONE'];
 
-    // بناء اسم الملف
-    let fileName = `${subject.title} - ${levels} ${phase}`;
-    if (streams && streams !== '') {
-      fileName += ` - ${streams}`;
-    }
-    // إزالة الرموز الممنوعة في تسمية الملفات
-    fileName = fileName.replace(/[\/\\?%*:|"<>]/g, '-');
-
-    const csvPath = path.join(dir, `${fileName}.csv`);
-
-    // إضافة BOM لدعم اللغة العربية في إكسيل
-    let csvContent = '\uFEFFالكود,المادة,الأستاذ,المستوى,الشعبة,الطور\n';
-    
     const codes = subject.codes;
     if (codes.length === 0) continue;
 
+    let csvContent = '\uFEFFالكود\n';
     for (const code of codes) {
-      const teacherName = subject.teacher?.name || subject.teacherName || 'بدون أستاذ';
-      csvContent += `"${code.code}","${subject.title}","${teacherName}","${levels}","${streams}","${phase}"\n`;
+      csvContent += `"${code.code}"\n`;
     }
 
-    fs.writeFileSync(csvPath, csvContent, 'utf-8');
-    exportedCount++;
+    for (const s of streamsArr) {
+      const streamName = streamMap[s] || s;
+      let fileName = `${subject.title} - ${levels} ${phase}`;
+      if (streamName && streamName !== '') {
+        fileName += ` - ${streamName}`;
+      }
+      fileName = fileName.replace(/[\/\\?%*:|"<>]/g, '-');
+      const csvPath = path.join(dir, `${fileName}.csv`);
+      
+      fs.writeFileSync(csvPath, csvContent, 'utf-8');
+      exportedCount++;
+    }
   }
 
   console.log(`✅ تم إنشاء مجلد '${dirName}' وتصدير الأكواد إلى ${exportedCount} ملف (ملف لكل مادة).`);

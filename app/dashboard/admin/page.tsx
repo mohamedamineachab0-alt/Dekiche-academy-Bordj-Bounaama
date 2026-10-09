@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { HeroBanner } from "@/components/shared/HeroBanner";
-import { Calendar, LayoutDashboard, Users } from "lucide-react";
+import { Calendar, LayoutDashboard, Users, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { getAdminAnalyticsHub } from "@/lib/admin-analytics";
 import { SubjectName } from "@/components/shared/SubjectName";
@@ -27,10 +27,16 @@ export default async function AdminDashboardPage() {
         description="إحصاءات المنصة، تنبيه الخمول خلال 5 أيام، ورؤى قابلة للتنفيذ للإدارة."
         icon={LayoutDashboard}
         action={
-          <Link href="/dashboard/admin/students/monitoring" className="btn-primary w-full md:w-auto">
-            <Users className="w-4 h-4" />
-            ملفات التلاميذ
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link href="/dashboard/admin/messages" className="btn-secondary w-full sm:w-auto">
+              <MessageSquare className="w-4 h-4" />
+              مراسلات الأساتذة
+            </Link>
+            <Link href="/dashboard/admin/students/monitoring" className="btn-primary w-full sm:w-auto">
+              <Users className="w-4 h-4" />
+              ملفات التلاميذ
+            </Link>
+          </div>
         }
       />
 

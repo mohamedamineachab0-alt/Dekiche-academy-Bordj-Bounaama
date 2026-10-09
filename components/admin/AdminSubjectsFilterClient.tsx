@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { BookOpen, Edit, Trash2, Image as ImageIcon, Upload, Loader2, ImagePlus } from "lucide-react";
+import { BookOpen, Edit, Trash2, Image as ImageIcon, Upload, Loader2, ImagePlus, Users } from "lucide-react";
 import Link from "next/link";
 import { deleteSubject, updateSubjectImage, bulkUpdateSubjectImages } from "@/actions/subjects";
 import { Phase, Level, Stream } from "@/generated/prisma";
@@ -23,6 +23,7 @@ type SubjectData = {
   phase: Phase;
   levels: Level[];
   streams: Stream[];
+  _count?: { enrollments: number };
 };
 
 type Props = {
@@ -273,12 +274,20 @@ export function AdminSubjectsFilterClient({ subjects }: Props) {
               </div>
             </div>
             <div className="p-5 flex-1 flex flex-col">
-              <h3 className="font-bold text-ink line-clamp-1">{subject.title}</h3>
-              <p className="text-[10px] text-muted mt-0.5">
+              <div className="flex items-start justify-between gap-2">
+                <h3 className="font-bold text-ink line-clamp-1">{subject.title}</h3>
+                <div className="flex flex-col items-end shrink-0">
+                  <span className="flex items-center gap-1.5 text-[11px] font-bold bg-primary/10 text-primary px-2.5 py-1 rounded-full whitespace-nowrap">
+                    <Users className="w-3.5 h-3.5" />
+                    {subject._count?.enrollments || 0} تلميذ
+                  </span>
+                </div>
+              </div>
+              <p className="text-[10px] text-muted mt-2 border-b border-line pb-2 mb-2">
                 {subject.levels.map(translateLevel).join("، ")}
                 {subject.streams.length > 0 && subject.streams[0] !== "NONE" && ` - ${subject.streams.map(translateStream).join("، ")}`}
               </p>
-              <p className="text-xs text-muted mt-1 line-clamp-2 leading-relaxed">{subject.description}</p>
+              <p className="text-xs text-muted line-clamp-2 leading-relaxed flex-1">{subject.description}</p>
             </div>
           </article>
         ))}

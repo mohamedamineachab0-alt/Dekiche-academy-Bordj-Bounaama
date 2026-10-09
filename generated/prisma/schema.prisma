@@ -141,6 +141,7 @@ model User {
   chatSessions       ChatSession[]
   notifications      Notification[]      @relation("UserNotifications")
   parentTickets      ParentTicket[]
+  teacherTickets     TeacherTicket[]     @relation("TeacherTickets")
   forumMessages      ForumMessage[]
   friendLinksSource  StudentFriendLink[] @relation("StudentLinkSource")
   friendLinksTarget  StudentFriendLink[] @relation("StudentLinkTarget")
@@ -242,6 +243,7 @@ model Lesson {
   vimeoVideoId   String // Vimeo video ID
   youtubeVideoId String? // YouTube video ID
   image          String? // Square image URL for the lesson from Supabase Storage
+  mindmap        String?            @db.Text // Mermaid mindmap code
   subjects       Subject[]          @relation("LessonSubjects")
   streams        Stream[]           @default([])
   levels         Level[]            @default([])
@@ -589,6 +591,18 @@ model ParentTicket {
   message   String
   status    String   @default("OPEN")
   createdAt DateTime @default(now())
+}
+
+model TeacherTicket {
+  id        String   @id @default(cuid())
+  teacherId String
+  teacher   User     @relation("TeacherTickets", fields: [teacherId], references: [id], onDelete: Cascade)
+  subject   String
+  message   String
+  reply     String?  @default("")
+  status    String   @default("OPEN") // OPEN, REPLIED, CLOSED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model File {

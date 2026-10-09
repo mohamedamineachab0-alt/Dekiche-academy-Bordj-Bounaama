@@ -200,6 +200,7 @@ exports.Prisma.LessonScalarFieldEnum = {
   vimeoVideoId: 'vimeoVideoId',
   youtubeVideoId: 'youtubeVideoId',
   image: 'image',
+  mindmap: 'mindmap',
   streams: 'streams',
   levels: 'levels',
   order: 'order',
@@ -454,6 +455,17 @@ exports.Prisma.ParentTicketScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.TeacherTicketScalarFieldEnum = {
+  id: 'id',
+  teacherId: 'teacherId',
+  subject: 'subject',
+  message: 'message',
+  reply: 'reply',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.FileScalarFieldEnum = {
   id: 'id',
   originalName: 'originalName',
@@ -669,6 +681,7 @@ exports.Prisma.ModelName = {
   ClassForum: 'ClassForum',
   ForumMessage: 'ForumMessage',
   ParentTicket: 'ParentTicket',
+  TeacherTicket: 'TeacherTicket',
   File: 'File',
   AdminAiInsight: 'AdminAiInsight',
   PlatformSetting: 'PlatformSetting',

@@ -81,7 +81,7 @@ export default async function TeacherStudentsPage() {
                     <td className="text-center font-mono">{student._count.lessonCompletions}</td>
                     <td className="text-center font-mono">{student._count.quizCompletions}</td>
                     <td className="text-center font-mono text-red-500 font-bold">
-                      {student._count.studentMistakes}
+                      {student._count.mistakes}
                     </td>
                     <td className="text-left">
                       <Link

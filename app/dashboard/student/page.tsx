@@ -232,7 +232,7 @@ export default async function StudentDashboardPage() {
       <div className="relative z-10 space-y-8">
         <header className="relative overflow-hidden rounded-[1.75rem] bg-hero text-white px-4 py-6 sm:px-6 md:px-8 md:py-9">
           <div className="landing-line-grid absolute inset-0 opacity-50" aria-hidden="true" />
-          <div className="hero-orb w-48 h-48 bg-white/10 -top-16 -end-10" aria-hidden="true" />
+          <div className="hero-orb w-48 h-48 bg-white/10 -top-16 -inset-e-10" aria-hidden="true" />
 
           <div className="relative z-10">
             {(levelLabel || streamLabel) && (
@@ -333,7 +333,7 @@ export default async function StudentDashboardPage() {
                 <Link
                   key={section.id}
                   href={section.route}
-                  className={`group feature-card flex flex-col min-h-[10.5rem] ${
+                  className={`group feature-card flex flex-col min-h-42 ${
                     featured ? "feature-card-solid" : "feature-card-soft"
                   }`}
                 >
@@ -392,8 +392,8 @@ export default async function StudentDashboardPage() {
                   href={item.route}
                   className="flex flex-col items-center gap-2.5 rounded-2xl px-3 py-4 text-center hover:bg-surface"
                 >
-                  <span className="icon-tile !w-11 !h-11">
-                    <Icon className="w-[18px] h-[18px]" />
+                  <span className="icon-tile w-11! h-11!">
+                    <Icon className="w-4.5 h-4.5" />
                   </span>
                   <span className="text-[0.8rem] font-semibold text-ink leading-tight">
                     {item.title}

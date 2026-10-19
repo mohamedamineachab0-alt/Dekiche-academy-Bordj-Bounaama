@@ -116,7 +116,7 @@ export default async function LessonStudyViewPage({
         </div>
       </div>
 
-      <h1 className="text-lg sm:text-2xl font-bold text-ink tracking-tight leading-snug break-words">
+      <h1 className="text-lg sm:text-2xl font-bold text-ink tracking-tight leading-snug wrap-break-word">
         {lesson.title}
       </h1>
 

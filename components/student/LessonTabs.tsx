@@ -45,7 +45,7 @@ export function LessonTabs({ lesson }: LessonTabsProps) {
         ))}
       </div>
 
-      <div className="min-h-[12rem] w-full">
+      <div className="min-h-48 w-full">
         {activeTab === "details" && (
           <div className="surface-card px-4 py-5 sm:px-6 sm:py-8">
             <h2 className="text-base sm:text-lg font-bold text-ink mb-2">عن هذا الدرس</h2>

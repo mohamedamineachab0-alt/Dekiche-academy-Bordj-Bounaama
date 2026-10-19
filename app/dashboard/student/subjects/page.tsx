@@ -81,7 +81,7 @@ export default async function StudentSubjectsPage() {
 
             return (
               <article key={subject.id} className="surface-panel flex flex-col">
-                <div className="relative aspect-[16/9] bg-primary-soft overflow-hidden">
+                <div className="relative aspect-video bg-primary-soft overflow-hidden">
                   {subject.image ? (
                     <img
                       src={subject.image}
@@ -95,7 +95,7 @@ export default async function StudentSubjectsPage() {
                   )}
 
                   <span
-                    className={`absolute top-3 start-3 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold backdrop-blur-sm ${
+                    className={`absolute top-3 inset-s-3 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold backdrop-blur-sm ${
                       isEnrolled
                         ? "bg-white/95 text-emerald-700"
                         : "bg-white/95 text-muted"

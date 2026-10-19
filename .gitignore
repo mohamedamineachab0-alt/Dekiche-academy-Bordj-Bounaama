@@ -33,7 +33,8 @@ pnpm-debug.log*
 *.csv
 *.html
 أكواد_المواد/
-scripts/
+/scripts/
+/package/
 *test*.ts
 *test*.js
 check_*.js

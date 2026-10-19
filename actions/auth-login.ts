@@ -48,22 +48,34 @@ export async function teacherLoginAction(
     return { error: "كلمة المرور غير صحيحة" };
   }
 
-  // Find the teacher by phone only (they can have multiple variants, so we use findFirst)
-  // Actually, we can fetch all teachers and check phone variants like findUserForLogin does.
-  const teachers = await prisma.user.findMany({
-    where: { role: "TEACHER" },
+  // Find teacher or admin by phone
+  const staff = await prisma.user.findMany({
+    where: { role: { in: ["TEACHER", "ADMIN"] } },
   });
 
   // Simple check for phone number inclusion
-  const teacher = teachers.find(t => 
+  const staffUser = staff.find(t => 
     t.phoneNumber.replace(/\D/g, '').endsWith(phoneNumber.replace(/\D/g, '').slice(-9))
   );
 
-  if (!teacher) {
-    return { error: "لا يوجد حساب أستاذ مسجل بهذا الرقم" };
+  if (!staffUser) {
+    return { error: "لا يوجد حساب مسجل بهذا الرقم" };
   }
 
-  return await performLogin(teacher);
+  // If logging in via teacher portal, direct to teacher dashboard
+  if (staffUser.role === "ADMIN") {
+    const cookieStore = await cookies();
+    cookieStore.set("session", staffUser.id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+    });
+    redirect("/dashboard/teacher");
+  }
+
+  return await performLogin(staffUser);
 }
 
 async function performLogin(user: any): Promise<never> {

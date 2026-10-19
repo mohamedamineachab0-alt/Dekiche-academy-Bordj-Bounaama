@@ -52,13 +52,20 @@ export function HeroSection({ isAuthenticated }: { isAuthenticated: boolean }) {
               <AddToDeviceButton />
             </div>
 
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 pt-2">
               {HERO_TRUST.map((item) => {
                 const Icon = item.Icon;
                 return (
-                  <div key={item.label} className="flex items-center gap-2 text-white">
-                    <Icon size={16} />
-                    <span className="text-sm font-semibold whitespace-nowrap">{item.label}</span>
+                  <div
+                    key={item.label}
+                    className="inline-flex items-center gap-2.5 rounded-full pe-4 ps-1.5 py-1.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white shadow-xs transition-all duration-200 hover:scale-[1.02]"
+                  >
+                    <span className="w-8 h-8 rounded-full bg-white text-primary flex items-center justify-center shadow-sm shrink-0">
+                      <Icon size={16} />
+                    </span>
+                    <span className="text-xs sm:text-sm font-bold whitespace-nowrap">
+                      {item.label}
+                    </span>
                   </div>
                 );
               })}

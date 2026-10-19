@@ -322,7 +322,7 @@ export function TeacherLessonsManager({ subjects, lessons }: Props) {
         <div className="flex flex-1 flex-col sm:flex-row gap-3">
           {/* Search Box */}
           <div className="relative flex-1">
-            <Search className="w-4 h-4 text-muted absolute start-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-muted absolute inset-s-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="ابحث عن درس بالاسم..."
@@ -363,7 +363,7 @@ export function TeacherLessonsManager({ subjects, lessons }: Props) {
 
         <div className="text-xs font-semibold text-muted flex items-center justify-end gap-2 shrink-0">
           <span>الدروس المعروضة:</span>
-          <span className="font-mono text-sm font-bold text-ink bg-primary-soft text-primary px-2.5 py-1 rounded-lg">
+          <span className="font-mono text-sm font-bold bg-primary-soft text-primary px-2.5 py-1 rounded-lg">
             {filteredLessons.length}
           </span>
         </div>
@@ -417,7 +417,7 @@ export function TeacherLessonsManager({ subjects, lessons }: Props) {
                     )}
                   </div>
 
-                  <h3 className="text-base font-bold text-ink leading-snug break-words">
+                  <h3 className="text-base font-bold text-ink leading-snug wrap-break-word">
                     {lesson.title}
                   </h3>
 
@@ -458,7 +458,7 @@ export function TeacherLessonsManager({ subjects, lessons }: Props) {
                             href={mat.fileUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="hover:underline hover:text-primary truncate max-w-[180px]"
+                            className="hover:underline hover:text-primary truncate max-w-45"
                             title={mat.title}
                           >
                             {mat.title}

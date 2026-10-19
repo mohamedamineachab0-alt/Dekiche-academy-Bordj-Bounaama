@@ -88,6 +88,17 @@ export default async function TeacherDashboardPage() {
   const lessonsWithQuiz = lessons.filter((l) => !!l.quiz).length;
   const totalMaterials = lessons.reduce((acc, l) => acc + l.materials.length, 0);
 
+  // 5. Highlights: Most viewed and most repeated lessons
+  const mostViewedLesson =
+    lessons.length > 0
+      ? [...lessons].sort((a, b) => b._count.completions - a._count.completions)[0]
+      : null;
+
+  const mostRepeatedLesson =
+    lessons.length > 0
+      ? [...lessons].sort((a, b) => b._count.mistakes - a._count.mistakes)[0]
+      : null;
+
   // Serialize subjects for client component
   const clientSubjects = subjects.map((s) => ({
     id: s.id,

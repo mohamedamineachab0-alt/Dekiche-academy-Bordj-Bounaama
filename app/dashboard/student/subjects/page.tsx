@@ -27,7 +27,19 @@ export default async function StudentSubjectsPage() {
       isPublished: true,
       phase,
       levels: { has: level },
-      OR: [{ streams: { has: stream } }, { streams: { has: "NONE" } }],
+      ...(phase === "SECONDARY"
+        ? {
+            OR: [
+              { streams: { has: stream } },
+              { streams: { has: "GENERAL" } },
+            ],
+          }
+        : {
+            OR: [
+              { streams: { has: stream } },
+              { streams: { has: "NONE" } },
+            ],
+          }),
     },
     include: { teacher: true },
     orderBy: { createdAt: "desc" },

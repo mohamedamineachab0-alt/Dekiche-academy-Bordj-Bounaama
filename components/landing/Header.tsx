@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Menu, X, GraduationCap } from "lucide-react";
 import { SocialLinks, PhoneLink } from "@/components/landing/art/FacebookIcon";
+import { AddToDeviceButton } from "@/components/pwa/AddToDeviceButton";
 
 const NAV_LINKS = [
   { href: "#why-us", label: "لماذا نحن" },
@@ -67,6 +68,7 @@ export function Header({ isAuthenticated }: { isAuthenticated: boolean }) {
             </nav>
 
             <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+              <AddToDeviceButton variant="header" isScrolled={isScrolled} />
               <SocialLinks
                 className={`hidden min-[420px]:flex w-10 h-10 sm:w-11 sm:h-11 rounded-full items-center justify-center transition-colors ${
                   isScrolled
@@ -158,6 +160,7 @@ export function Header({ isAuthenticated }: { isAuthenticated: boolean }) {
             </nav>
 
             <div className="mt-auto flex flex-col gap-3">
+              <AddToDeviceButton variant="mobile" />
               <PhoneLink
                 showNumber
                 className="btn-ghost w-full justify-center text-primary"

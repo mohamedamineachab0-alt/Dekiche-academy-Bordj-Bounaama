@@ -1,4 +1,5 @@
 import { CraftedButton } from "@/components/landing/CraftedButton";
+import { AddToDeviceButton } from "@/components/pwa/AddToDeviceButton";
 import { HeroArt } from "@/components/landing/art/HeroArt";
 import {
   DashboardIcon,
@@ -47,6 +48,8 @@ export function HeroSection({ isAuthenticated }: { isAuthenticated: boolean }) {
               >
                 {ACADEMY_MOTTO}
               </CraftedButton>
+
+              <AddToDeviceButton />
             </div>
 
             <div className="flex flex-wrap items-center gap-x-6 gap-y-3">

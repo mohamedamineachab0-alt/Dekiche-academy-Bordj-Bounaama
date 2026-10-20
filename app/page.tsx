@@ -5,11 +5,30 @@ import { WhyChooseUs } from "@/components/landing/WhyChooseUs";
 import { HowItWorksSection } from "@/components/landing/HowItWorksSection";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { Footer } from "@/components/landing/Footer";
+import { isMaintenanceActive } from "@/lib/maintenance";
+import { MaintenanceScreen } from "@/components/maintenance/MaintenanceScreen";
+import { prisma } from "@/lib/prisma";
 
 export default async function Home() {
   const cookieStore = await cookies();
   const sessionId = cookieStore.get("session")?.value;
   const isAuthenticated = !!sessionId;
+
+  const inMaintenance = await isMaintenanceActive();
+
+  if (inMaintenance) {
+    if (sessionId) {
+      const user = await prisma.user.findUnique({
+        where: { id: sessionId },
+        select: { role: true },
+      });
+      if (user?.role !== "ADMIN") {
+        return <MaintenanceScreen role={user?.role} />;
+      }
+    } else {
+      return <MaintenanceScreen />;
+    }
+  }
 
   return (
     <div dir="rtl" className="relative min-h-[100dvh] overflow-x-clip bg-background font-sans">

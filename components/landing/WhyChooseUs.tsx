@@ -6,7 +6,7 @@ import {
   WhyPathIcon,
   WhyUnifiedIcon,
 } from "@/components/landing/art/HeroIcons";
-import { DotGrid, GeoAccents, SoftOrb } from "@/components/landing/LandingDecor";
+import { SoftOrb } from "@/components/landing/LandingDecor";
 
 const reasons = [
   {
@@ -44,12 +44,11 @@ const reasons = [
 export function WhyChooseUs() {
   return (
     <section id="why-us" dir="rtl" className="py-20 md:py-28 band-soft-grid relative overflow-hidden">
-      <SoftOrb tone="indigo" className="w-64 h-64 -top-16 -start-10 opacity-70" />
-      <SoftOrb tone="white" className="w-48 h-48 bottom-0 end-0 opacity-50" />
-      <DotGrid />
+      <SoftOrb tone="indigo" className="w-64 h-64 -top-16 -inset-s-10 opacity-70" />
+      <SoftOrb tone="white" className="w-48 h-48 bottom-0 inset-e-0 opacity-50" />
+      <div className="landing-line-grid-ink absolute inset-0 pointer-events-none" aria-hidden="true" />
       <div className="landing-plus-field-ink absolute inset-0 pointer-events-none" aria-hidden="true" />
-      <GeoAccents variant="light" />
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
           <div className="lg:col-span-4 lg:sticky lg:top-28">
             <p className="rule-label mb-5">

@@ -30,7 +30,7 @@ const features = [
 export function FeaturesSection() {
   return (
     <section id="features" className="py-20 md:py-28 bg-surface border-y border-line">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8" dir="rtl">
+      <div className="max-w-300 mx-auto px-4 sm:px-6 lg:px-8" dir="rtl">
         <Reveal delay={60} direction="up">
           <div className="max-w-[34ch] mb-14 md:mb-20">
             <p className="rule-label mb-6">

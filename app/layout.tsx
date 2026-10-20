@@ -46,6 +46,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const IS_BLACKOUT = true;
+
+  if (IS_BLACKOUT) {
+    return (
+      <html lang="ar" dir="rtl" className="h-full bg-black">
+        <body
+          className="h-full w-full bg-black m-0 p-0 overflow-hidden"
+          suppressHydrationWarning
+        >
+          <div className="fixed inset-0 w-screen h-screen bg-black z-[99999999]" />
+        </body>
+      </html>
+    );
+  }
+
   return (
     <html
       lang="ar"
@@ -65,3 +80,4 @@ export default function RootLayout({
     </html>
   );
 }
+

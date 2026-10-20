@@ -1,5 +1,5 @@
 import { UserPlus, BookOpen, Award } from "lucide-react";
-import { DotGrid, GeoAccents, SoftOrb, SectionDivider } from "@/components/landing/LandingDecor";
+import { DotGrid, SoftOrb, SectionDivider } from "@/components/landing/LandingDecor";
 
 const steps = [
   {
@@ -25,12 +25,11 @@ const steps = [
 export function HowItWorksSection() {
   return (
     <section id="how" dir="rtl" className="py-20 md:py-28 band-indigo-glow relative overflow-hidden">
-      <SoftOrb tone="white" className="w-72 h-72 top-[-40px] start-1/3 opacity-80" />
-      <SoftOrb tone="indigo" className="w-56 h-56 bottom-[-30px] end-10 opacity-60" />
+      <SoftOrb tone="white" className="w-72 h-72 -top-10 inset-s-1/3 opacity-80" />
+      <SoftOrb tone="indigo" className="w-56 h-56 -bottom-7.5 inset-e-10 opacity-60" />
       <DotGrid className="opacity-30" />
-      <GeoAccents variant="light" />
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
-        <div className="text-center max-w-[640px] mx-auto mb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+        <div className="text-center max-w-160 mx-auto mb-10">
           <p className="rule-label justify-center mb-5">
             <span className="shrink-0">خطوة بخطوة</span>
           </p>

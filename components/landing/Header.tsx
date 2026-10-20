@@ -17,7 +17,7 @@ export function Header({ isAuthenticated }: { isAuthenticated: boolean }) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 50);
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -28,23 +28,23 @@ export function Header({ isAuthenticated }: { isAuthenticated: boolean }) {
       <header
         className={`fixed top-0 right-0 left-0 z-50 safe-area-pt transition-all duration-300 ${
           isScrolled
-            ? "bg-surface/95 backdrop-blur-xl border-b border-line shadow-sm py-3"
-            : "bg-transparent py-4"
+            ? "bg-white/95 backdrop-blur-xl border-b border-slate-200/80 shadow-sm py-3"
+            : "bg-primary-950/25 backdrop-blur-md border-b border-white/10 py-3.5"
         }`}
       >
-        <div className="max-w-[1280px] mx-auto px-3 sm:px-6 lg:px-10 safe-area-px">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-10 safe-area-px">
           <div className="flex items-center justify-between gap-2 sm:gap-4 lg:gap-6">
-            <Link href="/" className="flex items-center gap-2 shrink-0 min-w-0">
+            <Link href="/" className="flex items-center gap-2.5 shrink-0 min-w-0">
               <span
-                className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors shadow-sm ${
                   isScrolled ? "bg-primary text-white" : "bg-white text-primary-mid shadow-md"
                 }`}
               >
                 <GraduationCap className="w-5 h-5" />
               </span>
               <span
-                className={`wordmark text-base sm:text-[1.25rem] truncate transition-colors ${
-                  isScrolled ? "text-ink" : "text-white"
+                className={`wordmark text-base sm:text-[1.25rem] font-bold tracking-tight truncate transition-colors ${
+                  isScrolled ? "text-slate-900" : "text-white drop-shadow-xs"
                 }`}
               >
                 أكاديمية دقيش
@@ -56,10 +56,10 @@ export function Header({ isAuthenticated }: { isAuthenticated: boolean }) {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-3.5 py-2 rounded-lg text-[0.9rem] font-semibold transition-colors ${
+                  className={`px-3.5 py-2 rounded-lg text-sm font-bold transition-colors ${
                     isScrolled
-                      ? "text-muted hover:text-primary"
-                      : "text-white/90 hover:bg-white/10 hover:text-white"
+                      ? "text-slate-800 hover:text-primary hover:bg-primary-soft/60"
+                      : "text-white hover:bg-white/15 drop-shadow-xs"
                   }`}
                 >
                   {link.label}
@@ -73,7 +73,7 @@ export function Header({ isAuthenticated }: { isAuthenticated: boolean }) {
                 className={`hidden min-[420px]:flex w-10 h-10 sm:w-11 sm:h-11 rounded-full items-center justify-center transition-colors ${
                   isScrolled
                     ? "bg-primary-soft text-primary hover:bg-primary hover:text-white"
-                    : "bg-white text-primary hover:bg-primary-soft"
+                    : "bg-white text-primary hover:bg-primary-soft shadow-sm"
                 }`}
               />
               {isAuthenticated ? (
@@ -81,8 +81,8 @@ export function Header({ isAuthenticated }: { isAuthenticated: boolean }) {
                   href="/dashboard/student"
                   className={
                     isScrolled
-                      ? "hidden sm:inline-flex btn-primary py-2.5 px-5 text-sm"
-                      : "hidden sm:inline-flex btn-nav-light"
+                      ? "hidden sm:inline-flex btn-primary py-2.5 px-5 text-sm font-bold"
+                      : "hidden sm:inline-flex btn-nav-light text-sm font-bold"
                   }
                 >
                   مساحتي
@@ -92,7 +92,9 @@ export function Header({ isAuthenticated }: { isAuthenticated: boolean }) {
                   <Link
                     href="/login"
                     className={`hidden sm:inline-flex px-4 py-2 rounded-full text-sm font-bold transition-colors ${
-                      isScrolled ? "text-primary-mid hover:bg-primary-soft" : "text-white hover:bg-white/10"
+                      isScrolled
+                        ? "text-slate-800 hover:text-primary hover:bg-slate-100"
+                        : "text-white hover:bg-white/15 drop-shadow-xs"
                     }`}
                   >
                     دخول
@@ -101,8 +103,8 @@ export function Header({ isAuthenticated }: { isAuthenticated: boolean }) {
                     href="/register"
                     className={
                       isScrolled
-                        ? "btn-primary py-2 px-3 sm:py-2.5 sm:px-5 text-xs sm:text-sm"
-                        : "btn-nav-light !px-3 sm:!px-5 text-xs sm:text-sm"
+                        ? "btn-primary py-2 px-3 sm:py-2.5 sm:px-5 text-xs sm:text-sm font-bold"
+                        : "btn-nav-light px-3! sm:px-5! text-xs sm:text-sm font-bold shadow-md"
                     }
                   >
                     إنشاء حساب
@@ -112,7 +114,7 @@ export function Header({ isAuthenticated }: { isAuthenticated: boolean }) {
 
               <button
                 onClick={() => setIsMobileOpen(true)}
-                className={`lg:hidden w-11 h-11 rounded-full flex items-center justify-center transition-colors ${
+                className={`lg:hidden w-11 h-11 rounded-full flex items-center justify-center transition-colors shadow-sm ${
                   isScrolled ? "bg-surface-muted text-primary" : "bg-white text-primary-mid shadow-md"
                 }`}
                 aria-label="فتح القائمة"
@@ -127,10 +129,10 @@ export function Header({ isAuthenticated }: { isAuthenticated: boolean }) {
       {isMobileOpen && (
         <>
           <div
-            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[55] lg:hidden"
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-55 lg:hidden"
             onClick={() => setIsMobileOpen(false)}
           />
-          <div className="fixed bottom-0 right-0 left-0 max-h-[85vh] rounded-t-[2rem] bg-white z-[60] lg:hidden flex flex-col p-6 shadow-2xl safe-area-pb">
+          <div className="fixed bottom-0 right-0 left-0 max-h-[85vh] rounded-t-4xl bg-white z-60 lg:hidden flex flex-col p-6 shadow-2xl safe-area-pb">
             <button
               onClick={() => setIsMobileOpen(false)}
               className="absolute top-4 left-4 w-10 h-10 rounded-full bg-surface-muted flex items-center justify-center text-ink"

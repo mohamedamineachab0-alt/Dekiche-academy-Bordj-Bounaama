@@ -80,6 +80,17 @@ export default async function TeacherDashboardPage() {
     orderBy: [{ month: "asc" }, { order: "asc" }, { createdAt: "desc" }],
   });
 
+  // 3.1 Fetch lessons uploaded/published by this teacher
+  const teacherPendingLessons = await prisma.pendingLesson.findMany({
+    where: { teacherId: user.id },
+    select: { publishedLessonId: true },
+  });
+  const uploadedLessonIds = new Set(
+    teacherPendingLessons
+      .map((p) => p.publishedLessonId)
+      .filter((id): id is string => Boolean(id))
+  );
+
   // 4. Aggregated stats
   const totalLessons = lessons.length;
   const totalCompletions = lessons.reduce((acc, l) => acc + l._count.completions, 0);
@@ -121,6 +132,8 @@ export default async function TeacherDashboardPage() {
     youtubeVideoId: l.youtubeVideoId,
     vimeoVideoId: l.vimeoVideoId,
     image: l.image,
+    isTeacherUploaded: uploadedLessonIds.has(l.id) || Boolean(l.youtubeVideoId),
+    createdAt: l.createdAt.toISOString(),
     subjects: l.subjects.map((sub) => ({
       id: sub.id,
       title: sub.title,

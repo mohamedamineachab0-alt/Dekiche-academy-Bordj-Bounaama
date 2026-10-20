@@ -24,9 +24,14 @@ export function HeroSection({ isAuthenticated }: { isAuthenticated: boolean }) {
       <HeroArt />
 
       <div className="relative z-10 flex flex-col justify-center min-h-[86dvh] px-4 sm:px-6 lg:px-10 pt-28 pb-20 sm:pt-32 lg:py-24">
-        <div className="max-w-[1180px] mx-auto w-full">
+        <div className="max-w-295 mx-auto w-full">
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-white/80 mb-6">من الابتدائي إلى الثانوي</p>
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/15 hover:bg-white/20 backdrop-blur-md border border-white/25 text-white mb-6 shadow-sm transition-all">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse shrink-0" />
+              <span className="text-xs sm:text-sm font-bold tracking-wide">من الابتدائي للثانوي</span>
+              <span className="text-white/40">|</span>
+              <span className="text-xs sm:text-sm text-white/90 font-medium">الابتدائي • المتوسط • الثانوي</span>
+            </div>
 
             <h1 className="kufi text-[clamp(2.2rem,6vw,4.25rem)] text-white leading-[1.2] mb-7">
               أول أكاديمية تجمع بين التعليم الحضوري و{" "}
@@ -36,8 +41,8 @@ export function HeroSection({ isAuthenticated }: { isAuthenticated: boolean }) {
               في الجزائر
             </h1>
 
-            <p className="naskh text-[1.1rem] md:text-[1.3rem] text-white/85 leading-[1.95] max-w-[640px] mb-10">
-              ادرس في القسم، وتابع دروسك وتمارينك وفروضك من المنصة في أي وقت.
+            <p className="naskh text-[1.1rem] md:text-[1.3rem] text-white/85 leading-[1.95] max-w-160 mb-10">
+              ادرس في القسم، وتابع دروسك وتمارينك وفروضك من المنصة في أي وقت — من الابتدائي للثانوي.
             </p>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-14">

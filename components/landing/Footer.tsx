@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { GraduationCap } from "lucide-react";
-import { SoftOrb } from "@/components/landing/LandingDecor";
 import { SocialLinks, PhoneLink } from "@/components/landing/art/FacebookIcon";
 
 export function Footer({ isAuthenticated }: { isAuthenticated: boolean }) {
@@ -8,18 +7,16 @@ export function Footer({ isAuthenticated }: { isAuthenticated: boolean }) {
     <footer dir="rtl" className="bg-hero text-white pt-20 pb-10 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="landing-line-grid absolute inset-0" />
-        <div className="hero-orb hidden md:block w-[400px] h-[400px] bg-white/10 top-[-80px] left-1/4" />
-        <SoftOrb tone="white" className="w-36 h-36 top-[30%] end-[15%] opacity-50" />
       </div>
 
-      <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         <div className="rounded-3xl border border-white/20 bg-white/10 backdrop-blur-md p-8 md:p-10 mb-14 shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8">
               <h2 className="kufi text-[clamp(1.6rem,2.8vw,2.3rem)] text-white mb-3">
                 سجّل وابدأ المراجعة
               </h2>
-              <p className="naskh text-white/85 text-lg leading-[1.9] max-w-[540px]">
+              <p className="naskh text-white/85 text-lg leading-[1.9] max-w-135">
                 سجّل كتلميذ أو كوليّ أمر، واكتشف محتوى منظّم يرافقك من الدروس إلى الامتحان.
               </p>
             </div>

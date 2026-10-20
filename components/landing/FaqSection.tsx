@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { GeoAccents, SoftOrb, SectionDivider } from "@/components/landing/LandingDecor";
+import { SoftOrb, SectionDivider } from "@/components/landing/LandingDecor";
 
 const faqs = [
   {
@@ -28,13 +28,12 @@ export function FaqSection() {
 
   return (
     <section id="faq" dir="rtl" className="py-20 md:py-28 bg-background relative overflow-hidden">
-      <SoftOrb tone="indigo" className="w-48 h-48 top-8 start-8 opacity-45" />
-      <SoftOrb tone="white" className="w-56 h-56 bottom-8 end-8 opacity-35" />
+      <SoftOrb tone="indigo" className="w-48 h-48 top-8 inset-s-8 opacity-45" />
+      <SoftOrb tone="white" className="w-56 h-56 bottom-8 inset-e-8 opacity-35" />
       <div className="landing-line-grid-ink absolute inset-0 pointer-events-none" aria-hidden="true" />
       <div className="landing-plus-field-ink absolute inset-0 pointer-events-none" aria-hidden="true" />
-      <GeoAccents variant="light" />
 
-      <div className="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+      <div className="max-w-200 mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
         <div className="text-center mb-10">
           <p className="rule-label justify-center mb-5">
             <span className="shrink-0">إجابات موجزة</span>

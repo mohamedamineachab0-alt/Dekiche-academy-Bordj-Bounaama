@@ -36,8 +36,8 @@ export function AddToDeviceButton({ variant = "hero", isScrolled = false }: Prop
           onClick={onClick}
           className={`hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold transition-all ${
             isScrolled
-              ? "bg-primary-soft text-primary hover:bg-primary hover:text-white"
-              : "bg-white/15 text-white hover:bg-white/25 backdrop-blur-sm border border-white/20"
+              ? "bg-primary-soft text-primary hover:bg-primary hover:text-white border border-primary/20"
+              : "bg-white/20 text-white hover:bg-white/30 backdrop-blur-md border border-white/30 shadow-xs"
           }`}
           title="تثبيت التطبيق على جهازك (PWA)"
         >
@@ -46,7 +46,7 @@ export function AddToDeviceButton({ variant = "hero", isScrolled = false }: Prop
         </button>
 
         {showHint && (
-          <div className="absolute top-full end-0 mt-2 z-50 w-72 p-4 rounded-2xl bg-surface/95 backdrop-blur-xl border border-line shadow-2xl text-xs text-ink space-y-2 animate-in fade-in slide-in-from-top-2 duration-150">
+          <div className="absolute top-full inset-e-0 mt-2 z-50 w-72 p-4 rounded-2xl bg-surface/95 backdrop-blur-xl border border-line shadow-2xl text-xs text-ink space-y-2 animate-in fade-in slide-in-from-top-2 duration-150">
             <div className="flex items-center justify-between border-b border-line pb-2">
               <span className="font-bold text-xs text-primary flex items-center gap-1.5">
                 <Smartphone className="w-4 h-4" />
@@ -125,7 +125,7 @@ export function AddToDeviceButton({ variant = "hero", isScrolled = false }: Prop
       </CraftedButton>
 
       {showHint && (
-        <div className="absolute top-full start-0 mt-3 z-30 w-80 max-w-[calc(100vw-2rem)] p-4 rounded-2xl bg-surface/95 backdrop-blur-xl border border-line shadow-2xl text-xs text-ink space-y-2 animate-in fade-in slide-in-from-top-2 duration-150">
+        <div className="absolute top-full inset-s-0 mt-3 z-30 w-80 max-w-[calc(100vw-2rem)] p-4 rounded-2xl bg-surface/95 backdrop-blur-xl border border-line shadow-2xl text-xs text-ink space-y-2 animate-in fade-in slide-in-from-top-2 duration-150">
           <div className="flex items-center justify-between border-b border-line pb-2">
             <span className="font-bold text-sm text-primary flex items-center gap-1.5">
               <Smartphone className="w-4 h-4" />

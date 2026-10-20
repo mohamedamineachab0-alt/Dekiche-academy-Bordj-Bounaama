@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getTeacherSession } from "@/lib/teacher";
 import { supabase } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
+import { ensureAcademicMonth } from "@/lib/academic-month";
 
 export type ActionResponse = {
   success?: boolean;
@@ -228,5 +229,216 @@ export async function deleteTeacherLessonQuiz(lessonId: string): Promise<ActionR
   } catch (error: any) {
     console.error("Error in deleteTeacherLessonQuiz:", error);
     return { error: error?.message || "حدث خطأ أثناء حذف الكويز" };
+  }
+}
+
+/**
+ * Extract 11-char YouTube Video ID from any URL or string
+ */
+export async function extractYoutubeId(input: string): Promise<string | null> {
+  if (!input) return null;
+  const trimmed = input.trim();
+  if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) {
+    return trimmed;
+  }
+  const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+  const match = trimmed.match(regExp);
+  return match ? match[1] : null;
+}
+
+/**
+ * Save or update the YouTube video of an existing lesson
+ */
+export async function saveTeacherLessonVideo(
+  lessonId: string,
+  youtubeUrlOrId: string
+): Promise<ActionResponse> {
+  try {
+    if (!lessonId) return { error: "معرّف الدرس مطلوب" };
+    if (!youtubeUrlOrId?.trim()) return { error: "يرجى إدخال رابط فيديو يوتيوب" };
+
+    const youtubeVideoId = await extractYoutubeId(youtubeUrlOrId);
+    if (!youtubeVideoId) {
+      return {
+        error:
+          "رابط يوتيوب غير صالح. يرجى إدخال رابط فيديو يوتيوب صحيح (مثال: https://www.youtube.com/watch?v=... أو https://youtu.be/...)",
+      };
+    }
+
+    const { lesson } = await verifyTeacherLessonAccess(lessonId);
+
+    await prisma.lesson.update({
+      where: { id: lessonId },
+      data: {
+        youtubeVideoId,
+      },
+    });
+
+    const session = await getTeacherSession();
+    if (session) {
+      try {
+        const existingRecord = await prisma.pendingLesson.findFirst({
+          where: {
+            publishedLessonId: lessonId,
+            teacherId: session.user.id,
+          },
+        });
+        if (!existingRecord) {
+          await prisma.pendingLesson.create({
+            data: {
+              title: lesson.title,
+              subjectId: lesson.subjects[0]?.id || session.subjectIds[0],
+              month: lesson.month,
+              level: (lesson.levels && lesson.levels[0]) || "MIDDLE_1",
+              vimeoVideoId: "",
+              editingNotes: "تم رفع فيديو يوتيوب بواسطة الأستاذ",
+              status: "published",
+              teacherId: session.user.id,
+              publishedLessonId: lesson.id,
+            },
+          });
+        }
+      } catch (e) {
+        console.error("Non-fatal: could not link pendingLesson:", e);
+      }
+    }
+
+    revalidatePath("/dashboard/teacher");
+    lesson.subjects.forEach((s) => {
+      revalidatePath(`/dashboard/student/subjects/${s.id}`);
+      revalidatePath(`/dashboard/student/subjects/${s.id}/lessons`);
+    });
+    revalidatePath(`/dashboard/student/lessons/${lessonId}`);
+
+    return { success: true, data: { youtubeVideoId } };
+  } catch (error: any) {
+    console.error("Error in saveTeacherLessonVideo:", error);
+    return { error: error?.message || "حدث خطأ أثناء حفظ رابط الفيديو" };
+  }
+}
+
+/**
+ * Remove YouTube video from a lesson
+ */
+export async function removeTeacherLessonVideo(lessonId: string): Promise<ActionResponse> {
+  try {
+    if (!lessonId) return { error: "معرّف الدرس مطلوب" };
+    const { lesson } = await verifyTeacherLessonAccess(lessonId);
+
+    await prisma.lesson.update({
+      where: { id: lessonId },
+      data: {
+        youtubeVideoId: null,
+      },
+    });
+
+    revalidatePath("/dashboard/teacher");
+    lesson.subjects.forEach((s) => {
+      revalidatePath(`/dashboard/student/subjects/${s.id}`);
+      revalidatePath(`/dashboard/student/subjects/${s.id}/lessons`);
+    });
+    revalidatePath(`/dashboard/student/lessons/${lessonId}`);
+
+    return { success: true };
+  } catch (error: any) {
+    console.error("Error in removeTeacherLessonVideo:", error);
+    return { error: error?.message || "حدث خطأ أثناء حذف رابط الفيديو" };
+  }
+}
+
+/**
+ * Create a new lesson with YouTube video for a subject
+ */
+export async function createTeacherLessonWithVideo(payload: {
+  title: string;
+  subjectId: string;
+  month: number;
+  youtubeUrlOrId: string;
+  description?: string;
+}): Promise<ActionResponse> {
+  try {
+    const session = await getTeacherSession();
+    if (!session) throw new Error("غير مسجل الدخول كأستاذ");
+
+    if (session.user.role !== "ADMIN" && !session.subjectIds.includes(payload.subjectId)) {
+      return { error: "غير مصرح لك بنشر درس في هذه المادة" };
+    }
+
+    if (!payload.title?.trim()) {
+      return { error: "عنوان الدرس مطلوب" };
+    }
+
+    const month = Number(payload.month);
+    if (!Number.isInteger(month) || month < 1 || month > 12) {
+      return { error: "يرجى تحديد الشهر الدراسي (من 1 إلى 12)" };
+    }
+
+    const youtubeVideoId = await extractYoutubeId(payload.youtubeUrlOrId);
+    if (!youtubeVideoId) {
+      return {
+        error:
+          "رابط يوتيوب غير صالح. يرجى إدخال رابط فيديو يوتيوب صحيح (مثال: https://www.youtube.com/watch?v=...)",
+      };
+    }
+
+    const subject = await prisma.subject.findUnique({
+      where: { id: payload.subjectId },
+      select: { id: true, levels: true, streams: true },
+    });
+
+    if (!subject) {
+      return { error: "المادة غير موجودة" };
+    }
+
+    const academicMonth = await ensureAcademicMonth(month);
+
+    const existingCount = await prisma.lesson.count({
+      where: {
+        subjects: { some: { id: payload.subjectId } },
+        month,
+      },
+    });
+
+    const lesson = await prisma.lesson.create({
+      data: {
+        title: payload.title.trim(),
+        description: payload.description?.trim() || "",
+        month,
+        academicMonth: { connect: { id: academicMonth.id } },
+        vimeoVideoId: "",
+        youtubeVideoId,
+        order: existingCount + 1,
+        levels: subject.levels,
+        streams: subject.streams,
+        subjects: { connect: { id: payload.subjectId } },
+      },
+    });
+
+    try {
+      await prisma.pendingLesson.create({
+        data: {
+          title: payload.title.trim(),
+          subjectId: payload.subjectId,
+          month,
+          level: (subject.levels && subject.levels[0]) || "MIDDLE_1",
+          vimeoVideoId: "",
+          editingNotes: payload.description || "درس منشور برابط يوتيوب",
+          status: "published",
+          teacherId: session.user.id,
+          publishedLessonId: lesson.id,
+        },
+      });
+    } catch (e) {
+      console.error("Non-fatal: could not create pendingLesson record:", e);
+    }
+
+    revalidatePath("/dashboard/teacher");
+    revalidatePath(`/dashboard/student/subjects/${payload.subjectId}`);
+    revalidatePath(`/dashboard/student/subjects/${payload.subjectId}/lessons`);
+
+    return { success: true, data: lesson };
+  } catch (error: any) {
+    console.error("Error in createTeacherLessonWithVideo:", error);
+    return { error: error?.message || "حدث خطأ أثناء إنشاء الدرس" };
   }
 }

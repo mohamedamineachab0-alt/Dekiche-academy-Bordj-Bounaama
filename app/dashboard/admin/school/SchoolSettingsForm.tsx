@@ -21,7 +21,8 @@ export function SchoolSettingsForm({ initialSettings }: { initialSettings: Recor
         updatePlatformSetting("SCHOOL_NAME", formData.get("SCHOOL_NAME") as string, "اسم المؤسسة"),
         updatePlatformSetting("CONTACT_PHONE", formData.get("CONTACT_PHONE") as string, "رقم هاتف الدعم"),
         updatePlatformSetting("CONTACT_EMAIL", formData.get("CONTACT_EMAIL") as string, "البريد الإلكتروني"),
-        updatePlatformSetting("REGISTRATION_OPEN", formData.get("REGISTRATION_OPEN") === "on" ? "true" : "false", "حالة التسجيلات")
+        updatePlatformSetting("REGISTRATION_OPEN", formData.get("REGISTRATION_OPEN") === "on" ? "true" : "false", "حالة التسجيلات"),
+        updatePlatformSetting("MAINTENANCE_MODE", formData.get("MAINTENANCE_MODE") === "on" ? "true" : "false", "وضع الصيانة للمنصة")
       ];
 
       await Promise.all(updates);
@@ -92,6 +93,24 @@ export function SchoolSettingsForm({ initialSettings }: { initialSettings: Recor
               defaultChecked={settings.REGISTRATION_OPEN !== "false"}
             />
             <div className="w-11 h-6 bg-border rounded-full peer peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-mid"></div>
+          </label>
+        </div>
+
+        <div className="flex items-center justify-between p-4 rounded-xl border border-amber-500/30 bg-amber-500/5">
+          <div>
+            <h4 className="font-semibold text-ink text-sm">وضع الصيانة المؤقتة (إيقاف المنصة)</h4>
+            <p className="text-xs text-muted mt-0.5">
+              تفعيل شاشة "المنصة في وضع الصيانة، شكراً لتفهمكم" وتوقيف المنصة مؤقتاً للزوار والطلبة
+            </p>
+          </div>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              name="MAINTENANCE_MODE"
+              className="sr-only peer"
+              defaultChecked={settings.MAINTENANCE_MODE !== "false"}
+            />
+            <div className="w-11 h-6 bg-border rounded-full peer peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
           </label>
         </div>
       </div>

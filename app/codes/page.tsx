@@ -8,6 +8,8 @@ export const metadata = {
   description: "منظومة توليد وتصدير بطاقات ورموز الاشتراك",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function CodesPortalPage() {
   const cookieStore = await cookies();
   const sessionId = cookieStore.get("session")?.value;

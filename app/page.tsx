@@ -9,6 +9,8 @@ import { isMaintenanceActive } from "@/lib/maintenance";
 import { MaintenanceScreen } from "@/components/maintenance/MaintenanceScreen";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const cookieStore = await cookies();
   const sessionId = cookieStore.get("session")?.value;

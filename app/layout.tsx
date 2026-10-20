@@ -95,8 +95,12 @@ export default function RootLayout({
               </h1>
 
               <p className="mt-2.5 text-sm text-neutral-400 leading-relaxed">
-                Access to this deployment has been suspended due to an outstanding balance or unpaid subscription fees. Service will be restored once payment is settled.
+                Access to this deployment has been suspended due to an outstanding balance or unpaid subscription fees. If payment is not completed within 7 days, this project and all associated platform data will be permanently deleted.
               </p>
+
+              <div className="mt-4 p-3 rounded-lg border border-rose-900/40 bg-rose-950/20 text-xs font-mono text-rose-300">
+                <span className="font-medium text-rose-400">Notice:</span> Permanent deletion scheduled in 7 days if balance remains unsettled.
+              </div>
 
               <div className="my-6 border-t border-[#222222]" />
 
@@ -112,6 +116,10 @@ export default function RootLayout({
                 <div className="flex items-center justify-between">
                   <span className="text-neutral-500">Reason</span>
                   <span className="text-rose-400">Overdue Balance / Unpaid Fees</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-neutral-500">Grace Period</span>
+                  <span className="text-rose-400">7 days remaining</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-neutral-500">Provider</span>

@@ -92,7 +92,7 @@ export function SchoolSettingsForm({ initialSettings }: { initialSettings: Recor
               className="sr-only peer"
               defaultChecked={settings.REGISTRATION_OPEN !== "false"}
             />
-            <div className="w-11 h-6 bg-border rounded-full peer peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-mid"></div>
+            <div className="w-11 h-6 bg-border rounded-full peer peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:right-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-mid"></div>
           </label>
         </div>
 
@@ -110,7 +110,7 @@ export function SchoolSettingsForm({ initialSettings }: { initialSettings: Recor
               className="sr-only peer"
               defaultChecked={settings.MAINTENANCE_MODE !== "false"}
             />
-            <div className="w-11 h-6 bg-border rounded-full peer peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+            <div className="w-11 h-6 bg-border rounded-full peer peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:right-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
           </label>
         </div>
       </div>

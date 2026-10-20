@@ -31,10 +31,10 @@ export default async function Home() {
   }
 
   return (
-    <div dir="rtl" className="relative min-h-[100dvh] overflow-x-clip bg-background font-sans">
+    <div dir="rtl" className="relative min-h-dvh overflow-x-clip bg-background font-sans">
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 -z-0 opacity-40"
+        className="pointer-events-none fixed inset-0 z-0 opacity-40"
         style={{
           backgroundImage:
             "radial-gradient(ellipse 50% 35% at 80% 10%, rgba(91,33,182,0.1), transparent 60%), radial-gradient(ellipse 40% 30% at 10% 60%, rgba(109,40,217,0.08), transparent 55%)",

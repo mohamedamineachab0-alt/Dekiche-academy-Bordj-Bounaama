@@ -32,7 +32,7 @@ export function MaintenanceScreen({ role }: MaintenanceScreenProps) {
       {/* Background radial gradients */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 -z-0 opacity-40"
+        className="pointer-events-none fixed inset-0 z-0 opacity-40"
         style={{
           backgroundImage:
             "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(91,33,182,0.18), transparent 70%), radial-gradient(ellipse 50% 40% at 85% 90%, rgba(109,40,217,0.12), transparent 60%)",
@@ -68,7 +68,7 @@ export function MaintenanceScreen({ role }: MaintenanceScreenProps) {
       <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-12 sm:py-16">
         <div className="max-w-xl w-full surface-card rounded-3xl border border-line shadow-xl p-6 sm:p-10 text-center relative overflow-hidden space-y-6">
           {/* Subtle top ambient bar */}
-          <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-amber-500 via-primary to-primary-bright" />
+          <div className="absolute top-0 inset-x-0 h-1.5 bg-linear-to-r from-amber-500 via-primary to-primary-bright" />
 
           {/* Icon Badge */}
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-primary-soft text-primary border border-primary/20 shadow-inner mx-auto relative">

@@ -5,7 +5,12 @@ import { FileList } from '@/components/FileList'
 export const dynamic = 'force-dynamic'
 
 export default async function FilesPage() {
-  const files = await getFiles()
+  let files: any[] = []
+  try {
+    files = await getFiles()
+  } catch {
+    files = []
+  }
 
   return (
     <div className="min-h-screen bg-surface text-ink p-8 font-sans">

@@ -10,18 +10,26 @@ import { SubjectName } from "@/components/shared/SubjectName";
 export const dynamic = "force-dynamic";
 
 export default async function AdminLiveClassesPage() {
-  const liveClasses = await prisma.liveClass.findMany({
-    orderBy: { date: "asc" },
-    include: {
-      subject: {
-        select: { id: true, title: true, levels: true, streams: true },
-      },
-    },
-  });
+  let liveClasses: any[] = [];
+  let subjects: any[] = [];
 
-  const subjects = await prisma.subject.findMany({
-    select: { id: true, title: true, phase: true, levels: true, streams: true },
-  });
+  try {
+    liveClasses = await prisma.liveClass.findMany({
+      orderBy: { date: "asc" },
+      include: {
+        subject: {
+          select: { id: true, title: true, levels: true, streams: true },
+        },
+      },
+    });
+
+    subjects = await prisma.subject.findMany({
+      select: { id: true, title: true, phase: true, levels: true, streams: true },
+    });
+  } catch {
+    liveClasses = [];
+    subjects = [];
+  }
 
   return (
     <div className="space-y-8 font-sans pb-12">

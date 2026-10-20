@@ -50,12 +50,16 @@ export default function RootLayout({
 
   if (IS_BLACKOUT) {
     return (
-      <html lang="ar" dir="rtl" className="h-full bg-black">
+      <html lang="en" className="h-full bg-black">
         <body
-          className="h-full w-full bg-black m-0 p-0 overflow-hidden"
+          className="h-full w-full bg-black m-0 p-0 flex items-center justify-center min-h-screen text-white select-none"
           suppressHydrationWarning
         >
-          <div className="fixed inset-0 w-screen h-screen bg-black z-[99999999]" />
+          <div className="text-center px-6">
+            <h1 className="text-base sm:text-lg font-mono font-normal text-neutral-300 tracking-tight">
+              This Deployment is paused
+            </h1>
+          </div>
         </body>
       </html>
     );

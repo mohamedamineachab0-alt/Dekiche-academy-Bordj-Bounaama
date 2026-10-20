@@ -2,12 +2,21 @@ import OpenAI from 'openai';
 import { prisma } from '@/lib/prisma';
 import { labelLevel, labelStream } from '@/lib/education-labels';
 
+export const dynamic = "force-dynamic";
+
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY || "dummy-key-for-build",
 });
 
 export async function POST(req: Request) {
   try {
+    if (!process.env.OPENAI_API_KEY) {
+      return new Response(
+        JSON.stringify({ error: "خدمة المساعد الذكي غير متوفرة حالياً." }),
+        { status: 503, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     const { messages, studentId } = await req.json();
 
     if (!studentId) {

@@ -7,6 +7,8 @@ import { MonthSelect } from "@/components/shared/MonthSelect";
 import { SubjectSelector } from "@/components/shared/SubjectSelector";
 import { SubjectName } from "@/components/shared/SubjectName";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminLiveClassesPage() {
   const liveClasses = await prisma.liveClass.findMany({
     orderBy: { date: "asc" },

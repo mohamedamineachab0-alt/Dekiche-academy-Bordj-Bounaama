@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { DashboardLayoutWrapper } from "@/components/shared/DashboardLayoutWrapper";
 import { getTeacherSession } from "@/lib/teacher";
 
+export const dynamic = "force-dynamic";
+
 export default async function TeacherLayout({
   children,
 }: {

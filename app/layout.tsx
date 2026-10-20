@@ -52,7 +52,7 @@ export default function RootLayout({
     return (
       <html lang="en" className="h-full bg-black">
         <head>
-          <title>503: SERVICE_UNAVAILABLE</title>
+          <title>402: PAYMENT_REQUIRED</title>
         </head>
         <body
           className="h-full w-full bg-black text-[#ededed] m-0 p-0 flex flex-col justify-between items-center min-h-screen select-none font-sans antialiased"
@@ -82,20 +82,20 @@ export default function RootLayout({
             <div className="rounded-xl border border-[#262626] bg-[#0a0a0a] p-7 sm:p-8 shadow-2xl">
               <div className="flex items-center justify-between mb-5">
                 <span className="inline-flex items-center gap-2 text-xs font-mono font-medium text-neutral-300 bg-neutral-900 border border-neutral-800 px-2.5 py-1 rounded-md">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                  503
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                  402
                 </span>
                 <span className="text-[11px] font-mono text-neutral-500 uppercase tracking-wider">
-                  Edge Network
+                  Billing & Subscriptions
                 </span>
               </div>
 
               <h1 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
-                This deployment is currently unavailable
+                Payment Required
               </h1>
 
               <p className="mt-2.5 text-sm text-neutral-400 leading-relaxed">
-                The server is temporarily unable to service your request due to platform capacity limits. Please try again later.
+                Access to this deployment has been suspended due to an outstanding balance or unpaid subscription fees. Service will be restored once payment is settled.
               </p>
 
               <div className="my-6 border-t border-[#222222]" />
@@ -103,11 +103,15 @@ export default function RootLayout({
               <div className="space-y-2.5 text-xs font-mono">
                 <div className="flex items-center justify-between">
                   <span className="text-neutral-500">Code</span>
-                  <span className="text-neutral-200">SERVICE_UNAVAILABLE</span>
+                  <span className="text-neutral-200">PAYMENT_REQUIRED</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-neutral-500">Status</span>
-                  <span className="text-neutral-200">503 Service Unavailable</span>
+                  <span className="text-neutral-200">402 Payment Required</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-neutral-500">Reason</span>
+                  <span className="text-rose-400">Overdue Balance / Unpaid Fees</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-neutral-500">Provider</span>

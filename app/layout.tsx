@@ -52,7 +52,7 @@ export default function RootLayout({
     return (
       <html lang="en" className="h-full bg-black">
         <head>
-          <title>503: DEPLOYMENT_PAUSED</title>
+          <title>503: SERVICE_UNAVAILABLE</title>
         </head>
         <body
           className="h-full w-full bg-black text-[#ededed] m-0 p-0 flex flex-col justify-between items-center min-h-screen select-none font-sans antialiased"
@@ -91,11 +91,11 @@ export default function RootLayout({
               </div>
 
               <h1 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
-                This Deployment is paused
+                This deployment is currently unavailable
               </h1>
 
               <p className="mt-2.5 text-sm text-neutral-400 leading-relaxed">
-                This deployment has been paused due to spend management and usage limits.
+                The server is temporarily unable to service your request due to platform capacity limits. Please try again later.
               </p>
 
               <div className="my-6 border-t border-[#222222]" />
@@ -103,7 +103,7 @@ export default function RootLayout({
               <div className="space-y-2.5 text-xs font-mono">
                 <div className="flex items-center justify-between">
                   <span className="text-neutral-500">Code</span>
-                  <span className="text-neutral-200">DEPLOYMENT_PAUSED</span>
+                  <span className="text-neutral-200">SERVICE_UNAVAILABLE</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-neutral-500">Status</span>

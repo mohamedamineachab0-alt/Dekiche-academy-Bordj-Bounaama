@@ -66,11 +66,11 @@ export function FilePreviewPage() {
   }, [previewSrc]);
 
   return (
-    <div className="min-h-[100dvh] bg-surface-muted flex flex-col" dir="rtl">
+    <div className="min-h-dvh bg-surface-muted flex flex-col" dir="rtl">
       <header className="sticky top-0 z-10 flex items-center justify-between gap-3 px-4 py-3 border-b border-line bg-surface">
         <h1 className="font-bold text-ink text-sm sm:text-base truncate">{title}</h1>
         {src ? (
-          <a href={src} download={title} className="btn-secondary !py-2 !px-3 !text-xs shrink-0">
+          <a href={src} download={title} className="btn-secondary py-2! px-3! text-xs! shrink-0">
             <Download className="w-3.5 h-3.5" />
             تحميل
           </a>
@@ -89,7 +89,7 @@ export function FilePreviewPage() {
           <div className="flex flex-col items-center justify-center gap-3 h-[70dvh] p-6 text-center">
             <p className="font-bold text-ink">{error}</p>
             {src ? (
-              <a href={src} target="_blank" rel="noreferrer" className="btn-primary !text-sm">
+              <a href={src} target="_blank" rel="noreferrer" className="btn-primary text-sm!">
                 فتح الرابط الأصلي
               </a>
             ) : null}

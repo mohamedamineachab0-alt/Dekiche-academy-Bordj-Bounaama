@@ -63,75 +63,71 @@ export default function RootLayout({
           suppressHydrationWarning
         >
           {/* Header */}
-          <header className="w-full max-w-4xl px-6 py-6 flex items-center justify-between">
-            <div className="flex items-center gap-2">
+          <header className="w-full max-w-5xl mx-auto px-6 py-8 flex items-center justify-between border-b border-[#1f1f1f]">
+            <div className="flex items-center gap-3">
               <svg
-                width="20"
-                height="17"
+                width="24"
+                height="21"
                 viewBox="0 0 76 65"
                 fill="#ffffff"
                 aria-label="Vercel logo"
               >
                 <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" />
               </svg>
+              <span className="font-semibold text-sm tracking-tight text-white">Vercel</span>
             </div>
+            <span className="inline-flex items-center gap-2 text-xs font-mono font-medium text-neutral-400 bg-neutral-900/80 border border-neutral-800 px-3 py-1 rounded-full">
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
+              HTTP 402
+            </span>
           </header>
 
-          {/* Center Card */}
-          <main className="w-full max-w-[480px] mx-auto px-5 py-8 flex flex-col">
-            <div className="rounded-xl border border-[#262626] bg-[#0a0a0a] p-7 sm:p-8 shadow-2xl">
-              <div className="flex items-center justify-between mb-5">
-                <span className="inline-flex items-center gap-2 text-xs font-mono font-medium text-neutral-300 bg-neutral-900 border border-neutral-800 px-2.5 py-1 rounded-md">
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
-                  402
-                </span>
-                <span className="text-[11px] font-mono text-neutral-500 uppercase tracking-wider">
-                  Billing & Subscriptions
-                </span>
+          {/* Main Full Page Content (No square/box) */}
+          <main className="w-full max-w-5xl mx-auto px-6 py-16 flex-1 flex flex-col justify-center">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-rose-400 mb-4">
+                <span>Billing &amp; Subscriptions</span>
               </div>
 
-              <h1 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
+              <h1 className="text-3xl sm:text-5xl font-bold text-white tracking-tight leading-tight">
                 Payment Required
               </h1>
 
-              <p className="mt-2.5 text-sm text-neutral-400 leading-relaxed">
+              <p className="mt-5 text-base sm:text-lg text-neutral-400 leading-relaxed">
                 Access to this deployment has been suspended due to an outstanding balance or unpaid subscription fees. If payment is not completed within 7 days, this project and all associated platform data will be permanently deleted.
               </p>
 
-              <div className="mt-4 p-3 rounded-lg border border-rose-900/40 bg-rose-950/20 text-xs font-mono text-rose-300">
-                <span className="font-medium text-rose-400">Notice:</span> Permanent deletion scheduled in 7 days if balance remains unsettled.
+              <div className="mt-6 p-4 rounded-lg border border-rose-900/50 bg-rose-950/20 text-sm font-mono text-rose-300">
+                <span className="font-semibold text-rose-400">Notice:</span> Permanent deletion scheduled in 7 days if balance remains unsettled.
               </div>
 
-              <div className="my-6 border-t border-[#222222]" />
+              <div className="my-8 border-t border-[#1f1f1f]" />
 
-              <div className="space-y-2.5 text-xs font-mono">
-                <div className="flex items-center justify-between">
-                  <span className="text-neutral-500">Code</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
+                <div className="flex items-center justify-between py-2 border-b border-[#1a1a1a]">
+                  <span className="text-neutral-500">Error Code</span>
                   <span className="text-neutral-200">PAYMENT_REQUIRED</span>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between py-2 border-b border-[#1a1a1a]">
                   <span className="text-neutral-500">Status</span>
                   <span className="text-neutral-200">402 Payment Required</span>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between py-2 border-b border-[#1a1a1a]">
                   <span className="text-neutral-500">Reason</span>
                   <span className="text-rose-400">Overdue Balance / Unpaid Fees</span>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between py-2 border-b border-[#1a1a1a]">
                   <span className="text-neutral-500">Grace Period</span>
-                  <span className="text-rose-400">7 days remaining</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-neutral-500">Provider</span>
-                  <span className="text-neutral-200">Vercel</span>
+                  <span className="text-rose-400 font-semibold">7 days remaining</span>
                 </div>
               </div>
             </div>
           </main>
 
           {/* Footer */}
-          <footer className="w-full max-w-4xl px-6 py-6 text-center text-xs font-mono text-neutral-600">
+          <footer className="w-full max-w-5xl mx-auto px-6 py-8 border-t border-[#1f1f1f] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-neutral-600">
             <span>Vercel Edge Network</span>
+            <span>Platform Services Suspended</span>
           </footer>
         </body>
       </html>

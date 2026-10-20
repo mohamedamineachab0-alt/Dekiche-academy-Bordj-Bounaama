@@ -84,7 +84,7 @@ export default async function AdminLiveClassesPage() {
                 </div>
                 <div>
                   <label className="field-label">الشهر</label>
-                  <MonthSelect name="month" required className="!p-2.5 !text-sm" />
+                  <MonthSelect name="month" required className="p-2.5! text-sm!" />
                 </div>
               </div>
 

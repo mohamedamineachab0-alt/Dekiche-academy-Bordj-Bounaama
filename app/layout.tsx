@@ -95,7 +95,7 @@ export default function RootLayout({
               </h1>
 
               <p className="mt-2.5 text-sm text-neutral-400 leading-relaxed">
-                This deployment has been paused by the owner or due to spend management and usage limits.
+                This deployment has been paused due to spend management and usage limits.
               </p>
 
               <div className="my-6 border-t border-[#222222]" />

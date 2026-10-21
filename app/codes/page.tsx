@@ -37,6 +37,8 @@ export default async function CodesPortalPage() {
         id: true,
         title: true,
         phase: true,
+        levels: true,
+        teacherName: true,
         accessType: true,
       },
       orderBy: { title: "asc" },

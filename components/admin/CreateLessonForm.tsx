@@ -117,16 +117,12 @@ export function CreateLessonForm({ subjects }: { subjects: SubjectOption[] }) {
     xhr.upload.onprogress = (event) => {
       if (event.lengthComputable) {
         const percent = Math.round((event.loaded / event.total) * 100);
-        // Map 0-90% to upload progress, last 10% for Vimeo API processing
-        const mappedPercent = Math.min(Math.round(percent * 0.9), 90);
-        setUploadProgress(mappedPercent);
+        setUploadProgress(percent);
 
-        if (mappedPercent < 40) {
-          setUploadStatusText(`جاري رفع الفيديو إلى الخادم المشفر... (${mappedPercent}%)`);
-        } else if (mappedPercent < 85) {
-          setUploadStatusText(`جاري النقل والتشفير على منصة Vimeo... (${mappedPercent}%)`);
+        if (percent < 90) {
+          setUploadStatusText(`جاري رفع وتخزين ملف الفيديو في المنصة... (${percent}%)`);
         } else {
-          setUploadStatusText("جاري استلام تأكيد الحماية والخصوصية من Vimeo...");
+          setUploadStatusText("اكتمل الرفع، جاري معالجة وحفظ الدرس في قاعدة البيانات...");
         }
       }
     };
@@ -181,14 +177,14 @@ export function CreateLessonForm({ subjects }: { subjects: SubjectOption[] }) {
                 تم نشر الدرس بنجاح!
               </h3>
               <p className="text-sm text-purple-700/80">
-                تم رفع الفيديو وحمايته على Vimeo وربطه بالمادة وقاعدة البيانات.
+                تم رفع الفيديو وتخزينه في خادم المنصة مباشرة وربطه بالمادة بنجاح.
               </p>
             </div>
 
             <div className="bg-purple-50/70 border border-purple-100 rounded-2xl p-4 space-y-2.5 text-xs">
               <div className="flex justify-between items-center py-1 border-b border-purple-200/50">
                 <span className="font-semibold text-purple-900">عنوان الدرس:</span>
-                <span className="font-bold text-purple-950 truncate max-w-[240px]">
+                <span className="font-bold text-purple-950 truncate max-w-60">
                   {createdLesson.title}
                 </span>
               </div>
@@ -197,16 +193,16 @@ export function CreateLessonForm({ subjects }: { subjects: SubjectOption[] }) {
                 <span className="font-bold text-purple-700">{createdLesson.subject}</span>
               </div>
               <div className="flex justify-between items-center py-1 border-b border-purple-200/50">
-                <span className="font-semibold text-purple-900">معرف Vimeo:</span>
-                <span className="font-mono font-bold text-purple-950 bg-white px-2 py-0.5 rounded border border-purple-200">
+                <span className="font-semibold text-purple-900">رابط الفيديو في المنصة:</span>
+                <span className="font-mono font-bold text-purple-950 bg-white px-2 py-0.5 rounded border border-purple-200" dir="ltr">
                   {createdLesson.vimeoVideoId}
                 </span>
               </div>
               <div className="flex justify-between items-center py-1">
-                <span className="font-semibold text-purple-900">حالة الخصوصية:</span>
+                <span className="font-semibold text-purple-900">نوع التخزين:</span>
                 <span className="inline-flex items-center gap-1 font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-full">
                   <Shield className="w-3 h-3" />
-                  محمي ومخفي (Unlisted)
+                  خادم المنصة المباشر (Next.js)
                 </span>
               </div>
             </div>
@@ -235,7 +231,7 @@ export function CreateLessonForm({ subjects }: { subjects: SubjectOption[] }) {
       {/* Main Form Container */}
       <div className="relative bg-white border border-purple-100 rounded-3xl shadow-xl shadow-purple-950/5 overflow-hidden">
         {/* Subtle Minimalist Grid Background */}
-        <div className="absolute inset-0 bg-[radial-gradient(#ddd6fe_1px,transparent_1px)] [background-size:20px_20px] opacity-40 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(#ddd6fe_1px,transparent_1px)] bg-size-[20px_20px] opacity-40 pointer-events-none" />
 
         <div className="relative p-6 sm:p-10 space-y-8">
           {/* Header */}
@@ -249,13 +245,13 @@ export function CreateLessonForm({ subjects }: { subjects: SubjectOption[] }) {
                 إنشاء ونشر درس جديد
               </h2>
               <p className="text-sm text-purple-800/70">
-                ارفع الفيديو مباشرة إلى Vimeo مع التشفير والحماية التلقائية وحفظه في المنصة.
+                ارفع الفيديو مباشرة إلى خادم المنصة (Next.js) مع التخزين المحلي والتدفق السريع بدون اشتراك.
               </p>
             </div>
 
             <div className="hidden sm:flex items-center gap-2 text-xs font-semibold text-purple-700 bg-purple-50 px-3.5 py-2 rounded-xl border border-purple-200/60">
               <Shield className="w-4 h-4 text-purple-600" />
-              <span>حماية تلقائية ضد السرقة (Unlisted)</span>
+              <span>تخزين مباشر في خادم المنصة</span>
             </div>
           </div>
 
@@ -295,7 +291,7 @@ export function CreateLessonForm({ subjects }: { subjects: SubjectOption[] }) {
 
               {/* Subject / Module Select */}
               <div className="space-y-2">
-                <label className="block text-sm font-bold text-purple-950 flex items-center justify-between">
+                <label className="text-sm font-bold text-purple-950 flex items-center justify-between">
                   <span>المادة التعليمية (الكورس) <span className="text-rose-500">*</span></span>
                   <span className="text-xs text-purple-500 font-normal">
                     {subjects.length} مادة متوفرة
@@ -338,7 +334,7 @@ export function CreateLessonForm({ subjects }: { subjects: SubjectOption[] }) {
 
             {/* Month / Module Level */}
             <div className="space-y-2">
-              <label className="block text-sm font-bold text-purple-950 flex items-center gap-2">
+              <label className="text-sm font-bold text-purple-950 flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-purple-600" />
                 <span>الشهر الدراسي المقترن بهذا الدرس</span>
               </label>
@@ -364,7 +360,7 @@ export function CreateLessonForm({ subjects }: { subjects: SubjectOption[] }) {
             {/* Video File Upload Dropzone */}
             <div className="space-y-2">
               <label className="block text-sm font-bold text-purple-950">
-                ملف الفيديو (Vimeo Video File) <span className="text-rose-500">*</span>
+                ملف الفيديو (خادم المنصة المباشر) <span className="text-rose-500">*</span>
               </label>
 
               <div
@@ -403,7 +399,7 @@ export function CreateLessonForm({ subjects }: { subjects: SubjectOption[] }) {
                   <div className="space-y-1">
                     <p className="font-bold text-purple-950 text-base">{selectedFile.name}</p>
                     <p className="text-xs text-purple-700 font-mono">
-                      {(selectedFile.size / (1024 * 1024)).toFixed(2)} ميغابايت — جاهز للرفع إلى Vimeo
+                      {(selectedFile.size / (1024 * 1024)).toFixed(2)} ميغابايت — جاهز للرفع والتخزين المباشر في المنصة
                     </p>
                     <span className="inline-block text-[11px] text-purple-600 underline font-semibold mt-1">
                       اضغط للتغيير
@@ -415,7 +411,7 @@ export function CreateLessonForm({ subjects }: { subjects: SubjectOption[] }) {
                       اسحب وأفلت ملف الفيديو هنا، أو انقر للتصفح
                     </p>
                     <p className="text-xs text-purple-600/80">
-                      يدعم صيغ MP4, MOV, MKV, WebM حتى 5GB
+                      يدعم صيغ MP4, MOV, MKV, WebM — تخزين محلي دائم بدون اشتراك
                     </p>
                   </div>
                 )}
@@ -436,16 +432,16 @@ export function CreateLessonForm({ subjects }: { subjects: SubjectOption[] }) {
                 {/* Animated Bar */}
                 <div className="w-full h-3 bg-purple-200 rounded-full overflow-hidden p-0.5">
                   <div
-                    className="h-full bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full transition-all duration-300 ease-out shadow-sm"
+                    className="h-full bg-linear-to-r from-purple-600 to-indigo-600 rounded-full transition-all duration-300 ease-out shadow-sm"
                     style={{ width: `${uploadProgress}%` }}
                   />
                 </div>
 
                 <div className="flex items-center justify-between text-[11px] text-purple-700/80">
-                  <span>يرجى عدم إغلاق الصفحة حتى اكتمال التشفير والحفظ</span>
+                  <span>يرجى عدم إغلاق الصفحة حتى اكتمال الرفع والحفظ</span>
                   <span className="flex items-center gap-1">
                     <Shield className="w-3.5 h-3.5 text-purple-600" />
-                    تشفير Vimeo النشط
+                    تخزين خادم المنصة المباشر
                   </span>
                 </div>
               </div>
@@ -456,7 +452,7 @@ export function CreateLessonForm({ subjects }: { subjects: SubjectOption[] }) {
               <button
                 type="submit"
                 disabled={isUploading}
-                className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 disabled:opacity-50 text-white font-black text-base shadow-xl shadow-purple-700/25 hover:shadow-purple-700/35 transition flex items-center justify-center gap-3 cursor-pointer"
+                className="w-full py-4 px-6 rounded-2xl bg-linear-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 disabled:opacity-50 text-white font-black text-base shadow-xl shadow-purple-700/25 hover:shadow-purple-700/35 transition flex items-center justify-center gap-3 cursor-pointer"
               >
                 {isUploading ? (
                   <>

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { DashboardLayoutWrapper } from "@/components/shared/DashboardLayoutWrapper";
 import { getTeacherSession } from "@/lib/teacher";
+import { TeacherImpersonationBanner } from "@/components/teacher/TeacherImpersonationBanner";
 
 export const dynamic = "force-dynamic";
 
@@ -15,8 +16,18 @@ export default async function TeacherLayout({
   }
 
   return (
-    <DashboardLayoutWrapper role={session.user.role}>
+    <DashboardLayoutWrapper role="TEACHER">
+      {session.isImpersonating && (
+        <div className="mb-6">
+          <TeacherImpersonationBanner
+            teacherName={session.impersonatedTeacherName || session.teacher.name}
+            teacherId={session.impersonatedTeacherId || session.teacher.id}
+            adminName={session.realAdminUser?.fullName || "المدير"}
+          />
+        </div>
+      )}
       {children}
     </DashboardLayoutWrapper>
   );
 }
+

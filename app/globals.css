@@ -295,7 +295,7 @@ textarea,
   .auth-glass-card .btn-primary {
     background: var(--primary);
     color: #ffffff;
-    border-radius: 0.65rem;
+    border-radius: 999px;
   }
 
   .bg-hero .auth-glass-card .btn-primary:hover,
@@ -337,7 +337,7 @@ textarea,
     justify-content: center;
     gap: 0.65rem;
     padding: 0.85rem 1.6rem;
-    border-radius: 0.85rem;
+    border-radius: 999px;
     background: var(--soft-btn);
     color: var(--ink);
     font-weight: 700;
@@ -355,7 +355,7 @@ textarea,
     justify-content: center;
     gap: 0.65rem;
     padding: 0.85rem 1.6rem;
-    border-radius: 0.85rem;
+    border-radius: 999px;
     background: var(--action-blue);
     color: #ffffff;
     font-weight: 700;
@@ -429,8 +429,8 @@ textarea,
   .input-field {
     width: 100%;
     padding-block: 0.85rem;
-    padding-inline: 1rem;
-    border-radius: 0.85rem;
+    padding-inline: 1.35rem;
+    border-radius: 9999px;
     border: 1px solid var(--line);
     background: var(--surface);
     color: var(--ink);
@@ -440,7 +440,26 @@ textarea,
   }
 
   .relative:has(.lucide) > .input-field {
-    padding-inline: 2.75rem;
+    padding-inline: 3rem;
+  }
+
+  textarea.input-field,
+  textarea {
+    border-radius: 1.25rem !important;
+    padding-inline: 1.25rem;
+  }
+
+  /* Universal rounded inputs & buttons matching landing style */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="color"]):not([class*="rounded-none"]) {
+    border-radius: 9999px;
+  }
+
+  select:not([class*="rounded-none"]) {
+    border-radius: 9999px;
+  }
+
+  input[type="file"]::file-selector-button {
+    border-radius: 9999px;
   }
 
   .input-field::placeholder {

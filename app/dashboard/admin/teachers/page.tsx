@@ -1,39 +1,63 @@
 export const dynamic = 'force-dynamic';
 import { prisma } from "@/lib/prisma";
-import { STREAMS, LEVELS } from "@/lib/constants";
-import { labelLevel, labelStream } from "@/lib/education-labels";
-import { Users, Plus, Phone, BookOpen, Download, Printer } from "lucide-react";
+import { Users, Plus, Download, Printer } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import Link from "next/link";
 import { CreateTeacherClient } from "@/components/admin/CreateTeacherClient";
+import { TeachersDirectoryClient } from "@/components/admin/TeachersDirectoryClient";
+
+export const metadata = {
+  title: "فضاء وقائمة الأساتذة | منصة دقيش التعليمية",
+  description: "لوحة التحكم المركزية بالأساتذة: اختر أي أستاذ للدخول المباشر إلى فضائه التعليمي، أو أضف أساتذة جدد",
+};
 
 export default async function AdminTeachersPage() {
   const teachers = await prisma.teacher.findMany({
     orderBy: { createdAt: "desc" },
     include: {
       user: true,
-      subjects: true,
+      subjects: {
+        select: { id: true, title: true },
+      },
     },
   });
 
   const subjects = await prisma.subject.findMany({
     select: { id: true, title: true },
+    orderBy: { title: "asc" },
   });
 
+  const serializedTeachers = teachers.map((t) => ({
+    id: t.id,
+    name: t.name,
+    phone: t.phone,
+    phases: t.phases || [],
+    levels: t.levels || [],
+    streams: t.streams || [],
+    subjects: t.subjects || [],
+  }));
+
   return (
-    <div className="space-y-8 font-sans pb-12">
+    <div className="space-y-8 font-sans pb-16" dir="rtl">
       <HeroBanner
         variant="hero"
-        title="إدارة الأساتذة"
-        description="تسجيل أساتذة جدد وتعيين مستويات وشعب التدريس الخاصة بهم."
+        title="فضاء وقائمة الأساتذة"
+        description="لوحة التحكم المركزية: اختر أي أستاذ من القائمة للدخول المباشر إلى فضائه التعليمي وإدارته، أو أضف أساتذة جدد واضبط المواد والمستويات."
         icon={Users}
         action={
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-            <Link href="/dashboard/admin/teachers/credentials" target="_blank" className="btn-secondary w-full sm:w-auto bg-white hover:bg-gray-50 text-ink shadow-sm">
+            <Link
+              href="/dashboard/admin/teachers/credentials"
+              target="_blank"
+              className="btn-secondary w-full sm:w-auto bg-white hover:bg-gray-50 text-ink shadow-sm"
+            >
               <Printer className="w-4 h-4" />
               طباعة حسابات الأساتذة
             </Link>
-            <a href="/api/admin/export-teachers" className="btn-primary w-full sm:w-auto">
+            <a
+              href="/api/admin/export-teachers"
+              className="btn-primary w-full sm:w-auto"
+            >
               <Download className="w-4 h-4" />
               تحميل القائمة (CSV)
             </a>
@@ -41,95 +65,27 @@ export default async function AdminTeachersPage() {
         }
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1">
-          <div className="surface-card p-6 sticky top-6">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        {/* Left Column: Add New Teacher */}
+        <div className="xl:col-span-1 order-2 xl:order-1">
+          <div className="surface-card p-6 rounded-2xl border border-line sticky top-6">
             <div className="flex items-center gap-3 mb-5 pb-4 border-b border-line">
               <span className="icon-tile">
                 <Plus className="w-4 h-4" />
               </span>
-              <h2 className="text-lg font-bold text-ink">إضافة أستاذ جديد</h2>
+              <div>
+                <h2 className="text-lg font-bold text-ink">إضافة أستاذ جديد</h2>
+                <p className="text-xs text-muted mt-0.5">تسجيل أستاذ وتعيين مواده وشعبه</p>
+              </div>
             </div>
 
             <CreateTeacherClient subjects={subjects} />
           </div>
         </div>
 
-        <div className="lg:col-span-2">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {teachers.map((teacher) => (
-              <article key={teacher.id} className="surface-card p-6 flex flex-col">
-                <div className="flex items-center gap-4 mb-5">
-                  <div className="w-14 h-14 rounded-full bg-primary-soft text-primary flex items-center justify-center font-bold text-2xl shrink-0">
-                    {teacher.name.charAt(0)}
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-ink text-lg">{teacher.name}</h3>
-                    <p className="text-sm text-muted font-mono flex items-center gap-1 mt-1" dir="ltr">
-                      <Phone className="w-3.5 h-3.5" />
-                      {teacher.phone}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-4 mt-2 flex-1">
-                  <div>
-                    <p className="text-xs font-semibold text-muted mb-2">الأطوار:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {teacher.phases.map((p) => {
-                        const phaseMap: Record<string, string> = {
-                          PRIMARY: "ابتدائي",
-                          MIDDLE: "متوسط",
-                          SECONDARY: "ثانوي",
-                        };
-                        return (
-                          <span key={p} className="badge-soft">
-                            {phaseMap[p] || p}
-                          </span>
-                        );
-                      })}
-                      {teacher.phases.length === 0 && <span className="text-xs text-muted">—</span>}
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold text-muted mb-2">المستويات:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {teacher.levels.map((l) => (
-                        <span key={l} className="badge-outline">
-                          {labelLevel(l)}
-                        </span>
-                      ))}
-                      {teacher.levels.length === 0 && <span className="text-xs text-muted">—</span>}
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold text-muted mb-2">الشعب:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {teacher.streams.map((s) => (
-                        <span key={s} className="badge-outline">
-                          {labelStream(s)}
-                        </span>
-                      ))}
-                      {teacher.streams.length === 0 && <span className="text-xs text-muted">—</span>}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-line flex items-center gap-2 text-sm font-semibold text-ink">
-                  <BookOpen className="w-5 h-5 text-primary" />
-                  {teacher.subjects.length} مواد مسندة
-                </div>
-              </article>
-            ))}
-            {teachers.length === 0 && (
-              <div className="col-span-full surface-card px-6 py-16 text-center">
-                <span className="icon-tile mx-auto mb-4">
-                  <Users className="w-5 h-5" />
-                </span>
-                <p className="text-sm text-muted">لا يوجد أساتذة مضافون بعد.</p>
-              </div>
-            )}
-          </div>
+        {/* Right Column: Teachers Space, Quick Enter & Directory */}
+        <div className="xl:col-span-2 order-1 xl:order-2">
+          <TeachersDirectoryClient teachers={serializedTeachers} />
         </div>
       </div>
     </div>

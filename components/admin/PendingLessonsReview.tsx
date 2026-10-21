@@ -19,6 +19,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { LEVEL_ARABIC, STREAM_ARABIC } from "@/lib/education-labels";
+import { PlatformVideoPlayer } from "@/components/shared/PlatformVideoPlayer";
 
 export interface PendingLessonItem {
   id: string;
@@ -208,7 +209,7 @@ export function PendingLessonsReview({ initialLessons }: PendingLessonsReviewPro
   return (
     <div className="space-y-8 max-w-6xl mx-auto pb-16" dir="rtl">
       {/* Header */}
-      <div className="surface-card p-6 md:p-8 border border-purple-500/20 bg-gradient-to-br from-purple-950/20 via-neutral-900/60 to-neutral-950">
+      <div className="surface-card p-6 md:p-8 border border-purple-500/20 bg-linear-to-br from-purple-950/20 via-neutral-900/60 to-neutral-950">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20 mb-3">
@@ -403,17 +404,13 @@ export function PendingLessonsReview({ initialLessons }: PendingLessonsReviewPro
                 <div className="p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
                   {/* Video Player Column */}
                   <div className="lg:col-span-6 space-y-3">
-                    <div className="w-full aspect-video rounded-xl overflow-hidden bg-black border border-line relative shadow-lg">
-                      <iframe
-                        src={`https://player.vimeo.com/video/${lesson.vimeoVideoId}?title=0&byline=0&portrait=0`}
-                        className="w-full h-full border-0"
-                        allow="autoplay; fullscreen; picture-in-picture"
-                        allowFullScreen
-                        title={lesson.title}
-                      />
-                    </div>
+                    <PlatformVideoPlayer
+                      vimeoVideoId={lesson.vimeoVideoId}
+                      title={lesson.title}
+                      autoplay={false}
+                    />
                     <div className="flex items-center justify-between text-xs text-muted px-1">
-                      <span>معرف Vimeo: <strong className="font-mono text-purple-400">{lesson.vimeoVideoId}</strong></span>
+                      <span>{lesson.vimeoVideoId?.includes("-") ? "معرف Bunny:" : "معرف Vimeo:"} <strong className="font-mono text-purple-400">{lesson.vimeoVideoId}</strong></span>
                       <a
                         href={`https://vimeo.com/${lesson.vimeoVideoId}`}
                         target="_blank"

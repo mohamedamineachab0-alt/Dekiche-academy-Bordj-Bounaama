@@ -34,8 +34,22 @@ export type ActionState = {
   success?: boolean;
 };
 
+function parseYoutubeId(input?: string | null): string | null {
+  if (!input) return null;
+  const trimmed = input.trim();
+  if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) {
+    return trimmed;
+  }
+  const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+  const match = trimmed.match(regExp);
+  return match ? match[1] : null;
+}
+
 export async function createLesson(payload: LessonPayload): Promise<ActionState> {
-  if (!payload.title || payload.subjectIds.length === 0 || (!payload.vimeoVideoId && !payload.youtubeVideoId) || !payload.month) {
+  const parsedYt = parseYoutubeId(payload.youtubeVideoId) || parseYoutubeId(payload.vimeoVideoId);
+  const cleanVimeo = parseYoutubeId(payload.vimeoVideoId) ? "" : (payload.vimeoVideoId?.trim() || "");
+
+  if (!payload.title || payload.subjectIds.length === 0 || (!cleanVimeo && !parsedYt) || !payload.month) {
     return { error: "جميع الحقول الاساسية مطلوبة (ومطلوب رابط فيديو واحد على الأقل)" };
   }
 
@@ -52,8 +66,8 @@ export async function createLesson(payload: LessonPayload): Promise<ActionState>
         levels: payload.levels,
         month: payload.month,
         academicMonth: { connect: { id: academicMonth.id } },
-        vimeoVideoId: payload.vimeoVideoId || "",
-        youtubeVideoId: payload.youtubeVideoId || null,
+        vimeoVideoId: cleanVimeo,
+        youtubeVideoId: parsedYt || null,
         image: payload.image || null,
         materials: {
           create: payload.materials.map(m => ({
@@ -128,7 +142,10 @@ export type UpdateLessonPayload = {
 };
 
 export async function updateLesson(payload: UpdateLessonPayload): Promise<ActionState> {
-  if (!payload.id || !payload.title || payload.subjectIds.length === 0 || (!payload.vimeoVideoId && !payload.youtubeVideoId) || !payload.month) {
+  const parsedYt = parseYoutubeId(payload.youtubeVideoId) || parseYoutubeId(payload.vimeoVideoId);
+  const cleanVimeo = parseYoutubeId(payload.vimeoVideoId) ? "" : (payload.vimeoVideoId?.trim() || "");
+
+  if (!payload.id || !payload.title || payload.subjectIds.length === 0 || (!cleanVimeo && !parsedYt) || !payload.month) {
     return { error: "جميع الحقول الاساسية مطلوبة (ومطلوب رابط فيديو واحد على الأقل)" };
   }
 
@@ -146,8 +163,8 @@ export async function updateLesson(payload: UpdateLessonPayload): Promise<Action
         levels: payload.levels,
         month: payload.month,
         academicMonth: { connect: { id: academicMonth.id } },
-        vimeoVideoId: payload.vimeoVideoId || "",
-        youtubeVideoId: payload.youtubeVideoId || null,
+        vimeoVideoId: cleanVimeo,
+        youtubeVideoId: parsedYt || null,
         ...(payload.image !== undefined && { image: payload.image }),
         ...(payload.quiz !== undefined && {
           quiz: payload.quiz ? {

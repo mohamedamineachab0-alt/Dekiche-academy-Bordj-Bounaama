@@ -178,7 +178,7 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => { setRole("STUDENT"); setError(undefined); }}
-              className={`py-2.5 text-sm font-semibold rounded-lg ${
+              className={`py-2.5 text-sm font-semibold rounded-full ${
                 role === "STUDENT"
                   ? "bg-primary text-white"
                   : "bg-primary-soft text-primary"
@@ -189,7 +189,7 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => { setRole("PARENT"); setError(undefined); }}
-              className={`py-2.5 text-sm font-semibold rounded-lg ${
+              className={`py-2.5 text-sm font-semibold rounded-full ${
                 role === "PARENT"
                   ? "bg-primary text-white"
                   : "bg-primary-soft text-primary"

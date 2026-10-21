@@ -4,6 +4,7 @@ import { HeroBanner } from "@/components/shared/HeroBanner";
 import Link from "next/link";
 import { SubjectFilterForm } from "@/components/admin/SubjectFilterForm";
 import { DeleteLessonButton } from "@/components/admin/DeleteLessonButton";
+import { formatSubjectTitle } from "@/lib/subject-formatter";
 
 export default async function AdminLessonsPage({
   searchParams,
@@ -41,7 +42,10 @@ export default async function AdminLessonsPage({
         <div className="flex items-center gap-3">
           <label className="text-sm font-semibold text-ink whitespace-nowrap">اختر المادة:</label>
           <SubjectFilterForm
-            subjects={subjects.map((s) => ({ id: s.id, title: s.title }))}
+            subjects={subjects.map((s) => ({
+              id: s.id,
+              title: formatSubjectTitle(s.title, s.levels, s.streams),
+            }))}
             selectedSubjectId={selectedSubjectId || undefined}
           />
         </div>

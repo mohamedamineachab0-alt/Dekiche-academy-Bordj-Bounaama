@@ -55,6 +55,44 @@ export default async function AdminCodesPage(props: {
           </Link>
         </section>
 
+        {/* Quick Download Card for 2AS Science Codes */}
+        <div className="surface-card p-5 sm:p-6 rounded-2xl border-2 border-emerald-500/30 bg-emerald-500/5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+              <Key className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="font-bold text-ink text-base">أكواد مادة علوم الطبيعة والحياة (2 ثانوي)</h3>
+                <span className="text-[11px] font-bold bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                  100 كود جاهز
+                </span>
+              </div>
+              <p className="text-xs text-muted mt-1">
+                الأستاذة قمور آسيا • صالحة للفصل الأول (الأشهر 1، 2، 3) • جاهزة بدون عمود الترقيم للطباعة الفورية.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2.5 w-full md:w-auto shrink-0">
+            <a
+              href="/codes_science_2as.csv"
+              download="codes_science_2as.csv"
+              className="flex-1 md:flex-none inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-line bg-surface hover:bg-surface-muted text-ink text-xs font-bold transition shadow-2xs"
+            >
+              <Download className="w-4 h-4 text-emerald-600" />
+              <span>تحميل CSV</span>
+            </a>
+            <a
+              href="/codes_science_2as.zip"
+              download="codes_science_2as.zip"
+              className="flex-1 md:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-xs cursor-pointer"
+            >
+              <Download className="w-4 h-4" />
+              <span>تحميل ZIP (ملف مضغوط)</span>
+            </a>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-1">
             <BulkZipExportButton />
@@ -72,7 +110,7 @@ export default async function AdminCodesPage(props: {
                 </div>
                 <div className="surface-panel overflow-hidden">
                   <div className="overflow-x-auto custom-scrollbar">
-                    <table className="w-full data-table min-w-[720px]">
+                    <table className="w-full data-table min-w-180">
                       <thead>
                         <tr>
                           <th>الرمز</th>
@@ -136,7 +174,7 @@ export default async function AdminCodesPage(props: {
                 </div>
                 <div className="surface-panel overflow-hidden">
                   <div className="overflow-x-auto custom-scrollbar">
-                    <table className="w-full data-table min-w-[640px]">
+                    <table className="w-full data-table min-w-160">
                       <thead>
                         <tr>
                           <th>الرمز</th>

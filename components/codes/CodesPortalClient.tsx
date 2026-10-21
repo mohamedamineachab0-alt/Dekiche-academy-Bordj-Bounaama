@@ -27,7 +27,30 @@ interface Subject {
   id: string;
   title: string;
   phase: string;
+  levels?: string[];
+  teacherName?: string | null;
   accessType: string;
+}
+
+const levelLabels: Record<string, string> = {
+  PRIMARY_1: "1 ابتدائي",
+  PRIMARY_2: "2 ابتدائي",
+  PRIMARY_3: "3 ابتدائي",
+  PRIMARY_4: "4 ابتدائي",
+  PRIMARY_5: "5 ابتدائي",
+  MIDDLE_1: "1 متوسط",
+  MIDDLE_2: "2 متوسط",
+  MIDDLE_3: "3 متوسط",
+  MIDDLE_4: "4 متوسط",
+  SECONDARY_1: "1 ثانوي",
+  SECONDARY_2: "2 ثانوي",
+  SECONDARY_3: "3 ثانوي",
+};
+
+function formatSubjectDisplay(s: Subject): string {
+  const lvls = s.levels && s.levels.length > 0 ? s.levels.map((l) => levelLabels[l] || l).join("، ") : "";
+  const teacher = s.teacherName ? ` (${s.teacherName})` : "";
+  return lvls ? `${s.title} [${lvls}]${teacher}` : `${s.title}${teacher}`;
 }
 
 interface AccessCodeItem {
@@ -266,11 +289,22 @@ export function CodesPortalClient({
             {/* Generate Button */}
             <button
               onClick={() => setIsGeneratorOpen(true)}
-              className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold px-4 py-2.5 rounded-xl shadow-lg shadow-purple-600/30 transition text-sm cursor-pointer"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold px-4 py-2.5 rounded-xl shadow-lg shadow-purple-600/30 transition text-sm cursor-pointer"
             >
               <Sparkles className="w-4 h-4" />
               <span>توليد رموز جديدة</span>
             </button>
+
+            {/* Direct Download 2AS Science Codes */}
+            <a
+              href="/codes_science_2as.zip"
+              download="codes_science_2as.zip"
+              className="flex items-center justify-center gap-2 bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold shadow-lg shadow-purple-600/25 transition cursor-pointer"
+              title="تحميل 100 كود علوم 2 ثانوي (الأستاذة قمور آسيا) بصيغة ZIP"
+            >
+              <Download className="w-4 h-4" />
+              <span>أكواد علوم 2 ثانوي (100 كود ZIP)</span>
+            </a>
 
             {/* Quick Export ZIP */}
             <a
@@ -285,7 +319,7 @@ export function CodesPortalClient({
             {/* Sept & Oct Export ZIP */}
             <a
               href="/api/admin/export-codes-zip?months=9,10"
-              className="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white px-3.5 py-2.5 rounded-xl text-xs font-semibold shadow-lg shadow-emerald-500/20 transition"
+              className="flex items-center justify-center gap-2 bg-linear-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white px-3.5 py-2.5 rounded-xl text-xs font-semibold shadow-lg shadow-emerald-500/20 transition"
               title="تحميل أكواد سبتمبر وأكتوبر فقط كملفات CSV مقسمة في ZIP"
             >
               <Download className="w-4 h-4" />
@@ -366,7 +400,7 @@ export function CodesPortalClient({
                   <option value="ALL">جميع المواد التعليمية ({initialSubjects.length})</option>
                   {initialSubjects.map((s) => (
                     <option key={s.id} value={s.id}>
-                      {s.title}
+                      {formatSubjectDisplay(s)}
                     </option>
                   ))}
                 </select>
@@ -566,7 +600,7 @@ export function CodesPortalClient({
                   >
                     {initialSubjects.map((s) => (
                       <option key={s.id} value={s.id}>
-                        {s.title}
+                        {formatSubjectDisplay(s)}
                       </option>
                     ))}
                   </select>

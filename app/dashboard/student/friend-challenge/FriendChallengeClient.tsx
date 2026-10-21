@@ -97,7 +97,7 @@ export function FriendChallengeClient({
                 value={friendCode}
                 onChange={(e) => setFriendCode(e.target.value)}
                 placeholder="أدخل رمز الصديق هنا..."
-                className="flex-1 bg-surface border border-line rounded-xl px-4 py-4 text-base font-mono font-bold text-ink focus:outline-none focus:ring-4 focus:ring-primary/20 transition-all"
+                className="flex-1 bg-surface border border-line rounded-full px-6 py-4 text-base font-mono font-bold text-ink focus:outline-none focus:ring-4 focus:ring-primary/20 transition-all"
                 dir="ltr"
               />
               <button

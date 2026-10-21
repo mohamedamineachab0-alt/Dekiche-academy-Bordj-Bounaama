@@ -293,11 +293,11 @@ export function DailyExerciseForm({ subjects }: { subjects: any[] }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-sm font-bold text-primary">عنوان المرفقات</label>
-              <input type="text" name="materialTitle" className="w-full px-4 py-2.5 bg-white border border-line rounded-xl text-ink font-medium focus:ring-2 focus:ring-primary-mid focus:outline-none" placeholder="مثال: ملخص الدرس" />
+              <input type="text" name="materialTitle" className="w-full px-5 py-2.5 bg-white border border-line rounded-full text-ink font-medium focus:ring-2 focus:ring-primary-mid focus:outline-none" placeholder="مثال: ملخص الدرس" />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-bold text-primary block">رفع الملفات</label>
-              <input type="file" name="materials" multiple className="w-full px-4 py-2 bg-white border border-line rounded-xl text-sm font-medium file:ml-4 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:font-bold file:bg-primary-soft file:text-primary hover:file:bg-primary-soft" />
+              <input type="file" name="materials" multiple className="w-full px-5 py-2 bg-white border border-line rounded-full text-sm font-medium file:ml-4 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:font-bold file:bg-primary-soft file:text-primary hover:file:bg-primary-soft" />
             </div>
           </div>
         </div>

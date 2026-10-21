@@ -7,6 +7,7 @@ import { LessonTabs } from "@/components/student/LessonTabs";
 import { LessonWatchTracker } from "@/components/student/LessonWatchTracker";
 import { MarkLessonWatchedButton } from "@/components/student/MarkLessonWatchedButton";
 import { UnlockLessonInline } from "@/components/student/UnlockLessonInline";
+import { PlatformVideoPlayer } from "@/components/shared/PlatformVideoPlayer";
 
 export default async function LessonStudyViewPage({
   params,
@@ -120,38 +121,12 @@ export default async function LessonStudyViewPage({
         {lesson.title}
       </h1>
 
-      <div className="-mx-3 sm:-mx-4 md:mx-0 rounded-none md:rounded-2xl overflow-hidden border-y md:border border-line bg-ink aspect-video relative">
-        {lesson.youtubeVideoId ? (
-          <iframe
-            src={`https://www.youtube.com/embed/${lesson.youtubeVideoId}?rel=0&modestbranding=1`}
-            className="absolute inset-0 w-full h-full border-0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            title={lesson.title}
-          />
-        ) : lesson.vimeoVideoId ? (
-          lesson.vimeoVideoId.includes('-') ? (
-            <iframe
-              src={`https://iframe.mediadelivery.net/embed/${process.env.NEXT_PUBLIC_BUNNY_LIBRARY_ID || "773860"}/${lesson.vimeoVideoId}`}
-              className="absolute inset-0 w-full h-full border-0"
-              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-              allowFullScreen
-              title={lesson.title}
-            />
-          ) : (
-            <iframe
-              src={`https://player.vimeo.com/video/${lesson.vimeoVideoId}?title=0&byline=0&portrait=0&badge=0&vimeo_logo=0&share=0&like=0&watch_later=0`}
-              className="absolute inset-0 w-full h-full border-0"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-              title={lesson.title}
-            />
-          )
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-white/50 text-sm font-bold bg-black/80">
-            الفيديو غير متوفر
-          </div>
-        )}
+      <div className="-mx-3 sm:-mx-4 md:mx-0">
+        <PlatformVideoPlayer
+          youtubeVideoId={lesson.youtubeVideoId}
+          vimeoVideoId={lesson.vimeoVideoId}
+          title={lesson.title}
+        />
       </div>
 
       <MarkLessonWatchedButton lessonId={lesson.id} completed={Boolean(completion)} />

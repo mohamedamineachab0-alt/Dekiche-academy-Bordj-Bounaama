@@ -76,14 +76,14 @@ export function AddEntityModals({ options }: { options: any }) {
       {activeModal === "student" && (
         <ModalWrapper title="إضافة تلميذ جديد">
           <form onSubmit={(e) => handleSubmit(e, addStudent)} className="space-y-4">
-            <div><label className="block text-sm mb-1 text-ink">الاسم الكامل</label><input required type="text" name="fullName" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink" /></div>
-            <div><label className="block text-sm mb-1 text-ink">رقم الهاتف</label><input required type="text" name="phoneNumber" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink" /></div>
-            <div><label className="block text-sm mb-1 text-ink">اسم الولي</label><input required type="text" name="parentName" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink" /></div>
-            <div><label className="block text-sm mb-1 text-ink">رقم هاتف الولي</label><input required type="text" name="parentPhone" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink" /></div>
+            <div><label className="block text-sm mb-1 text-ink">الاسم الكامل</label><input required type="text" name="fullName" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink" /></div>
+            <div><label className="block text-sm mb-1 text-ink">رقم الهاتف</label><input required type="text" name="phoneNumber" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink" /></div>
+            <div><label className="block text-sm mb-1 text-ink">اسم الولي</label><input required type="text" name="parentName" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink" /></div>
+            <div><label className="block text-sm mb-1 text-ink">رقم هاتف الولي</label><input required type="text" name="parentPhone" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink" /></div>
             
             <div>
               <label className="block text-sm mb-1 text-ink">الفوج (يحدد المادة والأستاذ)</label>
-              <select name="groupId" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink">
+              <select name="groupId" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink">
                 <option value="">-- بدون فوج حالياً --</option>
                 {groups.map((g: any) => {
                   const subject = g.subject;
@@ -107,8 +107,8 @@ export function AddEntityModals({ options }: { options: any }) {
       {activeModal === "teacher" && (
         <ModalWrapper title="إضافة أستاذ جديد">
           <form onSubmit={(e) => handleSubmit(e, addTeacher)} className="space-y-4">
-            <div><label className="block text-sm mb-1 text-ink">الاسم الكامل</label><input required type="text" name="name" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink" /></div>
-            <div><label className="block text-sm mb-1 text-ink">رقم الهاتف</label><input required type="text" name="phone" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink" /></div>
+            <div><label className="block text-sm mb-1 text-ink">الاسم الكامل</label><input required type="text" name="name" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink" /></div>
+            <div><label className="block text-sm mb-1 text-ink">رقم الهاتف</label><input required type="text" name="phone" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink" /></div>
             <button type="submit" disabled={isPending} className="btn-primary w-full justify-center mt-4 bg-purple-600 hover:bg-purple-700">
               {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "إضافة الأستاذ"}
             </button>
@@ -119,8 +119,8 @@ export function AddEntityModals({ options }: { options: any }) {
       {activeModal === "employee" && (
         <ModalWrapper title="إضافة عامل جديد">
           <form onSubmit={(e) => handleSubmit(e, addEmployee)} className="space-y-4">
-            <div><label className="block text-sm mb-1 text-ink">الاسم الكامل</label><input required type="text" name="fullName" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink" /></div>
-            <div><label className="block text-sm mb-1 text-ink">رقم الهاتف</label><input required type="text" name="phoneNumber" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink" /></div>
+            <div><label className="block text-sm mb-1 text-ink">الاسم الكامل</label><input required type="text" name="fullName" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink" /></div>
+            <div><label className="block text-sm mb-1 text-ink">رقم الهاتف</label><input required type="text" name="phoneNumber" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink" /></div>
             <button type="submit" disabled={isPending} className="btn-primary w-full justify-center mt-4 bg-blue-600 hover:bg-blue-700">
               {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "إضافة العامل"}
             </button>
@@ -131,10 +131,10 @@ export function AddEntityModals({ options }: { options: any }) {
       {activeModal === "subject" && (
         <ModalWrapper title="إضافة مادة جديدة">
           <form onSubmit={(e) => handleSubmit(e, addSubject)} className="space-y-4">
-            <div><label className="block text-sm mb-1 text-ink">اسم المادة</label><input required type="text" name="title" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink" /></div>
-            <div><label className="block text-sm mb-1 text-ink">الوصف</label><input type="text" name="description" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink" /></div>
-            <div><label className="block text-sm mb-1 text-ink">السعر (شهريا)</label><input required type="number" name="price" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink" /></div>
-            <div><label className="block text-sm mb-1 text-ink">اسم الأستاذ المبدئي</label><input type="text" name="teacherName" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink" /></div>
+            <div><label className="block text-sm mb-1 text-ink">اسم المادة</label><input required type="text" name="title" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink" /></div>
+            <div><label className="block text-sm mb-1 text-ink">الوصف</label><input type="text" name="description" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink" /></div>
+            <div><label className="block text-sm mb-1 text-ink">السعر (شهريا)</label><input required type="number" name="price" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink" /></div>
+            <div><label className="block text-sm mb-1 text-ink">اسم الأستاذ المبدئي</label><input type="text" name="teacherName" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink" /></div>
             <button type="submit" disabled={isPending} className="btn-primary w-full justify-center mt-4 bg-emerald-600 hover:bg-emerald-700">
               {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "إضافة المادة"}
             </button>
@@ -145,11 +145,11 @@ export function AddEntityModals({ options }: { options: any }) {
       {activeModal === "group" && (
         <ModalWrapper title="إضافة فوج جديد">
           <form onSubmit={(e) => handleSubmit(e, addGroup)} className="space-y-4">
-            <div><label className="block text-sm mb-1 text-ink">اسم الفوج</label><input required type="text" name="name" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink" placeholder="مثال: فوج 1 علوم" /></div>
+            <div><label className="block text-sm mb-1 text-ink">اسم الفوج</label><input required type="text" name="name" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink" placeholder="مثال: فوج 1 علوم" /></div>
             
             <div>
               <label className="block text-sm mb-1 text-ink">المادة</label>
-              <select required name="subjectId" className="w-full input-field bg-background border border-border p-2 rounded-lg text-ink">
+              <select required name="subjectId" className="w-full input-field bg-background border border-border px-4 py-2.5 text-ink">
                 <option value="">-- اختر المادة --</option>
                 {subjects.map((s: any) => {
                   const levelsText = s.levels?.map(translateLevel).join("، ") || "";

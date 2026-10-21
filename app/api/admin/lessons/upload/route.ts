@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
+import fs from "fs";
+import path from "path";
+import { ensureAcademicMonth } from "@/lib/academic-month";
+import { revalidatePath } from "next/cache";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -44,100 +48,59 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "يرجى اختيار ملف فيديو صالح للرفع" }, { status: 400 });
     }
 
-    // 3. Initiate Vimeo Tus Upload Ticket
-    const vimeoToken = process.env.VIMEO_ACCESS_TOKEN;
-    if (!vimeoToken) {
-      return NextResponse.json(
-        { error: "إعدادات Vimeo API غير مكتملة في الخادم (VIMEO_ACCESS_TOKEN مفقود)" },
-        { status: 500 }
-      );
+    // 3. Save file directly to Next.js server storage
+    const uploadDir = path.join(process.cwd(), "uploads", "videos");
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
     }
 
-    const ticketRes = await fetch("https://api.vimeo.com/me/videos", {
-      method: "POST",
-      headers: {
-        Authorization: `bearer ${vimeoToken}`,
-        "Content-Type": "application/json",
-        Accept: "application/vnd.vimeo.*+json;version=3.4",
-      },
-      body: JSON.stringify({
-        upload: {
-          approach: "tus",
-          size: videoFile.size,
-        },
-        name: title,
-        description: description,
-        privacy: {
-          view: "unlisted", // Protect from public listing
-          embed: "whitelist", // Protected embed
-          download: false, // Prevent unauthorized downloads
-        },
-      }),
-    });
+    const ext = path.extname(videoFile.name) || ".mp4";
+    const baseName = path.basename(videoFile.name, ext).replace(/[^a-zA-Z0-9_\-\u0600-\u06FF]/g, "_");
+    const safeFilename = `${Date.now()}-${baseName}${ext}`;
+    const targetFilePath = path.join(uploadDir, safeFilename);
 
-    if (!ticketRes.ok) {
-      const errData = await ticketRes.json().catch(() => ({}));
-      console.error("Vimeo ticket error:", errData);
-      return NextResponse.json(
-        { error: errData.error || errData.developer_message || "فشل الاتصال بمنصة Vimeo لإنشاء تذكرة الرفع" },
-        { status: ticketRes.status }
-      );
-    }
-
-    const vimeoData = await ticketRes.json();
-    const uploadLink = vimeoData.upload?.upload_link;
-    const vimeoUri = vimeoData.uri; // Format: /videos/123456789
-    const vimeoVideoId = vimeoUri ? vimeoUri.replace("/videos/", "") : "";
-
-    if (!uploadLink || !vimeoVideoId) {
-      return NextResponse.json(
-        { error: "لم يتم استلام رابط الرفع من Vimeo" },
-        { status: 502 }
-      );
-    }
-
-    // 4. Stream upload binary chunks to Vimeo via Tus
     const videoBuffer = Buffer.from(await videoFile.arrayBuffer());
+    await fs.promises.writeFile(targetFilePath, videoBuffer);
 
-    const patchRes = await fetch(uploadLink, {
-      method: "PATCH",
-      headers: {
-        "Tus-Resumable": "1.0.0",
-        "Upload-Offset": "0",
-        "Content-Type": "application/offset+octet-stream",
+    const videoUrl = `/api/videos/${safeFilename}`;
+
+    // 4. Ensure academic month exists
+    const academicMonth = await ensureAcademicMonth(month);
+
+    // 5. Fetch subject data to inherit levels and streams
+    const subject = await prisma.subject.findUnique({
+      where: { id: subjectId },
+      select: {
+        id: true,
+        title: true,
+        levels: true,
+        streams: true,
       },
-      body: videoBuffer,
     });
 
-    if (patchRes.status !== 204 && !patchRes.ok) {
-      console.error("Vimeo patch error:", patchRes.status, await patchRes.text());
-      return NextResponse.json(
-        { error: "فشل نقل ملف الفيديو إلى سيرفرات Vimeo" },
-        { status: 502 }
-      );
+    if (!subject) {
+      return NextResponse.json({ error: "المادة المحددة غير موجودة" }, { status: 404 });
     }
 
-    // 5. Ensure academic month exists
-    let academicMonth = await prisma.month.findUnique({
-      where: { number: month },
+    // 6. Calculate next order in month
+    const existingCount = await prisma.lesson.count({
+      where: {
+        subjects: { some: { id: subjectId } },
+        month: month,
+      },
     });
-    if (!academicMonth) {
-      academicMonth = await prisma.month.create({
-        data: {
-          number: month,
-          title: `الشهر ${month}`,
-        },
-      });
-    }
 
-    // 6. Save lesson to Supabase / PostgreSQL database
+    // 7. Create Lesson in Database
     const lesson = await prisma.lesson.create({
       data: {
-        title,
-        description,
-        month,
+        title: title,
+        description: description,
+        month: month,
         monthId: academicMonth.id,
-        vimeoVideoId,
+        order: existingCount + 1,
+        vimeoVideoId: videoUrl,
+        streams: subject.streams,
+        levels: subject.levels,
         subjects: {
           connect: { id: subjectId },
         },
@@ -149,25 +112,28 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const embedUrl = `https://player.vimeo.com/video/${vimeoVideoId}`;
+    // 8. Revalidate dashboard routes
+    revalidatePath("/dashboard/admin/lessons");
+    revalidatePath(`/dashboard/student/subjects/${subjectId}`);
+    revalidatePath(`/dashboard/student/subjects/${subjectId}/lessons`);
 
     return NextResponse.json({
       success: true,
-      message: "تم رفع الفيديو وحفظ الدرس بنجاح",
+      message: "تم رفع الفيديو وحفظ الدرس بنجاح في المنصة!",
       lesson: {
         id: lesson.id,
         title: lesson.title,
         description: lesson.description,
         vimeoVideoId: lesson.vimeoVideoId,
-        embedUrl,
-        subject: lesson.subjects[0]?.title || "",
+        embedUrl: lesson.vimeoVideoId,
+        subject: subject.title,
         month: lesson.month,
       },
     });
   } catch (error: any) {
-    console.error("Lesson creation/upload error:", error);
+    console.error("Error in lesson direct upload:", error);
     return NextResponse.json(
-      { error: error?.message || "حدث خطأ غير متوقع أثناء معالجة ونشر الدرس" },
+      { error: error?.message || "حدث خطأ غير متوقع أثناء رفع وحفظ الدرس" },
       { status: 500 }
     );
   }

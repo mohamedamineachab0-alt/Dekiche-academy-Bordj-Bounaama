@@ -67,6 +67,94 @@ export async function getTeacherSession() {
   if (!user) return null;
 
   if (user.role === "ADMIN") {
+    const impersonateTeacherId = cookieStore.get("impersonate_teacher_id")?.value;
+    if (impersonateTeacherId) {
+      const impersonatedTeacher = await prisma.teacher.findFirst({
+        where: {
+          OR: [{ id: impersonateTeacherId }, { userId: impersonateTeacherId }],
+        },
+        include: {
+          user: true,
+          subjects: {
+            select: {
+              id: true,
+              title: true,
+              teacherName: true,
+              phase: true,
+              levels: true,
+              streams: true,
+            },
+          },
+        },
+      });
+
+      if (impersonatedTeacher) {
+        let teacherUser = impersonatedTeacher.user;
+        if (!teacherUser && impersonatedTeacher.userId) {
+          teacherUser = await prisma.user.findUnique({
+            where: { id: impersonatedTeacher.userId },
+          });
+        }
+        if (!teacherUser) {
+          teacherUser = await prisma.user.findUnique({
+            where: { phoneNumber: impersonatedTeacher.phone },
+          });
+          if (teacherUser) {
+            await prisma.teacher.update({
+              where: { id: impersonatedTeacher.id },
+              data: { userId: teacherUser.id },
+            });
+          } else {
+            teacherUser = await prisma.user.create({
+              data: {
+                fullName: impersonatedTeacher.name,
+                phoneNumber: impersonatedTeacher.phone,
+                role: "TEACHER",
+                passwordHash: "",
+              },
+            });
+            await prisma.teacher.update({
+              where: { id: impersonatedTeacher.id },
+              data: { userId: teacherUser.id },
+            });
+          }
+        }
+
+        const cleanName = impersonatedTeacher.name.replace('الأستاذة ', '').replace('الأستاذ ', '').trim();
+        const teacherSubjects = await prisma.subject.findMany({
+          where: {
+            OR: [
+              { teacherId: impersonatedTeacher.id },
+              { teacherName: impersonatedTeacher.name },
+              { teacherName: { contains: cleanName } },
+            ],
+          },
+          select: {
+            id: true,
+            title: true,
+            teacherName: true,
+            phase: true,
+            levels: true,
+            streams: true,
+          },
+        });
+
+        type TeacherWithSubjects = NonNullable<NonNullable<typeof user>["teacherProfile"]>;
+        return {
+          user: teacherUser,
+          teacher: {
+            ...impersonatedTeacher,
+            subjects: teacherSubjects,
+          } as unknown as TeacherWithSubjects,
+          subjectIds: teacherSubjects.map((s) => s.id),
+          isImpersonating: true,
+          realAdminUser: user,
+          impersonatedTeacherName: impersonatedTeacher.name,
+          impersonatedTeacherId: impersonatedTeacher.id,
+        };
+      }
+    }
+
     const allSubjects = await prisma.subject.findMany({
       select: {
         id: true,
@@ -89,6 +177,10 @@ export async function getTeacherSession() {
         subjects: allSubjects,
       } as unknown as TeacherWithSubjects,
       subjectIds: allSubjects.map((s) => s.id),
+      isImpersonating: false,
+      realAdminUser: user,
+      impersonatedTeacherName: null,
+      impersonatedTeacherId: null,
     };
   }
 
@@ -103,8 +195,40 @@ export async function getTeacherSession() {
   }
 
   if (!user?.teacherProfile) return null;
-  const subjectIds = user.teacherProfile.subjects.map((subject) => subject.id);
-  return { user, teacher: user.teacherProfile, subjectIds };
+
+  const cleanName = user.teacherProfile.name.replace('الأستاذة ', '').replace('الأستاذ ', '').trim();
+  const teacherSubjects = await prisma.subject.findMany({
+    where: {
+      OR: [
+        { teacherId: user.teacherProfile.id },
+        { teacherName: user.teacherProfile.name },
+        { teacherName: { contains: cleanName } },
+      ],
+    },
+    select: {
+      id: true,
+      title: true,
+      teacherName: true,
+      phase: true,
+      levels: true,
+      streams: true,
+    },
+  });
+
+  const subjectIds = teacherSubjects.map((subject) => subject.id);
+  type TeacherWithSubjects = NonNullable<NonNullable<typeof user>["teacherProfile"]>;
+  return {
+    user,
+    teacher: {
+      ...user.teacherProfile,
+      subjects: teacherSubjects,
+    } as unknown as TeacherWithSubjects,
+    subjectIds,
+    isImpersonating: false,
+    realAdminUser: null,
+    impersonatedTeacherName: null,
+    impersonatedTeacherId: null,
+  };
 }
 
 export function teacherMistakesWhere(subjectIds: string[]) {

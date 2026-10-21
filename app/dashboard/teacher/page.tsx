@@ -80,16 +80,34 @@ export default async function TeacherDashboardPage() {
     orderBy: [{ month: "asc" }, { order: "asc" }, { createdAt: "desc" }],
   });
 
-  // 3.1 Fetch lessons uploaded/published by this teacher
-  const teacherPendingLessons = await prisma.pendingLesson.findMany({
+  // 3.1 Fetch lessons uploaded/published by this teacher and pending recordings
+  const teacherPendingRecords = await prisma.pendingLesson.findMany({
     where: { teacherId: user.id },
-    select: { publishedLessonId: true },
+    include: {
+      subject: { select: { id: true, title: true } },
+    },
+    orderBy: { createdAt: "desc" },
   });
+
   const uploadedLessonIds = new Set(
-    teacherPendingLessons
+    teacherPendingRecords
       .map((p) => p.publishedLessonId)
       .filter((id): id is string => Boolean(id))
   );
+
+  const clientPendingLessons = teacherPendingRecords
+    .filter((p) => p.status !== "published" || !p.publishedLessonId)
+    .map((p) => ({
+      id: p.id,
+      title: p.title,
+      subjectId: p.subjectId,
+      subjectTitle: p.subject?.title || "مادة غير محددة",
+      month: p.month,
+      level: p.level,
+      status: p.status,
+      notes: p.editingNotes,
+      createdAt: p.createdAt.toISOString(),
+    }));
 
   // 4. Aggregated stats
   const totalLessons = lessons.length;
@@ -348,15 +366,19 @@ export default async function TeacherDashboardPage() {
           <div>
             <h2 className="text-lg font-bold text-ink flex items-center gap-2">
               <GraduationCap className="w-5 h-5 text-primary" />
-              <span>إدارة الدروس، الكويزات، وملفات الـ PDF</span>
+              <span>إدارة وترتيب الدروس، الكويزات، والملفات</span>
             </h2>
             <p className="text-xs text-muted mt-0.5">
-              يمكنك رفع ملخصات وتمارين بصيغة PDF لكل درس، وإنشاء أو تعديل الكويزات التفاعلية المنقطة على 20.
+              يمكنك معرفة الدروس التي رفعتها وإعادة ترتيبها بحرية، ورفع ملخصات وتمارين PDF، وإنشاء الكويزات التفاعلية.
             </p>
           </div>
         </div>
 
-        <TeacherLessonsManager subjects={clientSubjects} lessons={clientLessons} />
+        <TeacherLessonsManager
+          subjects={clientSubjects}
+          lessons={clientLessons}
+          pendingLessons={clientPendingLessons}
+        />
       </section>
     </div>
   );

@@ -76,7 +76,7 @@ const ADMIN_GROUPS: NavGroup[] = [
     label: "الإدارة",
     links: [
       { name: "تسيير المدرسة", href: "/dashboard/admin/school", icon: Settings },
-      { name: "الأساتذة", href: "/dashboard/admin/teachers", icon: Users },
+      { name: "فضاء وقائمة الأساتذة", href: "/dashboard/admin/teachers", icon: Users },
       { name: "مداخيل الأساتذة", href: "/dashboard/admin/teachers/revenues", icon: Wallet },
       { name: "رموز الدخول", href: "/dashboard/admin/codes", icon: Key },
       { name: "أخطاء تلاميذي", href: "/dashboard/admin/mistakes", icon: AlertTriangle },
@@ -158,15 +158,15 @@ export function Sidebar({
     <>
       {isMobileOpen && (
         <div
-          className="fixed inset-0 z-[99] bg-[#0f0f2e]/50 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-99 bg-[#0f0f2e]/50 backdrop-blur-sm md:hidden"
           onClick={onMobileClose}
         />
       )}
 
       <aside
-        className={`fixed inset-y-0 right-0 z-[100] flex flex-col h-[100dvh] bg-primary text-white transition-all duration-300 ease-out w-[min(86vw,20rem)] max-w-xs font-sans safe-area-pt safe-area-pb
+        className={`fixed inset-y-0 right-0 z-100 flex flex-col h-dvh bg-primary text-white transition-all duration-300 ease-out w-[min(86vw,20rem)] max-w-xs font-sans safe-area-pt safe-area-pb
  ${isMobileOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"}
- ${isCollapsed ? "md:w-[76px]" : "md:w-[264px]"}
+ ${isCollapsed ? "md:w-19" : "md:w-66"}
 `}
       >
         {/* Brand */}
@@ -218,7 +218,7 @@ export function Sidebar({
                           : "text-white/75 hover:bg-white/10 hover:text-white"
                         }`}
                     >
-                      <Icon className="w-[18px] h-[18px] shrink-0" />
+                      <Icon className="w-4.5 h-4.5 shrink-0" />
                       <span className={`truncate ${isCollapsed ? "md:hidden" : ""}`}>{link.name}</span>
                     </Link>
                   );
@@ -268,7 +268,7 @@ export function Sidebar({
               className={`w-full flex items-center gap-3 h-10 rounded-xl text-sm font-medium text-white/75 hover:bg-white/10 hover:text-white transition-colors px-3 ${isCollapsed ? "md:justify-center md:px-0" : ""
                 }`}
             >
-              <LogOut className="w-[18px] h-[18px] shrink-0" />
+              <LogOut className="w-4.5 h-4.5 shrink-0" />
               <span className={isCollapsed ? "md:hidden" : ""}>تسجيل الخروج</span>
             </button>
           </form>

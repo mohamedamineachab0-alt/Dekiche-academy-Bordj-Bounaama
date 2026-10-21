@@ -53,7 +53,7 @@ export function SchoolSettingsForm({ initialSettings }: { initialSettings: Recor
             type="text"
             name="SCHOOL_NAME"
             defaultValue={settings.SCHOOL_NAME || ""}
-            className="w-full px-4 py-2.5 rounded-xl border border-border/50 bg-surface focus:outline-none focus:ring-2 focus:ring-primary-mid/20 transition-all text-ink"
+            className="w-full px-5 py-3 rounded-full border border-border/50 bg-surface focus:outline-none focus:ring-2 focus:ring-primary-mid/20 transition-all text-ink"
             placeholder="مثال: أكاديمية دكيش"
           />
         </div>
@@ -64,7 +64,7 @@ export function SchoolSettingsForm({ initialSettings }: { initialSettings: Recor
             type="text"
             name="CONTACT_PHONE"
             defaultValue={settings.CONTACT_PHONE || ""}
-            className="w-full px-4 py-2.5 rounded-xl border border-border/50 bg-surface focus:outline-none focus:ring-2 focus:ring-primary-mid/20 transition-all text-ink"
+            className="w-full px-5 py-3 rounded-full border border-border/50 bg-surface focus:outline-none focus:ring-2 focus:ring-primary-mid/20 transition-all text-ink"
             placeholder="05xx xx xx xx"
           />
         </div>
@@ -75,7 +75,7 @@ export function SchoolSettingsForm({ initialSettings }: { initialSettings: Recor
             type="email"
             name="CONTACT_EMAIL"
             defaultValue={settings.CONTACT_EMAIL || ""}
-            className="w-full px-4 py-2.5 rounded-xl border border-border/50 bg-surface focus:outline-none focus:ring-2 focus:ring-primary-mid/20 transition-all text-ink text-left dir-ltr"
+            className="w-full px-5 py-3 rounded-full border border-border/50 bg-surface focus:outline-none focus:ring-2 focus:ring-primary-mid/20 transition-all text-ink text-left dir-ltr"
             placeholder="support@example.com"
           />
         </div>

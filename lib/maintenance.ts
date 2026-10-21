@@ -25,6 +25,6 @@ export async function isMaintenanceActive(): Promise<boolean> {
     console.error("Non-fatal: could not read MAINTENANCE_MODE from database:", error);
   }
 
-  // Active by default as requested by administrator
-  return true;
+  // Default to inactive unless explicitly enabled in database or env
+  return false;
 }

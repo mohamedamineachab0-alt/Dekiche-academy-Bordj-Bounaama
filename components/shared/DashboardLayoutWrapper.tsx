@@ -33,7 +33,7 @@ export function DashboardLayoutWrapper({
   const notificationsHref = NOTIFICATIONS_HREF[role];
 
   return (
-    <div className="flex min-h-[100dvh] font-sans w-full max-w-full overflow-x-hidden overscroll-x-none touch-pan-y bg-background safe-area-px" dir="rtl">
+    <div className="flex min-h-dvh font-sans w-full max-w-full overflow-x-hidden overscroll-x-none touch-pan-y bg-background safe-area-px" dir="rtl">
       <Sidebar
         role={role}
         isMobileOpen={isMobileOpen}
@@ -42,7 +42,7 @@ export function DashboardLayoutWrapper({
         onToggleCollapse={() => setIsCollapsed((prev) => !prev)}
       />
 
-      <div className={`flex-1 flex flex-col min-h-[100dvh] min-w-0 transition-all duration-300 ${isCollapsed ? "md:mr-[76px]" : "md:mr-[264px]"}`}>
+      <div className={`flex-1 flex flex-col min-h-dvh min-w-0 transition-all duration-300 ${isCollapsed ? "md:mr-19" : "md:mr-66"}`}>
         <header className="sticky top-0 z-40 min-h-16 shrink-0 bg-surface/90 backdrop-blur-md border-b border-line flex items-center gap-3 px-3 sm:px-4 md:px-6 safe-area-pt">
           <button
             onClick={() => setIsMobileOpen(true)}
@@ -70,14 +70,14 @@ export function DashboardLayoutWrapper({
                 className="w-11 h-11 inline-flex items-center justify-center rounded-xl text-ink hover:bg-surface-muted transition-colors"
                 title="الإشعارات"
               >
-                <Bell className="w-[18px] h-[18px]" />
+                <Bell className="w-4.5 h-4.5" />
               </Link>
             )}
           </div>
         </header>
 
         <main className="flex-1 w-full max-w-full overflow-x-hidden px-3 py-5 sm:px-4 md:px-8 md:py-8 pb-24 md:pb-8">
-          <div className="max-w-[1200px] mx-auto min-w-0">
+          <div className="max-w-300 mx-auto min-w-0">
             {children}
           </div>
         </main>

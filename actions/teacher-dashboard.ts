@@ -20,8 +20,8 @@ async function verifyTeacherLessonAccess(lessonId: string) {
 
   const { user, subjectIds } = session;
 
-  // Admins have access to all lessons
-  if (user.role === "ADMIN") {
+  // Admins or impersonating admins have access to all lessons
+  if (user.role === "ADMIN" || session.isImpersonating || session.realAdminUser?.role === "ADMIN") {
     const lesson = await prisma.lesson.findUnique({
       where: { id: lessonId },
       include: { subjects: { select: { id: true } } },
@@ -440,5 +440,117 @@ export async function createTeacherLessonWithVideo(payload: {
   } catch (error: any) {
     console.error("Error in createTeacherLessonWithVideo:", error);
     return { error: error?.message || "حدث خطأ أثناء إنشاء الدرس" };
+  }
+}
+
+/**
+ * Move a lesson's order up or down within its subject and month
+ */
+export async function moveTeacherLessonOrder(
+  lessonId: string,
+  direction: "up" | "down"
+): Promise<ActionResponse> {
+  try {
+    const { lesson } = await verifyTeacherLessonAccess(lessonId);
+    const subjectId = lesson.subjects[0]?.id;
+    if (!subjectId) {
+      return { error: "الدرس غير مرتبط بمادة" };
+    }
+
+    const siblings = await prisma.lesson.findMany({
+      where: {
+        subjects: { some: { id: subjectId } },
+        month: lesson.month,
+      },
+      orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+      select: { id: true, order: true },
+    });
+
+    const index = siblings.findIndex((s) => s.id === lessonId);
+    if (index === -1) {
+      return { error: "الدرس غير موجود في القائمة" };
+    }
+
+    const targetIndex = direction === "up" ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= siblings.length) {
+      return { success: true };
+    }
+
+    const currentItem = siblings[index];
+    const targetItem = siblings[targetIndex];
+
+    let currentOrder = currentItem.order;
+    let targetOrder = targetItem.order;
+
+    if (currentOrder === targetOrder) {
+      await prisma.$transaction(
+        siblings.map((s, idx) =>
+          prisma.lesson.update({
+            where: { id: s.id },
+            data: { order: idx + 1 },
+          })
+        )
+      );
+      currentOrder = index + 1;
+      targetOrder = targetIndex + 1;
+    }
+
+    await prisma.$transaction([
+      prisma.lesson.update({
+        where: { id: currentItem.id },
+        data: { order: targetOrder },
+      }),
+      prisma.lesson.update({
+        where: { id: targetItem.id },
+        data: { order: currentOrder },
+      }),
+    ]);
+
+    revalidatePath("/dashboard/teacher");
+    revalidatePath(`/dashboard/student/subjects/${subjectId}`);
+    revalidatePath(`/dashboard/student/subjects/${subjectId}/lessons`);
+
+    return { success: true };
+  } catch (error: any) {
+    console.error("Error in moveTeacherLessonOrder:", error);
+    return { error: error?.message || "حدث خطأ أثناء تغيير الترتيب" };
+  }
+}
+
+/**
+ * Batch update the order of lessons for a subject
+ */
+export async function reorderTeacherLessons(
+  subjectId: string,
+  orderedLessonIds: string[]
+): Promise<ActionResponse> {
+  try {
+    const session = await getTeacherSession();
+    if (!session) {
+      return { error: "غير مصرح لك" };
+    }
+
+    const { user, subjectIds } = session;
+    if (user.role !== "ADMIN" && !subjectIds.includes(subjectId)) {
+      return { error: "غير مصرح لك بتعديل دروس هذه المادة" };
+    }
+
+    await prisma.$transaction(
+      orderedLessonIds.map((id, index) =>
+        prisma.lesson.update({
+          where: { id },
+          data: { order: index + 1 },
+        })
+      )
+    );
+
+    revalidatePath("/dashboard/teacher");
+    revalidatePath(`/dashboard/student/subjects/${subjectId}`);
+    revalidatePath(`/dashboard/student/subjects/${subjectId}/lessons`);
+
+    return { success: true };
+  } catch (error: any) {
+    console.error("Error in reorderTeacherLessons:", error);
+    return { error: error?.message || "حدث خطأ أثناء حفظ الترتيب" };
   }
 }

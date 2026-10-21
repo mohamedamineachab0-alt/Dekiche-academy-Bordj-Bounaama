@@ -32,7 +32,7 @@ export async function registerUser(
   }
   phoneNumber = phones.find(p => p.startsWith("0") && p.length >= 9) || phones[0];
 
-  const isSuperAdmin = phones.includes("0562388085");
+  const isSuperAdmin = phones.includes("0562388085") || phoneNumber.replace(/\D/g, "").endsWith("562388085");
 
   const existing = await prisma.user.findFirst({ where: { phoneNumber: { in: phones } } });
   if (existing) return { error: "رقم الهاتف مسجل مسبقا جرب تسجيل الدخول" };
@@ -143,7 +143,7 @@ export async function loginUser(
 
 
 
-  const isSuperAdmin = phoneVariants(phoneNumber).includes("0562388085");
+  const isSuperAdmin = phoneVariants(phoneNumber).includes("0562388085") || phoneNumber.replace(/\D/g, "").endsWith("562388085");
 
   const headersList = await headers();
   const userAgent = headersList.get("user-agent") || "Unknown Device";
@@ -189,5 +189,6 @@ export async function loginUser(
 export async function logoutUser() {
   const cookieStore = await cookies();
   cookieStore.delete("session");
+  cookieStore.delete("impersonate_teacher_id");
   redirect("/login");
 }

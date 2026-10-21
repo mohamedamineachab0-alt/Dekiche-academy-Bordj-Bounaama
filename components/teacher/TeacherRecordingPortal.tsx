@@ -481,7 +481,7 @@ export function TeacherRecordingPortal({
   return (
     <div className="space-y-8 max-w-5xl mx-auto pb-16" dir="rtl">
       {/* Top Banner */}
-      <div className="surface-card p-6 md:p-8 relative overflow-hidden border border-purple-500/20 bg-gradient-to-br from-purple-950/20 via-neutral-900/60 to-neutral-950">
+      <div className="surface-card p-6 md:p-8 relative overflow-hidden border border-purple-500/20 bg-linear-to-br from-purple-950/20 via-neutral-900/60 to-neutral-950">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20 mb-3">
@@ -538,7 +538,7 @@ export function TeacherRecordingPortal({
             {/* Left/Main Column: Video Recorder & Montage Notes */}
             <div className="lg:col-span-7 space-y-6">
               {/* Recorder Viewport */}
-              <div className="surface-card p-5 border border-line bg-neutral-950 flex flex-col items-center justify-center min-h-[380px] rounded-2xl relative overflow-hidden group">
+              <div className="surface-card p-5 border border-line bg-neutral-950 flex flex-col items-center justify-center min-h-95 rounded-2xl relative overflow-hidden group">
                 {/* Active live recording display */}
                 {isRecording && (
                   <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
@@ -547,7 +547,7 @@ export function TeacherRecordingPortal({
                       autoPlay
                       muted
                       playsInline
-                      className="w-full max-h-[320px] rounded-xl object-contain bg-black border border-purple-500/30 shadow-2xl"
+                      className="w-full max-h-80 rounded-xl object-contain bg-black border border-purple-500/30 shadow-2xl"
                     />
                     <div className="flex items-center gap-3">
                       <span className="flex h-3 w-3 relative">
@@ -584,7 +584,7 @@ export function TeacherRecordingPortal({
                       src={previewUrl}
                       controls
                       playsInline
-                      className="w-full max-h-[320px] rounded-xl object-contain bg-black border border-line shadow-2xl"
+                      className="w-full max-h-80 rounded-xl object-contain bg-black border border-line shadow-2xl"
                     />
                     
                     {/* Trimming UI */}
@@ -917,7 +917,7 @@ export function TeacherRecordingPortal({
                   <button
                     type="submit"
                     disabled={isUploading || isRecording || (!recordedBlob && !youtubeUrl.trim())}
-                    className="w-full py-3.5 px-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-xl shadow-purple-600/25 transition-all flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                    className="w-full py-3.5 px-4 rounded-xl font-bold bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-xl shadow-purple-600/25 transition-all flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     {isUploading ? (
                       <>
@@ -954,7 +954,7 @@ export function TeacherRecordingPortal({
                     </div>
                     <div className="w-full bg-neutral-900 rounded-full h-4 overflow-hidden border border-emerald-900/50 shadow-inner">
                       <div
-                        className="bg-gradient-to-r from-emerald-600 to-emerald-400 h-full rounded-full transition-all duration-300 ease-out relative"
+                        className="bg-linear-to-r from-emerald-600 to-emerald-400 h-full rounded-full transition-all duration-300 ease-out relative"
                         style={{ width: `${uploadProgress}%` }}
                       >
                         {!isUploadPaused && <div className="absolute inset-0 bg-white/20 animate-[pulse_2s_ease-in-out_infinite]" />}

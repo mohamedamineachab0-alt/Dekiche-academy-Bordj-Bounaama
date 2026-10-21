@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { ChevronRight, Video, List, UploadCloud, Link as LinkIcon } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
+import { formatSubjectTitle } from "@/lib/subject-formatter";
 
 export default async function NewLessonPage(props: {
   searchParams?: Promise<{ mode?: string }>;
@@ -79,7 +80,12 @@ export default async function NewLessonPage(props: {
 
       {/* Active Form */}
       {mode === "upload" ? (
-        <CreateLessonForm subjects={subjects.map((s) => ({ id: s.id, title: s.title }))} />
+        <CreateLessonForm
+          subjects={subjects.map((s) => ({
+            id: s.id,
+            title: formatSubjectTitle(s.title, s.levels, s.streams),
+          }))}
+        />
       ) : (
         <LessonForm subjects={subjects} />
       )}

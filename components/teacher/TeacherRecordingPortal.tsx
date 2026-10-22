@@ -29,7 +29,6 @@ import {
 import Link from "next/link";
 
 import * as tus from "tus-js-client";
-import { createBunnyVideo } from "@/actions/bunny-actions";
 
 interface SubjectOption {
   id: string;
@@ -392,45 +391,52 @@ export function TeacherRecordingPortal({
 
       setUploadProgress(0);
 
-      let bunnyVideoId = null;
+      let vimeoVideoId: string | null = null;
 
       if (recordedBlob) {
         setUploadStep("vimeo"); // UI string "جاري الرفع..."
         
         const fileName = `lesson_recording_${Date.now()}.webm`;
-        // 1. Get secure upload signature
-        const result = await createBunnyVideo(title.trim() || fileName);
-        if (result.error) {
-          throw new Error(result.error);
+        
+        // 1. Get Vimeo Tus upload ticket from our API
+        const ticketRes = await fetch("/api/vimeo/ticket", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: title.trim() || fileName,
+            size: recordedBlob.size,
+            description: editingNotes.trim() || "درس مسجل من فضاء الأستاذ",
+          }),
+        });
+
+        const ticketData = await ticketRes.json();
+        if (!ticketRes.ok || !ticketData.uploadLink) {
+          throw new Error(ticketData.error || "فشل الحصول على رابط تذكرة الرفع من Vimeo");
         }
-        
-        const { videoId, libraryId, expirationTime, signature } = result;
-        bunnyVideoId = videoId as string;
-        formData.append("bunnyVideoId", bunnyVideoId);
-        
-        // 2. Upload directly to Bunny CDN
+
+        vimeoVideoId = ticketData.videoId as string;
+        formData.append("vimeoVideoId", vimeoVideoId);
+
+        // 2. Upload directly to Vimeo via Tus resumable protocol
         await new Promise<void>((resolve, reject) => {
           const upload = new tus.Upload(recordedBlob as Blob, {
-            endpoint: "https://video.bunnycdn.com/tusupload",
+            uploadUrl: ticketData.uploadLink,
             retryDelays: [0, 3000, 5000, 10000, 20000],
             headers: {
-              AuthorizationSignature: signature!,
-              AuthorizationExpire: expirationTime!.toString(),
-              VideoId: videoId!,
-              LibraryId: libraryId!,
+              Accept: "application/vnd.vimeo.*+json;version=3.4",
             },
             metadata: {
               filename: fileName,
               filetype: "video/webm",
             },
-            onError: (err) => reject(new Error("حدث خطأ أثناء رفع الفيديو: " + err)),
+            onError: (err) => reject(new Error("حدث خطأ أثناء رفع الفيديو إلى Vimeo: " + err)),
             onProgress: (bytesUploaded, bytesTotal) => {
               const percent = Math.round((bytesUploaded / bytesTotal) * 100);
-              setUploadProgress(Math.min(percent * 0.85, 85)); // 85% for upload
+              setUploadProgress(Math.min(percent * 0.9, 90)); // 90% for upload
             },
             onSuccess: () => resolve(),
           });
-          
+
           xhrRef.current = upload;
           upload.start();
         });

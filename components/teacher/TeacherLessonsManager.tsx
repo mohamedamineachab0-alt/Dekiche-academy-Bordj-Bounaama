@@ -28,6 +28,7 @@ import {
   FileVideo,
 } from "lucide-react";
 import { MathPreview } from "@/components/shared/MathPreview";
+import * as tus from "tus-js-client";
 import {
   uploadTeacherLessonMaterial,
   deleteTeacherLessonMaterial,
@@ -124,6 +125,26 @@ export function parseYoutubeId(input: string): string | null {
   const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
   const match = trimmed.match(regExp);
   return match ? match[1] : null;
+}
+
+export function parseVideoUrlOrId(input: string): { type: "youtube" | "vimeo"; id: string } | null {
+  if (!input) return null;
+  const yt = parseYoutubeId(input);
+  if (yt) return { type: "youtube", id: yt };
+
+  const s = input.trim();
+  if (/^\d{6,12}(?::[a-zA-Z0-9]+)?$/.test(s)) {
+    return { type: "vimeo", id: s };
+  }
+  const match = s.match(
+    /(?:player\.vimeo\.com\/video\/|vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/[^\/]*\/videos\/|album\/(?:\d+\/)?video\/|manage\/videos\/|video\/|))(\d{6,12})(?:[\/?](?:h=)?([a-zA-Z0-9]+))?/
+  );
+  if (match) {
+    const id = match[1];
+    const hash = match[2];
+    return { type: "vimeo", id: hash ? `${id}:${hash}` : id };
+  }
+  return null;
 }
 
 function YoutubeIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -491,8 +512,8 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
     setVideoError("");
   };
 
-  // Upload Direct Video File
-  const handleUploadDirectVideo = () => {
+  // Upload Direct Video File via Vimeo Tus
+  const handleUploadDirectVideo = async () => {
     if (!activeVideoLesson || !directVideoFile) {
       setVideoError("يرجى اختيار ملف فيديو لرفعه أولاً");
       return;
@@ -502,50 +523,79 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
     setDirectVideoProgress(0);
     setVideoError("");
 
-    const formData = new FormData();
-    formData.append("file", directVideoFile);
-    formData.append("lessonId", activeVideoLesson.id);
+    try {
+      // 1. Get Vimeo ticket
+      const ticketRes = await fetch("/api/vimeo/ticket", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: activeVideoLesson.title,
+          size: directVideoFile.size,
+          description: `فيديو درس: ${activeVideoLesson.title}`,
+        }),
+      });
 
-    const xhr = new XMLHttpRequest();
-    xhr.upload.onprogress = (e) => {
-      if (e.lengthComputable) {
-        const percent = Math.round((e.loaded / e.total) * 100);
-        setDirectVideoProgress(percent);
+      const ticketData = await ticketRes.json();
+      if (!ticketRes.ok || !ticketData.uploadLink) {
+        throw new Error(ticketData.error || "فشل الحصول على رابط الرفع من Vimeo");
       }
-    };
 
-    xhr.onload = () => {
-      setIsUploadingDirectVideo(false);
-      try {
-        const res = JSON.parse(xhr.responseText);
-        if (xhr.status >= 200 && xhr.status < 300 && res.success) {
-          activeVideoLesson.vimeoVideoId = res.url;
-          activeVideoLesson.youtubeVideoId = null;
-          setDirectVideoFile(null);
-          setActiveVideoLesson(null);
-        } else {
-          setVideoError(res.error || "فشل رفع الفيديو إلى خادم المنصة");
-        }
-      } catch {
-        setVideoError("حدث خطأ أثناء معالجة رفع الفيديو");
+      const vimeoVideoId = ticketData.videoId;
+
+      // 2. Upload via Tus directly to Vimeo
+      await new Promise<void>((resolve, reject) => {
+        const upload = new tus.Upload(directVideoFile, {
+          uploadUrl: ticketData.uploadLink,
+          retryDelays: [0, 3000, 5000, 10000, 20000],
+          headers: {
+            Accept: "application/vnd.vimeo.*+json;version=3.4",
+          },
+          metadata: {
+            filename: directVideoFile.name,
+            filetype: directVideoFile.type || "video/mp4",
+          },
+          onError: (err) => reject(new Error("حدث خطأ أثناء رفع الفيديو إلى Vimeo: " + err)),
+          onProgress: (bytesUploaded, bytesTotal) => {
+            const percent = Math.round((bytesUploaded / bytesTotal) * 100);
+            setDirectVideoProgress(percent);
+          },
+          onSuccess: () => resolve(),
+        });
+        upload.start();
+      });
+
+      // 3. Connect video to lesson
+      const saveRes = await fetch("/api/upload-video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lessonId: activeVideoLesson.id,
+          vimeoVideoId: vimeoVideoId,
+        }),
+      });
+
+      const saveData = await saveRes.json();
+      if (!saveRes.ok || !saveData.success) {
+        throw new Error(saveData.error || "فشل ربط الفيديو بالدرس");
       }
-    };
 
-    xhr.onerror = () => {
+      activeVideoLesson.vimeoVideoId = vimeoVideoId;
+      activeVideoLesson.youtubeVideoId = null;
+      setDirectVideoFile(null);
+      setActiveVideoLesson(null);
+    } catch (err: any) {
+      setVideoError(err.message || "حدث خطأ أثناء رفع الفيديو إلى Vimeo");
+    } finally {
       setIsUploadingDirectVideo(false);
-      setVideoError("فشل الاتصال بالخادم أثناء رفع الفيديو");
-    };
-
-    xhr.open("POST", "/api/upload-video", true);
-    xhr.send(formData);
+    }
   };
 
-  // Save Video URL
+  // Save Video URL (YouTube or Vimeo)
   const handleSaveVideo = () => {
     if (!activeVideoLesson) return;
-    const extracted = parseYoutubeId(videoUrlInput);
-    if (!extracted) {
-      setVideoError("يرجى إدخال رابط يوتيوب صحيح (مثال: https://www.youtube.com/watch?v=... أو https://youtu.be/...)");
+    const parsed = parseVideoUrlOrId(videoUrlInput);
+    if (!parsed) {
+      setVideoError("يرجى إدخال رابط يوتيوب أو فيميو صحيح (مثال: https://youtube.com/... أو https://vimeo.com/...)");
       return;
     }
     setVideoError("");
@@ -554,7 +604,13 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
       if (res.error) {
         setVideoError(res.error);
       } else {
-        activeVideoLesson.youtubeVideoId = extracted;
+        if (parsed.type === "youtube") {
+          activeVideoLesson.youtubeVideoId = parsed.id;
+          activeVideoLesson.vimeoVideoId = null;
+        } else {
+          activeVideoLesson.vimeoVideoId = parsed.id;
+          activeVideoLesson.youtubeVideoId = null;
+        }
         setActiveVideoLesson(null);
       }
     });
@@ -571,6 +627,7 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
         setVideoError(res.error);
       } else {
         activeVideoLesson.youtubeVideoId = null;
+        activeVideoLesson.vimeoVideoId = null;
         setActiveVideoLesson(null);
       }
     });
@@ -591,7 +648,7 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
   };
 
   // Submit New Lesson
-  const handleCreateLessonSubmit = (e: React.FormEvent) => {
+  const handleCreateLessonSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newLessonTitle.trim()) {
       setNewLessonError("يرجى إدخال عنوان الدرس");
@@ -612,50 +669,79 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
       setIsUploadingDirectLesson(true);
       setNewLessonProgress(0);
 
-      const formData = new FormData();
-      formData.append("file", newLessonFile);
-      formData.append("title", newLessonTitle.trim());
-      formData.append("subjectId", newLessonSubjectId);
-      formData.append("month", newLessonMonth.toString());
-      formData.append("description", newLessonDescription.trim());
+      try {
+        // 1. Get Vimeo Ticket
+        const ticketRes = await fetch("/api/vimeo/ticket", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: newLessonTitle.trim(),
+            size: newLessonFile.size,
+            description: newLessonDescription.trim() || `درس جديد: ${newLessonTitle.trim()}`,
+          }),
+        });
 
-      const xhr = new XMLHttpRequest();
-      xhr.upload.onprogress = (event) => {
-        if (event.lengthComputable) {
-          const percent = Math.round((event.loaded / event.total) * 100);
-          setNewLessonProgress(percent);
+        const ticketData = await ticketRes.json();
+        if (!ticketRes.ok || !ticketData.uploadLink) {
+          throw new Error(ticketData.error || "فشل الحصول على رابط الرفع من Vimeo");
         }
-      };
 
-      xhr.onload = () => {
-        setIsUploadingDirectLesson(false);
-        try {
-          const res = JSON.parse(xhr.responseText);
-          if (xhr.status >= 200 && xhr.status < 300 && res.success) {
-            setIsNewLessonOpen(false);
-            window.location.reload();
-          } else {
-            setNewLessonError(res.error || "فشل رفع الفيديو ونشر الدرس");
-          }
-        } catch {
-          setNewLessonError("استجابة غير صالحة من الخادم");
+        const vimeoVideoId = ticketData.videoId;
+
+        // 2. Upload with Tus
+        await new Promise<void>((resolve, reject) => {
+          const upload = new tus.Upload(newLessonFile, {
+            uploadUrl: ticketData.uploadLink,
+            retryDelays: [0, 3000, 5000, 10000, 20000],
+            headers: {
+              Accept: "application/vnd.vimeo.*+json;version=3.4",
+            },
+            metadata: {
+              filename: newLessonFile.name,
+              filetype: newLessonFile.type || "video/mp4",
+            },
+            onError: (err) => reject(new Error("حدث خطأ أثناء رفع الفيديو إلى Vimeo: " + err)),
+            onProgress: (bytesUploaded, bytesTotal) => {
+              const percent = Math.round((bytesUploaded / bytesTotal) * 100);
+              setNewLessonProgress(percent);
+            },
+            onSuccess: () => resolve(),
+          });
+          upload.start();
+        });
+
+        // 3. Create Lesson in Database
+        const createRes = await fetch("/api/upload-video", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: newLessonTitle.trim(),
+            subjectId: newLessonSubjectId,
+            month: newLessonMonth,
+            description: newLessonDescription.trim(),
+            vimeoVideoId: vimeoVideoId,
+          }),
+        });
+
+        const createData = await createRes.json();
+        if (!createRes.ok || !createData.success) {
+          throw new Error(createData.error || "فشل إنشاء الدرس وربطه بالفيديو");
         }
-      };
 
-      xhr.onerror = () => {
+        setIsNewLessonOpen(false);
+        window.location.reload();
+      } catch (err: any) {
+        setNewLessonError(err.message || "فشل رفع الفيديو ونشر الدرس");
+      } finally {
         setIsUploadingDirectLesson(false);
-        setNewLessonError("فشل الاتصال بالخادم أثناء الرفع");
-      };
-
-      xhr.open("POST", "/api/upload-video", true);
-      xhr.send(formData);
+      }
       return;
     }
 
-    // YouTube mode
-    const extracted = parseYoutubeId(newLessonYoutubeUrl);
-    if (!extracted) {
-      setNewLessonError("يرجى إدخال رابط فيديو يوتيوب صحيح (مثال: https://www.youtube.com/watch?v=...)");
+    // Video URL mode (YouTube or Vimeo)
+    const parsed = parseVideoUrlOrId(newLessonYoutubeUrl);
+    if (!parsed) {
+      setNewLessonError("يرجى إدخال رابط فيديو يوتيوب أو فيميو صحيح (مثال: https://www.youtube.com/watch?v=... أو https://vimeo.com/...)");
       return;
     }
 
@@ -1602,13 +1688,13 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
             {/* TAB 1: DIRECT NEXT.JS VIDEO UPLOAD */}
             {videoMode === "DIRECT" && (
               <div className="space-y-4">
-                <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 text-xs text-emerald-800 dark:text-emerald-300 space-y-1">
+                <div className="p-3.5 rounded-2xl bg-blue-500/10 border border-blue-500/25 text-xs text-blue-800 dark:text-blue-300 space-y-1">
                   <div className="flex items-center gap-1.5 font-bold">
-                    <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>تخزين مباشر في خادم المنصة ومجاني 100%</span>
+                    <Sparkles className="w-4 h-4 text-blue-600 shrink-0" />
+                    <span>تخزين سحابي مباشر على Vimeo (حساب المنصة 4.3TB)</span>
                   </div>
                   <p className="leading-relaxed">
-                    يتم رفع ملف الفيديو وتخزينه داخل خادم المنصة مباشرة. يعمل بتقنية التدفق السريع (HTTP 206 Streaming) ولا يتأثر بانتهاء اشتراك Vimeo أو Bunny.
+                    يتم رفع ملف الفيديو وتخزينه مباشرة على حساب Vimeo الخاص بالمنصة عبر تقنية Tus السريعة. الفيديو غير مدرج (خاص) ويشاهده طلابك فقط بدون إعلانات وبأعلى جودة وسرعة.
                   </p>
                 </div>
 
@@ -1645,8 +1731,8 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
                       </div>
                     ) : (
                       <div className="space-y-0.5">
-                        <p className="text-xs font-semibold text-ink">انقر لاختيار فيديو من جهازك</p>
-                        <p className="text-[11px] text-muted">يدعم صيغ MP4, MOV, MKV, WebM</p>
+                        <p className="text-xs font-semibold text-ink">انقر لاختيار فيديو من جهازك للرفع إلى Vimeo</p>
+                        <p className="text-[11px] text-muted">يدعم صيغ MP4, MOV, MKV, WebM — رفع مباشر وسريع</p>
                       </div>
                     )}
                   </label>
@@ -1658,7 +1744,7 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
                     <div className="flex items-center justify-between text-xs">
                       <span className="flex items-center gap-1.5 font-bold text-ink">
                         <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
-                        <span>جاري رفع الفيديو إلى خادم المنصة...</span>
+                        <span>جاري رفع الفيديو مباشرة إلى Vimeo...</span>
                       </span>
                       <span className="font-mono text-primary font-bold">{directVideoProgress}%</span>
                     </div>
@@ -1704,12 +1790,12 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
                       {isUploadingDirectVideo ? (
                         <>
                           <Loader2 className="w-4 h-4 animate-spin" />
-                          <span>جارٍ الرفع ({directVideoProgress}%)...</span>
+                          <span>جارٍ الرفع إلى Vimeo ({directVideoProgress}%)...</span>
                         </>
                       ) : (
                         <>
                           <UploadCloud className="w-4 h-4" />
-                          <span>رفع وحفظ الفيديو في المنصة</span>
+                          <span>رفع وحفظ في Vimeo</span>
                         </>
                       )}
                     </button>
@@ -1718,52 +1804,50 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
               </div>
             )}
 
-            {/* TAB 2: YOUTUBE LINK */}
+            {/* TAB 2: YOUTUBE OR VIMEO LINK */}
             {videoMode === "YOUTUBE" && (
               <div className="space-y-4">
                 <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 text-xs text-amber-800 dark:text-amber-300 space-y-1">
                   <div className="flex items-center gap-1.5 font-bold">
                     <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
-                    <span>رابط يوتيوب غير مدرج (Unlisted)</span>
+                    <span>رابط فيديو خارجي (يوتيوب أو فيميو)</span>
                   </div>
                   <p className="leading-relaxed">
-                    ضع رابط الفيديو من يوتيوب، وحدّده كـ <strong className="underline">غير مدرج</strong> لكي لا يظهر في البحث العام ويشاهده طلابك فقط داخل المنصة.
+                    ضع رابط الفيديو من يوتيوب أو فيميو. إذا كان على يوتيوب، يُفضل تحديده كـ <strong className="underline">غير مدرج (Unlisted)</strong> لكي لا يظهر في البحث العام ويشاهده طلابك فقط داخل المنصة.
                   </p>
                 </div>
 
                 <div className="space-y-3">
                   <div>
                     <label className="block text-xs font-semibold text-ink mb-1.5">
-                      رابط فيديو يوتيوب أو معرّف الفيديو (Video ID):
+                      رابط فيديو يوتيوب أو فيميو (أو معرّف الفيديو):
                     </label>
                     <input
                       type="text"
                       value={videoUrlInput}
                       onChange={(e) => setVideoUrlInput(e.target.value)}
-                      placeholder="مثال: https://www.youtube.com/watch?v=... أو https://youtu.be/..."
+                      placeholder="مثال: https://www.youtube.com/watch?v=... أو https://vimeo.com/..."
                       className="w-full bg-surface px-3.5 py-2.5 rounded-xl border border-line text-xs text-ink placeholder:text-muted focus:outline-none focus:border-primary font-mono"
                       dir="ltr"
                     />
                   </div>
 
                   {(() => {
-                    const parsedId = parseYoutubeId(videoUrlInput);
-                    if (parsedId) {
+                    const parsed = parseVideoUrlOrId(videoUrlInput);
+                    if (parsed) {
                       return (
                         <div className="space-y-2 pt-1">
                           <div className="flex items-center justify-between text-xs">
                             <span className="font-semibold text-ink">معاينة الفيديو مباشرة:</span>
                             <span className="font-mono text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20 text-[11px]">
-                              ID: {parsedId}
+                              {parsed.type === "youtube" ? "يوتيوب" : "فيميو"}: {parsed.id}
                             </span>
                           </div>
                           <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-line bg-black">
-                            <iframe
-                              src={`https://www.youtube-nocookie.com/embed/${parsedId}?rel=0`}
-                              title="معاينة فيديو يوتيوب"
-                              className="w-full h-full"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
+                            <PlatformVideoPlayer
+                              youtubeVideoId={parsed.type === "youtube" ? parsed.id : undefined}
+                              vimeoVideoId={parsed.type === "vimeo" ? parsed.id : undefined}
+                              autoplay={false}
                             />
                           </div>
                         </div>
@@ -1774,7 +1858,7 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
                 </div>
 
                 <div className="flex items-center justify-between gap-3 pt-3 border-t border-line">
-                  {activeVideoLesson.youtubeVideoId ? (
+                  {activeVideoLesson.youtubeVideoId || activeVideoLesson.vimeoVideoId ? (
                     <button
                       type="button"
                       onClick={handleRemoveVideo}
@@ -1800,7 +1884,7 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
                     <button
                       type="button"
                       onClick={handleSaveVideo}
-                      disabled={isSavingVideo || !parseYoutubeId(videoUrlInput)}
+                      disabled={isSavingVideo || !parseVideoUrlOrId(videoUrlInput)}
                       className="btn-primary text-xs px-5 py-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-md"
                     >
                       {isSavingVideo ? (
@@ -1918,7 +2002,7 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
                     }`}
                   >
                     <UploadCloud className="w-4 h-4" />
-                    <span>رفع فيديو من جهازك (خادم المنصة)</span>
+                    <span>رفع فيديو إلى Vimeo (سحابي 4.3TB)</span>
                   </button>
                   <button
                     type="button"
@@ -1930,12 +2014,12 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
                     }`}
                   >
                     <YoutubeIcon className="w-4 h-4 text-red-500" />
-                    <span>رابط خارجي (يوتيوب)</span>
+                    <span>رابط خارجي (يوتيوب أو فيميو)</span>
                   </button>
                 </div>
               </div>
 
-              {/* Video Input Mode: DIRECT */}
+              {/* Video Input Mode: DIRECT (VIMEO) */}
               {newLessonVideoMode === "DIRECT" && (
                 <div className="space-y-2">
                   <label className="border-2 border-dashed border-line hover:border-primary/60 rounded-2xl p-6 flex flex-col items-center justify-center gap-2.5 cursor-pointer bg-surface/50 hover:bg-surface transition text-center">
@@ -1961,20 +2045,20 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
                       <div className="space-y-0.5">
                         <p className="text-xs font-bold text-ink">{newLessonFile.name}</p>
                         <p className="text-[11px] text-muted font-mono">
-                          {(newLessonFile.size / (1024 * 1024)).toFixed(2)} ميغابايت — جاهز للرفع
+                          {(newLessonFile.size / (1024 * 1024)).toFixed(2)} ميغابايت — جاهز للرفع إلى Vimeo
                         </p>
                       </div>
                     ) : (
                       <div className="space-y-0.5">
                         <p className="text-xs font-semibold text-ink">انقر لاختيار ملف فيديو للدرس من جهازك</p>
-                        <p className="text-[11px] text-muted">يدعم صيغ MP4, MOV, MKV, WebM — تخزين مباشر</p>
+                        <p className="text-[11px] text-muted">يدعم صيغ MP4, MOV, MKV, WebM — رفع مباشر وسريع إلى Vimeo</p>
                       </div>
                     )}
                   </label>
                 </div>
               )}
 
-              {/* Video Input Mode: YOUTUBE */}
+              {/* Video Input Mode: YOUTUBE OR VIMEO */}
               {newLessonVideoMode === "YOUTUBE" && (
                 <div className="space-y-3">
                   <div>
@@ -1982,25 +2066,28 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
                       type="text"
                       value={newLessonYoutubeUrl}
                       onChange={(e) => setNewLessonYoutubeUrl(e.target.value)}
-                      placeholder="https://www.youtube.com/watch?v=..."
+                      placeholder="مثال: https://www.youtube.com/watch?v=... أو https://vimeo.com/..."
                       className="w-full bg-surface px-3.5 py-2.5 rounded-xl border border-line text-xs text-ink placeholder:text-muted focus:outline-none focus:border-primary font-mono"
                       dir="ltr"
                     />
                   </div>
 
                   {(() => {
-                    const parsedId = parseYoutubeId(newLessonYoutubeUrl);
-                    if (parsedId) {
+                    const parsed = parseVideoUrlOrId(newLessonYoutubeUrl);
+                    if (parsed) {
                       return (
                         <div className="space-y-1.5">
-                          <span className="text-xs font-semibold text-ink">معاينة الفيديو:</span>
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="font-semibold text-ink">معاينة الفيديو:</span>
+                            <span className="font-mono text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20 text-[11px]">
+                              {parsed.type === "youtube" ? "يوتيوب" : "فيميو"}: {parsed.id}
+                            </span>
+                          </div>
                           <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-line bg-black">
-                            <iframe
-                              src={`https://www.youtube-nocookie.com/embed/${parsedId}?rel=0`}
-                              title="معاينة الدرس الجديد"
-                              className="w-full h-full"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
+                            <PlatformVideoPlayer
+                              youtubeVideoId={parsed.type === "youtube" ? parsed.id : undefined}
+                              vimeoVideoId={parsed.type === "vimeo" ? parsed.id : undefined}
+                              autoplay={false}
                             />
                           </div>
                         </div>
@@ -2017,7 +2104,7 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
                   <div className="flex items-center justify-between text-xs">
                     <span className="flex items-center gap-1.5 font-bold text-ink">
                       <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
-                      <span>جاري رفع الفيديو ونشر الدرس في المنصة...</span>
+                      <span>جاري رفع الفيديو إلى Vimeo ونشر الدرس في المنصة...</span>
                     </span>
                     <span className="font-mono text-primary font-bold">{newLessonProgress}%</span>
                   </div>
@@ -2062,14 +2149,14 @@ export function TeacherLessonsManager({ subjects, lessons, pendingLessons = [] }
                     isUploadingDirectLesson ||
                     !newLessonTitle.trim() ||
                     (newLessonVideoMode === "DIRECT" && !newLessonFile) ||
-                    (newLessonVideoMode === "YOUTUBE" && !parseYoutubeId(newLessonYoutubeUrl))
+                    (newLessonVideoMode === "YOUTUBE" && !parseVideoUrlOrId(newLessonYoutubeUrl))
                   }
                   className="btn-primary text-xs px-6 py-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-md"
                 >
                   {isUploadingDirectLesson ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>جاري الرفع ({newLessonProgress}%)...</span>
+                      <span>جاري الرفع إلى Vimeo ({newLessonProgress}%)...</span>
                     </>
                   ) : isCreatingLesson ? (
                     <>

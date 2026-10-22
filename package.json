@@ -9,20 +9,22 @@
     "lint": "echo 'Lint disabled for Vercel'",
     "postinstall": "prisma generate && node -e \"require('fs').mkdirSync('public',{recursive:true}); require('fs').copyFileSync('node_modules/pdfjs-dist/build/pdf.worker.min.mjs','public/pdf.worker.min.mjs')\"",
     "db:link-month-1": "tsx prisma/scripts/link-orphans-to-month-1.ts",
-    "db:generate-lesson-content": "tsx prisma/scripts/generate-lesson-content.ts"
+    "db:generate-lesson-content": "tsx prisma/scripts/generate-lesson-content.ts",
+    "migrate:bunny-to-vimeo": "tsx prisma/scripts/migrate-bunny-to-vimeo.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1155.0",
     "@ffmpeg/core": "^0.12.10",
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
     "@google/generative-ai": "^0.24.1",
     "@hookform/resolvers": "^5.7.1",
     "@mux/mux-player-react": "^3.13.2",
+    "@neon/config": "^1.9.3",
+    "@neon/env": "^1.6.4",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "@radix-ui/react-tabs": "^1.1.21",
-    "@supabase/ssr": "^0.12.7",
-    "@supabase/supabase-js": "^2.112.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/video.js": "^7.3.58",
     "@vimeo/player": "^2.30.4",
@@ -75,7 +77,8 @@
     "prisma": "^7.9.1",
     "tailwindcss": "^4",
     "tsx": "^4.23.12",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.151.3"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

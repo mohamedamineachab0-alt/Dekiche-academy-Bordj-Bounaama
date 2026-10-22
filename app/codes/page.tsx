@@ -21,7 +21,7 @@ export default async function CodesPortalPage() {
       where: { id: sessionId },
       select: { role: true },
     });
-    if (user && user.role === "ADMIN") {
+    if (user && (user.role === "ADMIN" || user.role === "EMPLOYEE")) {
       isAdmin = true;
     }
   }
@@ -30,57 +30,19 @@ export default async function CodesPortalPage() {
     return <CodesPortalLogin />;
   }
 
-  // Fetch initial data for fast rendering
-  const [subjects, recentCodes, usedCount, unusedCount] = await Promise.all([
-    prisma.subject.findMany({
-      select: {
-        id: true,
-        title: true,
-        phase: true,
-        levels: true,
-        teacherName: true,
-        accessType: true,
-      },
-      orderBy: { title: "asc" },
-    }),
-    prisma.accessCode.findMany({
-      take: 200,
-      orderBy: { createdAt: "desc" },
-      include: {
-        subject: { select: { id: true, title: true } },
-        user: { select: { id: true, fullName: true, phoneNumber: true } },
-      },
-    }),
-    prisma.accessCode.count({ where: { isUsed: true } }),
-    prisma.accessCode.count({ where: { isUsed: false } }),
-  ]);
-
-  const serializedCodes = recentCodes.map((c) => ({
-    id: c.id,
-    code: c.code,
-    accessType: c.accessType,
-    validMonths: c.validMonths,
-    isUsed: c.isUsed,
-    createdAt: c.createdAt.toISOString(),
-    subject: {
-      id: c.subject.id,
-      title: c.subject.title,
+  // Fetch subjects for instant fast rendering
+  const subjects = await prisma.subject.findMany({
+    select: {
+      id: true,
+      title: true,
+      phase: true,
+      levels: true,
+      streams: true,
+      teacherName: true,
+      accessType: true,
     },
-    user: c.user
-      ? {
-          id: c.user.id,
-          fullName: c.user.fullName,
-          phoneNumber: c.user.phoneNumber,
-        }
-      : null,
-  }));
+    orderBy: { title: "asc" },
+  });
 
-  return (
-    <CodesPortalClient
-      initialSubjects={subjects}
-      initialCodes={serializedCodes}
-      initialUsedCount={usedCount}
-      initialUnusedCount={unusedCount}
-    />
-  );
+  return <CodesPortalClient initialSubjects={subjects} />;
 }

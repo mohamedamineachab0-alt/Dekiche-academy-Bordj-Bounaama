@@ -79,6 +79,7 @@ const ADMIN_GROUPS: NavGroup[] = [
       { name: "فضاء وقائمة الأساتذة", href: "/dashboard/admin/teachers", icon: Users },
       { name: "مداخيل الأساتذة", href: "/dashboard/admin/teachers/revenues", icon: Wallet },
       { name: "رموز الدخول", href: "/dashboard/admin/codes", icon: Key },
+      { name: "بوابة استخراج الأكواد", href: "/codes", icon: Key },
       { name: "أخطاء تلاميذي", href: "/dashboard/admin/mistakes", icon: AlertTriangle },
       { name: "دردشة القسم", href: "/dashboard/admin/forums", icon: MessageSquare },
       { name: "تنبيهاتي", href: "/dashboard/admin/tenebati", icon: BellRing },

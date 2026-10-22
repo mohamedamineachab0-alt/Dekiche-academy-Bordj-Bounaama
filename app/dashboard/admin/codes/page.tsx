@@ -55,6 +55,20 @@ export default async function AdminCodesPage(props: {
           </Link>
         </section>
 
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-5 rounded-2xl bg-purple-500/10 border border-purple-500/20">
+          <div>
+            <h3 className="text-sm font-bold text-ink">بوابة استخراج وطباعة بطاقات الأكواد</h3>
+            <p className="text-xs text-muted mt-0.5">واجهة مخصصة لتوليد دفعات الأكواد وتصديرها وطباعتها مباشرة للمكتبات ونقاط التوزيع.</p>
+          </div>
+          <Link
+            href="/codes"
+            className="btn-primary text-xs px-5 py-2.5 rounded-xl font-bold inline-flex items-center justify-center gap-2 shrink-0 shadow-md"
+          >
+            <Key className="w-4 h-4" />
+            <span>فتح بوابة استخراج الرموز (/codes)</span>
+          </Link>
+        </div>
+
         {/* Quick Download Card for 2AS Science Codes */}
         <div className="surface-card p-5 sm:p-6 rounded-2xl border-2 border-emerald-500/30 bg-emerald-500/5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs">
           <div className="flex items-center gap-3.5">

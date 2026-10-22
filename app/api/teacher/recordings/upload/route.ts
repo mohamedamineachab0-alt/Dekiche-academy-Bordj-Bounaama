@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     const youtubeUrl = (formData.get("youtubeUrl") as string)?.trim() || "";
     const videoFile = formData.get("video") as File | null;
     const pdfFile = formData.get("pdf") as File | null;
-    const bunnyVideoId = formData.get("bunnyVideoId") as string | null;
+    const vimeoVideoIdFromForm = ((formData.get("vimeoVideoId") || formData.get("bunnyVideoId")) as string)?.trim() || "";
 
     if (!title) {
       return NextResponse.json({ error: "عنوان الدرس مطلوب" }, { status: 400 });
@@ -51,19 +51,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "يرجى اختيار مادة مقررة واحدة على الأقل" }, { status: 400 });
     }
 
-    if (!youtubeUrl && (!videoFile || videoFile.size === 0) && (!pdfFile || pdfFile.size === 0) && !bunnyVideoId) {
+    if (!youtubeUrl && (!videoFile || videoFile.size === 0) && (!pdfFile || pdfFile.size === 0) && !vimeoVideoIdFromForm) {
       return NextResponse.json({ error: "يرجى توفير ملف الدرس (PDF) أو تسجيل فيديو أو رابط يوتيوب صالح للرفع" }, { status: 400 });
     }
 
-    let vimeoVideoId = bunnyVideoId || "";
+    let vimeoVideoId = vimeoVideoIdFromForm;
     let finalYoutubeVideoId = null;
 
     if (youtubeUrl) {
       const match = youtubeUrl.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
       finalYoutubeVideoId = match ? match[1] : youtubeUrl;
-    } else if (videoFile && videoFile.size > 0 && !bunnyVideoId) {
+    } else if (videoFile && videoFile.size > 0 && !vimeoVideoId) {
       // 3. Initiate Vimeo Tus Upload Ticket
-      const vimeoToken = process.env.VIMEO_ACCESS_TOKEN;
+      const vimeoToken = process.env.VIMEO_ACCESS_TOKEN || "c43079199931f07975da832cf5a35ffa";
       if (!vimeoToken) {
         return NextResponse.json(
           { error: "مفتاح Vimeo API غير مهيأ في الخادم (VIMEO_ACCESS_TOKEN)" },
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
           description: vimeoDesc,
           privacy: {
             view: "unlisted",
-            embed: "whitelist",
+            embed: "public",
             download: false,
           },
         }),

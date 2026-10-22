@@ -247,32 +247,64 @@ export async function extractYoutubeId(input: string): Promise<string | null> {
 }
 
 /**
- * Save or update the YouTube video of an existing lesson
+ * Extract Vimeo Video ID or unlisted token from any URL or string
+ */
+function extractVimeoIdServer(input: string): string | null {
+  if (!input) return null;
+  const s = input.trim();
+  if (/^\d{6,12}(?::[a-zA-Z0-9]+)?$/.test(s)) {
+    return s;
+  }
+  const match = s.match(
+    /(?:player\.vimeo\.com\/video\/|vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/[^\/]*\/videos\/|album\/(?:\d+\/)?video\/|manage\/videos\/|video\/|))(\d{6,12})(?:[\/?](?:h=)?([a-zA-Z0-9]+))?/
+  );
+  if (match) {
+    const id = match[1];
+    const hash = match[2];
+    return hash ? `${id}:${hash}` : id;
+  }
+  return null;
+}
+
+/**
+ * Save or update the YouTube or Vimeo video of an existing lesson
  */
 export async function saveTeacherLessonVideo(
   lessonId: string,
-  youtubeUrlOrId: string
+  videoUrlOrId: string
 ): Promise<ActionResponse> {
   try {
     if (!lessonId) return { error: "معرّف الدرس مطلوب" };
-    if (!youtubeUrlOrId?.trim()) return { error: "يرجى إدخال رابط فيديو يوتيوب" };
+    if (!videoUrlOrId?.trim()) return { error: "يرجى إدخال رابط فيديو" };
 
-    const youtubeVideoId = await extractYoutubeId(youtubeUrlOrId);
-    if (!youtubeVideoId) {
+    const youtubeVideoId = await extractYoutubeId(videoUrlOrId);
+    const vimeoVideoId = !youtubeVideoId ? extractVimeoIdServer(videoUrlOrId) : null;
+
+    if (!youtubeVideoId && !vimeoVideoId) {
       return {
         error:
-          "رابط يوتيوب غير صالح. يرجى إدخال رابط فيديو يوتيوب صحيح (مثال: https://www.youtube.com/watch?v=... أو https://youtu.be/...)",
+          "رابط غير صالح. يرجى إدخال رابط فيديو يوتيوب أو فيميو صحيح (مثال: https://youtube.com/... أو https://vimeo.com/...)",
       };
     }
 
     const { lesson } = await verifyTeacherLessonAccess(lessonId);
 
-    await prisma.lesson.update({
-      where: { id: lessonId },
-      data: {
-        youtubeVideoId,
-      },
-    });
+    if (vimeoVideoId) {
+      await prisma.lesson.update({
+        where: { id: lessonId },
+        data: {
+          vimeoVideoId,
+          youtubeVideoId: null,
+        },
+      });
+    } else {
+      await prisma.lesson.update({
+        where: { id: lessonId },
+        data: {
+          youtubeVideoId,
+        },
+      });
+    }
 
     const session = await getTeacherSession();
     if (session) {
@@ -290,12 +322,17 @@ export async function saveTeacherLessonVideo(
               subjectId: lesson.subjects[0]?.id || session.subjectIds[0],
               month: lesson.month,
               level: (lesson.levels && lesson.levels[0]) || "MIDDLE_1",
-              vimeoVideoId: "",
-              editingNotes: "تم رفع فيديو يوتيوب بواسطة الأستاذ",
+              vimeoVideoId: vimeoVideoId || "",
+              editingNotes: vimeoVideoId ? "تم ربط فيديو فيميو بواسطة الأستاذ" : "تم رفع فيديو يوتيوب بواسطة الأستاذ",
               status: "published",
               teacherId: session.user.id,
               publishedLessonId: lesson.id,
             },
+          });
+        } else if (vimeoVideoId) {
+          await prisma.pendingLesson.update({
+            where: { id: existingRecord.id },
+            data: { vimeoVideoId },
           });
         }
       } catch (e) {
@@ -310,7 +347,7 @@ export async function saveTeacherLessonVideo(
     });
     revalidatePath(`/dashboard/student/lessons/${lessonId}`);
 
-    return { success: true, data: { youtubeVideoId } };
+    return { success: true, data: { youtubeVideoId, vimeoVideoId } };
   } catch (error: any) {
     console.error("Error in saveTeacherLessonVideo:", error);
     return { error: error?.message || "حدث خطأ أثناء حفظ رابط الفيديو" };
@@ -318,7 +355,7 @@ export async function saveTeacherLessonVideo(
 }
 
 /**
- * Remove YouTube video from a lesson
+ * Remove YouTube/Vimeo video from a lesson
  */
 export async function removeTeacherLessonVideo(lessonId: string): Promise<ActionResponse> {
   try {
@@ -329,6 +366,7 @@ export async function removeTeacherLessonVideo(lessonId: string): Promise<Action
       where: { id: lessonId },
       data: {
         youtubeVideoId: null,
+        vimeoVideoId: "",
       },
     });
 
@@ -347,7 +385,7 @@ export async function removeTeacherLessonVideo(lessonId: string): Promise<Action
 }
 
 /**
- * Create a new lesson with YouTube video for a subject
+ * Create a new lesson with YouTube or Vimeo video for a subject
  */
 export async function createTeacherLessonWithVideo(payload: {
   title: string;
@@ -374,10 +412,12 @@ export async function createTeacherLessonWithVideo(payload: {
     }
 
     const youtubeVideoId = await extractYoutubeId(payload.youtubeUrlOrId);
-    if (!youtubeVideoId) {
+    const vimeoVideoId = !youtubeVideoId ? extractVimeoIdServer(payload.youtubeUrlOrId) : null;
+
+    if (!youtubeVideoId && !vimeoVideoId) {
       return {
         error:
-          "رابط يوتيوب غير صالح. يرجى إدخال رابط فيديو يوتيوب صحيح (مثال: https://www.youtube.com/watch?v=...)",
+          "رابط غير صالح. يرجى إدخال رابط فيديو يوتيوب أو فيميو صحيح (مثال: https://www.youtube.com/watch?v=... أو https://vimeo.com/...)",
       };
     }
 
@@ -405,8 +445,8 @@ export async function createTeacherLessonWithVideo(payload: {
         description: payload.description?.trim() || "",
         month,
         academicMonth: { connect: { id: academicMonth.id } },
-        vimeoVideoId: "",
-        youtubeVideoId,
+        vimeoVideoId: vimeoVideoId || "",
+        youtubeVideoId: youtubeVideoId || null,
         order: existingCount + 1,
         levels: subject.levels,
         streams: subject.streams,
@@ -421,8 +461,8 @@ export async function createTeacherLessonWithVideo(payload: {
           subjectId: payload.subjectId,
           month,
           level: (subject.levels && subject.levels[0]) || "MIDDLE_1",
-          vimeoVideoId: "",
-          editingNotes: payload.description || "درس منشور برابط يوتيوب",
+          vimeoVideoId: vimeoVideoId || "",
+          editingNotes: payload.description || (vimeoVideoId ? "درس منشور برابط فيميو" : "درس منشور برابط يوتيوب"),
           status: "published",
           teacherId: session.user.id,
           publishedLessonId: lesson.id,

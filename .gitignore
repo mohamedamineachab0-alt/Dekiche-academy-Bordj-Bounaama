@@ -41,3 +41,5 @@ check_*.js
 check_*.ts
 uploads/
 
+.neon
+*.tsbuildinfo

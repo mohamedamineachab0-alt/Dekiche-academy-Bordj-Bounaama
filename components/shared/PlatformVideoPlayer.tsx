@@ -41,10 +41,56 @@ export function isBunnyId(input?: string | null): boolean {
   return s.includes("-") && s.length >= 30 && !s.startsWith("http");
 }
 
-export function isVimeoNumericId(input?: string | null): boolean {
-  if (!input) return false;
+export function parseVimeoVideo(input?: string | null): { embedUrl: string; videoId: string } | null {
+  if (!input) return null;
   const s = input.trim();
-  return /^\d{6,12}$/.test(s);
+
+  // 1. Direct player embed URL (e.g. https://player.vimeo.com/video/123456?h=abc...)
+  if (s.includes("player.vimeo.com/video/")) {
+    const match = s.match(/player\.vimeo\.com\/video\/(\d+)(?:\?h=([a-zA-Z0-9]+))?/);
+    if (match) {
+      const vid = match[1];
+      const h = match[2] ? `&h=${match[2]}` : "";
+      return {
+        videoId: vid,
+        embedUrl: `https://player.vimeo.com/video/${vid}?dnt=1&title=0&byline=0&portrait=0${h}`,
+      };
+    }
+  }
+
+  // 2. Format with unlisted hash separated by colon: e.g. "1238216152:f8434b5a21"
+  if (/^\d{6,12}:[a-zA-Z0-9]+$/.test(s)) {
+    const [vid, h] = s.split(":");
+    return {
+      videoId: vid,
+      embedUrl: `https://player.vimeo.com/video/${vid}?h=${h}&dnt=1&title=0&byline=0&portrait=0`,
+    };
+  }
+
+  // 3. Vimeo public or unlisted share link: https://vimeo.com/123456789 or https://vimeo.com/123456789/f8434b5a21
+  const vimeoUrlMatch = s.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/[^\/]*\/videos\/|album\/(?:\d+\/)?video\/|manage\/videos\/|video\/|)(\d{6,12})(?:\/([a-zA-Z0-9]+))?/);
+  if (vimeoUrlMatch) {
+    const vid = vimeoUrlMatch[1];
+    const h = vimeoUrlMatch[2] ? `&h=${vimeoUrlMatch[2]}` : "";
+    return {
+      videoId: vid,
+      embedUrl: `https://player.vimeo.com/video/${vid}?dnt=1&title=0&byline=0&portrait=0${h}`,
+    };
+  }
+
+  // 4. Pure numeric ID (6 to 12 digits)
+  if (/^\d{6,12}$/.test(s)) {
+    return {
+      videoId: s,
+      embedUrl: `https://player.vimeo.com/video/${s}?dnt=1&title=0&byline=0&portrait=0`,
+    };
+  }
+
+  return null;
+}
+
+export function isVimeoNumericId(input?: string | null): boolean {
+  return parseVimeoVideo(input) !== null;
 }
 
 interface PlatformVideoPlayerProps {
@@ -160,12 +206,14 @@ export function PlatformVideoPlayer({
     );
   }
 
-  // 4. Check Vimeo numeric ID
-  if (rawVimeo && isVimeoNumericId(rawVimeo)) {
+  // 4. Check Vimeo Video (ID, unlisted hash, or URL)
+  const vimeoParsed = parseVimeoVideo(vimeoVideoId) || parseVimeoVideo(videoUrl);
+  if (vimeoParsed) {
+    const glue = vimeoParsed.embedUrl.includes("?") ? "&" : "?";
     return (
       <div className={`relative w-full aspect-video bg-black rounded-2xl overflow-hidden ${className}`}>
         <iframe
-          src={`https://player.vimeo.com/video/${rawVimeo}?app_id=122963&dnt=1&title=0&byline=0&portrait=0${
+          src={`${vimeoParsed.embedUrl}${glue}app_id=122963${
             autoplay ? "&autoplay=1" : ""
           }`}
           className="absolute inset-0 w-full h-full border-0"

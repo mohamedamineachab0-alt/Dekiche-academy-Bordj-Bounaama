@@ -27,32 +27,43 @@ export async function loginCodesPortal(
     return { error: "رقم الهاتف غير صحيح" };
   }
 
-  // Check designated codes manager credentials: 0663438000
-  const isDesignatedManager = phones.includes("0663438000");
+  // Check designated codes manager credentials: 0663438000 or 0562388099 (Said Bicha)
+  const designatedManagers = ["0663438000", "0562388099"];
+  const isDesignatedManager = phones.some((p) => designatedManagers.includes(p));
 
   let user = await prisma.user.findFirst({
     where: { phoneNumber: { in: phones } },
   });
 
   if (isDesignatedManager) {
+    const isSaidBicha = phones.includes("0562388099");
+    const managerName = isSaidBicha ? "سعيد بيشة" : "مسؤول استخراج الرموز";
+    const managerPhone = isSaidBicha ? "0562388099" : "0663438000";
+    const managerRole = isSaidBicha ? "EMPLOYEE" : "ADMIN";
+
     if (!user) {
       const hash = await bcrypt.hash("200600", 10);
       user = await prisma.user.create({
         data: {
-          fullName: "مسؤول استخراج الرموز",
-          phoneNumber: "0663438000",
+          fullName: managerName,
+          phoneNumber: managerPhone,
           passwordHash: hash,
-          role: "ADMIN",
+          role: managerRole,
         },
       });
-    } else if (user.role !== "ADMIN") {
+    } else if (isSaidBicha && user.role !== "EMPLOYEE") {
       user = await prisma.user.update({
         where: { id: user.id },
-        data: { role: "ADMIN" },
+        data: { role: "EMPLOYEE", fullName: user.fullName || managerName },
+      });
+    } else if (!isSaidBicha && user.role !== "ADMIN") {
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: { role: "ADMIN", fullName: user.fullName || managerName },
       });
     }
   } else {
-    if (!user || user.role !== "ADMIN") {
+    if (!user || (user.role !== "ADMIN" && user.role !== "EMPLOYEE")) {
       return { error: "الحساب غير موجود أو غير مصرح له بالدخول" };
     }
   }
@@ -102,7 +113,7 @@ export async function generatePortalCodes(params: {
       select: { role: true },
     });
 
-    if (!user || user.role !== "ADMIN") {
+    if (!user || (user.role !== "ADMIN" && user.role !== "EMPLOYEE")) {
       return { error: "غير مصرح لك بتوليد الرموز" };
     }
 
@@ -174,3 +185,101 @@ export async function generatePortalCodes(params: {
     return { error: "حدث خطأ أثناء توليد الرموز" };
   }
 }
+
+export async function extract100CodesForSubject(subjectId: string, count: number = 100) {
+  try {
+    const limit = Math.min(Math.max(count || 100, 1), 1000);
+    const cookieStore = await cookies();
+    const sessionId = cookieStore.get("session")?.value;
+    if (!sessionId) {
+      return { error: "غير مصرح" };
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: sessionId },
+      select: { role: true },
+    });
+
+    if (!user || (user.role !== "ADMIN" && user.role !== "EMPLOYEE")) {
+      return { error: "غير مصرح لك باستخراج الرموز" };
+    }
+
+    const subject = await prisma.subject.findUnique({
+      where: { id: subjectId },
+      select: { id: true, title: true, teacherName: true, levels: true, streams: true },
+    });
+
+    if (!subject) {
+      return { error: "المادة غير موجودة" };
+    }
+
+    // 1. Fetch available unused codes for this subject
+    let existingCodes = await prisma.accessCode.findMany({
+      where: { subjectId, isUsed: false },
+      take: limit,
+      orderBy: { createdAt: "desc" },
+      select: { id: true, code: true, accessType: true, createdAt: true },
+    });
+
+    // 2. If we have less than needed, generate the difference
+    const needed = limit - existingCodes.length;
+    if (needed > 0) {
+      let academicMonth = await prisma.month.findUnique({ where: { number: 1 } });
+      if (!academicMonth) {
+        academicMonth = await prisma.month.create({ data: { number: 1, title: "الشهر 1" } });
+      }
+
+      const generateCode = () => {
+        const part1 = Math.floor(10000000 + Math.random() * 90000000).toString();
+        const part2 = Math.floor(1000 + Math.random() * 9000).toString();
+        return `${part1}-${part2}`;
+      };
+
+      const newCodes: Array<{
+        code: string;
+        subjectId: string;
+        accessType: string;
+        validMonths: number[];
+        monthId: string;
+      }> = [];
+
+      for (let i = 0; i < needed; i++) {
+        newCodes.push({
+          code: generateCode(),
+          subjectId,
+          accessType: "MONTHLY",
+          validMonths: [1],
+          monthId: academicMonth.id,
+        });
+      }
+
+      await prisma.accessCode.createMany({
+        data: newCodes,
+        skipDuplicates: true,
+      });
+
+      // Refetch full 100
+      existingCodes = await prisma.accessCode.findMany({
+        where: { subjectId, isUsed: false },
+        take: 100,
+        orderBy: { createdAt: "desc" },
+        select: { id: true, code: true, accessType: true, createdAt: true },
+      });
+    }
+
+    return {
+      success: true,
+      subject,
+      codes: existingCodes.map((c) => ({
+        id: c.id,
+        code: c.code,
+        accessType: c.accessType,
+        createdAt: c.createdAt.toISOString(),
+      })),
+    };
+  } catch (err: any) {
+    console.error("Extraction error:", err);
+    return { error: "حدث خطأ أثناء استخراج الرموز" };
+  }
+}
+

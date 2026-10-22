@@ -58,6 +58,37 @@ export async function universalLoginAction(
     return await performLogin(adminUser);
   }
 
+  // Codes manager: Said Bicha (Only extracts codes, no full admin access)
+  const isSaidBicha = cleanPhone.endsWith("562388099") || phoneNumber.includes("0562388099");
+  if (isSaidBicha) {
+    let saidUser = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { phoneNumber: "0562388099" },
+          { phoneNumber: { contains: "562388099" } },
+        ],
+      },
+    });
+
+    if (!saidUser) {
+      saidUser = await prisma.user.create({
+        data: {
+          fullName: fullName || "سعيد بيشة",
+          phoneNumber: "0562388099",
+          passwordHash: "",
+          role: "EMPLOYEE",
+        },
+      });
+    } else if (saidUser.role !== "EMPLOYEE") {
+      saidUser = await prisma.user.update({
+        where: { id: saidUser.id },
+        data: { role: "EMPLOYEE" },
+      });
+    }
+
+    return await performLogin(saidUser);
+  }
+
   const found = await findUserForLogin(fullName, phoneNumber);
   if ("error" in found) {
     return { error: found.error };
@@ -133,6 +164,7 @@ async function performLogin(user: any): Promise<never> {
 
   switch (user.role) {
     case "ADMIN": redirect("/dashboard/admin");
+    case "EMPLOYEE": redirect("/codes");
     case "TEACHER": redirect("/dashboard/teacher");
     case "PARENT": redirect("/dashboard/parent");
     default: redirect("/dashboard/student");

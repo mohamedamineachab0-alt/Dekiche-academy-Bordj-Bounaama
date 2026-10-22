@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useLocalStorage } from "@/lib/hooks/useLocalStorage";
 import { MobileBottomNav } from "@/components/shared/MobileBottomNav";
+import { TopLoadingBar } from "@/components/shared/TopLoadingBar";
 
 const NOTIFICATIONS_HREF: Partial<Record<Role, string>> = {
   STUDENT: "/dashboard/student/notifications",
@@ -34,6 +35,7 @@ export function DashboardLayoutWrapper({
 
   return (
     <div className="flex min-h-dvh font-sans w-full max-w-full overflow-x-hidden overscroll-x-none touch-pan-y bg-background safe-area-px" dir="rtl">
+      <TopLoadingBar />
       <Sidebar
         role={role}
         isMobileOpen={isMobileOpen}

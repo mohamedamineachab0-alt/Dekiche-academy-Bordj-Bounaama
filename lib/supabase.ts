@@ -11,8 +11,8 @@ export async function ensureBucketExists(bucketName?: string) {
   return true;
 }
 
-// Drop-in compatible storage adapter delegating to Neon Object Storage
-export const supabase = {
+// Drop-in compatible storage & client adapter delegating to Neon Object Storage
+export const supabase: any = {
   storage: {
     from: (bucketName: string = DEFAULT_NEON_BUCKET) => ({
       upload: async (
@@ -54,6 +54,21 @@ export const supabase = {
     }),
     createBucket: async () => ({ data: null, error: null }),
   },
+  channel: (_name: string) => ({
+    on: (_event: any, _config: any, _callback: any) => ({
+      subscribe: () => ({}),
+    }),
+    subscribe: () => ({}),
+    unsubscribe: () => ({}),
+  }),
+  removeChannel: (_channel: any) => ({}),
+  from: (_table: string) => ({
+    select: (_fields?: string) => ({
+      eq: (_col: string, _val: any) => ({
+        single: async () => ({ data: null, error: null }),
+      }),
+    }),
+  }),
 };
 
 export { neonS3Client, uploadToNeonStorage, getNeonPublicUrl, deleteFromNeonStorage };

@@ -74,9 +74,10 @@ export function ForumChatClient({
           table: "ForumMessage",
           filter: `forumId=eq.${forum.id}`,
         },
-        async (payload) => {
+        async (payload: any) => {
           // Check if message is already in state (from optimistic update)
-          const newMsgId = payload.new.id;
+          const newMsgId = payload?.new?.id;
+          if (!newMsgId) return;
           setMessages((prev) => {
             if (prev.some((m) => m.id === newMsgId)) return prev;
             

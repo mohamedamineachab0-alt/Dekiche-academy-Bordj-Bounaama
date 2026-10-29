@@ -14,7 +14,7 @@ import {
   School,
   Loader2,
   FileSpreadsheet,
-  Filter,
+  Calendar,
 } from "lucide-react";
 import { extract100CodesForSubject, logoutCodesPortal } from "@/actions/codes-portal";
 
@@ -26,7 +26,23 @@ interface Subject {
   streams?: string[];
   teacherName?: string | null;
   accessType?: string;
+  lessonsCount?: number;
 }
+
+// قائمة الأشهر المتاحة للاختيار
+export const monthOptions = [
+  { value: 1, label: "الشهر 1 (سبتمبر)", short: "ش 1" },
+  { value: 2, label: "الشهر 2 (أكتوبر)", short: "ش 2" },
+  { value: 3, label: "الشهر 3 (نوفمبر)", short: "ش 3" },
+  { value: 4, label: "الشهر 4 (ديسمبر)", short: "ش 4" },
+  { value: 5, label: "الشهر 5 (جانفي)", short: "ش 5" },
+  { value: 6, label: "الشهر 6 (فيفري)", short: "ش 6" },
+  { value: 7, label: "الشهر 7 (مارس)", short: "ش 7" },
+  { value: 8, label: "الشهر 8 (أفريل)", short: "ش 8" },
+  { value: 9, label: "الشهر 9 (ماي)", short: "ش 9" },
+  { value: 10, label: "الشهر 10 (جوان)", short: "ش 10" },
+  { value: "YEARLY", label: "اشتراك سنوي (كامل العام)", short: "سنوي" },
+];
 
 // 1. الأطوار التعليمية
 const phaseOptions = [
@@ -106,10 +122,13 @@ export function CodesPortalClient({ initialSubjects }: Props) {
   const [selectedLevel, setSelectedLevel] = useState<string>("ALL");
   const [selectedStream, setSelectedStream] = useState<string>("ALL");
   const [selectedSubjectId, setSelectedSubjectId] = useState<string>("");
+  const [selectedMonth, setSelectedMonth] = useState<number | "YEARLY">(1);
+  const [onlyWithLessons, setOnlyWithLessons] = useState<boolean>(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [extractedCodes, setExtractedCodes] = useState<Array<{ code: string; accessType: string }>>([]);
   const [lastSubjectName, setLastSubjectName] = useState<string>("");
+  const [lastMonthName, setLastMonthName] = useState<string>("");
   const [copiedAll, setCopiedAll] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -175,7 +194,7 @@ export function CodesPortalClient({ initialSubjects }: Props) {
 
   // Filter subjects according to phase, level & stream
   const filteredSubjects = useMemo(() => {
-    return initialSubjects.filter((s) => {
+    let list = initialSubjects.filter((s) => {
       // 1. Phase check
       if (selectedPhase !== "ALL" && s.phase !== selectedPhase) {
         return false;
@@ -208,7 +227,13 @@ export function CodesPortalClient({ initialSubjects }: Props) {
 
       return true;
     });
-  }, [initialSubjects, selectedPhase, selectedLevel, selectedStream]);
+
+    if (onlyWithLessons) {
+      list = list.filter((s) => (s.lessonsCount ?? 0) > 0);
+    }
+
+    return list;
+  }, [initialSubjects, selectedPhase, selectedLevel, selectedStream, onlyWithLessons]);
 
   // Keep selectedSubjectId aligned with filtered list
   useEffect(() => {
@@ -235,7 +260,7 @@ export function CodesPortalClient({ initialSubjects }: Props) {
     setCopiedAll(false);
 
     try {
-      const res = await extract100CodesForSubject(targetSubjectId);
+      const res = await extract100CodesForSubject(targetSubjectId, selectedMonth);
 
       if (!res || res.error || !res.codes) {
         setErrorMsg(res?.error || "حدث خطأ أثناء استخراج الأكواد");
@@ -246,6 +271,8 @@ export function CodesPortalClient({ initialSubjects }: Props) {
       setExtractedCodes(res.codes);
       const subjectTitle = res.subject.title;
       setLastSubjectName(subjectTitle);
+      const monthLabel = res.month || (selectedMonth === "YEARLY" ? "سنوي" : `الشهر ${selectedMonth}`);
+      setLastMonthName(monthLabel);
 
       // ONLY THE CODES IN CSV - strictly one column
       const csvContent = "\uFEFFالكود\r\n" + res.codes.map((item) => `"${item.code}"`).join("\r\n");
@@ -255,8 +282,9 @@ export function CodesPortalClient({ initialSubjects }: Props) {
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       const safeTitle = subjectTitle.replace(/[\/\\?%*:|"<>]/g, "_");
+      const monthSlug = selectedMonth === "YEARLY" ? "سنوي" : `الشهر_${selectedMonth}`;
       link.href = url;
-      link.setAttribute("download", `أكواد_${safeTitle}_100.csv`);
+      link.setAttribute("download", `أكواد_${safeTitle}_${monthSlug}_100.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -447,14 +475,64 @@ export function CodesPortalClient({ initialSubjects }: Props) {
                 ) : (
                   filteredSubjects.map((s) => {
                     const levelLabel = formatSubjectLevels(s.levels);
+                    const lessonText = s.lessonsCount && s.lessonsCount > 0 ? `· (${s.lessonsCount} دروس)` : "";
                     return (
                       <option key={s.id} value={s.id} className="bg-neutral-900 text-white">
-                        {s.title} {levelLabel ? `[${levelLabel}]` : ""} {s.teacherName ? `(${s.teacherName})` : ""}
+                        {s.title} {levelLabel ? `[${levelLabel}]` : ""} {s.teacherName ? `(${s.teacherName})` : ""} {lessonText}
                       </option>
                     );
                   })
                 )}
               </select>
+            </div>
+          </div>
+
+          {/* 5. اختيار الشهر الدراسي (سعيد بيشة) */}
+          <div className="bg-neutral-950/80 border border-neutral-800 rounded-2xl p-4 sm:p-5 space-y-3">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <label className="text-xs font-bold text-neutral-200 flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-purple-400" />
+                <span>الشهر الدراسي المراد استخراج الأكواد له:</span>
+                <span className="text-purple-300 bg-purple-500/10 px-2.5 py-0.5 rounded-lg border border-purple-500/20 text-xs font-black">
+                  {selectedMonth === "YEARLY" ? "اشتراك سنوي (كامل العام)" : `الشهر ${selectedMonth}`}
+                </span>
+              </label>
+
+              {/* Toggle to show only subjects with lessons */}
+              <button
+                type="button"
+                onClick={() => setOnlyWithLessons(!onlyWithLessons)}
+                className={`text-xs px-3 py-1.5 rounded-xl border transition flex items-center gap-1.5 cursor-pointer font-semibold ${
+                  onlyWithLessons
+                    ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40 shadow-sm shadow-emerald-500/10"
+                    : "bg-neutral-900 text-neutral-400 border-neutral-800 hover:text-neutral-200 hover:border-neutral-700"
+                }`}
+              >
+                <span>{onlyWithLessons ? "✓ إظهار المواد التي بها دروس فقط" : "تصفية: إظهار المواد التي بها دروس فقط"}</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-11 gap-2 pt-1">
+              {monthOptions.map((m) => {
+                const isSelected = selectedMonth === m.value;
+                return (
+                  <button
+                    key={String(m.value)}
+                    type="button"
+                    onClick={() => setSelectedMonth(m.value as any)}
+                    className={`py-2 px-1 rounded-xl text-xs font-bold transition-all text-center border cursor-pointer ${
+                      isSelected
+                        ? "bg-purple-600 text-white border-purple-400 shadow-md shadow-purple-600/30 scale-102"
+                        : "bg-neutral-900 text-neutral-300 border-neutral-800 hover:bg-neutral-800 hover:text-white"
+                    }`}
+                  >
+                    <div className="truncate">{m.short}</div>
+                    <div className="text-[10px] opacity-70 font-normal truncate mt-0.5">
+                      {m.value === "YEARLY" ? "عام كامل" : `شهر ${m.value}`}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -468,12 +546,16 @@ export function CodesPortalClient({ initialSubjects }: Props) {
               {isLoading ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>جاري استخراج 100 كود وتوليد ملف CSV...</span>
+                  <span>
+                    جاري استخراج 100 كود لـ {selectedMonth === "YEARLY" ? "الاشتراك السنوي" : `الشهر ${selectedMonth}`}...
+                  </span>
                 </>
               ) : (
                 <>
                   <Download className="w-5 h-5" />
-                  <span>استخراج 100 كود وتحميل ملف CSV فورا 📥</span>
+                  <span>
+                    استخراج 100 كود {selectedMonth === "YEARLY" ? "(سنوي)" : `(الشهر ${selectedMonth})`} وتحميل ملف CSV فورا 📥
+                  </span>
                 </>
               )}
             </button>
@@ -489,8 +571,12 @@ export function CodesPortalClient({ initialSubjects }: Props) {
                   <FileSpreadsheet className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white">
-                    تم استخراج 100 كود لمادة: <span className="text-emerald-400 font-black">{lastSubjectName}</span>
+                  <h3 className="text-sm font-bold text-white flex items-center flex-wrap gap-2">
+                    <span>تم استخراج 100 كود لمادة:</span>
+                    <span className="text-emerald-400 font-black">{lastSubjectName}</span>
+                    <span className="text-purple-300 bg-purple-500/10 px-2 py-0.5 rounded-md border border-purple-500/20 text-xs">
+                      {lastMonthName}
+                    </span>
                   </h3>
                   <p className="text-xs text-neutral-400">تم تنزيل ملف CSV يحتوي على عمود الكود فقط بنجاح</p>
                 </div>

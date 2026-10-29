@@ -27,21 +27,32 @@ export default async function StudentSubjectsPage() {
       isPublished: true,
       phase,
       levels: { has: level },
-      ...(phase === "SECONDARY"
+      ...(level === "SECONDARY_1"
+        ? {}
+        : phase === "SECONDARY"
         ? {
             OR: [
               { streams: { has: stream } },
               { streams: { has: "GENERAL" } },
+              { streams: { has: "NONE" } },
+              { streams: { isEmpty: true } },
             ],
           }
         : {
             OR: [
               { streams: { has: stream } },
               { streams: { has: "NONE" } },
+              { streams: { has: "GENERAL" } },
+              { streams: { isEmpty: true } },
             ],
           }),
     },
-    include: { teacher: true },
+    include: {
+      teacher: true,
+      _count: {
+        select: { lessons: true },
+      },
+    },
     orderBy: { createdAt: "desc" },
   });
 
@@ -107,6 +118,11 @@ export default async function StudentSubjectsPage() {
                       <Lock className="w-3.5 h-3.5" />
                     )}
                     {isEnrolled ? "مُفعّلة" : "مغلقة"}
+                  </span>
+
+                  <span className="absolute top-3 inset-e-3 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold backdrop-blur-md bg-neutral-900/80 text-white border border-white/10">
+                    <BookOpen className="w-3 h-3 text-purple-400" />
+                    {subject._count.lessons > 0 ? `${subject._count.lessons} دروس` : "قريباً"}
                   </span>
                 </div>
 

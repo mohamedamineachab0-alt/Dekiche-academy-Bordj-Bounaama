@@ -31,7 +31,7 @@ export default async function CodesPortalPage() {
   }
 
   // Fetch subjects for instant fast rendering
-  const subjects = await prisma.subject.findMany({
+  const dbSubjects = await prisma.subject.findMany({
     select: {
       id: true,
       title: true,
@@ -40,9 +40,23 @@ export default async function CodesPortalPage() {
       streams: true,
       teacherName: true,
       accessType: true,
+      _count: {
+        select: { lessons: true },
+      },
     },
     orderBy: { title: "asc" },
   });
+
+  const subjects = dbSubjects.map((s) => ({
+    id: s.id,
+    title: s.title,
+    phase: s.phase,
+    levels: s.levels,
+    streams: s.streams,
+    teacherName: s.teacherName,
+    accessType: s.accessType,
+    lessonsCount: s._count.lessons,
+  }));
 
   return <CodesPortalClient initialSubjects={subjects} />;
 }

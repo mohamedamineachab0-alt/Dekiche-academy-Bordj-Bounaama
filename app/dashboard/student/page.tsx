@@ -71,17 +71,21 @@ export default async function StudentDashboardPage() {
           isPublished: true,
           phase: user.studentProfile.phase,
           levels: { has: user.studentProfile.level },
-          ...(user.studentProfile.phase === "SECONDARY"
+          ...(user.studentProfile.level === "SECONDARY_1"
+            ? {}
+            : user.studentProfile.phase === "SECONDARY"
             ? {
                 OR: [
                   { streams: { has: user.studentProfile.stream } },
                   { streams: { has: "GENERAL" } },
+                  { streams: { has: "NONE" } },
                 ],
               }
             : {
                 OR: [
                   { streams: { has: user.studentProfile.stream } },
                   { streams: { has: "NONE" } },
+                  { streams: { has: "GENERAL" } },
                 ],
               }),
         },

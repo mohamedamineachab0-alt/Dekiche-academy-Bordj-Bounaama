@@ -186,7 +186,11 @@ export async function generatePortalCodes(params: {
   }
 }
 
-export async function extract100CodesForSubject(subjectId: string, count: number = 100) {
+export async function extract100CodesForSubject(
+  subjectId: string,
+  month: number | "YEARLY" = 1,
+  count: number = 100
+) {
   try {
     const limit = Math.min(Math.max(count || 100, 1), 1000);
     const cookieStore = await cookies();
@@ -213,20 +217,37 @@ export async function extract100CodesForSubject(subjectId: string, count: number
       return { error: "المادة غير موجودة" };
     }
 
-    // 1. Fetch available unused codes for this subject
+    const isYearly = month === "YEARLY" || month === 0;
+    const targetMonthNum = isYearly ? 1 : Math.max(1, Math.min(Number(month) || 1, 12));
+    const targetValidMonths = isYearly
+      ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      : [targetMonthNum];
+    const accessType = isYearly ? "YEARLY" : "MONTHLY";
+
+    // 1. Fetch available unused codes matching this month & subject
     let existingCodes = await prisma.accessCode.findMany({
-      where: { subjectId, isUsed: false },
+      where: {
+        subjectId,
+        isUsed: false,
+        ...(isYearly
+          ? { accessType: "YEARLY" }
+          : {
+              validMonths: { has: targetMonthNum },
+            }),
+      },
       take: limit,
       orderBy: { createdAt: "desc" },
-      select: { id: true, code: true, accessType: true, createdAt: true },
+      select: { id: true, code: true, accessType: true, validMonths: true, createdAt: true },
     });
 
     // 2. If we have less than needed, generate the difference
     const needed = limit - existingCodes.length;
     if (needed > 0) {
-      let academicMonth = await prisma.month.findUnique({ where: { number: 1 } });
+      let academicMonth = await prisma.month.findUnique({ where: { number: targetMonthNum } });
       if (!academicMonth) {
-        academicMonth = await prisma.month.create({ data: { number: 1, title: "الشهر 1" } });
+        academicMonth = await prisma.month.create({
+          data: { number: targetMonthNum, title: `الشهر ${targetMonthNum}` },
+        });
       }
 
       const generateCode = () => {
@@ -247,8 +268,8 @@ export async function extract100CodesForSubject(subjectId: string, count: number
         newCodes.push({
           code: generateCode(),
           subjectId,
-          accessType: "MONTHLY",
-          validMonths: [1],
+          accessType,
+          validMonths: targetValidMonths,
           monthId: academicMonth.id,
         });
       }
@@ -258,22 +279,33 @@ export async function extract100CodesForSubject(subjectId: string, count: number
         skipDuplicates: true,
       });
 
-      // Refetch full 100
+      // Refetch full list
       existingCodes = await prisma.accessCode.findMany({
-        where: { subjectId, isUsed: false },
-        take: 100,
+        where: {
+          subjectId,
+          isUsed: false,
+          ...(isYearly
+            ? { accessType: "YEARLY" }
+            : {
+                validMonths: { has: targetMonthNum },
+              }),
+        },
+        take: limit,
         orderBy: { createdAt: "desc" },
-        select: { id: true, code: true, accessType: true, createdAt: true },
+        select: { id: true, code: true, accessType: true, validMonths: true, createdAt: true },
       });
     }
 
     return {
       success: true,
       subject,
+      month: isYearly ? "سنوي" : `الشهر ${targetMonthNum}`,
+      monthNumber: isYearly ? "YEARLY" : targetMonthNum,
       codes: existingCodes.map((c) => ({
         id: c.id,
         code: c.code,
         accessType: c.accessType,
+        validMonths: c.validMonths,
         createdAt: c.createdAt.toISOString(),
       })),
     };

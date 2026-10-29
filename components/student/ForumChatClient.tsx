@@ -261,7 +261,7 @@ export function ForumChatClient({
                   rows={1}
                   placeholder="اكتب رسالتك هنا.."
                   required
-                  className="input-field min-h-[56px] max-h-[120px] !rounded-2xl resize-y"
+                  className="input-field min-h-14 max-h-30 rounded-2xl! resize-y"
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
                       e.preventDefault();
@@ -272,7 +272,7 @@ export function ForumChatClient({
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="btn-primary h-[56px] !px-6 !rounded-2xl disabled:opacity-50"
+                  className="btn-primary h-14 px-6! rounded-2xl! disabled:opacity-50"
                 >
                   <Send className="w-5 h-5 rtl:rotate-180" />
                 </button>

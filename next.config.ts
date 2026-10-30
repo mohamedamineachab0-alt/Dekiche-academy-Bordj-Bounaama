@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["pdf-parse", "mammoth", "xlsx"],
+  outputFileTracingIncludes: {
+    '/**': ['./node_modules/pg-cloudflare/**/*'],
+  },
   transpilePackages: ["pdfjs-dist"],
   images: {
     remotePatterns: [

@@ -3,10 +3,12 @@ node_modules/
 .pnp
 .pnp.*
 
-# next.js
+# next.js & cloudflare
 .next/
 out/
 build/
+.open-next/
+.wrangler/
 
 # env files
 .env

@@ -1,22 +1,34 @@
 import { S3Client, PutObjectCommand, DeleteObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 
-const region = process.env.AWS_REGION || "us-east-2";
-const endpoint = process.env.AWS_ENDPOINT_URL_S3 || "https://br-rough-union-b54r7kqi.storage.c-7.us-east-2.aws.neon.tech";
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID || "";
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY || "";
 export const DEFAULT_NEON_BUCKET = "public-assets";
 
-export const neonS3Client = new S3Client({
-  region,
-  endpoint,
-  credentials: {
-    accessKeyId,
-    secretAccessKey,
+export function getNeonS3Client(): S3Client {
+  const region = process.env.AWS_REGION || "us-east-2";
+  const endpoint = process.env.AWS_ENDPOINT_URL_S3 || "https://br-rough-union-b54r7kqi.storage.c-7.us-east-2.aws.neon.tech";
+  const accessKeyId = process.env.AWS_ACCESS_KEY_ID || "";
+  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY || "";
+
+  return new S3Client({
+    region,
+    endpoint,
+    credentials: {
+      accessKeyId,
+      secretAccessKey,
+    },
+    forcePathStyle: true,
+  });
+}
+
+export const neonS3Client = new Proxy({} as S3Client, {
+  get(_target, prop) {
+    const client = getNeonS3Client();
+    const val = (client as any)[prop];
+    return typeof val === "function" ? val.bind(client) : val;
   },
-  forcePathStyle: true,
 });
 
 export function getNeonPublicUrl(key: string, bucket: string = DEFAULT_NEON_BUCKET): string {
+  const endpoint = process.env.AWS_ENDPOINT_URL_S3 || "https://br-rough-union-b54r7kqi.storage.c-7.us-east-2.aws.neon.tech";
   const cleanKey = key.startsWith("/") ? key.slice(1) : key;
   const cleanEndpoint = endpoint.replace(/\/+$/, "");
   return `${cleanEndpoint}/${bucket}/${cleanKey}`;

@@ -100,6 +100,9 @@ export default async function AdminLessonsPage({
                                 src={lesson.image || selectedSubject.image || ""}
                                 alt={lesson.title}
                                 className="absolute inset-0 w-full h-full object-cover z-0"
+                                onError={(e) => {
+                                  e.currentTarget.src = "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=800&auto=format&fit=crop";
+                                }}
                               />
                             ) : null}
                             <PlayCircle className="w-6 h-6 text-primary relative z-10" />

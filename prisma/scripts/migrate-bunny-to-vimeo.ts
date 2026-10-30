@@ -1,3 +1,4 @@
+/// <reference path="../../types/vimeo.d.ts" />
 import { Client } from 'pg'
 import { Vimeo } from '@vimeo/vimeo'
 import fs from 'fs'

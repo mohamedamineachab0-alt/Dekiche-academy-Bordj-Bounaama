@@ -44,11 +44,14 @@ export default async function StudentChatRoomPage(props: { params: Promise<{ for
         <div className="surface-panel overflow-hidden flex flex-col max-w-sm mx-auto w-full">
           <div className="aspect-video w-full relative bg-primary-soft overflow-hidden">
             <img
-              src={forum.subject.image || "/placeholder.jpg"}
+              src={forum.subject.image || "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=800&auto=format&fit=crop"}
               alt={forum.subject.title}
               className="w-full h-full object-cover"
+              onError={(e) => {
+                e.currentTarget.src = "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=800&auto=format&fit=crop";
+              }}
             />
-            <div className="absolute top-3 start-3">
+            <div className="absolute top-3 inset-s-3">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold text-muted">
                 <Lock className="w-3.5 h-3.5" /> مغلق
               </span>

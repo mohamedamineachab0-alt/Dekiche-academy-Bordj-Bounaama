@@ -116,10 +116,13 @@ export default async function SubjectLessonsPage({
                               src={lesson.image || subject.image || ""}
                               alt=""
                               className={`absolute inset-0 w-full h-full object-cover ${unlocked ? "" : "opacity-40"}`}
+                              onError={(e) => {
+                                e.currentTarget.src = "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=800&auto=format&fit=crop";
+                              }}
                             />
                           ) : null}
                           {completed ? (
-                            <span className="absolute top-3 start-3 z-10 badge-soft">مكتمل</span>
+                            <span className="absolute top-3 inset-s-3 z-10 badge-soft">مكتمل</span>
                           ) : null}
                           <span
                             className={`relative z-10 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center ${

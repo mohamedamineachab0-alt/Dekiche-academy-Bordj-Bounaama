@@ -98,6 +98,9 @@ export default async function StudentSubjectsPage() {
                       src={subject.image}
                       alt={subject.title}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=800&auto=format&fit=crop";
+                      }}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">

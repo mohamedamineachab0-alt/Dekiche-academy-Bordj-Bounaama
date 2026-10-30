@@ -203,7 +203,7 @@ export function AdminSubjectsFilterClient({ subjects }: Props) {
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
               title="تطبيق صورة كغلاف لجميع المواد"
             />
-            <div className={`btn-primary !py-2 !px-4 flex items-center gap-2 pointer-events-none ${bulkUploading ? 'opacity-70' : ''}`}>
+            <div className={`btn-primary py-2! px-4! flex items-center gap-2 pointer-events-none ${bulkUploading ? 'opacity-70' : ''}`}>
               {bulkUploading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
@@ -220,7 +220,14 @@ export function AdminSubjectsFilterClient({ subjects }: Props) {
             <div className="aspect-video w-full relative bg-surface-muted flex items-center justify-center overflow-hidden">
               {subject.image ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
-                <img src={subject.image} alt={subject.title} className="w-full h-full object-cover" />
+                <img
+                  src={subject.image}
+                  alt={subject.title}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=800&auto=format&fit=crop";
+                  }}
+                />
               ) : (
                 <ImageIcon className="w-8 h-8 text-muted" />
               )}

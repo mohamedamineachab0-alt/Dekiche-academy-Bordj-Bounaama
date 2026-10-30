@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && opennextjs-cloudflare build",
+    "build:next": "next build",
     "build:cloudflare": "opennextjs-cloudflare build",
     "deploy": "opennextjs-cloudflare deploy",
     "preview": "opennextjs-cloudflare preview",

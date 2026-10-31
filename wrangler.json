@@ -1,6 +1,5 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "dekiche-academy",
+  "name": "dekiche",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-10-22",
   "compatibility_flags": [
@@ -9,5 +8,6 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
-  }
+  },
+  "upload_source_maps": false
 }

@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  productionBrowserSourceMaps: false,
   serverExternalPackages: ["pdf-parse", "mammoth", "xlsx"],
   outputFileTracingIncludes: {
     '/**': ['./node_modules/pg-cloudflare/**/*'],
